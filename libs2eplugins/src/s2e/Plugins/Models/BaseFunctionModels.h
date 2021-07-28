@@ -74,6 +74,15 @@ protected:
     bool strncpyHelper(S2EExecutionState *state, const uint64_t strAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcmpHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcpyHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
+
+    bool memsetHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
+
+    bool StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[2], ref<Expr> &retExpr);
+    bool WinHttpReadDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr);
+
+    bool MultiByteToWideCharHelper(S2EExecutionState *state, const uint64_t args[6]);
+
+
     bool strcatHelper(S2EExecutionState *state, const uint64_t strAddrs[2], ref<Expr> &retExpr, uint64_t numBytes = 0,
                       bool isNcat = false);
 };

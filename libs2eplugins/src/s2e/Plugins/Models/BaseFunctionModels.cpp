@@ -32,6 +32,8 @@
 
 #include "BaseFunctionModels.h"
 
+#include <string.h>
+
 namespace s2e {
 namespace plugins {
 namespace models {
@@ -421,7 +423,6 @@ bool BaseFunctionModels::memcpyHelper(S2EExecutionState *state, const uint64_t m
                                       ref<Expr> &retExpr) {
     getDebugStream(state) << "Handling memcpy(" << hexval(memAddrs[0]) << ", " << hexval(memAddrs[1]) << ", "
                           << numBytes << ")\n";
-
     //
     // Perform the memory copy. The address of the destination buffer is returned
     //
@@ -588,6 +589,48 @@ bool BaseFunctionModels::strcatHelper(S2EExecutionState *state, const uint64_t s
         getDebugStream(state) << "Failed to write to terminate byte.\n";
         return false;
     }
+
+    return true;
+}
+
+bool BaseFunctionModels::StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[2], ref<Expr> &retExpr) {
+    getDebugStream(state) << "Handling StrStrA(" << hexval(memAddrs[0]) << ", " << hexval(memAddrs[1]) << ")\n";
+
+    uint64_t addr = memAddrs[0];
+    retExpr = state->mem()->read(addr, state->getPointerWidth());
+    if (!isa<ConstantExpr>(retExpr)) {
+        getDebugStream(state) << "Argument " << retExpr << " at " << hexval(addr) << " is symbolic\n";
+        return true;
+    }
+    return false;
+}
+
+bool BaseFunctionModels::memsetHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes,
+                                      ref<Expr> &retExpr) {
+    getDebugStream(state) << "Handling memset(" << hexval(memAddrs[0]) << ", " << hexval(memAddrs[1]) << ", "
+                          << numBytes << ")\n";
+    return true;
+}
+
+bool BaseFunctionModels::WinHttpReadDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr) {
+    getDebugStream(state) << "Handling WinHttpReadData(" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) 
+                          << ", " << hexval(args[3]) << ")\n";
+
+    /*uint64_t hRequest = args[0];
+    uint64_t lpBuffer = args[1];
+    uint64_t dwNumberOfBytesToRead = args[2];
+    uint64_t lpdwNumberOfBytesRead = args[3];
+
+    ref<Expr> symb = state->createSymbolicValue("winhttp_number_of_bytes_read", Expr::Int32);*/
+
+    //S2EMakeSymbolic(lpBuffer, 0x1000, "win_http_read_data");
+
+    return true;
+}
+
+
+bool BaseFunctionModels::MultiByteToWideCharHelper(S2EExecutionState *state, const uint64_t args[6]) {
+    getDebugStream(state) << "Handling MultiByteToWideChar(" << hexval(args[2]) << ")\n";
 
     return true;
 }

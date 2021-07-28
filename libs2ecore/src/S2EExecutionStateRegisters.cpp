@@ -453,6 +453,10 @@ void S2EExecutionStateRegisters::setPc(uint64_t pc) {
     assert(ret);
 }
 
+uint64_t S2EExecutionStateRegisters::getEax() const {
+    return read<target_ulong>(CPU_OFFSET(regs[R_EAX]));
+}
+
 uint64_t S2EExecutionStateRegisters::getSp() const {
     return read<target_ulong>(CPU_OFFSET(regs[R_ESP]));
 }

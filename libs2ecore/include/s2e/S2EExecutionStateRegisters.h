@@ -267,6 +267,8 @@ public:
     /// \return the stack pointer
     ///
     uint64_t getSp() const;
+    
+    uint64_t getEax() const;
 
     ///
     /// \brief Read the content of the program counter
