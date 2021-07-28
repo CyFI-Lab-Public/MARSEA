@@ -4,8 +4,6 @@ Win7 Release
 *.db
 *.pdb
 x64
-Release
-Debug
 .vs
 venv
 *.suo
