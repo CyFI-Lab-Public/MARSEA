@@ -1,0 +1,9 @@
+﻿  lines.cpp
+  pdbparser.cpp
+  symbols.cpp
+  syscalls.cpp
+  types.cpp
+  utils.cpp
+  Compiling...
+  Generating Code...
+  pdbparser.vcxproj -> C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\pdbparser.exe
