@@ -2,4 +2,4 @@
   debugger.c
   drvctl.c
   Generating Code...
-  drvctl.vcxproj -> C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\drvctl.exe
+  drvctl.vcxproj -> C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\drvctl.exe

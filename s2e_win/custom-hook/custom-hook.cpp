@@ -9,6 +9,9 @@
 
 #include <set>
 #include <vector>
+#include <string>
+#include <sstream>
+#include <iostream>
 
 #ifndef WIN32
 #define WIN32
@@ -23,6 +26,7 @@ namespace winhttp {
 }
 
 #include <string.h>
+#include <stdlib.h>
 #include <strsafe.h>
 
 #include <easyhook.h>
@@ -68,9 +72,14 @@ static std::set<DWORD> childPids;
 
 LPCWSTR g_unique_handle = 0;
 
+int default_buf_len = 16;
 //////////////////////
 // Helper functions //
 //////////////////////
+
+typedef struct _merge_desc_t {
+    uint64_t start;
+} merge_desc_t;
 
 ///
 /// Write a message to the S2E log (or stdout).
@@ -215,38 +224,30 @@ static PCSTR StrStrA_model(
     Command.Command = WINWRAPPER_STRSTRA;
     Command.StrStrA.pszFirst = (uint64_t) pszFirst;
     Command.StrStrA.pszSrch = (uint64_t) pszSrch;
+    char* buffer = (char*) malloc(64);
+    Command.StrStrA.symbolic = (uint64_t)buffer;
+
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    /*
-    PCSTR ret = StrStrA(pszFirst, pszSrch);
-    if (ret == NULL) {
-
-        char start[7] = "start_";
-        size_t len = strlen(pszSrch);
-        strncat(start, pszSrch, len);
-        char end[5] = "_end";
-        len = strlen(end);
-        strncat(start, end, len);
-        memcpy((void*)pszFirst, start, strlen(start));
-        Message("%s, %p, %s", pszFirst, pszFirst, start);
-        ret = StrStrA(pszFirst, pszSrch);
-        Message("[HLOG] StrStrA A\"%s\", %p, Ret: A\"%s\", %p \n", pszFirst, pszFirst, ret, ret);
-    }
-    S2EMakeSymbolic((PVOID)ret, 0x80, "CyFi_WinHttpReadData_StrStrA");
-    return ret;*/
-
 
     if (Command.StrStrA.symbolic) {
-        Message("[HLOG] STRSTRA pszFirst is symbolic %s\n", Command.StrStrA.ret);
+        Message("[HLOG] STRSTRA pszFirst is symbolic %s\n", (char*)Command.StrStrA.symbolic);
+        //S2EMakeSymbolic((PVOID)pszFirst, default_buf_len, Command.StrStrA.symbolic);
     }
-    //pszFirst = ")))))aHR0cHM6Ly93MHJtLmluL2pvaW4vam9pbi5waHA=";
-    //memcpy((void*)pszFirst, (void*)buf, sizeof(buf));
-    //memcpy((void*)pszFirst, pszSrch, sizeof(pszFirst));
-    //PCSTR ret = StrStrA(pszFirst, pszSrch);
-    Message("[HLOG] StrStrA (A\"%s\", A\"%s\", %p, %p, A\"%s\")\n", pszFirst, pszSrch, pszFirst, pszSrch);//, ret);
+    Message("[HLOG] STRSTRA weird %p %s\n", Command.StrStrA.symbolic, (char*)Command.StrStrA.symbolic);
 
-    S2EMakeSymbolic((PVOID)pszFirst, 13, "CyFi_StrStrA");
-    return pszFirst+3;
+    char start[7] = "start_";
+    char end[5] = "_end";
+    strcat((char*)pszFirst, start);
+    strcat((char*)pszFirst, pszSrch);
+    strcat((char*)pszFirst, end);
+    strcat((char*)pszFirst, end);
+    Message("%s, %p, %s", pszFirst, pszFirst, start);
 
+    PCSTR ret = StrStrA(pszFirst, pszSrch);
+    Message("[HLOG] StrStrA A\"%s\", A\"%s\" , A\"%s\"\n", pszFirst, pszSrch, ret);
+
+    S2EMakeSymbolic((PVOID)ret, strlen(ret), "CyFi_WinHttpReadData");
+    return ret;
 }
 
 static INT lstrlenA_model(
@@ -443,19 +444,24 @@ static INT MultiByteToWideCharHook(
     Command.MultiByteToWideChar.lpWideCharStr = (uint64_t)lpWideCharStr;
     Command.MultiByteToWideChar.cchWideChar = cchWideChar;
 
-    Message("[HLOG] MultiByteToWideChar (%i, %i, %p, %i, %p, %i)\n", CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
+    Message("[HLOG] MultiByteToWideChar (%i, %i, %p, A\"%s\", %i, %p, %i)\n", CodePage, dwFlags, lpMultiByteStr, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
     if (Command.MultiByteToWideChar.symbolic) {
-        S2EMakeSymbolic((PVOID)lpWideCharStr, 25, "CyFi_MultiByteToWideChar");
+        S2EMakeSymbolic((PVOID)lpMultiByteStr, default_buf_len, "CyFi_MultiByteToWideChar");
         Message("[HLOG] MultiByteToWideChar: symbolizing %p.\n", lpWideCharStr);
     }
-    MultiByteToWideChar(CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
     if (cchWideChar == 0) {
         // Force success
-        cchWideChar = 0x80;
+        cchWideChar = default_buf_len;
     }
-    return cchWideChar;
+
+    /*merge_desc_t desc;
+    desc.start = 0;
+    S2EInvokePlugin("MergingSearcher", &desc, sizeof(desc));
+    S2EEnableAllApicInterrupts();*/
+
+    return MultiByteToWideChar(CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
 }
 
 static LPVOID VirtualAllocHook(
@@ -464,6 +470,9 @@ static LPVOID VirtualAllocHook(
     DWORD flAllocationType,
     DWORD flProtect
 ) {
+    Message("[HLOG] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect);
+    return VirtualAlloc(lpAddress, dwSize, flAllocationType, flProtect);
+    /*
     UINT8 branch = S2ESymbolicChar("lpvResult", 1);
     if (branch) {
         LPVOID lpvResult;
@@ -476,7 +485,7 @@ static LPVOID VirtualAllocHook(
     else {
         Message("[HLOG] VirtualAlloc (%p, %i, %i, %i, %p): FAILED\n", lpAddress, dwSize, flAllocationType, flProtect);
         return NULL;
-    }
+    }*/
 }
 
 
@@ -786,9 +795,22 @@ static HINTERNET WINAPI WinHttpConnectHook(
     Message("[HLOG] WinHttpConnect(%p, A\"%ls\", %i, %i) Ret: %p\n",
         hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
 
-    if (S2EIsSymbolic(&pswzServerName, 0x1000)) {
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = WINWRAPPER_WINHTTPCONNECT;
+    Command.WinHttpConnect.hSession = (uint64_t)hSession;
+    Command.WinHttpConnect.pswzServerName = (uint64_t)pswzServerName;
+    Command.WinHttpConnect.nServerPort = (uint64_t)nServerPort;
+    Command.WinHttpConnect.dwReserved = (uint64_t)dwReserved;
+
+    Message("[HLOG] WinHttpConnect (%p, %i, %i, %i)\n", hSession, pswzServerName, nServerPort, dwReserved);
+
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+
+    if (Command.WinHttpConnect.symbolic) {
         Message("[HLOG] Found symbolic connection...probably a success!\n");
-        return NULL;
+        S2EKillState(0, "R2D2");
+        //exit(0);
     }
 
     return connectionHandle;
@@ -840,39 +862,26 @@ static BOOL WINAPI WinHttpReceiveResponseHook(
     return TRUE; //Only consider successful winhttp responses for now
 }
 
+
 static BOOL WINAPI WinHttpReadDataHook(
     HINTERNET hRequest,
     LPVOID    lpBuffer,
     DWORD     dwNumberOfBytesToRead,
     LPDWORD   lpdwNumberOfBytesRead
 ) {
-    /*
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_WINHTTPREADDATA;
-    Command.WinHttpReadData.hRequest = hRequest;
-    Command.WinHttpReadData.lpBuffer = lpBuffer;
-    Command.WinHttpReadData.dwNumberOfBytesToRead = dwNumberOfBytesToRead;
-    Command.WinHttpReadData.lpdwNumberOfByteRead = lpdwNumberOfBytesRead;
-    Command.needOrigFunc = 0;
-    */
-    //BOOL ret = winhttp::WinHttpReadData(hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead);
-    //char buf[19] = "CyFi_Concrete_Read";
-    //memcpy(lpBuffer, buf, 46);
     
+    //char buf[50] = ")))))aHR0cHM6Ly93MHJtLmluL2pvaW4vam9pbi5waHA=</p>";
+    //memcpy((void*)lpBuffer, (void*)buf, 50);
+    //S2EMakeSymbolic(lpBuffer, 50, "CyFi_WinHttpReadData");
+    //lpdwNumberOfBytesRead = (LPDWORD) 50;
+
+    S2EMakeSymbolic(lpBuffer, default_buf_len, "CyFi_WinHttpReadData");
+    lpdwNumberOfBytesRead = (LPDWORD) default_buf_len;
     Message("[HLOG] WinHttpReadData(%p, A\"%ls\", %p, 0x%x, %p)\n",
         hRequest, lpBuffer, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead);
 
-    S2EMakeSymbolic(lpBuffer, 0x80, "CyFi_WinHttpReadData");
-    *lpdwNumberOfBytesRead = 0x80;
-    
-    //char buf [46] = ")))))aHR0cHM6Ly93MHJtLmluL2pvaW4vam9pbi5waHA=";
-    //memcpy(lpBuffer, buf, 46);
-    
-
     return TRUE;
 
-    //S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    //return TRUE;
 };
 
 
@@ -895,13 +904,12 @@ static BOOL WINAPI WinHttpCrackUrlHook(
     if (Command.WinHttpCrackUrl.symbolic) {
         Message("[HLOG] WinHttpCrackUrl received a symbolic URL.\n");
         pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
-        winhttp::WinHttpCrackUrl(pwszUrl, 69, dwFlags, lpUrlComponents);
-        Message("[HLOG] WinHttpCrackUrl (%ls, %i, %i, %i)\n", pwszUrl, 69, dwFlags, lpUrlComponents);
+        winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
+        Message("[HLOG] WinHttpCrackUrl (%ls, %i, %i, %i)\n", pwszUrl, strlen((char*)pwszUrl), dwFlags, lpUrlComponents);
         return true;
     }
     else {
-        bool ret = winhttp::WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
-        return ret;
+        return winhttp::WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);;
     }
 
 }
@@ -979,8 +987,8 @@ static LPCSTR functionsToHook[][2] = {
     { "Ws2_32", "closesocket" },
     //{ "kernel32", "VirtualAlloc" },
     //{ "kernel32", "VirtualFree" },
-    { "kernel32", "MultiByteToWideChar" },
-    //{ "ole32", "CreateStreamOnHGlobal"},   // comment to fix virustotal hooks...this functin hook breaks the malware
+    //{ "kernel32", "MultiByteToWideChar" },
+    { "ole32", "CreateStreamOnHGlobal"},   // comment to fix virustotal hooks...this functin hook breaks the malware
 
 
     // MODELS
@@ -988,7 +996,7 @@ static LPCSTR functionsToHook[][2] = {
     //{ "ntdll", "memcpy" },
 
     //{ "msvcrt", "memset" },
-    { "ntdll", "memset" },
+    //{ "ntdll", "memset" },
 
     { "shlwapi", "StrStrA" },
     //{ "kernel32", "lstrlenA"},
@@ -1022,15 +1030,15 @@ static PVOID hookFunctions[] = {
     closesockethook,
     //VirtualAllocHook,
     //VirtualFreeHook,
-    MultiByteToWideCharHook,
-    //CreateStreamOnHGlobalHook,
+    //MultiByteToWideCharHook,
+    CreateStreamOnHGlobalHook,
 
     // MODELS
     //memcpy_msvcrt_model,
     //memcpy_ntdll_model,
 
     //memset_msvcrt_model,
-    memset_ntdll_model,
+    //memset_ntdll_model,
 
     StrStrA_model,
     //lstrlenA_model
@@ -1137,6 +1145,7 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo) {
 
     // The process was started in a suspended state. Wake it up...
     RhWakeUpProcess();
+
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
