@@ -27,7 +27,7 @@ Signature   = "$Windows NT$"
 Class       = "S2EGuestDriver"
 ClassGuid   = {b86dff51-a31e-4bac-b3cf-e8cfe75c9fc2}
 Provider    = %Cyberhaven%
-DriverVer = 07/22/2021,15.58.20.324
+DriverVer = 08/10/2021,18.52.48.860
 CatalogFile = s2e.cat
 
 
