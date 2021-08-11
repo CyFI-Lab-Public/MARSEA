@@ -14,3 +14,7 @@ dist
 *PVS-Studio*
 *.idea
 *.TMP
+*.obj
+*.log
+*.tlog
+*.exp
