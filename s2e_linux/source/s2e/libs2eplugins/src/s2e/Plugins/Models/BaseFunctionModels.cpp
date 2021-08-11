@@ -33,6 +33,7 @@
 #include "BaseFunctionModels.h"
 
 #include <string.h>
+#include <string>
 
 namespace s2e {
 namespace plugins {
@@ -593,13 +594,18 @@ bool BaseFunctionModels::strcatHelper(S2EExecutionState *state, const uint64_t s
     return true;
 }
 
-bool BaseFunctionModels::StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[2], ref<Expr> &retExpr) {
+bool BaseFunctionModels::StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[3], ref<Expr> &retExpr, std::string &symb_tag) {
     getDebugStream(state) << "Handling StrStrA(" << hexval(memAddrs[0]) << ", " << hexval(memAddrs[1]) << ")\n";
 
     uint64_t addr = memAddrs[0];
     retExpr = state->mem()->read(addr, state->getPointerWidth());
     if (!isa<ConstantExpr>(retExpr)) {
         getDebugStream(state) << "Argument " << retExpr << " at " << hexval(addr) << " is symbolic\n";
+        std::ostringstream ss;
+        ss << retExpr;
+        std::string sym = ss.str();
+        symb_tag = std::string(&sym[sym.find("CyFi")], &sym[sym.rfind("_")]);
+        getDebugStream(state) << "Symbolic tag " << symb_tag << " extracted.\n";
         return true;
     }
     return false;
