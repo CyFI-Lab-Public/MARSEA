@@ -1,0 +1,22 @@
+﻿  custom-hook.cpp
+c:\program files (x86)\windows kits\8.1\include\um\winhttp.h(49): warning C4005: 'BOOLAPI': macro redefinition
+  c:\program files (x86)\windows kits\8.1\include\um\wininet.h(59): note: see previous definition of 'BOOLAPI'
+c:\program files (x86)\windows kits\8.1\include\um\winhttp.h(82): warning C4005: 'SECURITY_FLAG_IGNORE_CERT_DATE_INVALID': macro redefinition
+  c:\program files (x86)\windows kits\8.1\include\um\wininet.h(1290): note: see previous definition of 'SECURITY_FLAG_IGNORE_CERT_DATE_INVALID'
+c:\program files (x86)\windows kits\8.1\include\um\winhttp.h(83): warning C4005: 'SECURITY_FLAG_IGNORE_CERT_CN_INVALID': macro redefinition
+  c:\program files (x86)\windows kits\8.1\include\um\wininet.h(1289): note: see previous definition of 'SECURITY_FLAG_IGNORE_CERT_CN_INVALID'
+c:\users\cyfi\desktop\s2e\s2e_win\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(39): warning C4005: 'NTDDI_VERSION': macro redefinition
+  c:\program files (x86)\windows kits\8.1\include\shared\sdkddkver.h(206): note: see previous definition of 'NTDDI_VERSION'
+c:\users\cyfi\desktop\s2e\s2e_win\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(40): warning C4005: '_WIN32_WINNT': macro redefinition
+  c:\program files (x86)\windows kits\8.1\include\shared\sdkddkver.h(200): note: see previous definition of '_WIN32_WINNT'
+c:\users\cyfi\desktop\s2e\s2e_win\custom-hook\custom-hook.cpp(903): warning C4800: 'BOOL': forcing value to bool 'true' or 'false' (performance warning)
+     Creating library C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\custom-hook.lib and object C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\custom-hook.exp
+LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
+libcommon.lib(s2e-c.obj) : warning LNK4217: locally defined symbol ___acrt_iob_func imported in function _printf
+libcommon.lib(s2e-c.obj) : warning LNK4217: locally defined symbol ___stdio_common_vfprintf imported in function __vfprintf_l
+libcommon.lib(s2e-c.obj) : warning LNK4217: locally defined symbol ___stdio_common_vsprintf_s imported in function __vsprintf_s_l
+custom-hook.obj : error LNK2019: unresolved external symbol __imp__WinHttpCrackUrl@16 referenced in function "int __stdcall WinHttpCrackUrlHook(wchar_t const *,unsigned long,unsigned long,struct winhttp::URL_COMPONENTS *)" (?WinHttpCrackUrlHook@@YGHPB_WKKPAUURL_COMPONENTS@winhttp@@@Z)
+custom-hook.obj : error LNK2019: unresolved external symbol __imp__WinHttpOpen@20 referenced in function "void * __stdcall WinHttpOpenHook(wchar_t const *,unsigned long,wchar_t const *,wchar_t const *,unsigned long)" (?WinHttpOpenHook@@YGPAXPB_WK00K@Z)
+custom-hook.obj : error LNK2019: unresolved external symbol __imp__WinHttpCloseHandle@4 referenced in function "int __stdcall WinHttpCloseHandleHook(void *)" (?WinHttpCloseHandleHook@@YGHPAX@Z)
+MSVCRTD.lib(_chandler4gs_.obj) : error LNK2019: unresolved external symbol __except_handler4_common referenced in function __except_handler4
+C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\custom-hook.dll : fatal error LNK1120: 4 unresolved externals

@@ -1,1 +1,24 @@
-﻿C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\pdbparser\pdbparser.vcxproj(160,5): error : This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is ..\packages\tencent.rapidjson.1.1.1\build\tencent.rapidjson.targets.
+﻿  lines.cpp
+  pdbparser.cpp
+  symbols.cpp
+  syscalls.cpp
+  types.cpp
+  utils.cpp
+  Running Code Analysis for C/C++...
+  Generating Code...
+  pdbparser.vcxproj -> C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\pdbparser.exe
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\ieee754.h(25): warning C26495: Variable 'rapidjson::internal::Double::<unnamed-tag>::u_' is uninitialized. Always initialize a member variable (type.6).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\biginteger.h(243): warning C26451: Arithmetic overflow: Using operator '-' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '-' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\diyfp.h(133): warning C26451: Arithmetic overflow: Using operator '-' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '-' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\diyfp.h(145): warning C26451: Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\diyfp.h(229): warning C26451: Arithmetic overflow: Using operator '-' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '-' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\strtod.h(136): warning C26451: Arithmetic overflow: Using operator '-' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '-' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\strtod.h(174): warning C26451: Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\internal\strtod.h(178): warning C26451: Arithmetic overflow: Using operator '-' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '-' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\error\error.h(109): warning C26812: The enum type 'rapidjson::ParseErrorCode' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\document.h(592): warning C26812: The enum type 'rapidjson::Type' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\document.h(598): warning C33010: Unchecked lower bound for enum type used as index..
+C:\Users\cyfi\Desktop\s2e\s2e_win\pdbparser\pdbparser.cpp(54): warning C26812: The enum type 'ACTION' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\tencent.rapidjson.1.1.1\lib\native\include\rapidjson\prettywriter.h(54): warning C26812: The enum type 'rapidjson::PrettyFormatOptions' is unscoped. Prefer 'enum class' over 'enum' (Enum.3).
+C:\Users\cyfi\Desktop\s2e\s2e_win\pdbparser\syscalls.cpp(70): warning C26451: Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).
+C:\Users\cyfi\Desktop\s2e\s2e_win\pdbparser\syscalls.cpp(74): warning C26451: Arithmetic overflow: Using operator '*' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '*' to avoid overflow (io.2).

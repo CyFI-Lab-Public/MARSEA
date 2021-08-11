@@ -31,6 +31,7 @@ extern "C" {
         WINWRAPPER_WINHTTPREADDATA, 
         WINWRAPPER_WINHTTPCRACKURL,
         WINWRAPPER_WINHTTPCONNECT,
+        WINWRAPPER_WINHTTPWRITEDATA,
 
         WINWRAPPER_MULTIBYTETOWIDECHAR,
 
@@ -121,7 +122,7 @@ extern "C" {
     };
 
     struct CYFI_WINWRAPPER_COMMAND_WINHTTPREADDATA {
-        HINTERNET hRequest;
+        uint64_t hRequest;
         LPVOID lpBuffer;
         DWORD dwNumberOfBytesToRead;
         LPDWORD lpdwNumberOfByteRead;
@@ -141,6 +142,13 @@ extern "C" {
         uint64_t pswzServerName;
         uint64_t nServerPort;
         uint64_t dwReserved;
+    };
+
+    struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA {
+        uint64_t hRequest;
+        LPCVOID lpBuffer;
+        DWORD dwNumberOfBytesToWrite;
+        LPDWORD lpdwNumberOfBytesWritten;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {
@@ -187,6 +195,7 @@ struct CYFI_WINWRAPPER_COMMAND {
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPREADDATA WinHttpReadData;
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPCRACKURL WinHttpCrackUrl;
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT WinHttpConnect;
+            struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA WinHttpWriteData;
 
             struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR MultiByteToWideChar;
 

@@ -1,6 +1,7 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\Common7\IDE\VC\VCTargets\Platforms\Win32\PlatformToolsets\v141_xp\Toolset.targets(39,5): warning MSB8051: Support for targeting Windows XP is deprecated and will not be present in future releases of Visual Studio. Please see https://go.microsoft.com/fwlink/?linkid=2023588 for more information.
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v150\Platforms\Win32\PlatformToolsets\v141_xp\Toolset.targets(39,5): warning MSB8051: Support for targeting Windows XP is deprecated and will not be present in future releases of Visual Studio. Please see https://go.microsoft.com/fwlink/?linkid=2023588 for more information.
   dllmain.c
   libs2e.c
   Generating Code...
-     Creating library C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Debug\libs2e32.lib and object C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Debug\libs2e32.exp
-  libs2e.vcxproj -> C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Debug\libs2e32.dll
+  LINK : C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\libs2e32.dll not found or not built by the last incremental link; performing full link
+     Creating library C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\libs2e32.lib and object C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\libs2e32.exp
+  libs2e.vcxproj -> C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\libs2e32.dll
