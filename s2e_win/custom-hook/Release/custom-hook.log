@@ -5,10 +5,10 @@ c:\program files (x86)\windows kits\8.1\include\um\winhttp.h(82): warning C4005:
   c:\program files (x86)\windows kits\8.1\include\um\wininet.h(1290): note: see previous definition of 'SECURITY_FLAG_IGNORE_CERT_DATE_INVALID'
 c:\program files (x86)\windows kits\8.1\include\um\winhttp.h(83): warning C4005: 'SECURITY_FLAG_IGNORE_CERT_CN_INVALID': macro redefinition
   c:\program files (x86)\windows kits\8.1\include\um\wininet.h(1289): note: see previous definition of 'SECURITY_FLAG_IGNORE_CERT_CN_INVALID'
-c:\users\cyfi\desktop\s2e-win-utils-src\source\s2e\guest\windows\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(39): warning C4005: 'NTDDI_VERSION': macro redefinition
+c:\users\cyfi\desktop\projects\s2e\s2e_win\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(39): warning C4005: 'NTDDI_VERSION': macro redefinition
   c:\program files (x86)\windows kits\8.1\include\shared\sdkddkver.h(206): note: see previous definition of 'NTDDI_VERSION'
-c:\users\cyfi\desktop\s2e-win-utils-src\source\s2e\guest\windows\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(40): warning C4005: '_WIN32_WINNT': macro redefinition
+c:\users\cyfi\desktop\projects\s2e\s2e_win\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(40): warning C4005: '_WIN32_WINNT': macro redefinition
   c:\program files (x86)\windows kits\8.1\include\shared\sdkddkver.h(200): note: see previous definition of '_WIN32_WINNT'
-     Creating library C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\custom-hook.lib and object C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\custom-hook.exp
+     Creating library C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\custom-hook.lib and object C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\custom-hook.exp
   LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
-  custom-hook.vcxproj -> C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\custom-hook.dll
+  custom-hook.vcxproj -> C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\custom-hook.dll

@@ -11,6 +11,8 @@ extern "C" {
     // TODO replace this with a stack frame bound, check for mapped memory page, ...
     static const unsigned MAX_STRLEN = 4096;
 
+
+
     enum CYFI_WINWRAPPER_COMMANDS {
         WINWRAPPER_STRCPY,
         WINWRAPPER_STRNCPY,
@@ -116,15 +118,15 @@ extern "C" {
     };
 
     struct CYFI_WINWRAPPER_COMMAND_LSTRLENA {
-        LPCSTR lpString;
+        uint64_t lpString;
         bool symbolic;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_WINHTTPREADDATA {
-        HINTERNET hRequest;
-        LPVOID lpBuffer;
-        DWORD dwNumberOfBytesToRead;
-        LPDWORD lpdwNumberOfByteRead;
+        uint64_t hRequest;
+        uint64_t lpBuffer;
+        uint64_t dwNumberOfBytesToRead;
+        uint64_t lpdwNumberOfByteRead;
 
     };
 
@@ -141,6 +143,7 @@ extern "C" {
         uint64_t pswzServerName;
         uint64_t nServerPort;
         uint64_t dwReserved;
+        bool symbolic;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {
