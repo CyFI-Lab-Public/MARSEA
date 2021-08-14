@@ -149,9 +149,9 @@ extern "C" {
 
     struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA {
         uint64_t hRequest;
-        LPCVOID lpBuffer;
-        DWORD dwNumberOfBytesToWrite;
-        LPDWORD lpdwNumberOfBytesWritten;
+        uint64_t lpBuffer;
+        uint64_t dwNumberOfBytesToWrite;
+        uint64_t lpdwNumberOfBytesWritten;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {

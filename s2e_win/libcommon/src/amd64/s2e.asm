@@ -190,6 +190,16 @@ S2EMessageRaw proc frame ;, _Message: near ptr dword
     ret
 S2EMessageRaw endp
 
+public S2ECyfiMessageRaw
+S2ECyfiMessageRaw proc frame ;, _Message: near ptr dword
+    .endprolog
+    mov rax, rcx ;_Message
+    db 0fh, 3fh
+    db 02h, 10h, 00h, 00h
+    db 00h, 00h, 00h, 00h
+    ret 4h
+S2ECyfiMessageRaw endp
+
 ;Transmits a buffer of dataSize length to the plugin named in pluginName.
 ;eax contains the failure code upon return, 0 for success.
 ;RCX, RDX, R8, R9

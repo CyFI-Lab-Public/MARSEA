@@ -71,9 +71,9 @@ BOOL WINAPI WinHttpReadDataHook(
      CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
      Command.Command = WINWRAPPER_WINHTTPREADDATA;
      Command.WinHttpReadData.hRequest = (uint64_t)hRequest;
-     Command.WinHttpReadData.lpBuffer = lpBuffer;
+     Command.WinHttpReadData.lpBuffer = (uint64_t)lpBuffer;
      Command.WinHttpReadData.dwNumberOfBytesToRead = dwNumberOfBytesToRead;
-     Command.WinHttpReadData.lpdwNumberOfByteRead = lpdwNumberOfBytesRead;
+     Command.WinHttpReadData.lpdwNumberOfByteRead = (uint64_t)lpdwNumberOfBytesRead;
      Command.needOrigFunc = 0;
 
      S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
@@ -111,9 +111,9 @@ BOOL WINAPI WinHttpWriteDataHook(
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
     Command.Command = WINWRAPPER_WINHTTPWRITEDATA;
     Command.WinHttpWriteData.hRequest = (uint64_t)hRequest;
-    Command.WinHttpWriteData.lpBuffer = lpBuffer;
+    Command.WinHttpWriteData.lpBuffer = (uint64_t)lpBuffer;
     Command.WinHttpWriteData.dwNumberOfBytesToWrite = dwNumberOfBytesToWrite;
-    Command.WinHttpWriteData.lpdwNumberOfBytesWritten = lpdwNumberOfBytesWritten;
+    Command.WinHttpWriteData.lpdwNumberOfBytesWritten = (uint64_t)lpdwNumberOfBytesWritten;
 
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 

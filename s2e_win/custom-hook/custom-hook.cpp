@@ -210,7 +210,7 @@ static INT lstrlenA_model(
 ) {
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
     Command.Command = WINWRAPPER_LSTRLENA;
-    Command.LstrlenA.lpString = lpString;
+    Command.LstrlenA.lpString = (uint64_t)lpString;
 
     Message("[HLOG] lstrlenA (%s, %p,  %i)\n", lpString, lpString);
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
@@ -365,12 +365,12 @@ static INT MultiByteToWideCharHook(
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
     if (Command.MultiByteToWideChar.symbolic) {
-        S2EMakeSymbolic((PVOID)lpMultiByteStr, default_buf_len, "CyFi_MultiByteToWideChar");
+        S2EMakeSymbolic((PVOID)lpMultiByteStr, DEFAULT_MEM_LEN, "CyFi_MultiByteToWideChar");
         Message("[HLOG] MultiByteToWideChar: symbolizing %p.\n", lpWideCharStr);
     }
     if (cchWideChar == 0) {
         // Force success
-        cchWideChar = default_buf_len;
+        cchWideChar = DEFAULT_MEM_LEN;
     }
 
     /*merge_desc_t desc;
@@ -486,7 +486,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("winhttp", "WinHttpAddRequestHeaders", WinHttpAddRequestHeadersHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpCloseHandle", WinHttpCloseHandleHook, {NULL}),
     //CyFIFuncType("winhttp", "WinHttpGetProxyForUrl", WinHttpGetProxyForUrlHook, {NULL}),
-    //CyFIFuncType("winhttp", "WinHttpOpenRequest", WinHttpOpenRequestHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpOpenRequest", WinHttpOpenRequestHook, {NULL}),
     //CyFIFuncType("winhttp", "WinHttpQueryHeaders", WinHttpQueryHeadersHook, {NULL}),
     //CyFIFuncType("winhttp", "WinHttpQueryOption", WinHttpQueryOptionHook, {NULL}),
     //CyFIFuncType("winhttp", "WinHttpResetAutoProxy", WinHttpResetAutoProxyHook, {NULL}),
@@ -500,6 +500,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenUrlA", InternetOpenUrlAHook, {NULL}),
     CyFIFuncType("wininet", "InternetCloseHandle", InternetCloseHandleHook, {NULL}),
+    CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("wininet", "HttpAddRequestHeadersA", HttpAddRequestHeadersAHook, {NULL}),
     //CyFIFuncType("wininet", "HttpEndRequestA", HttpEndRequestAHook, {NULL}),
     //CyFIFuncType("wininet", "HttpQueryInfoA", HttpQueryInfoAHook, {NULL}),

@@ -243,9 +243,9 @@ BOOL WINAPI InternetWriteFileHook(
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
     Command.Command = WINWRAPPER_WINHTTPWRITEDATA;
     Command.WinHttpWriteData.hRequest = (uint64_t)hFile;
-    Command.WinHttpWriteData.lpBuffer = lpBuffer;
+    Command.WinHttpWriteData.lpBuffer = (uint64_t)lpBuffer;
     Command.WinHttpWriteData.dwNumberOfBytesToWrite = dwNumberOfBytesToWrite;
-    Command.WinHttpWriteData.lpdwNumberOfBytesWritten = lpdwNumberOfBytesWritten;
+    Command.WinHttpWriteData.lpdwNumberOfBytesWritten = (uint64_t)lpdwNumberOfBytesWritten;
 
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 

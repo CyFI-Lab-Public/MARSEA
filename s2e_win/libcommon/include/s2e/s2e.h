@@ -73,6 +73,7 @@ INT NTAPI S2EConcretize(PVOID Buffer, UINT32 Size);
 INT NTAPI S2EIsSymbolic(PVOID Buffer, UINT32 Size);
 VOID NTAPI S2EMakeSymbolicRaw(PVOID Buffer, UINT32 Size, PCSTR Name);
 VOID NTAPI S2EMessageRaw(PCSTR Message);
+VOID NTAPI S2ECyfiMessageRaw(PCSTR Message);
 INT NTAPI S2EInvokePluginRaw(PCSTR PluginName, PVOID Data, UINT32 DataSize);
 INT NTAPI S2EInvokePluginConcreteModeRaw(PCSTR PluginName, PVOID Data, UINT32 DataSize);
 VOID NTAPI S2EHexDump(PCSTR Name, PVOID Data, UINT32 Size);
@@ -100,10 +101,12 @@ VOID NTAPI S2EMakeSymbolic(PVOID Buffer, UINT32 Size, PCSTR Name);
 INT NTAPI S2ESymbolicInt(PCSTR Name, INT InitialValue);
 UINT8 NTAPI S2ESymbolicChar(PCSTR Name, UINT8 InitialValue);
 NTSTATUS NTAPI S2ESymbolicStatus(PCSTR Name, NTSTATUS InitialValue);
+VOID NTAPI S2ECyfiMessage(PCSTR Message);
 VOID NTAPI S2EMessage(PCSTR Message);
 INT NTAPI S2EInvokePlugin(PCSTR PluginName, PVOID Data, UINT32 DataSize);
 INT NTAPI S2EInvokePluginConcrete(PCSTR PluginName, PVOID Data, UINT32 DataSize);
 VOID S2EMessageFmt(PCHAR DebugMessage, ...);
+VOID S2ECyfiMessageFmt(PCHAR CyfiMessage, ...);
 UINT32 S2EWriteMemorySafe(PVOID Destination, PVOID Source, DWORD Count);
 
 #pragma warning(pop)

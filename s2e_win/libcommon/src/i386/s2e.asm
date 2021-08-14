@@ -167,6 +167,15 @@ S2EMessageRaw proc near, _Message: near ptr dword
     ret 4h
 S2EMessageRaw endp
 
+public S2ECyfiMessageRaw
+S2ECyfiMessageRaw proc near, _Message: near ptr dword
+    mov eax, _Message
+    db 0fh, 3fh
+    db 02h, 10h, 00h, 00h
+    db 00h, 00h, 00h, 00h
+    ret 4h
+S2ECyfiMessageRaw endp
+
 ;Transmits a buffer of dataSize length to the plugin named in pluginName.
 ;eax contains the failure code upon return, 0 for success.
 public S2EInvokePluginRaw

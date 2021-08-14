@@ -73,6 +73,17 @@ NTSTATUS NTAPI S2ESymbolicStatus(PCSTR Name, NTSTATUS InitialValue)
     return InitialValue;
 }
 
+VOID NTAPI S2ECyfiMessage(PCSTR Message)
+{
+    __try {
+        __s2e_touch_string(Message);
+        S2ECyfiMessageRaw(Message);
+    }
+    __except (EXCEPTION_EXECUTE_HANDLER) {
+        DbgPrint("%s", Message);
+    }
+}
+
 VOID NTAPI S2EMessage(PCSTR Message)
 {
     __try {
@@ -105,6 +116,20 @@ INT NTAPI S2EInvokePluginConcrete(PCSTR PluginName, PVOID Data, UINT32 DataSize)
         //DbgPrint("Invoked plugin %s\n", PluginName);
     }
     return Ret;
+}
+
+VOID S2ECyfiMessageFmt(PCHAR CyfiMessage, ...)
+{
+    va_list ap;
+    CHAR String[512] = { 0 };
+    va_start(ap, CyfiMessage);
+#if defined(USER_APP)
+    vsprintf_s(String, sizeof(String) - 1, CyfiMessage, ap);
+#else
+    RtlStringCbVPrintfA(String, sizeof(String) - 1, CyfiMessage, ap);
+#endif
+    S2ECyfiMessage(String);
+    va_end(ap);
 }
 
 VOID S2EMessageFmt(PCHAR DebugMessage, ...)
