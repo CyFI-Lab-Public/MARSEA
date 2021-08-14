@@ -1,7 +1,6 @@
 #include <s2e/cpu.h>
 #include <s2e/function_models/cyfi_commands.h>
 #include <s2e/Plugins/ExecutionMonitors/FunctionMonitor.h>
-#include <s2e/Plugins/Searchers/MergingSearcher.h>
 
 #include <klee/util/ExprTemplates.h>
 #include <llvm/Support/CommandLine.h>
@@ -47,13 +46,10 @@ void CyFiFunctionModels::initialize() {
 }
 
 
-
 void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
                                                 TranslationBlock *tb,
                                                 uint64_t pc) {
-
-
     // Fix how it reads from the lua...it always reads 0                                                    
     if ((pc >= 0x401af0 && pc <= 0x401cee) || (pc == 0x401d36) || (pc >= 0x4010a0 && pc <= 0x40123d) || (pc >= 0x40112e && pc <= 0x401187) || (pc >= 0x401310 && pc <= 0x401333) || (pc >= 0x401059 && pc <= 0x40107c)) {
         // When we find an interesting address, ask S2E to invoke our callback when the address is actually
@@ -353,36 +349,17 @@ void CyFiFunctionModels::handleStrncat(S2EExecutionState *state, CYFI_WINWRAPPER
 
 void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
     // Read function arguments
-    uint64_t stringAddrs[3];
+    uint64_t stringAddrs[2];
     stringAddrs[0] = (uint64_t) cmd.StrStrA.pszFirst;
     stringAddrs[1] = (uint64_t) cmd.StrStrA.pszSrch;
-    stringAddrs[2] = (uint64_t) cmd.StrStrA.symbolic;
+
     std::string symb_tag;
 
-    
-    const Expr::Width width = state->getPointerSize() * CHAR_BIT;
-
     if (StrStrAHelper(state, stringAddrs, retExpr, symb_tag)) {
-        uint64_t res = 0;
-        char const*p = symb_tag.c_str();
-        char const*q = p + symb_tag.size();
-        while (p < q){
-            res = (res << 1) + (res << 3) + *(p++);
-        }
-        uint64_t a[2];
-        a[0] = stringAddrs[2];
-        a[1] = res;
-        if(strcpyHelper(state, a, retExpr))
-        {
-            getDebugStream(state) << "good\n";
-        }
-
-        retExpr = E_CONST(stringAddrs[2], width);
-
-
-        //cmd.StrStrA.symbolic = (uint64_t)symb_tag.c_str();
-        getDebugStream(state) << "again " << retExpr;//cmd.StrStrA.symbolic << "\n";
+        getDebugStream(state) << "Argument " << retExpr << " at " << hexval(stringAddrs[0]) << " is symbolic.\n";
+        cmd.StrStrA.symbolic = 1;
     } else {
+        getDebugStream(state) << "Argument " << retExpr << " at " << hexval(stringAddrs[0]) << " is concrete.\n";
         cmd.StrStrA.symbolic = 0;
     }
 }
@@ -396,10 +373,10 @@ void CyFiFunctionModels::handleLstrlenA(S2EExecutionState *state, CYFI_WINWRAPPE
     if(!data.isNull()) {
         if (!isa<ConstantExpr>(data)) {
             getDebugStream(state) << "Argument " << data << " at " << hexval(stringAddr) << " is symbolic.\n";
-            cmd.LstrlenA.symbolic = true;
+            cmd.LstrlenA.symbolic = 1;
         } else {
             getDebugStream(state) << "Argument " << data << " at " << hexval(stringAddr) << " is concrete.\n";
-            cmd.LstrlenA.symbolic = false;
+            cmd.LstrlenA.symbolic = 0;
         }
     }
 }
@@ -424,6 +401,8 @@ void CyFiFunctionModels::handleWinHttpReadData(S2EExecutionState *state, CYFI_WI
             getDebugStream(state) << "Argument " << data << " at " << hexval(args[1]) << " is concrete\n";
         }
     }
+
+    WinHttpReadDataHelper(state, args, retExpr);
 }
 
 void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
@@ -472,6 +451,17 @@ void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WI
             cmd.WinHttpCrackUrl.symbolic = false;
         }
     }
+}
+
+void CyFiFunctionModels::handleWinHttpWriteData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
+  // Read function arguments
+  uint64_t args[4];
+  args[0] = (uint64_t) cmd.WinHttpWriteData.hRequest;
+  args[1] = (uint64_t) cmd.WinHttpWriteData.lpBuffer;
+  args[2] = (uint64_t) cmd.WinHttpWriteData.dwNumberOfBytesToWrite;
+  args[3] = (uint64_t) cmd.WinHttpWriteData.lpdwNumberOfBytesWritten;
+
+  WinHttpWriteDataHelper(state, args, retExpr);
 }
 
 void CyFiFunctionModels::handleMultiByteToWideChar(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
@@ -645,7 +635,7 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         case WINWRAPPER_WINHTTPCONNECT: {
             handleWinHttpConnect(state, command);
-          } break; 
+        } break; 
 
         case WINWRAPPER_WINHTTPCRACKURL: {
             ref<Expr> retExpr;
@@ -653,7 +643,17 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "WinHttpCrackUrl: Could not write to guest memory\n";
             }
-        } break;  
+        } break;
+
+        case WINWRAPPER_WINHTTPREADDATA: {
+            ref<Expr> retExpr;
+            handleWinHttpReadData(state, command, retExpr);
+        } break;
+
+        case WINWRAPPER_WINHTTPWRITEDATA: {
+            ref<Expr> retExpr;
+            handleWinHttpWriteData(state, command, retExpr);
+        } break;
 
         case WINWRAPPER_LSTRLENA: {
             ref<Expr> retExpr;

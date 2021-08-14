@@ -116,10 +116,12 @@ protected:
     llvm::raw_ostream *m_infoFileRaw;
     llvm::raw_ostream *m_debugFileRaw;
     llvm::raw_ostream *m_warningsFileRaw;
+    llvm::raw_ostream *m_cyfiFileRaw;
 
     llvm::raw_ostream *m_warningStream;
     llvm::raw_ostream *m_infoStream;
     llvm::raw_ostream *m_debugStream;
+    llvm::raw_ostream *m_cyfiStream;
 
     bool m_setupUnbufferedStream;
 
@@ -207,6 +209,11 @@ public:
         return getStream(*m_debugStream, state);
     }
 
+    /** Get cyfi stream (used for post-analysis related info) */
+    llvm::raw_ostream &getCyfiStream(const S2EExecutionState *state = nullptr) const {
+        return getStream(*m_cyfiStream, state);
+    }
+
     /** Get warnings stream (used for warnings, duplicated on the screen) */
     llvm::raw_ostream &getWarningsStream(const S2EExecutionState *state = nullptr) const {
         return getStream(*m_warningStream, state);
@@ -216,10 +223,12 @@ public:
         m_infoStream->flush();
         m_debugStream->flush();
         m_warningStream->flush();
+        m_cyfiStream->flush();
 
         m_warningsFileRaw->flush();
         m_debugFileRaw->flush();
         m_infoFileRaw->flush();
+        m_cyfiFileRaw->flush();
 
         fflush(stdout);
         fflush(stderr);

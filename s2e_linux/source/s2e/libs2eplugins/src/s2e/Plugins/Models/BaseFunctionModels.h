@@ -28,6 +28,7 @@
 #include <s2e/Plugin.h>
 #include <s2e/Plugins/OSMonitors/Support/MemUtils.h>
 #include <string>
+
 using namespace klee;
 
 namespace s2e {
@@ -70,7 +71,7 @@ protected:
     bool strcmpHelper(S2EExecutionState *state, const uint64_t strAddrs[2], ref<Expr> &retExpr);
     bool strncmpHelper(S2EExecutionState *state, const uint64_t strAddrs[2], size_t size, ref<Expr> &retExpr);
     bool strcmpHelperCommon(S2EExecutionState *state, const uint64_t strAddrs[2], uint64_t memSize, ref<Expr> &retExpr);
-    bool strcpyHelper(S2EExecutionState *state,  const uint64_t strAddrs[2], ref<Expr> &retExpr);
+    bool strcpyHelper(S2EExecutionState *state, const uint64_t strAddrs[2], ref<Expr> &retExpr);
     bool strncpyHelper(S2EExecutionState *state, const uint64_t strAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcmpHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcpyHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
@@ -79,6 +80,7 @@ protected:
 
     bool StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[3], ref<Expr> &retExpr, std::string &symb_tag);
     bool WinHttpReadDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr);
+    bool WinHttpWriteDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr);
 
     bool MultiByteToWideCharHelper(S2EExecutionState *state, const uint64_t args[6]);
 

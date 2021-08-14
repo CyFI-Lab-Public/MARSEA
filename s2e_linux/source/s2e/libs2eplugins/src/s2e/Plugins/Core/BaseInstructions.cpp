@@ -463,7 +463,8 @@ void BaseInstructions::sleep(S2EExecutionState *state) {
     }
 }
 
-void BaseInstructions::printMessage(S2EExecutionState *state, bool isWarning) {
+void BaseInstructions::printMessage(S2EExecutionState *state, int outType) {
+    getDebugStream(state) << "outype is "<< hexval(outType)<<'\n';
     target_ulong address = 0;
     bool ok = state->regs()->read(CPU_OFFSET(regs[R_EAX]), &address, sizeof address, false);
     if (!ok) {
@@ -478,10 +479,15 @@ void BaseInstructions::printMessage(S2EExecutionState *state, bool isWarning) {
                                  << '\n';
     } else {
         llvm::raw_ostream *stream;
-        if (isWarning)
+        if (outType == 1)
             stream = &getWarningsStream(state);
-        else
+        else if (outType == 0) {
             stream = &getInfoStream(state);
+        } else if (outType == 2) {
+            stream = &getCyfiStream(state);
+        } else {
+            stream = &getInfoStream(state);
+        }
         (*stream) << "Message from guest (" << hexval(address) << "): " << str;
 
         /* Avoid doubling end of lines */
@@ -766,6 +772,7 @@ void BaseInstructions::forkCount(S2EExecutionState *state) {
     XX: opcode
  */
 void BaseInstructions::handleBuiltInOps(S2EExecutionState *state, uint64_t opcode) {
+    getDebugStream(state) << "opcode is " << opcode << '\n';
     switch ((opcode >> 8) & 0xFF) {
         case BASE_S2E_CHECK: { /* s2e_check */
             target_ulong v = 1;
@@ -847,6 +854,7 @@ void BaseInstructions::handleBuiltInOps(S2EExecutionState *state, uint64_t opcod
 
         case BASE_S2E_PRINT_MSG: { /* s2e_message */
             printMessage(state, opcode >> 16);
+            printMessage(state, opcode & 0x0F);
             break;
         }
 

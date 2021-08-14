@@ -2,8 +2,6 @@
 #ifndef S2E_CYFI_FUNCTION_MODEL_COMMANDS_H
 #define S2E_CYFI_FUNCTION_MODEL_COMMANDS_H
 
-#include <string>
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -32,6 +30,7 @@ enum CYFI_WINWRAPPER_COMMANDS {
     WINWRAPPER_WINHTTPREADDATA,
     WINWRAPPER_WINHTTPCRACKURL,
     WINWRAPPER_WINHTTPCONNECT,
+    WINWRAPPER_WINHTTPWRITEDATA,
 
     WINWRAPPER_MULTIBYTETOWIDECHAR,
 
@@ -107,7 +106,7 @@ struct CYFI_WINWRAPPER_COMMAND_STRNCAT {
 struct CYFI_WINWRAPPER_COMMAND_STRSTRA {
     uint64_t pszFirst;
     uint64_t pszSrch;
-    std::string symbolic;
+    bool symbolic;
 };
 
 struct CYFI_WINWRAPPER_COMMAND_STRSTRW {
@@ -142,6 +141,13 @@ struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT {
     uint64_t dwReserved;
     bool symbolic;
 };
+
+struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA {
+        uint64_t hRequest;
+        uint64_t lpBuffer;
+        uint64_t dwNumberOfBytesToWrite;
+        uint64_t lpdwNumberOfBytesWritten;
+    };
 
 struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {
     uint64_t CodePage;
@@ -187,6 +193,7 @@ struct CYFI_WINWRAPPER_COMMAND {
         struct CYFI_WINWRAPPER_COMMAND_WINHTTPREADDATA WinHttpReadData;
         struct CYFI_WINWRAPPER_COMMAND_WINHTTPCRACKURL WinHttpCrackUrl;
         struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT WinHttpConnect;
+        struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA WinHttpWriteData;
 
         struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR MultiByteToWideChar;
 
