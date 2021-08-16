@@ -463,7 +463,8 @@ void BaseInstructions::sleep(S2EExecutionState *state) {
     }
 }
 
-void BaseInstructions::printMessage(S2EExecutionState *state, bool isWarning) {
+void BaseInstructions::printMessage(S2EExecutionState *state, int outType) {
+    getDebugStream(state) << "outype is "<< hexval(outType)<<'\n';
     target_ulong address = 0;
     bool ok = state->regs()->read(CPU_OFFSET(regs[R_EAX]), &address, sizeof address, false);
     if (!ok) {
@@ -478,10 +479,15 @@ void BaseInstructions::printMessage(S2EExecutionState *state, bool isWarning) {
                                  << '\n';
     } else {
         llvm::raw_ostream *stream;
-        if (isWarning)
+        if (outType == 1)
             stream = &getWarningsStream(state);
-        else
+        else if (outType == 0) {
             stream = &getInfoStream(state);
+        } else if (outType == 2) {
+            stream = &getCyfiStream(state);
+        } else {
+            stream = &getInfoStream(state);
+        }
         (*stream) << "Message from guest (" << hexval(address) << "): " << str;
 
         /* Avoid doubling end of lines */

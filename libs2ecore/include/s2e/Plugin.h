@@ -101,6 +101,7 @@ public:
     llvm::raw_ostream &getDebugStream(S2EExecutionState *state = nullptr) const;
     llvm::raw_ostream &getInfoStream(S2EExecutionState *state = nullptr) const;
     llvm::raw_ostream &getWarningsStream(S2EExecutionState *state = nullptr) const;
+    llvm::raw_ostream &getCyfiStream(S2EExecutionState *state = nullptr) const;
     llvm::raw_ostream &getNullStream(S2EExecutionState *state = nullptr) const {
         return *m_nullOutput;
     }

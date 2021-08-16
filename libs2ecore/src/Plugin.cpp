@@ -91,6 +91,14 @@ llvm::raw_ostream &Plugin::getInfoStream(S2EExecutionState *state) const {
     }
 }
 
+llvm::raw_ostream &Plugin::getCyfiStream(S2EExecutionState *state) const {
+    if (m_logLevel <= LOG_INFO) {
+        return s2e()->getCyfiStream(state) << getPluginInfo()->name << ": ";
+    } else {
+        return *m_nullOutput;
+    }
+}
+
 llvm::raw_ostream &Plugin::getWarningsStream(S2EExecutionState *state) const {
     if (m_logLevel <= LOG_WARN) {
         return s2e()->getWarningsStream(state) << getPluginInfo()->name << ": ";

@@ -82,7 +82,7 @@ private:
     void isSymbolic(S2EExecutionState *state);
     void killState(S2EExecutionState *state);
     void printExpression(S2EExecutionState *state);
-    void printMessage(S2EExecutionState *state, bool isWarning);
+    void printMessage(S2EExecutionState *state, int outType);
     void printMemory(S2EExecutionState *state);
     void hexDump(S2EExecutionState *state);
     void concretize(S2EExecutionState *state, bool addConstraint);

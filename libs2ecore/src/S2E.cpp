@@ -369,13 +369,18 @@ void S2E::setupStreams(bool forked, bool reopen) {
         delete m_infoFileRaw;
         delete m_debugFileRaw;
         delete m_warningsFileRaw;
+        delete m_cyfiFileRaw;
     }
 
     if (reopen) {
         m_infoFileRaw = openOutputFile("info.txt");
         m_debugFileRaw = openOutputFile("debug.txt");
         m_warningsFileRaw = openOutputFile("warnings.txt");
+        m_cyfiFileRaw = openOutputFile("cyfi.txt");
     }
+
+    // Cyfi writes to cyfi.txt
+    raw_tee_ostream *cyfiStream = new raw_tee_ostream(m_cyfiFileRaw);
 
     // Debug writes to debug.txt
     raw_tee_ostream *debugStream = new raw_tee_ostream(m_debugFileRaw);
@@ -396,6 +401,7 @@ void S2E::setupStreams(bool forked, bool reopen) {
             debugStream->addParentBuf(&llvm::outs());
         case LOG_INFO:
             infoStream->addParentBuf(&llvm::outs());
+            cyfiStream->addParentBuf(&llvm::outs());
         case LOG_WARN:
             /* Warning stream already prints to stderr */
             break;
@@ -407,6 +413,7 @@ void S2E::setupStreams(bool forked, bool reopen) {
     m_debugStream = debugStream;
     m_infoStream = infoStream;
     m_warningStream = warningsStream;
+    m_cyfiStream = cyfiStream;
 
     if (m_setupUnbufferedStream) {
         // Make contents valid when assertion fails
@@ -416,6 +423,8 @@ void S2E::setupStreams(bool forked, bool reopen) {
         m_debugStream->SetUnbuffered();
         m_warningsFileRaw->SetUnbuffered();
         m_warningStream->SetUnbuffered();
+        m_cyfiFileRaw->SetUnbuffered();
+        m_cyfiStream->SetUnbuffered();
     }
 
     klee::klee_message_stream = m_infoStream;

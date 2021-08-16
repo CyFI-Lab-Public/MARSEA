@@ -25,6 +25,7 @@ public:
     CyFiFunctionModels(S2E *s2e) : BaseFunctionModels(s2e) {
     }
 
+   
     void initialize();
 
 
@@ -35,14 +36,6 @@ public:
 
     void onInstructionExecution(S2EExecutionState *state, uint64_t pc);
 
-
-    void onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
-                        const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
-                        const FunctionMonitor::ReturnSignalPtr &returnSignal);
-
-    void onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
-                        const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
-                        uint64_t functionPc);
 
 private:
 
@@ -63,11 +56,11 @@ private:
 
     void handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
     void handleStrStrW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleLstrlenA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
     void handleWinHttpReadData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
+    void handleWinHttpWriteData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &retExpr);
 
     void handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
-    void handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
+    void handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
     void handleMultiByteToWideChar(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
