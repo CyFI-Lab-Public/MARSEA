@@ -595,7 +595,7 @@ bool BaseFunctionModels::strcatHelper(S2EExecutionState *state, const uint64_t s
     return true;
 }
 
-bool BaseFunctionModels::StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[2], ref<Expr> &retExpr, std::string &symb_tag) {
+bool BaseFunctionModels::StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[2], ref<Expr> &retExpr) {
     getDebugStream(state) << "Handling StrStrA(" << hexval(memAddrs[0]) << ", " << hexval(memAddrs[1]) << ")\n";
 
     uint64_t addr = memAddrs[0];
