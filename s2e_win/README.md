@@ -1,3 +1,58 @@
+GT S2E for Windows (SETUP)
+==========================
+# Installation
+
+Follow the instructions at http://s2e.systems/docs/s2e-env.html to setup an s2e windows7 x86 environment
+
+After s2e installation install the latest windows development kit and visual studio 2019.
+
+In the visual studio 2019 installer, install the following components:
+
+Visual Studio 2017 - Windows XP (v141_xp) platform toolset
+Visual Studio 2017 (v141) platform toolset
+
+Open the "s2e" solution in the "windows" folder of this repository.
+
+If prompted by visual studio, install the EasyHookNative NuGet package.
+
+Compile the solution as a Release build for Win32. This will produce an modified EasyHook and custom-hook DLL.
+
+The custom-hook.cpp can be modified and recompiled to include any new function models.
+
+Copy the malware-injector.exe, EasyHook and custom-hook DLLs to the s2e host machine.
+
+Activate the s2e environment and create a new project for the binary you want to analyze.
+
+Modify the generated bootstrap.sh to upload the injector and DLLs and execute the injector instead of the binary directly.
+
+For example:
+
+```
+# The target does not get executed directly - we execute it via malware-inject
+function execute_target {
+    local TARGET
+    TARGET="$1"
+
+    ./malware-inject.exe --dll "./custom-hook.dll" --app ${TARGET}
+}
+
+# ...
+
+# We also need to download the files required for hooking
+
+# Download the target file to analyze
+${S2EGET} "GetLocalTime-test.exe"
+
+${S2EGET} "EasyHook32.dll"
+${S2EGET} "custom-hook.dll"
+${S2EGET} "malware-inject.exe"
+```
+
+More info on hooking process can be found [here](https://adrianherrera.github.io/post/malware-s2e/).
+
+**See below for more additional information from the S2E docs**
+
+
 S2E Tools for Windows Guests
 ============================
 
@@ -26,20 +81,11 @@ Building guest tools
 Using guest tools
 =================
 
-The S2E guest driver currently supports a dozen of different types of Windows
-kernels, from Windows XP to Windows 10. Note that Windows updates usually
-change the kernel version too, the driver supports RTM and various service
-packs out of the box. It is possible to add support for other versions,
-see later in this section.
+The S2E guest driver currently supports a dozen of different types of Windows kernels, from Windows XP to Windows 10. Note that Windows updates usually change the kernel version too, the driver supports RTM and various service packs out of the box. It is possible to add support for other versions, see later in this section.
 
-You first need to install the guest OS. After it is done,
-disable driver signature enforcement (or enable test signing
-depending on your OS version). The S2E driver is automatically test signed
-by Visual Studio during build and requires test mode to be enabled. Windows
-will not load it otherwise.
+You first need to install the guest OS. After it is done, disable driver signature enforcement (or enable test signing depending on your OS version). The S2E driver is automatically test signed by Visual Studio during build and requires test mode to be enabled. Windows will not load it otherwise.
 
-Copy `s2e.sys`, `s2e.inf`, as well as the other binaries you need in your guest. You
-can do this using the `s2eget` utility as part of the bootstrap file.
+Copy `s2e.sys`, `s2e.inf`, as well as the other binaries you need in your guest. You can do this using the `s2eget` utility as part of the bootstrap file.
 
 ```bash
 # Copy files
