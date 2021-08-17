@@ -48,9 +48,9 @@ ${S2EGET} "custom-hook.dll"
 ${S2EGET} "malware-inject.exe"
 ```
 
-More info on hooking process can be found [here](ttps://adrianherrera.github.io/post/malware-s2e/).
+More info on hooking process can be found [here](https://adrianherrera.github.io/post/malware-s2e/).
 
-*See below for more additional information from the S2E docs*
+**See below for more additional information from the S2E docs**
 
 
 S2E Tools for Windows Guests
@@ -81,20 +81,11 @@ Building guest tools
 Using guest tools
 =================
 
-The S2E guest driver currently supports a dozen of different types of Windows
-kernels, from Windows XP to Windows 10. Note that Windows updates usually
-change the kernel version too, the driver supports RTM and various service
-packs out of the box. It is possible to add support for other versions,
-see later in this section.
+The S2E guest driver currently supports a dozen of different types of Windows kernels, from Windows XP to Windows 10. Note that Windows updates usually change the kernel version too, the driver supports RTM and various service packs out of the box. It is possible to add support for other versions, see later in this section.
 
-You first need to install the guest OS. After it is done,
-disable driver signature enforcement (or enable test signing
-depending on your OS version). The S2E driver is automatically test signed
-by Visual Studio during build and requires test mode to be enabled. Windows
-will not load it otherwise.
+You first need to install the guest OS. After it is done, disable driver signature enforcement (or enable test signing depending on your OS version). The S2E driver is automatically test signed by Visual Studio during build and requires test mode to be enabled. Windows will not load it otherwise.
 
-Copy `s2e.sys`, `s2e.inf`, as well as the other binaries you need in your guest. You
-can do this using the `s2eget` utility as part of the bootstrap file.
+Copy `s2e.sys`, `s2e.inf`, as well as the other binaries you need in your guest. You can do this using the `s2eget` utility as part of the bootstrap file.
 
 ```bash
 # Copy files
