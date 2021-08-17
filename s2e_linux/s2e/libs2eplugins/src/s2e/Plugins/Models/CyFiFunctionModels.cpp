@@ -142,6 +142,22 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
 
 }
 
+std::string CyFiFunctionModels::getTag(const std::string &sym)
+{
+	size_t pos_end = 0;
+	int cnt = 0;
+
+	// find the 3rd isntance of '_'
+	while (cnt != 3)
+	{
+		pos_end += 1;
+		pos_end = sym.find("_", pos_end);
+		if(pos_end == std::string::npos)
+			continue;
+		cnt++;
+	}
+	return std::string(&sym[sym.find("CyFi")], &sym[pos_end]);
+}
 
 void CyFiFunctionModels::handleStrlen(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
     // Read function arguments
@@ -327,7 +343,7 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
         std::ostringstream ss;
         ss << retExpr;
         std::string sym = ss.str();
-        std::string symb_tag = std::string(&sym[sym.find("CyFi")], &sym[sym.rfind("_")]);
+	    std::string symb_tag = getTag(sym);
         getCyfiStream(state) << "[L] StrStrA pszFirst = " << symb_tag << ", " << hexval(stringAddrs[0]) << " is symbolic\n";
         cmd.StrStrA.symbolic = true;
     } else {
@@ -401,7 +417,7 @@ void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WI
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-            std::string symb_tag = std::string(&sym[sym.find("CyFi")], &sym[sym.rfind("_")]);            
+	        std::string symb_tag = getTag(sym);
             getCyfiStream(state) << "[L] WinHttpCrackUrl pwszUrl = " << symb_tag << ", " << hexval(args[0]) << " is symbolic\n";
             cmd.WinHttpCrackUrl.symbolic = true;
         } else {

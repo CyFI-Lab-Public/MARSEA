@@ -32,6 +32,9 @@ enum CYFI_WINWRAPPER_COMMANDS {
     WINWRAPPER_WINHTTPCONNECT,
     WINWRAPPER_WINHTTPWRITEDATA,
 
+    WINWRAPPER_INTERNETREADFILE,
+    WINWRAPPER_INTERNETCRACKURLA,
+
     WINWRAPPER_MULTIBYTETOWIDECHAR,
 
     WRAPPER_CRC,
@@ -119,6 +122,22 @@ struct CYFI_WINWRAPPER_COMMAND_LSTRLENA {
     bool symbolic;
 };
 
+struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE {
+    uint64_t hFile;
+    uint64_t lpBuffer;
+    uint64_t dwNumberOfBytesToRead;
+    uint64_t lpdwNumberOfBytesRead;
+    bool symbolic;
+};
+
+struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA {
+    uint64_t pwszUrl;
+    uint64_t dwUrlLength;
+    uint64_t dwFlags;
+    uint64_t lpUrlComponents;
+    bool symbolic;
+};
+
 struct CYFI_WINWRAPPER_COMMAND_WINHTTPREADDATA {
     uint64_t hRequest;
     uint64_t lpBuffer;
@@ -195,6 +214,9 @@ struct CYFI_WINWRAPPER_COMMAND {
         struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT WinHttpConnect;
         struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA WinHttpWriteData;
 
+        struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE InternetReadFile;
+        struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA InternetCrackUrlA;
+        
         struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR MultiByteToWideChar;
 
         struct CYFI_WRAPPER_COMMAND_CRC Crc;

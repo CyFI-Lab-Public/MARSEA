@@ -852,6 +852,7 @@ void BaseInstructions::handleBuiltInOps(S2EExecutionState *state, uint64_t opcod
         }
 
         case BASE_S2E_PRINT_MSG: { /* s2e_message */
+            printMessage(state, opcode & 0x0F);
             printMessage(state, opcode >> 16);
             break;
         }

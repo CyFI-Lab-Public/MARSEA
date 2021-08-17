@@ -7,6 +7,7 @@
 #include <s2e/Plugins/ExecutionMonitors/FunctionMonitor.h>
 
 #include "BaseFunctionModels.h"
+#include <string>
 
 struct CYFI_WINWRAPPER_COMMAND;
 
@@ -35,7 +36,7 @@ public:
                                                     uint64_t pc);
 
     void onInstructionExecution(S2EExecutionState *state, uint64_t pc);
-
+    std::string getTag(const std::string &sym);
 
 private:
 
