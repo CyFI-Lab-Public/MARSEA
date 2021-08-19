@@ -36,6 +36,7 @@ extern "C" {
         WINWRAPPER_WINHTTPWRITEDATA,
 
         WINWRAPPER_INTERNETREADFILE,
+        WINWRAPPER_INTERNETCRACKURLA,
 
         WINWRAPPER_MULTIBYTETOWIDECHAR,
 
@@ -105,12 +106,12 @@ extern "C" {
         uint64_t pszFirst;
         uint64_t pszSrch;
         bool symbolic;
-        uint64_t ret;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_STRSTRW {
         uint64_t pszFirst;
         uint64_t pszSrch;
+        bool symbolic;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_MEMSET {
@@ -165,6 +166,14 @@ extern "C" {
         bool symbolic;
     };
 
+    struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA {
+        uint64_t pwszUrl;
+        uint64_t dwUrlLength;
+        uint64_t dwFlags;
+        uint64_t lpUrlComponets;
+        bool symbolic;
+    };
+
     struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {
         uint64_t CodePage;
         uint64_t dwFlags;
@@ -212,6 +221,7 @@ struct CYFI_WINWRAPPER_COMMAND {
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA WinHttpWriteData;
 
             struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE InternetReadFile;
+            struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA InternetCrackUrlA;
 
             struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR MultiByteToWideChar;
 

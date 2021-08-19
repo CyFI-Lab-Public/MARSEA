@@ -3,9 +3,11 @@
 /// All rights reserved.
 ///
 /// 
+
+/*
 #ifdef _MSC_VER
 #define _CRT_SECURE_NO_WARNINGS
-#endif
+#endif*/
 
 #include <set>
 #include <vector>
@@ -40,6 +42,10 @@ namespace winhttp {
 #include "shlwapi-hook.h"
 #include "winhttp-hook.h"
 #include "wininet-hook.h"
+#include "wchar-hook.h"
+#include "urlmon-hook.h"
+#include "winuser-hook.h"
+#include "fileapi-hook.h"
 
 INT s2eVersion = 0;
 
@@ -117,11 +123,11 @@ static VOID* memcpy_ntdll_model(
     Command.Memcpy.src = (uint64_t)src;
     Command.Memcpy.n = num;
 
-    Message("[HLOG] (ntdll) memcpy (%p, %p, %i)\n", dst, src, num);
+    Message("[W] (ntdll) memcpy (%p, %p, %i)\n", dst, src, num);
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
     
     if (Command.Memcpy.symbolic) {
-        Message("[HLOG] memcpy received a symbolic src. Symbolizing the dst.\n");
+        Message("[W] memcpy received a symbolic src. Symbolizing the dst.\n");
         //return memcpy(dst, src, num);
         //char con[41] = "aHR0cHM6Ly93MHJtLmluL2pvaW4vam9pbi5waHA=";
         //memcpy((void*)dst, con, sizeof(con));
@@ -129,7 +135,7 @@ static VOID* memcpy_ntdll_model(
 
     }
     else if (Command.needOrigFunc == 1) {
-        Message("[HLOG] memcpy: function model failed with concrete params, calling ntdll.memcpy.\n");
+        Message("[W] memcpy: function model failed with concrete params, calling ntdll.memcpy.\n");
         return memcpy(dst, src, num);
     }
     else {
@@ -149,7 +155,7 @@ static VOID* memset_ntdll_model(
     Command.Memset.value = value;
     Command.Memset.num = (uint64_t)num;
 
-    Message("[HLOG] (ntdll) memset (%p, %i, %i)\n", ptr, value, num);
+    Message("[W] (ntdll) memset (%p, %i, %i)\n", ptr, value, num);
     //S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
     return memset(ptr, value, num);
 
@@ -167,7 +173,7 @@ static INT lstrlenA_model(
     Command.Command = WINWRAPPER_LSTRLENA;
     Command.LstrlenA.lpString = (uint64_t)lpString;
 
-    Message("[HLOG] lstrlenA (%s, %p,  %i)\n", lpString, lpString);
+    Message("[W] lstrlenA (%s, %p,  %i)\n", lpString, lpString);
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
     int ret = S2ESymbolicInt(lpString, 25);
     Message("h1)\n", lpString, lpString);
@@ -200,12 +206,12 @@ static HANDLE CreateThreadHook(
 
     HANDLE rHandle = CreateThread(lpThreadAttributes, dwStackSize, lpStartAddress, lpParameter, dwCreationFlags, lpThreadId);
     dummyThreadHandles.insert(rHandle);
-    Message("[HLOG] CreateThread(%p)\n", rHandle);
+    Message("[W] CreateThread(%p)\n", rHandle);
     return rHandle;
     //}
     //else {
         // Explore the program where CreateThread "fails"
-    //    Message("[HLOG] CreateThread Failed\n");
+    //    Message("[W] CreateThread Failed\n");
     //    return NULL;
     //}
 }
@@ -214,7 +220,7 @@ static VOID ExitThreadHook(
     DWORD dwExitCode
 )
 {
-    Message("[HLOG] ExitThread(%i)\n", dwExitCode);
+    Message("[W] ExitThread(%i)\n", dwExitCode);
 
     auto threadID = dummyThreadHandles.begin();
     DWORD exitcode;
@@ -316,12 +322,12 @@ static INT MultiByteToWideCharHook(
     Command.MultiByteToWideChar.lpWideCharStr = (uint64_t)lpWideCharStr;
     Command.MultiByteToWideChar.cchWideChar = cchWideChar;
 
-    Message("[HLOG] MultiByteToWideChar (%i, %i, %p, A\"%s\", %i, %p, %i)\n", CodePage, dwFlags, lpMultiByteStr, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
+    Message("[W] MultiByteToWideChar (%i, %i, %p, A\"%s\", %i, %p, %i)\n", CodePage, dwFlags, lpMultiByteStr, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
     if (Command.MultiByteToWideChar.symbolic) {
         S2EMakeSymbolic((PVOID)lpMultiByteStr, DEFAULT_MEM_LEN, "CyFi_MultiByteToWideChar");
-        Message("[HLOG] MultiByteToWideChar: symbolizing %p.\n", lpWideCharStr);
+        Message("[W] MultiByteToWideChar: symbolizing %p.\n", lpWideCharStr);
     }
     if (cchWideChar == 0) {
         // Force success
@@ -342,20 +348,20 @@ static LPVOID VirtualAllocHook(
     DWORD flAllocationType,
     DWORD flProtect
 ) {
-    Message("[HLOG] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect);
+    Message("[W] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect);
     return VirtualAlloc(lpAddress, dwSize, flAllocationType, flProtect);
     /*
     UINT8 branch = S2ESymbolicChar("lpvResult", 1);
     if (branch) {
         LPVOID lpvResult;
         lpvResult = VirtualAlloc(lpAddress, 1000, flAllocationType, flProtect);
-        Message("[HLOG] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect, lpvResult);
+        Message("[W] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect, lpvResult);
         //dummyBaseAddrs.insert(lpvResult);
         S2EMakeSymbolic(lpvResult, 18, "CyFi_VirtualAlloc");
         return lpvResult;
     }
     else {
-        Message("[HLOG] VirtualAlloc (%p, %i, %i, %i, %p): FAILED\n", lpAddress, dwSize, flAllocationType, flProtect);
+        Message("[W] VirtualAlloc (%p, %i, %i, %i, %p): FAILED\n", lpAddress, dwSize, flAllocationType, flProtect);
         return NULL;
     }*/
 }
@@ -366,9 +372,9 @@ static BOOL VirtualFreeHook(
     SIZE_T dwSize,
     DWORD dwFreeType
 ) {
-    Message("[HLOG] VirtualFree (%p, %i, %i)\n", lpAddress, dwSize, dwFreeType);
+    Message("[W] VirtualFree (%p, %i, %i)\n", lpAddress, dwSize, dwFreeType);
     VirtualFree(lpAddress, dwSize, dwFreeType);
-    return true;
+    return TRUE;
     /*
     std::set<LPVOID>::iterator it = dummyBaseAddrs.find(lpAddress);
     if (it == dummyBaseAddrs.end()) {
@@ -393,11 +399,11 @@ static HRESULT CreateStreamOnHGlobalHook(
     //dummyStreams.insert(stream);
     try {
         HRESULT hr = CreateStreamOnHGlobal(hGlobal, fDeleteOnRelease, ppstm);//  0x00000000;
-        Message("[HLOG] CreateStreamOnHGlobal (%p, %s, %p) Ret:%p\n", hGlobal, fDeleteOnRelease, ppstm, hr);
+        Message("[W] CreateStreamOnHGlobal (%p, %s, %p) Ret:%p\n", hGlobal, fDeleteOnRelease, ppstm, hr);
 
     }
     catch (int e) {
-        Message("[HLOG] CreateStreamOnHGlobal Failed %i\n!", e);
+        Message("[W] CreateStreamOnHGlobal Failed %i\n!", e);
 
     }
     return hr;
@@ -419,6 +425,18 @@ public:
     }
 };
 
+static HMODULE LoadLibraryExAHook(
+    LPCSTR lpLibFileName,
+    HANDLE hFile,
+    DWORD  dwFlags
+)
+{
+    Message("[W] LoadLibraryExA (A\"%s\")\n", lpLibFileName);
+
+    return LoadLibraryExA(lpLibFileName, hFile, dwFlags);
+
+}
+
 CyFIFuncType functionToHook[] = {
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
     CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
@@ -431,7 +449,10 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
     //CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
     //CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
+
     CyFIFuncType("shlwapi", "StrStrA", StrStrAHook, {NULL}),
+    CyFIFuncType("shlwapi", "StrStrW", StrStrWHook, {NULL}),
+
     CyFIFuncType("winhttp", "WinHttpCrackUrl", WinHttpCrackUrlHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpSendRequest", WinHttpSendRequestHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpReceiveResponse", WinHttpReceiveResponseHook, {NULL}),
@@ -449,6 +470,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("winhttp", "WinHttpSetCredentials", WinHttpSetCredentialsHook, {NULL}),
     //CyFIFuncType("winhttp", "WinHttpSetOption", WinHttpSetOptionHook, {NULL}),
     //CyFIFuncType("winhttp", "WinHttpSetTimeouts", WinHttpSetTimeoutsHook, {NULL}),
+
     CyFIFuncType("winhttp", "WinHttpOpen", WinHttpOpenHook, {NULL}),
     CyFIFuncType("wininet", "InternetConnectA", InternetConnectAHook, {NULL}),
     CyFIFuncType("wininet", "HttpOpenRequestA", HttpOpenRequestAHook, {NULL}),
@@ -456,7 +478,6 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenUrlA", InternetOpenUrlAHook, {NULL}),
     CyFIFuncType("wininet", "InternetCloseHandle", InternetCloseHandleHook, {NULL}),
-    CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("wininet", "HttpAddRequestHeadersA", HttpAddRequestHeadersAHook, {NULL}),
     //CyFIFuncType("wininet", "HttpEndRequestA", HttpEndRequestAHook, {NULL}),
     //CyFIFuncType("wininet", "HttpQueryInfoA", HttpQueryInfoAHook, {NULL}),
@@ -464,7 +485,107 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("wininet", "InternetQueryOptionA", InternetQueryOptionAHook, {NULL}),
     //CyFIFuncType("wininet", "InternetSetOptionA", InternetSetOptionAHook, {NULL}),
     //CyFIFuncType("wininet", "InternetWriteFile", InternetWriteFileHook, {NULL}),
+
+    //CyFIFuncType("ntdll", "wcschr", wcschrHook, {NULL}),
+    //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
+    //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
+
+    //CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
+
+    //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
+    //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
+    //CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
+    //CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
+    //CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
+
+    //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
+
+    //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
+    //CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
+
+    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+
+
 };
+
+
+/*HMODULE LoadLibraryAHook(
+    LPCSTR lpLibFileName
+)
+{
+    Message("[W] LoadLibraryA (A\"%s\")\n", lpLibFileName);
+    for (unsigned i = 0; i < sizeof(functionToHook) / sizeof(CyFIFuncType); i++) {
+        LPCSTR moduleName = functionToHook[i].lib;
+        LPCSTR functionName = functionToHook[i].funcName;
+
+        //Uninstall previously installed hook
+        LhUninstallHook(&functionToHook[i].hook);
+        LhWaitForPendingRemovals();
+
+        //Install the hook
+        NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),
+            functionToHook[i].hookFunc,
+            NULL,
+            &functionToHook[i].hook);
+
+        if (FAILED(result)) {
+            Message("Rehooking failed %s.%s: %S\n", moduleName, functionName,
+                RtlGetLastErrorString());
+        }
+        else {
+            Message("Rehooking %s.%s\n", moduleName, functionName);
+        }
+
+        // Ensure that all threads _except_ the injector thread will be hooked
+        ULONG ACLEntries[1] = { 0 };
+        LhSetExclusiveACL(ACLEntries, 1, &functionToHook[i].hook);
+    }
+    RhWakeUpProcess();
+    return LoadLibraryA(lpLibFileName);
+
+}
+
+HMODULE LoadLibraryWHook(
+    LPCWSTR lpLibFileName
+)
+{
+    Message("[W] LoadLibraryW (A\"%ls\")\n", lpLibFileName);
+    for (unsigned i = 0; i < sizeof(functionToHook) / sizeof(CyFIFuncType); i++) {
+        LPCSTR moduleName = functionToHook[i].lib;
+        LPCSTR functionName = functionToHook[i].funcName;
+
+        //Uninstall previously installed hook
+        LhUninstallHook(&functionToHook[i].hook);
+        LhWaitForPendingRemovals();
+
+        //Install the hook
+        NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),
+            functionToHook[i].hookFunc,
+            NULL,
+            &functionToHook[i].hook);
+
+        if (FAILED(result)) {
+            Message("Rehooking failed %s.%s: %S\n", moduleName, functionName,
+                RtlGetLastErrorString());
+        }
+        else {
+            Message("Rehooking %s.%s\n", moduleName, functionName);
+        }
+
+        // Ensure that all threads _except_ the injector thread will be hooked
+        ULONG ACLEntries[1] = { 0 };
+        LhSetExclusiveACL(ACLEntries, 1, &functionToHook[i].hook);
+    }
+    RhWakeUpProcess();
+    return LoadLibraryW(lpLibFileName);
+}
+
+CyFIFuncType dynamicLinkingFuncsToHook[] = {
+    CyFIFuncType("Kernel32", "LoadLibraryA", LoadLibraryAHook, {NULL}),
+    CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
+};*/
 
 // EasyHook will be looking for this export to support DLL injection. If not
 // found then DLL injection will fail
@@ -476,6 +597,29 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo) {
 
     // Used by the Message function to decide where to write output to
     s2eVersion = S2EGetVersion();
+
+    /*for (unsigned i = 0; i < sizeof(dynamicLinkingFuncsToHook) / sizeof(CyFIFuncType); i++) {
+        LPCSTR moduleName = dynamicLinkingFuncsToHook[i].lib;
+        LPCSTR functionName = dynamicLinkingFuncsToHook[i].funcName;
+
+        //Install the hook
+        NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),
+            dynamicLinkingFuncsToHook[i].hookFunc,
+            NULL,
+            &dynamicLinkingFuncsToHook[i].hook);
+
+        if (FAILED(result)) {
+            Message("Failed to hook %s.%s: %S\n", moduleName, functionName,
+                RtlGetLastErrorString());
+        }
+        else {
+            Message("Successfully hooked %s.%s\n", moduleName, functionName);
+        }
+
+        // Ensure that all threads _except_ the injector thread will be hooked
+        ULONG ACLEntries[1] = { 0 };
+        LhSetExclusiveACL(ACLEntries, 1, &dynamicLinkingFuncsToHook[i].hook);
+    }*/
 
     for (unsigned i = 0; i < sizeof(functionToHook) / sizeof(CyFIFuncType); i++) {
         LPCSTR moduleName = functionToHook[i].lib;
@@ -499,34 +643,7 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo) {
         ULONG ACLEntries[1] = { 0 };
         LhSetExclusiveACL(ACLEntries, 1, &functionToHook[i].hook);
     }
- 
-    //for (unsigned i = 0; functionsToHook[i][0] != NULL; ++i) {
-    //    LPCSTR moduleName = functionsToHook[i][0];
-    //    LPCSTR functionName = functionsToHook[i][1];
-
-    //    // Install the hook
-    //    NTSTATUS result = LhInstallHook(
-    //        GetProcAddress(GetModuleHandleA(moduleName), functionName),
-    //        hookFunctions[i],
-    //        NULL,
-    //        &hooks[i]);
-
-    //    if (FAILED(result)) {
-    //        Message("Failed to hook %s.%s: %S\n", moduleName, functionName,
-    //            RtlGetLastErrorString());
-    //    }
-    //    else {
-    //        Message("Successfully hooked %s.%s\n", moduleName, functionName);
-    //    }
-
-    //    // Ensure that all threads _except_ the injector thread will be hooked
-    //    ULONG ACLEntries[1] = { 0 };
-    //    LhSetExclusiveACL(ACLEntries, 1, &hooks[i]);
-    //}
-
-    // The process was started in a suspended state. Wake it up...
     RhWakeUpProcess();
-
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved) {
