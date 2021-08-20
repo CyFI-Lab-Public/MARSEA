@@ -15,13 +15,53 @@ HINTERNET WINAPI InternetConnectAHook(
     DWORD         dwFlags,
     DWORD_PTR     dwContext
 ) {
-    HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-    dummyHandles.insert(resourceHandle);
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = WINWRAPPER_INTERNETCONNECTA;
+    Command.InternetConnectA.hInternet = (uint64_t)hInternet;
+    Command.InternetConnectA.lpszServerName = (uint64_t)lpszServerName;
+    Command.InternetConnectA.nServerPort = (uint64_t)nServerPort;
+    Command.InternetConnectA.lpszUserName = (uint64_t)lpszUserName;
+    Command.InternetConnectA.lpszPassword = (uint64_t)lpszPassword;
+    Command.InternetConnectA.dwService = (uint64_t)dwService;
+    Command.InternetConnectA.dwFlags = (uint64_t)dwFlags;
+    Command.InternetConnectA.dwContext = (uint64_t)dwContext;
 
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    dummyHandles.insert(connectionHandle);
     Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
-        hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, resourceHandle);
+        hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
+    return connectionHandle;
+}
 
-    return resourceHandle;
+
+HINTERNET WINAPI InternetConnectWHook(
+    HINTERNET     hInternet,
+    LPCWSTR        lpszServerName,
+    INTERNET_PORT nServerPort,
+    LPCWSTR        lpszUserName,
+    LPCWSTR        lpszPassword,
+    DWORD         dwService,
+    DWORD         dwFlags,
+    DWORD_PTR     dwContext
+) {
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = WINWRAPPER_INTERNETCONNECTW;
+    Command.InternetConnectW.hInternet = (uint64_t)hInternet;
+    Command.InternetConnectW.lpszServerName = (uint64_t)lpszServerName;
+    Command.InternetConnectW.nServerPort = (uint64_t)nServerPort;
+    Command.InternetConnectW.lpszUserName = (uint64_t)lpszUserName;
+    Command.InternetConnectW.lpszPassword = (uint64_t)lpszPassword;
+    Command.InternetConnectW.dwService = (uint64_t)dwService;
+    Command.InternetConnectW.dwFlags = (uint64_t)dwFlags;
+    Command.InternetConnectW.dwContext = (uint64_t)dwContext;
+
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    dummyHandles.insert(connectionHandle);
+    Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
+        hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
+    return connectionHandle;
 }
 
 BOOL WINAPI InternetCrackUrlAHook(

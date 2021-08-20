@@ -46,6 +46,7 @@ namespace winhttp {
 #include "urlmon-hook.h"
 #include "winuser-hook.h"
 #include "fileapi-hook.h"
+#include "stringapiset-hook.h"
 
 INT s2eVersion = 0;
 
@@ -173,7 +174,7 @@ static INT lstrlenA_model(
     Command.Command = WINWRAPPER_LSTRLENA;
     Command.LstrlenA.lpString = (uint64_t)lpString;
 
-    Message("[W] lstrlenA (%s, %p,  %i)\n", lpString, lpString);
+    /*Message("[W] lstrlenA (%s, %p,  %i)\n", lpString, lpString);
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
     int ret = S2ESymbolicInt(lpString, 25);
     Message("h1)\n", lpString, lpString);
@@ -184,7 +185,7 @@ static INT lstrlenA_model(
         Message("h1)\n", lpString, lpString);
 
         return ret;
-    }
+    }*/
     return lstrlenA(lpString);
 }
 
@@ -303,7 +304,7 @@ default_create_process:
         lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
         lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
 }
-
+/*
 static INT MultiByteToWideCharHook(
     UINT                              CodePage,
     DWORD                             dwFlags,
@@ -334,13 +335,10 @@ static INT MultiByteToWideCharHook(
         cchWideChar = DEFAULT_MEM_LEN;
     }
 
-    /*merge_desc_t desc;
-    desc.start = 0;
-    S2EInvokePlugin("MergingSearcher", &desc, sizeof(desc));
-    S2EEnableAllApicInterrupts();*/
+
 
     return MultiByteToWideChar(CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
-}
+}*/
 
 static LPVOID VirtualAllocHook(
     LPVOID lpAddress,
@@ -500,12 +498,15 @@ CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
 
-    //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
+    CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
 
-    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+
+    //CyFIFuncType("Kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
+    //CyFIFuncType("Kernel32", "lstrlenA", lstrlenA_model, {NULL}),
 
 
 };

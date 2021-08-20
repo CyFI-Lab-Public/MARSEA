@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "commands.h"
 #include <set>
+#include <string>
 
 static std::set<winhttp::HINTERNET> queryDataHandles;
 static std::set<winhttp::HINTERNET> dummyHandles;
@@ -24,7 +25,10 @@ BOOL WINAPI WinHttpCrackUrlHook(
     if (Command.WinHttpCrackUrl.symbolic) {
         pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
         winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
-        Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> concrete_out: %ls\n", pwszUrl, 52, dwFlags, lpUrlComponents, pwszUrl);
+        std::string tag = GetTag("WinHttpCrackUrl");
+        S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
+        Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> tag_out: %s\n",
+            pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tag.c_str());
         return TRUE;
     }
     else {
@@ -74,7 +78,7 @@ BOOL WINAPI WinHttpReadDataHook(
     std::string tag = GetTag("WinHttpReadData");
     S2EMakeSymbolic(lpBuffer, dwNumberOfBytesToRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
-    Message("[W] WinHttpReadData -> tag_out: %s\n", tag.c_str());
+    Message("[W] WinHttpReadData (%p, %p, %ld, %p)-> tag_out: %s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
 }
 
@@ -107,17 +111,20 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
     winhttp::INTERNET_PORT nServerPort,
     DWORD dwReserved
 ) {
+
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = WINWRAPPER_WINHTTPCONNECT;
+    Command.WinHttpConnect.hSession = (uint64_t)hSession;
+    Command.WinHttpConnect.pswzServerName = (uint64_t)pswzServerName;
+    Command.WinHttpConnect.nServerPort = (uint64_t)nServerPort;
+    Command.WinHttpConnect.dwReserved = (uint64_t)dwReserved;
+
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
     winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
     dummyHandles.insert(connectionHandle);
-
     Message("[W] WinHttpConnect (%p, A\"%ls\", i, %ld), Ret: %p\n",
         hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
-
-    //pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
-   
-    
     return connectionHandle;
-
 }
 
 BOOL WINAPI WinHttpAddRequestHeadersHook(
