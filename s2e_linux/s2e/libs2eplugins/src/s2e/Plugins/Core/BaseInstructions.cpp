@@ -464,7 +464,7 @@ void BaseInstructions::sleep(S2EExecutionState *state) {
 }
 
 void BaseInstructions::printMessage(S2EExecutionState *state, int outType) {
-    getDebugStream(state) << "outype is "<< hexval(outType)<<'\n';
+    //getDebugStream(state) << "outype is "<< hexval(outType)<<'\n';
     target_ulong address = 0;
     bool ok = state->regs()->read(CPU_OFFSET(regs[R_EAX]), &address, sizeof address, false);
     if (!ok) {

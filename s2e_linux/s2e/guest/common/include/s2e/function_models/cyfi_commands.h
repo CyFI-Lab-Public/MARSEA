@@ -34,7 +34,8 @@ enum CYFI_WINWRAPPER_COMMANDS {
 
     WINWRAPPER_INTERNETREADFILE,
     WINWRAPPER_INTERNETCRACKURLA,
-
+    WINWRAPPER_INTERNETCONNECTA,
+    WINWRAPPER_INTERNETCONNECTW,
     WINWRAPPER_MULTIBYTETOWIDECHAR,
 
     WRAPPER_CRC,
@@ -138,6 +139,30 @@ struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA {
     bool symbolic;
 };
 
+struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTA {
+    uint64_t    hInternet;
+    uint64_t    lpszServerName;
+    uint64_t    nServerPort;
+    uint64_t    lpszUserName;
+    uint64_t    lpszPassword;
+    uint64_t    dwService;
+    uint64_t    dwFlags;
+    uint64_t    dwContext;
+    bool symbolic;
+};
+
+struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTW {
+    uint64_t    hInternet;
+    uint64_t    lpszServerName;
+    uint64_t    nServerPort;
+    uint64_t    lpszUserName;
+    uint64_t    lpszPassword;
+    uint64_t    dwService;
+    uint64_t    dwFlags;
+    uint64_t    dwContext;
+    bool symbolic;
+};
+
 struct CYFI_WINWRAPPER_COMMAND_WINHTTPREADDATA {
     uint64_t hRequest;
     uint64_t lpBuffer;
@@ -216,7 +241,9 @@ struct CYFI_WINWRAPPER_COMMAND {
 
         struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE InternetReadFile;
         struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA InternetCrackUrlA;
-        
+        struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTA InternetConnectA;  
+        struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTW InternetConnectW;  
+
         struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR MultiByteToWideChar;
 
         struct CYFI_WRAPPER_COMMAND_CRC Crc;
