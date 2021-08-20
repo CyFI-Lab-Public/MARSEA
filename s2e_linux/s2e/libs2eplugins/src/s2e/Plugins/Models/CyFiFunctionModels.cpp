@@ -347,7 +347,7 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
         getCyfiStream(state) << "[L] StrStrA (" << hexval(stringAddrs[0]) << ", " << hexval(stringAddrs[1]) << ") -> tag_in: " << symb_tag << "\n";
         cmd.StrStrA.symbolic = true;
     } else {
-        getCyfiStream(state) << "[L] StrStrA pszFirst = " << retExpr << ", " << hexval(stringAddrs[0]) << " is concrete\n";
+        //getCyfiStream(state) << "[L] StrStrA pszFirst = " << retExpr << ", " << hexval(stringAddrs[0]) << " is concrete\n";
         cmd.StrStrA.symbolic = false;
     }
 }
@@ -396,7 +396,7 @@ void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WIN
             getCyfiStream(state) << "[L] WinHttpConnect (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> tag_in: " << symb_tag << "\n";
             cmd.WinHttpConnect.symbolic = true;
         } else {
-            getCyfiStream(state) << "[L] WinHttpConnect pwszUrl = " << data << ", " << hexval(args[1]) << " is concrete\n";
+            //getCyfiStream(state) << "[L] WinHttpConnect pwszUrl = " << data << ", " << hexval(args[1]) << " is concrete\n";
             cmd.WinHttpConnect.symbolic = false;
         }
     }    
@@ -423,7 +423,7 @@ void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WI
             getCyfiStream(state) << "[L] WinHttpCrackUrl (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> tag_in: " << symb_tag << "\n";
             cmd.WinHttpCrackUrl.symbolic = true;
         } else {
-            getCyfiStream(state) << "[L] WinHttpCrackUrl (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> concrete: " << data << "\n";
+            //getCyfiStream(state) << "[L] WinHttpCrackUrl (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> concrete: " << data << "\n";
             cmd.WinHttpCrackUrl.symbolic = false;
         }
     }
@@ -459,7 +459,7 @@ void CyFiFunctionModels::handleMultiByteToWideChar(S2EExecutionState *state, CYF
                 getDebugStream(state) << "Argument " << data << " at " << hexval(args[2]) << " is symbolic\n";
                 cmd.MultiByteToWideChar.symbolic = true;
             } else {
-                getDebugStream(state) << "Argument " << data << " at " << hexval(args[2]) << " is concrete\n";
+                //getDebugStream(state) << "Argument " << data << " at " << hexval(args[2]) << " is concrete\n";
                 cmd.MultiByteToWideChar.symbolic = false;
         }
        }
@@ -493,10 +493,10 @@ void CyFiFunctionModels::handleInternetConnectA(S2EExecutionState *state, CYFI_W
                                 << hexval(args[6]) << ", " << hexval(args[7]) << ") -> tag_in: " << symb_tag << "\n";
             cmd.InternetConnectA.symbolic = true;
         } else {
-            getCyfiStream(state) << "[L] InternetConnectA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
+            /*getCyfiStream(state) << "[L] InternetConnectA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
                                 << hexval(args[2]) << ", " << hexval(args[3]) << ", " 
                                 << hexval(args[4]) << ", " << hexval(args[4])
-                                << hexval(args[6]) << ", " << hexval(args[7]) << ") ->  concrete:: " << data << "\n";            
+                                << hexval(args[6]) << ", " << hexval(args[7]) << ") ->  concrete:: " << data << "\n"; */           
             cmd.InternetConnectA.symbolic = false;
         }
     }    
@@ -529,10 +529,10 @@ void CyFiFunctionModels::handleInternetConnectW(S2EExecutionState *state, CYFI_W
                                 << hexval(args[6]) << ", " << hexval(args[7]) << ") -> tag_in: " << symb_tag << "\n";
             cmd.InternetConnectA.symbolic = true;
         } else {
-            getCyfiStream(state) << "[L] InternetConnectW (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
+            /*getCyfiStream(state) << "[L] InternetConnectW (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
                                 << hexval(args[2]) << ", " << hexval(args[3]) << ", " 
                                 << hexval(args[4]) << ", " << hexval(args[4])
-                                << hexval(args[6]) << ", " << hexval(args[7]) << ") ->  concrete:: " << data << "\n";            
+                                << hexval(args[6]) << ", " << hexval(args[7]) << ") ->  concrete:: " << data << "\n";*/            
             cmd.InternetConnectA.symbolic = false;
         }
     }    
@@ -557,7 +557,7 @@ void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_
             getCyfiStream(state) << "[L] InternetCrackUrlA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> tag_in: " << symb_tag << "\n";
             cmd.WinHttpCrackUrl.symbolic = true;
         } else {
-            getCyfiStream(state) << "[L] InternetCrackUrlA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> concrete: " << data << "\n";
+            //getCyfiStream(state) << "[L] InternetCrackUrlA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> concrete: " << data << "\n";
             cmd.WinHttpCrackUrl.symbolic = false;
         }
     }
