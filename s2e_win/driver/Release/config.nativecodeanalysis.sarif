@@ -1,0 +1,154 @@
+{
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
+  "runs": [
+    {
+      "results": [],
+      "tool": {
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.28.29915.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
+      },
+      "invocations": [
+        {
+          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\c1.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00D3B1C0 -il C:\\Users\\cyfi\\AppData\\Local\\Temp\\_CL_67f26348ast -typedil -f src\\config\\config.c -Ze -D_MSC_EXTENSIONS -Gs -pc \\:/ -D_MSC_VER=1928 -D_MSC_FULL_VER=192829915 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver\\Release\\ -nologo -W 4 -WX -diagnostics:column -Og -Oi -Os -DCODE_ANALYSIS -D_X86_=1 -Di386=1 -DSTD_CALL -D_WIN32_WINNT=0x0601 -DWINVER=0x0601 -DWINNT=1 -DNTDDI_VERSION=0x06010000 -GF -Zp8 -GS -D_CONTROL_FLOW_GUARD=1 -D_M_FP_PRECISE -FoRelease\\config.obj -FdRelease\\vc142.pdb -Gz -wd 4603 -wd 4627 -wd 4986 -wd 4987 -FI C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared\\warning.h -FI C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\\\formatting.h -analyze:projectdirectory C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver -analyze:rulesetdirectory ;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset ..\\AllRules.ruleset -analyze:quiet -analyze:stacksize 1024 -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\EspXEngine.dll -analyze:plugin C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x86\\WindowsPrefast.dll -analyze:plugin C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x86\\drivers.dll -FC -errorreport:prompt -kernel -cbstring -nodatetime -import_no_registry -clrNoPureCRT -D_MT -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\libcommon\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\km\\crt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\km -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver\\include",
+          "executionSuccessful": true
+        }
+      ],
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/enumeration.c"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "0bafd1a3333fa54398c1f82c8bfb51dc"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/formatting.h"
+          },
+          "hashes": {
+            "md5": "3fd8f08ba984d89601abf9eb2ab51032"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/s2e.h"
+          },
+          "hashes": {
+            "md5": "5fcedf94d4b64e567d63917d7ca047b1"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/adt/strings.h"
+          },
+          "hashes": {
+            "md5": "4a6409a5ded9a1afdbea415d6006cd1b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/kernel_structs.h"
+          },
+          "hashes": {
+            "md5": "ed5f556a79bb060b2db95b8fbc404fb4"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/kernel_functions.h"
+          },
+          "hashes": {
+            "md5": "72d7aeaaab4d84f1d80e2d5f9a86da48"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/utils/process.h"
+          },
+          "hashes": {
+            "md5": "e50939823c0d4a3a5c6e6ccaa60f1a88"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/log.h"
+          },
+          "hashes": {
+            "md5": "2d7703729555a2b31892544dbfa7a61b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/crash.c"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "eec1c6ed6cbe5e796825d7924df11102"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/crash.h"
+          },
+          "hashes": {
+            "md5": "be889973e29092eb6a21795505df380b"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/utils.h"
+          },
+          "hashes": {
+            "md5": "86ea3c2bed5ac1648632fc480bbbdf5a"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/windowsmonitor.h"
+          },
+          "hashes": {
+            "md5": "d2949b6bd5dbc8ea680f7d9976d70824"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/bluescreeninterceptor.h"
+          },
+          "hashes": {
+            "md5": "4946dc15fa86451a7cc77ec328083270"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/config/config.c"
+          },
+          "roles": [
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "c4d3815efff91ab55f0d219789be8432"
+          }
+        },
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/config/config.h"
+          },
+          "hashes": {
+            "md5": "378dd392775598160248b9f6fc5f7473"
+          }
+        }
+      ]
+    }
+  ]
+}
