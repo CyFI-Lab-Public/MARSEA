@@ -1,82 +1,44 @@
 {
-  "version": "2.0.0",
-  "$schema": "http://json.schemastore.org/sarif-2.0.0",
+  "version": "2.1.0",
+  "$schema": "https://schemastore.azurewebsites.net/schemas/json/sarif-2.1.0-rtm.5.json",
   "runs": [
     {
       "results": [],
       "tool": {
-        "name": "PREfast",
-        "fullName": "PREfast Code Analysis",
-        "version": "14.16.27045.0",
-        "fileVersion": "14.00.27045.00"
+        "driver": {
+          "name": "PREfast",
+          "fullName": "PREfast Code Analysis",
+          "version": "14.28.29915.0",
+          "informationUri": "https://aka.ms/cpp/ca"
+        }
       },
       "invocations": [
         {
-          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\HostX86\\x86\\c1.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x013C2080 -il C:\\Users\\cyfi\\AppData\\Local\\Temp\\_CL_20de7a8east -typedil -f src\\s2e-c.c -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -Gs -pc \\:/ -D_MSC_VER=1916 -D_MSC_FULL_VER=191627045 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -I C:\\Users\\cyfi\\Desktop\\s2e\\s2e_win\\packages\\EasyHookNativePackage.2.7.7097\\build\\native\\include\\ -nologo -W 1 -diagnostics:column- -diagnostics:caret- -GF -Og -Oi -Ot -DCODE_ANALYSIS -DUSER_APP -D_MT -D_DLL -GS -D_M_FP_PRECISE -FoRelease\\s2e-c.obj -FdRelease\\libcommon.pdb -Gd -analyze:quiet -analyze:ruleset ..\\AllRules.ruleset -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\HostX86\\x86\\localespc.dll -FC -errorreport:prompt -I C:\\Users\\cyfi\\Desktop\\s2e\\s2e_win\\libcommon\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include\\v150 -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\Include\\um"
+          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\c1.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00C3B1C0 -il C:\\Users\\cyfi\\AppData\\Local\\Temp\\_CL_ae49e366ast -typedil -f src\\s2e-c.c -Ze -D_MSC_EXTENSIONS -Zp8 -Gs -pc \\:/ -D_MSC_VER=1928 -D_MSC_FULL_VER=192829915 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\packages\\EasyHookNativePackage.2.7.7097\\build\\native\\include\\ -nologo -W 1 -diagnostics:column -GF -Og -Oi -Ot -DCODE_ANALYSIS -DUSER_APP -D_MT -D_DLL -GS -D_M_FP_PRECISE -FoRelease\\s2e-c.obj -FdC:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\Release\\libcommon.pdb -Gd -analyze:projectdirectory C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\libcommon -analyze:rulesetdirectory ;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset ..\\AllRules.ruleset -analyze:quiet -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\EspXEngine.dll -FC -errorreport:prompt -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\libcommon\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\ucrt -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\um -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\winrt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\cppwinrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\Include\\um",
+          "executionSuccessful": true
         }
       ],
-      "files": {
-        "file:///c:/users/cyfi/desktop/s2e/s2e_win/libcommon/src/s2e-c.c": {
+      "artifacts": [
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/src/s2e-c.c"
+          },
           "roles": [
-            "analysisTarget",
-            "resultFile"
-          ]
+            "analysisTarget"
+          ],
+          "hashes": {
+            "md5": "6b7f86d9497c2afd26f85b40560d0bce"
+          }
         },
-        "file:///c:/users/cyfi/desktop/s2e/s2e_win/libcommon/include/s2e/s2e.h": {
-          "roles": [
-            "resultFile"
-          ]
-        }
-      },
-      "logicalLocations": {},
-      "resources": {
-        "rules": {
-          "6320": {
-            "id": "6320",
-            "name": "",
-            "shortDescription": "",
-            "fullDescription": "",
-            "configuration": {
-              "enabled": false,
-              "defaultLevel": "warning"
-            },
-            "helpUri": ""
+        {
+          "location": {
+            "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/s2e.h"
           },
-          "6322": {
-            "id": "6322",
-            "name": "",
-            "shortDescription": "",
-            "fullDescription": "",
-            "configuration": {
-              "enabled": false,
-              "defaultLevel": "warning"
-            },
-            "helpUri": ""
-          },
-          "26438": {
-            "id": "26438",
-            "name": "",
-            "shortDescription": "",
-            "fullDescription": "",
-            "configuration": {
-              "enabled": false,
-              "defaultLevel": "warning"
-            },
-            "helpUri": ""
-          },
-          "26490": {
-            "id": "26490",
-            "name": "",
-            "shortDescription": "",
-            "fullDescription": "",
-            "configuration": {
-              "enabled": false,
-              "defaultLevel": "warning"
-            },
-            "helpUri": ""
+          "hashes": {
+            "md5": "5fcedf94d4b64e567d63917d7ca047b1"
           }
         }
-      }
+      ]
     }
   ]
 }

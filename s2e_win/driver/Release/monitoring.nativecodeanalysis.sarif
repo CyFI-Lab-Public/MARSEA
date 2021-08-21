@@ -14,7 +14,7 @@
       },
       "invocations": [
         {
-          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\c1.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x0119B1C0 -il C:\\Users\\cyfi\\AppData\\Local\\Temp\\_CL_4552c46east -typedil -f src\\monitoring.c -Ze -D_MSC_EXTENSIONS -Gs -pc \\:/ -D_MSC_VER=1928 -D_MSC_FULL_VER=192829915 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver\\Release\\ -nologo -W 4 -WX -diagnostics:column -Og -Oi -Os -DCODE_ANALYSIS -D_X86_=1 -Di386=1 -DSTD_CALL -D_WIN32_WINNT=0x0601 -DWINVER=0x0601 -DWINNT=1 -DNTDDI_VERSION=0x06010000 -GF -Zp8 -GS -D_CONTROL_FLOW_GUARD=1 -D_M_FP_PRECISE -FoRelease\\monitoring.obj -FdRelease\\vc142.pdb -Gz -wd 4603 -wd 4627 -wd 4986 -wd 4987 -FI C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared\\warning.h -FI C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\\\formatting.h -analyze:projectdirectory C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver -analyze:rulesetdirectory ;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset ..\\AllRules.ruleset -analyze:quiet -analyze:stacksize 1024 -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\EspXEngine.dll -analyze:plugin C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x86\\WindowsPrefast.dll -analyze:plugin C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x86\\drivers.dll -FC -errorreport:prompt -kernel -cbstring -nodatetime -import_no_registry -clrNoPureCRT -D_MT -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\libcommon\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\km\\crt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\km -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver\\include",
+          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\c1.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00D3B1C0 -il C:\\Users\\cyfi\\AppData\\Local\\Temp\\_CL_b3e49a48ast -typedil -f src\\monitoring.c -Ze -D_MSC_EXTENSIONS -Gs -pc \\:/ -D_MSC_VER=1928 -D_MSC_FULL_VER=192829915 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver\\Release\\ -nologo -W 4 -WX -diagnostics:column -Og -Oi -Os -DCODE_ANALYSIS -D_X86_=1 -Di386=1 -DSTD_CALL -D_WIN32_WINNT=0x0601 -DWINVER=0x0601 -DWINNT=1 -DNTDDI_VERSION=0x06010000 -GF -Zp8 -GS -D_CONTROL_FLOW_GUARD=1 -D_M_FP_PRECISE -FoRelease\\monitoring.obj -FdRelease\\vc142.pdb -Gz -wd 4603 -wd 4627 -wd 4986 -wd 4987 -FI C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared\\warning.h -FI C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\\\formatting.h -analyze:projectdirectory C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver -analyze:rulesetdirectory ;C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\\\Rule Sets; -analyze:ruleset ..\\AllRules.ruleset -analyze:quiet -analyze:stacksize 1024 -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.28.29910\\bin\\HostX86\\x86\\EspXEngine.dll -analyze:plugin C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x86\\WindowsPrefast.dll -analyze:plugin C:\\Program Files (x86)\\Windows Kits\\10\\bin\\10.0.19041.0\\x86\\drivers.dll -FC -errorreport:prompt -kernel -cbstring -nodatetime -import_no_registry -clrNoPureCRT -D_MT -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\libcommon\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\km\\crt -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\km -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.19041.0\\shared -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\driver\\include",
           "executionSuccessful": true
         }
       ],
@@ -27,7 +27,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "cdd1871eff02444596603f196de3b2dd"
+            "md5": "0bafd1a3333fa54398c1f82c8bfb51dc"
           }
         },
         {
@@ -35,7 +35,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/formatting.h"
           },
           "hashes": {
-            "md5": "d493f900c821cf2ded10fb5e8fb1ee2f"
+            "md5": "3fd8f08ba984d89601abf9eb2ab51032"
           }
         },
         {
@@ -43,7 +43,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/s2e.h"
           },
           "hashes": {
-            "md5": "bbd9747fef6a49fc99532fd885e1521e"
+            "md5": "5fcedf94d4b64e567d63917d7ca047b1"
           }
         },
         {
@@ -51,7 +51,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/adt/strings.h"
           },
           "hashes": {
-            "md5": "d3977bab61ffd7e25cb09b1f35078d99"
+            "md5": "4a6409a5ded9a1afdbea415d6006cd1b"
           }
         },
         {
@@ -59,7 +59,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/kernel_structs.h"
           },
           "hashes": {
-            "md5": "3ee72407db9cecdbc0e620c6a77f29b5"
+            "md5": "ed5f556a79bb060b2db95b8fbc404fb4"
           }
         },
         {
@@ -67,7 +67,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/kernel_functions.h"
           },
           "hashes": {
-            "md5": "d5e0e0162ebed4c023e773f09698c574"
+            "md5": "72d7aeaaab4d84f1d80e2d5f9a86da48"
           }
         },
         {
@@ -75,7 +75,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/utils/process.h"
           },
           "hashes": {
-            "md5": "bc2e081a2ab3254d900fe75f67c27d30"
+            "md5": "e50939823c0d4a3a5c6e6ccaa60f1a88"
           }
         },
         {
@@ -83,7 +83,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/log.h"
           },
           "hashes": {
-            "md5": "c6ff0b66d7793fc9effaf0a7afd4d0b3"
+            "md5": "2d7703729555a2b31892544dbfa7a61b"
           }
         },
         {
@@ -94,7 +94,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "17f1c69e58068e1c6c201d675a5b9337"
+            "md5": "eec1c6ed6cbe5e796825d7924df11102"
           }
         },
         {
@@ -102,7 +102,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/crash.h"
           },
           "hashes": {
-            "md5": "b7f5b127afba2155c5fd3a80e49d3248"
+            "md5": "be889973e29092eb6a21795505df380b"
           }
         },
         {
@@ -110,7 +110,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/utils.h"
           },
           "hashes": {
-            "md5": "969a0e4ad6c0b458e27f83fb8e4f37d0"
+            "md5": "86ea3c2bed5ac1648632fc480bbbdf5a"
           }
         },
         {
@@ -118,7 +118,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/windowsmonitor.h"
           },
           "hashes": {
-            "md5": "0b80af37ee630588f801b0749e0347ad"
+            "md5": "d2949b6bd5dbc8ea680f7d9976d70824"
           }
         },
         {
@@ -126,7 +126,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/bluescreeninterceptor.h"
           },
           "hashes": {
-            "md5": "4c91b6f27828abecd428120aedf09c72"
+            "md5": "4946dc15fa86451a7cc77ec328083270"
           }
         },
         {
@@ -137,7 +137,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "1cd4c6e78d07f0ee698cab676c71d134"
+            "md5": "c4d3815efff91ab55f0d219789be8432"
           }
         },
         {
@@ -145,7 +145,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/config/config.h"
           },
           "hashes": {
-            "md5": "070e9113ee6953f4422081028dc82be0"
+            "md5": "378dd392775598160248b9f6fc5f7473"
           }
         },
         {
@@ -156,7 +156,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "0c62d86ccdf96fd1302b8294b5fd5549"
+            "md5": "b62d8583c9f67c6f887fb3b033277966"
           }
         },
         {
@@ -167,7 +167,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "a92a99646b1ed2858728a8ca8d5b9929"
+            "md5": "28efe4ee454a15c3a7907e0c352672e4"
           }
         },
         {
@@ -175,7 +175,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/guestcodehooking.h"
           },
           "hashes": {
-            "md5": "724d58cee0f90b31bbeb94dc5ad68e5a"
+            "md5": "269d55d05f6689d4932cbc62e6edaa01"
           }
         },
         {
@@ -183,7 +183,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/faultinj/faultinj.h"
           },
           "hashes": {
-            "md5": "98b2ec4728aa37b73bb5d3bf9655500c"
+            "md5": "99e9d2645293a0fd4f113e9b6c3b4f81"
           }
         },
         {
@@ -191,7 +191,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/faultinj/apis.h"
           },
           "hashes": {
-            "md5": "70bfd98adebeb9fbd8ac202e6990fa4b"
+            "md5": "1c3b6abfe74b361b8ae7ed88c736cb65"
           }
         },
         {
@@ -199,7 +199,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/faultinj/faultinj.hpp"
           },
           "hashes": {
-            "md5": "e65ea856238fbcc66b0be248ceb2246b"
+            "md5": "8ff11051f46f201e80cf647e77204793"
           }
         },
         {
@@ -210,7 +210,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "7aaac6dc0a4d35db0e2d43ea28621097"
+            "md5": "274f16a663122783f6f577ce36de0bda"
           }
         },
         {
@@ -218,7 +218,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/modulemap.h"
           },
           "hashes": {
-            "md5": "bd67244f10ebd11b5a60f83a166f2bcc"
+            "md5": "c5c4f91767d8ec7f9cf4f1addd948ab9"
           }
         },
         {
@@ -226,7 +226,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/libcommon/include/s2e/keyvaluestore.h"
           },
           "hashes": {
-            "md5": "81365a94b30330a8e8f441ef541c83c1"
+            "md5": "3a1a5592287229e0b7a6a0046daccaee"
           }
         },
         {
@@ -237,7 +237,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "ba77cc4996311947e825d1be58bf32ab"
+            "md5": "a0a53aad7557d5ff3dd8e59deab27ac0"
           }
         },
         {
@@ -248,7 +248,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "c02377fc7678e32c1f7cf0a60599c7b5"
+            "md5": "24fe5aaed20bf77f3fbbe2005a3ba2c0"
           }
         },
         {
@@ -259,7 +259,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "2bfbd9479fd4582ce7d86a31d33caa8b"
+            "md5": "041b082ce579641ffa848dbae56941ed"
           }
         },
         {
@@ -270,7 +270,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "be86f371fed836e034de4971c8aa67df"
+            "md5": "20c367f43df1031a2e5aeef65c8e3526"
           }
         },
         {
@@ -281,7 +281,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "90d8592bfad104b4539060836c4122b9"
+            "md5": "cd7b09a688eb83a03cc4e507ec5f2fac"
           }
         },
         {
@@ -292,7 +292,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "d98fce875ebda438a406f898ba1c71af"
+            "md5": "d9c9403e7c2e7504548634246dbbc208"
           }
         },
         {
@@ -303,7 +303,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "7fe57775d4e920f47d4a192d146bc000"
+            "md5": "56ec7161add00da6e61123f324f11db3"
           }
         },
         {
@@ -314,7 +314,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "1a4a99889c46b172d611de98668a2d57"
+            "md5": "28b76ee405a551f39df76c639a5f827f"
           }
         },
         {
@@ -322,7 +322,7 @@
             "uri": "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/driver/src/winmonitor.h"
           },
           "hashes": {
-            "md5": "b0eaa7c1f2f4b1dcc265d38d82b63fcf"
+            "md5": "264f6001fcfdf21598680d31d8a9cce4"
           }
         },
         {
@@ -333,7 +333,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "fc895c14cdb2790b5e677b682fd3d0a8"
+            "md5": "6350dcd3749c139485844ac9f8d5d73f"
           }
         },
         {
@@ -344,7 +344,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "f85a99697abfc3e1613da2e0d4c25020"
+            "md5": "36121f28aa9bd10f5c06fc67d8eeca22"
           }
         },
         {
@@ -355,7 +355,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "c7e6928edf66e74937883cbc9c96d712"
+            "md5": "971917e720dc544c8d179f53048f000e"
           }
         },
         {
@@ -366,7 +366,7 @@
             "analysisTarget"
           ],
           "hashes": {
-            "md5": "8a66e007f18f6f91f342b12c733609ea"
+            "md5": "d433e399bf86c0d765eb0c92ab760f2d"
           }
         }
       ]
