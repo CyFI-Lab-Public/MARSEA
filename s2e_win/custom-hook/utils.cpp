@@ -5,7 +5,7 @@
 #include "utils.h"
 
 // Global tag number
-static uint64_t tag_number;
+static uint64_t tag_number = 0;
 
 //////////////////////
 // Helper functions //
@@ -37,8 +37,8 @@ void Message(LPCSTR fmt, ...) {
 ///
 /// Generate unique tag for each symbolic expression
 /// 
-PCSTR GetTag(PCSTR funcName) {
+std::string GetTag(PCSTR funcName) {
     std::string tag = "CyFi_" + std::string(funcName) + std::to_string(tag_number);
     tag_number += 1;
-    return tag.c_str();
+    return tag;
 }

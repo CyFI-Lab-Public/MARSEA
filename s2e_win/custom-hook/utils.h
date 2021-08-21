@@ -7,6 +7,7 @@ extern "C" {
 }
 
 #include <Windows.h>
+#include <string>
 
 /// Maximum timeout to wait for child processes to terminate (in milliseconds).
 /// Can also be set to INFINITE.
@@ -19,11 +20,11 @@ extern "C" {
 #define MAX_PATH_LEN 256
 
 /// Default mem length
-#define DEFAULT_MEM_LEN 512
+#define DEFAULT_MEM_LEN 32//512
 
 /// S2E version number, or 0 if not running in S2E mode
 extern INT s2eVersion;
 
 void Message(LPCSTR fmt, ...);
 
-PCSTR GetTag(PCSTR funcName);
+std::string GetTag(PCSTR funcName);

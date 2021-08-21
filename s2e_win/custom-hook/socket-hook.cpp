@@ -1,7 +1,9 @@
 #include "socket-hook.h"
 #include "utils.h"
 #include <set>
+#include <string> 
 
+#include <ws2tcpip.h>
 #include <winsock2.h>
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -21,8 +23,18 @@ SOCKET WSAAPI sockethook(
     if (retSocket) {
         SOCKET rSocket = (SOCKET)malloc(sizeof(SOCKET));
         dummySockets.insert(rSocket);
-        Message("[HLOG] socket(%i, %i, %i) Ret: %i\n",
-            af, type, protocol, rSocket);
+
+        char* prot = "";
+        if (af == 23)
+        {
+            prot = "IPv6";
+        }
+        else if (af == 2)
+        {
+            prot = "IPv4";
+        }
+        Message("[W] socket(%s, %i, %i), Ret: 0x%x\n",
+            prot, type, protocol, rSocket);
 
         return rSocket;
     }
@@ -36,14 +48,33 @@ INT WSAAPI connecthook(
     const sockaddr* name,
     int            namelen
 ) {
-    Message("[HLOG] connect(%p)\n", s);
+    char *buf = "";
+    if (name->sa_family == AF_INET)
+    {
+        inet_ntop(
+            AF_INET, 
+            &(((struct sockaddr_in*)name)->sin_addr), 
+            buf, 
+            sizeof(s)
+        );
+    }
+    else if (name->sa_family == AF_INET6)
+    {
+        inet_ntop(
+            AF_INET6,
+            &(((struct sockaddr_in6*)name)->sin6_addr),
+            buf,
+            sizeof(s)
+        );
+    }
+    Message("[W] connect (%p, %s)\n", s, buf);
     return 0;
 }
 
 INT WSAAPI closesockethook(
     SOCKET s
 ) {
-    Message("[HLOG] closesocket(%p)\n", s);
+    Message("[W] closesocket(%p)\n", s);
 
     std::set<SOCKET>::iterator it = dummySockets.find(s);
 
@@ -67,16 +98,12 @@ INT WSAAPI recvhook(
     int len,
     int flags
 ) {
-    Message("[HLOG] recv(%p)\n", s);
-
-    PCSTR tag = GetTag("recv");
-
+    std::string tag = GetTag("recv");
     UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
-
-    S2EMakeSymbolic(buf, bytesToRead, tag);
-
+    S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
     // Symbolic return
-    INT bytesRead = S2ESymbolicInt(tag, bytesToRead);
+    INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
+    Message("[W] recv(%p) -> tag_out: %s\n", s, tag.c_str());
 
     return bytesRead;
 
@@ -100,7 +127,8 @@ INT WSAAPI selecthook(
     fd_set* exceptfds,
     const timeval* timeout
 ) {
-    INT ret = S2ESymbolicInt(GetTag("select"), 1);
+    std::string tag = GetTag("select");
+    INT ret = S2ESymbolicInt(tag.c_str(), 1);
     return ret;
 }
 
@@ -110,9 +138,10 @@ INT WSAAPI sendhook(
     int        len,
     int        flags
 ) {
-    Message("[HLOG] send(%p, A\"%ls\", %i, %i)\n",
-        s, buf, len, flags);
-    INT ret = S2ESymbolicInt(GetTag("send"), len);
+    std::string tag = GetTag("send");
+    INT ret = S2ESymbolicInt(tag.c_str(), len);
+    Message("[W] send(%p, A\"%ls\", %i, %i) -> tag_out: %s\n",
+        s, buf, len, flags, tag.c_str());
     return ret;
 }
 
@@ -124,8 +153,10 @@ INT WSAAPI sendtohook(
     const sockaddr* to,
     int            tolen
 ) {
-    Message("[HLOG] sendto(%p, A\"%ls\", %i, %i, A\"%ls\", %i)\n",
-        s, buf, len, flags, to, tolen);
-    INT ret = S2ESymbolicInt(GetTag("sendto"), len);
+
+    std::string tag = GetTag("sendto");
+    INT ret = S2ESymbolicInt(tag.c_str(), len);
+    Message("[W] sendto(%p, A\"%ls\", %i, %i, A\"%ls\", %i) -> tag_out: %s\n",
+        s, buf, len, flags, to, tolen, tag.c_str());
     return ret;
 }

@@ -13,7 +13,7 @@ FILE* fopenhook(
 	std::string fileName(filename);
 	std::string fileMode(mode);
 
-	Message("[HLOG] fopen(%s, %s)\n", filename, mode);
+	Message("[W] fopen(%s, %s)\n", filename, mode);
 
 	// Check try to open it
 	if (FILE* fhandle = fopen(filename, mode)) {
@@ -28,7 +28,7 @@ FILE* fopenhook(
 		}
 	}
 	else {
-		Message("[HLOG] ERROR fopen(%s, %s)\n", filename, mode);
+		Message("[W] ERROR fopen(%s, %s)\n", filename, mode);
 		FILE* fhandle = (FILE*)malloc(sizeof(FILE*));
 		dummyHandles.insert(fhandle);
 		return fhandle;
@@ -41,7 +41,7 @@ size_t fwritehook(
 	size_t count,
 	FILE* stream
 ) {
-	Message("[HLOG] fwrite(%s, %p)\n", buffer, stream);
+	Message("[W] fwrite(%s, %p)\n", buffer, stream);
 
 	std::set<FILE*>::iterator it = dummyHandles.find(stream);
 
