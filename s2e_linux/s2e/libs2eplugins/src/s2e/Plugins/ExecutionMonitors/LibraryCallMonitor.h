@@ -27,6 +27,7 @@
 #include <s2e/CorePlugin.h>
 #include <s2e/Plugin.h>
 #include <s2e/Plugins/OSMonitors/ModuleDescriptor.h>
+#include <string>
 
 namespace s2e {
 
@@ -88,6 +89,7 @@ private:
 
     bool m_monitorAllModules;
     bool m_monitorIndirectJumps;
+    std::string m_moduleName = "";
 
     void onModuleUnload(S2EExecutionState *state, const ModuleDescriptor &module);
     void onProcessUnload(S2EExecutionState *state, uint64_t addressSpace, uint64_t pid, uint64_t returnCode);
