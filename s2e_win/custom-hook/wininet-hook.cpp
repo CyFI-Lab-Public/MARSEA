@@ -185,7 +185,11 @@ BOOL WINAPI InternetReadFileHook(
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n", 
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead,  *lpdwNumberOfBytesRead, tag.c_str());
 
+<<<<<<< Updated upstream
     return TRUE;
+=======
+    return true;
+>>>>>>> Stashed changes
 
 };
 

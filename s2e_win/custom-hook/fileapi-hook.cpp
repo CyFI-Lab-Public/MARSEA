@@ -13,11 +13,12 @@ HANDLE CreateFileAHook(
 	DWORD                 dwFlagsAndAttributes,
 	HANDLE                hTemplateFile
 ) {
-	HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-	dummyHandles.insert(fileHandle);
+	//HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+	//dummyHandles.insert(fileHandle);
 	Message("[W] CreateFileA (A\"%s\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-		lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-	return fileHandle;
+		lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);//, fileHandle);
+	//return fileHandle;
+	return CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile); 
 }
 
 HANDLE CreateFileWHook(
@@ -82,6 +83,7 @@ DWORD GetFileTypeHook(
 	if (it == dummyHandles.end()) {
 		// The handle is not one of our dummy handles, so call the original
 		// function
+		Message("[W] GetFileType (%p)\n", hFile);
 		return GetFileType(hFile);
 	}
 	else {
