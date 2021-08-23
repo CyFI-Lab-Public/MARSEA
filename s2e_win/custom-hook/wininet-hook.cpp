@@ -174,23 +174,323 @@ BOOL WINAPI InternetReadFileHook(
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));*/
 
     if (dwNumberOfBytesToRead) {
-        *lpdwNumberOfBytesRead = dwNumberOfBytesToRead;
-    }
-    else {
-        *lpdwNumberOfBytesRead = DEFAULT_MEM_LEN;
+        dwNumberOfBytesToRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
     }
     std::string tag = GetTag("InternetReadFile");
-    S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
-    //S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
-    Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n", 
-        hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead,  *lpdwNumberOfBytesRead, tag.c_str());
+    S2EMakeSymbolic(lpBuffer, dwNumberOfBytesToRead, tag.c_str());
+    S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
+    Message("[W] InternetReadFile  (%p, %p, 0x%x, %p) -> tag_out: %s\n", hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead,  tag.c_str());
 
-<<<<<<< Updated upstream
     return TRUE;
-=======
-    return true;
->>>>>>> Stashed changes
 
+    /*DWORD bytesToRead = dwNumberOfBytesToRead;
+
+#ifndef INTERNET_READ_FILE_SIZE_OPT
+    S2EMakeSymbolic(&bytesToRead, sizeof(DWORD), "numberOfBytesReadRaw");
+
+    bytesToRead %= (dwNumberOfBytesToRead + 1);
+
+#else
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
+    //Optimization: Read entire buffer or none
+    UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
+    if (readBuf) {
+        bytesToRead = dwNumberOfBytesToRead;
+    }
+    else {
+        bytesToRead = 0;
+    }
+#endif
+
+    if (lpdwNumberOfBytesRead)
+        *lpdwNumberOfBytesRead = bytesToRead;
+
+    if (bytesToRead > 0)
+    {
+        std::string tag = GetTag("InternetReadFile");
+        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
+    }
+
+    return TRUE;*/
 };
 
 HINTERNET WINAPI InternetOpenUrlAHook(
