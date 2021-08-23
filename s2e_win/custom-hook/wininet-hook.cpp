@@ -173,6 +173,7 @@ BOOL WINAPI InternetReadFileHook(
 
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));*/
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
     if (dwNumberOfBytesToRead) {
         dwNumberOfBytesToRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
@@ -433,21 +434,24 @@ BOOL WINAPI InternetReadFileHook(
     UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
     if (readBuf) {
         bytesToRead = dwNumberOfBytesToRead;
+=======
+
+    if (dwNumberOfBytesToRead) {
+        *lpdwNumberOfBytesRead = dwNumberOfBytesToRead;
+>>>>>>> Stashed changes
     }
     else {
-        bytesToRead = 0;
+        *lpdwNumberOfBytesRead = DEFAULT_MEM_LEN;
     }
-#endif
+    std::string tag = GetTag("InternetReadFile");
+    S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
+    //S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
+    Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n", 
+        hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead,  *lpdwNumberOfBytesRead, tag.c_str());
 
-    if (lpdwNumberOfBytesRead)
-        *lpdwNumberOfBytesRead = bytesToRead;
+    return true;
 
-    if (bytesToRead > 0)
-    {
-        std::string tag = GetTag("InternetReadFile");
-        S2EMakeSymbolic(lpBuffer, bytesToRead, tag.c_str());
-    }
-
+<<<<<<< Updated upstream
     return TRUE;*/
     //Optimization: Read entire buffer or none
     UINT8 readBuf = S2ESymbolicChar("numberOfBytesReadOpt", 0);
@@ -489,6 +493,8 @@ BOOL WINAPI InternetReadFileHook(
     }
 
     return TRUE;*/
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 };
