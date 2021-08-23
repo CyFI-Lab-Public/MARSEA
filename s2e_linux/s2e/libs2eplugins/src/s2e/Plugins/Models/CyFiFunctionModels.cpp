@@ -32,6 +32,11 @@ void CyFiFunctionModels::initialize() {
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
+    // Get an instance of the FunctionMonitor plugin
+    FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
+
+    // Get a notification when a function is called
+    monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
 }
 
 
@@ -43,12 +48,14 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 
     // TODO: Fix this so we can specify from the lua file
     // Must manually specify instructions you want to instrument
-    // if(pc >= x && pc <= y)                                                   
-    if (!pc){
-        // When we find an interesting address, ask S2E to invoke our callback when the address is actually
-        // executed
+    // if(pc >= x && pc <= y)                            
+
+    // When we find an interesting address, ask S2E to invoke our callback when the address is actually
+    // executed
+    if (!pc){//pc >= 0x402bd0 && pc <= 0x402dff) {
         signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
     }
+    
 }
 
 // This callback is called only when the instruction at our address is executed.
@@ -60,7 +67,7 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
     ref<Expr> data;
     uint32_t   eax, ebx, ecx, edx, esp;
 
-    //if((pc >= 0x401af0 && pc <= 0x401c90) || (pc >= 0x4010a0 && pc <= 0x40123d) || pc == 401190 || (pc >= 0x401cd0 && pc <= 0x401ce7))  {
+    if (pc){
         std::ostringstream ss;
         state->regs()->dump(ss);
         s2e()->getDebugStream() << ss.str();
@@ -138,8 +145,29 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
             data = state->mem()->read(CPU_OFFSET(regs[R_ESP]), state->getPointerWidth());
             getDebugStream(state) << "esp is " << data <<  " at " << hexval(esp) << "\n";
         }           
-    //}
+    }
 
+}
+
+void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                     const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
+                     const FunctionMonitor::ReturnSignalPtr &returnSignal) {
+    // Filter out functions we don't care about
+    if (state->regs()->getPc() != 0x406220) {
+        return;
+    }
+
+    // If you do not want to track returns, do not connect a return signal.
+    // Here, we pass the program counter to the return handler to identify the function
+    // from which execution returns.
+    returnSignal->connect(
+        sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onRet), 0x406220));
+}
+
+void CyFiFunctionModels::onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                    const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
+                    uint64_t functionPc) {
+    getDebugStream(state) << "Execution returned from function " << hexval(functionPc) << "\n";
 }
 
 std::string CyFiFunctionModels::getTag(const std::string &sym)

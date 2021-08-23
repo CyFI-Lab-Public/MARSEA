@@ -38,6 +38,15 @@ public:
     void onInstructionExecution(S2EExecutionState *state, uint64_t pc);
     std::string getTag(const std::string &sym);
 
+
+    void onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                        const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
+                        const FunctionMonitor::ReturnSignalPtr &returnSignal);
+
+    void onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                        const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
+                        uint64_t functionPc);
+
 private:
 
     bool ins_tracker; 
