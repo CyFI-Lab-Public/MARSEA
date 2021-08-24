@@ -551,6 +551,7 @@ pluginsConfig.MemoryTracer = {
 add_plugin("LibraryCallMonitor")
 pluginsConfig.LibraryCallMonitor = {
 	monitorIndirectJumps = true,
+	moduleName = "razy.exe",
 
 }
 --]]
