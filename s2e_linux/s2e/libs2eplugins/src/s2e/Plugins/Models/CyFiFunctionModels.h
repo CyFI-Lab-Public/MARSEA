@@ -5,6 +5,7 @@
 
 #include <s2e/Plugins/Core/BaseInstructions.h>
 #include <s2e/Plugins/ExecutionMonitors/FunctionMonitor.h>
+#include <s2e/Plugins/OSMonitors/ModuleDescriptor.h>
 
 #include "BaseFunctionModels.h"
 #include <string>
@@ -15,6 +16,8 @@ namespace s2e {
 
 class S2E;
 class S2EExecutionState;
+class ModuleMap;
+
 
 namespace plugins {
 namespace models {
@@ -31,11 +34,12 @@ public:
 
 
     void onTranslateInstruction(ExecutionSignal *signal,
-                                                    S2EExecutionState *state,
-                                                    TranslationBlock *tb,
-                                                    uint64_t pc);
+                                S2EExecutionState *state,
+                                TranslationBlock *tb,
+                                uint64_t pc);
 
     void onInstructionExecution(S2EExecutionState *state, uint64_t pc);
+
     std::string getTag(const std::string &sym);
 
 
@@ -51,6 +55,8 @@ private:
 
     bool ins_tracker; 
     bool func_tracker;
+    ModuleMap *m_map;
+
 
     void handleStrlen(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
     void handleStrcmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
@@ -74,10 +80,13 @@ private:
 
     void handleMultiByteToWideChar(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
+    void handleWcsstr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+
+
     void handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
     void handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
     void handleInternetConnectW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-
+    void handleInternetReadFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
     void handleCrc(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &ret);
     void handleOpcodeInvocation(S2EExecutionState *state, uint64_t guestDataPtr, uint64_t guestDataSize);
 };
