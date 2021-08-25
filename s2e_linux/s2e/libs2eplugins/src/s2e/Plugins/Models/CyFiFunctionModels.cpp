@@ -15,6 +15,7 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <map>
 
 #include "CyFiFunctionModels.h"
 using namespace klee;
@@ -42,7 +43,35 @@ void CyFiFunctionModels::initialize() {
     //monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
 }
 
+void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
 
+    std::map<std::string, int> m { 
+        {"eax", R_EAX}, 
+        {"ebx", R_EBX}, 
+        {"ecx", R_ECX}, 
+        {"edx", R_EDX}, 
+        {"esi", R_ESI}, 
+        {"edi", R_EDI}, 
+        {"ebp", R_EBP}, 
+        {"esp", R_ESP},        
+        };
+
+        uint32_t   temp;
+
+        state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
+        ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
+        if(!data.isNull()) {
+            if (!isa<ConstantExpr>(data)) {
+                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
+            } else {
+                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
+            }
+        }
+        else {
+            data = state->mem()->read(CPU_OFFSET(regs[m[reg]]), state->getPointerWidth());
+            getDebugStream(state) << reg << " " << data <<  " at " << hexval(temp) << "\n";
+        }        
+}
 
 void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
@@ -84,7 +113,7 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64_t pc) {
 
     auto currentMod = m_map->getModule(state, pc);
-
+    
     if (currentMod) {
         bool ok = true;
         uint64_t relPc;
@@ -95,98 +124,16 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
             state->regs()->dump(ss);
             s2e()->getDebugStream() << ss.str();
 
-            
-            ref<Expr> data;
-            uint32_t   eax, ebx, ecx, edx, esp;
-            ref<Expr> retExpr;
-
-            state->regs()->read(CPU_OFFSET(regs[R_EAX]), &eax, sizeof(eax), false);
-            data = state->mem()->read(eax, state->getPointerWidth());
-            if(!data.isNull()) {
-                if (!isa<ConstantExpr>(data)) {
-                    getDebugStream(state) << "EAX " << data << " at " << hexval(eax) << " is symbolic.\n";
-                } else {
-                    getDebugStream(state) << "EAX " << data << " at " << hexval(eax) << " is concrete.\n";
-                }
-            }
-            else {
-                data = state->mem()->read(CPU_OFFSET(regs[R_EAX]), state->getPointerWidth());
-                getDebugStream(state) << "EAX is " << data <<  " at " << hexval(eax) << "\n";
-
-        }
-
-        state->regs()->read(CPU_OFFSET(regs[R_EBX]), &ebx, sizeof(ebx), false);
-        data = state->mem()->read(ebx, state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "EBX " << data << " at " << hexval(ebx) << " is symbolic.\n";
-            } else {
-                getDebugStream(state) << "EBX " << data << " at " << hexval(ebx) << " is concrete.\n";
-            }
-        }
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[R_EBX]), state->getPointerWidth());
-            getDebugStream(state) << "EBX is " << data << "\n";
-        }
-
-            state->regs()->read(CPU_OFFSET(regs[R_EBX]), &ebx, sizeof(ebx), false);
-            data = state->mem()->read(ebx, state->getPointerWidth());
-            if(!data.isNull()) {
-                if (!isa<ConstantExpr>(data)) {
-                    getDebugStream(state) << "EBX " << data << " at " << hexval(ebx) << " is symbolic.\n";
-                } else {
-                    getDebugStream(state) << "EBX " << data << " at " << hexval(ebx) << " is concrete.\n";
-                }
-            }
-            else {
-                data = state->mem()->read(CPU_OFFSET(regs[R_EBX]), state->getPointerWidth());
-                getDebugStream(state) << "EBX is " << data << "\n";
-            }
-
-            state->regs()->read(CPU_OFFSET(regs[R_ECX]), &ecx, sizeof(ecx), false);
-            data = state->mem()->read(ecx, state->getPointerWidth());
-            if(!data.isNull()) {
-                if (!isa<ConstantExpr>(data)) {
-                    getDebugStream(state) << "ECX " << data << " at " << hexval(ecx) << " is symbolic.\n";
-                } else {
-                    getDebugStream(state) << "ECX " << data << " at " << hexval(ecx) << " is concrete.\n";
-                }
-            }
-            else {
-                data = state->mem()->read(CPU_OFFSET(regs[R_ECX]), state->getPointerWidth());
-                getDebugStream(state) << "ECX is " << data << " at " << hexval(ecx) << "\n";
-            }        
-
-            state->regs()->read(CPU_OFFSET(regs[R_EDX]), &edx, sizeof(edx), false);
-            data = state->mem()->read(edx, state->getPointerWidth());
-            if(!data.isNull()) {
-                if (!isa<ConstantExpr>(data)) {
-                    getDebugStream(state) << "EDX " << data << " at " << hexval(edx) << " is symbolic.\n";
-                } else {
-                    getDebugStream(state) << "EDX " << data << " at " << hexval(edx) << " is concrete.\n";
-                }
-            }   
-            else {
-                data = state->mem()->read(CPU_OFFSET(regs[R_EDX]), state->getPointerWidth());
-                getDebugStream(state) << "EDX is " << data <<  " at " << hexval(edx) << "\n";
-            }
-
-            state->regs()->read(CPU_OFFSET(regs[R_ESP]), &esp, sizeof(esp), false);
-            data = state->mem()->read(esp, state->getPointerWidth());
-            if(!data.isNull()) {
-                if (!isa<ConstantExpr>(data)) {
-                    getDebugStream(state) << "esp " << data << " at " << hexval(esp) << " is symbolic.\n";
-                } else {
-                    getDebugStream(state) << "esp " << data << " at " << hexval(esp) << " is concrete.\n";
-                }
-            }   
-            else {
-                data = state->mem()->read(CPU_OFFSET(regs[R_ESP]), state->getPointerWidth());
-                getDebugStream(state) << "esp is " << data <<  " at " << hexval(esp) << "\n";
-            }       
+            cyfiDump(state, "eax");
+            cyfiDump(state, "ebx");
+            cyfiDump(state, "ecx");
+            cyfiDump(state, "edx");
+            cyfiDump(state, "esi");
+            cyfiDump(state, "edi");
+            cyfiDump(state, "ebp");
+            cyfiDump(state, "esp");   
         }
     }   
-
 }
 
 void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,

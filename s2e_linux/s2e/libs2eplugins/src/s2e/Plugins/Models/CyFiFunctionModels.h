@@ -51,6 +51,8 @@ public:
                         const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
                         uint64_t functionPc);
 
+    void cyfiDump(S2EExecutionState *state, std::string reg);
+
 private:
 
     bool ins_tracker; 
