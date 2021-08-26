@@ -122,7 +122,7 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
         uint64_t relPc;
         ok &= currentMod.get()->ToNativeBase(pc, relPc);
         if(ok){
-            s2e()->getDebugStream() << "Executed instruction: " << hexval(relPc) <<  '\n';
+            s2e()->getDebugStream(state) << "Executed instruction: " << hexval(relPc) <<  '\n';
             std::ostringstream ss;
             state->regs()->dump(ss);
             s2e()->getDebugStream() << ss.str();
