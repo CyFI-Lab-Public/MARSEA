@@ -55,8 +55,8 @@ public:
 
 private:
 
-    bool ins_tracker; 
-    bool func_tracker;
+    //bool ins_tracker; 
+    int func_to_monitor = 0;
     ModuleMap *m_map;
 
 

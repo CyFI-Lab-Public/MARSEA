@@ -29,18 +29,21 @@ S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for li
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
     m_memutils = s2e()->getPlugin<MemUtils>();
-    ins_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".instructionTracker");
-    func_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".functionTracker");
+    func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
 
-   
+    // TODO: implement get string list for instruction tracing
+    // ins_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".instructionTracker");
+
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
-    // Get an instance of the FunctionMonitor plugin
-    //FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
+    if (func_to_monitor > 0) {
+        // Get an instance of the FunctionMonitor plugin
+        FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
 
-    // Get a notification when a function is called
-    //monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
+        // Get a notification when a function is called
+        monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
+    }
 }
 
 void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
@@ -140,7 +143,7 @@ void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptor
                      const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
                      const FunctionMonitor::ReturnSignalPtr &returnSignal) {
     // Filter out functions we don't care about
-    if (state->regs()->getPc() != 0x406220) {
+    if (state->regs()->getPc() != func_to_monitor) {
         return;
     }
 
@@ -148,7 +151,7 @@ void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptor
     // Here, we pass the program counter to the return handler to identify the function
     // from which execution returns.
     returnSignal->connect(
-        sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onRet), 0x406220));
+        sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onRet), func_to_monitor));
 }
 
 void CyFiFunctionModels::onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
