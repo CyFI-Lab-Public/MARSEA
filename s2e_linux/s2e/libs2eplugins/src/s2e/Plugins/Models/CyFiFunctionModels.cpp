@@ -16,7 +16,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <map>
 #include <unordered_map>
 
 #include "CyFiFunctionModels.h"
@@ -136,7 +135,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
         {"esp", R_ESP},
     };
 
-    uint32_t   temp;
+    uint32_t temp;
 
     state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
     ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
@@ -144,7 +143,21 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
         if (!isa<ConstantExpr>(data)) {
             getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
         } else {
-            getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
+            std::ostringstream ss;
+            ss << data;
+            uint32_t addr = std::stol(ss.str(), nullptr, 16);
+             
+            ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
+            if (!level_one.isNull()) {
+                if (!isa<ConstantExpr>(data)) {
+                    getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " contains symbolic data: " << level_one << ".\n";
+                } else {
+                    getDebugStream(state) << reg << " "  << data << " at " << hexval(temp) << " contains concrete data: " << level_one << ".\n";
+                }
+            }
+            else {
+                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
+            }
         }
     }
     else {
@@ -156,7 +169,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
 void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
                                                 TranslationBlock *tb,
-                                                uint64_t pc) {                  
+                                                uint64_t pc) {
 
     // When we find an interesting address, ask S2E to invoke our callback when the address is actually
     // executed

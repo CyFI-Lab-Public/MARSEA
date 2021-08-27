@@ -157,9 +157,6 @@ void LibraryCallMonitor::logLibraryCall(S2EExecutionState *state, const ModuleDe
         return;
     }
 
-    if(m_aggressiveOff) {
-        return;
-    }
     if ((m_moduleName != "") && (m_moduleName == sourceMod.Name)) {
         getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
                             << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
