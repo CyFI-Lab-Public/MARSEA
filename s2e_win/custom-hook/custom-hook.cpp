@@ -502,7 +502,7 @@ CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
-    CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
+    //CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     //CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     //CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
 
@@ -511,9 +511,9 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
 
-    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
     //CyFIFuncType("Kernel32", "lstrlenA", lstrlenA_model, {NULL}),

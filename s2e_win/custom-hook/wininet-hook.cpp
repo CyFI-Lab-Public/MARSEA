@@ -14,9 +14,7 @@ HINTERNET WINAPI InternetOpenAHook(
     LPCSTR lpszProxyBypass,
     DWORD  dwFlags
 ) {
-    unique_handle += 100;
-    HINTERNET sessionHandle = InternetOpenA(unique_handle, NULL, NULL, NULL, NULL);
-    dummyHandles.insert(sessionHandle);
+    HINTERNET sessionHandle = InternetOpenA(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
     Message("[W] InternetOpenA (A\"%s\", %ld, A\"%s\", A\"%s\", %ld), Ret: %p\n",
         lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags, sessionHandle);
     return sessionHandle;
@@ -29,9 +27,7 @@ HINTERNET WINAPI InternetOpenWHook(
     LPCWSTR lpszProxyBypass,
     DWORD   dwFlags
 ) {
-    unique_handle += 100;
-    HINTERNET sessionHandle = InternetOpenW(unique_handleW, NULL, NULL, NULL, NULL);
-    dummyHandles.insert(sessionHandle);
+    HINTERNET sessionHandle = InternetOpenW(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags));
     Message("[W] InternetOpenW (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
         lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags, sessionHandle);
     return sessionHandle;

@@ -7,9 +7,9 @@
 int GetKeyboardTypeHook(
 	int nTypeFlag
 ) {
+	std::string tag = GetTag("GetKeyboardType");
 	switch (nTypeFlag) {
 		case 0: {
-			std::string tag = GetTag("GetKeyboardType");
 			Message("[W] GetKeyboardType (%i) -> tag_out: %s\n", nTypeFlag, tag.c_str());
 			return S2ESymbolicInt(tag.c_str(), 0x4);
 		}
@@ -18,10 +18,11 @@ int GetKeyboardTypeHook(
 			// 0 is a valid return value when nTypeFlag is 1
 			return 0;
 		case 2: {
-			std::string tag = GetTag("GetKeyboardType");
 			Message("[W] GetKeyboardType (%i) -> tag_out: %s\n", nTypeFlag, tag.c_str());
 			return S2ESymbolicInt(tag.c_str(), 0x4);
 		}
+		default:
+			return S2ESymbolicInt(tag.c_str(), 0x4);
 	}
 
 }

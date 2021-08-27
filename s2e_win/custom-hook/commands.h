@@ -185,14 +185,6 @@ extern "C" {
         uint64_t lpdwNumberOfBytesWritten;
     };
 
-    struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA {
-        uint64_t pwszUrl;
-        uint64_t dwUrlLength;
-        uint64_t dwFlags;
-        uint64_t lpUrlComponents;
-        bool symbolic;
-    };
-
     struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT {
         uint64_t hSession;
         uint64_t pswzServerName;
@@ -206,6 +198,15 @@ extern "C" {
         uint64_t lpBuffer;
         uint64_t dwNumberOfBytesToWrite;
         uint64_t lpdwNumberOfBytesWritten;
+    };
+
+
+    struct CYFI_WINWRAPPER_COMMAND_WINHTTPCRACKURL {
+        uint64_t pwszUrl;
+        uint64_t dwUrlLength;
+        uint64_t dwFlags;
+        uint64_t lpUrlComponents;
+        bool symbolic;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {

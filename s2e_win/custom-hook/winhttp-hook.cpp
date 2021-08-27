@@ -292,46 +292,17 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
     LPCWSTR pszProxyBypassW,
     DWORD dwFlags
 ) {
-    if (checkCaller("WinHttpOpen")) {
+    /*if (checkCaller("WinHttpOpen")) {
         Message("Called by the target");
     }
     else {
         Message("Not called by the target");
-    }
+    }*/
     //WinHttpOpen should still succeed w/o network
-    //winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
-    g_unique_handle += 100;
-    winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(g_unique_handle, NULL, NULL, NULL, NULL);
-    dummyHandles.insert(sessionHandle);    
+    winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
     Message("[W] WinHttpOpen (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
         pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
     return sessionHandle;
-    //std::set<HINTERNET>::iterator it = dummyHandles.find(sessionHandle);
-
-    //UINT8 returnSession = S2ESymbolicChar("pszAgentW", 1);
-    //if (returnSession) {
-    //    if (it == dummyHandles.end()) {
-    //        // The handle is not one of our dummy handles
-    //        dummyHandles.insert(sessionHandle);
-    //    }
-    //    else {
-    //        // The handle is a dummy handle. 
-    //        g_unique_handle += 100;
-    //        HINTERNET sessionHandle = winhttp::WinHttpOpen(g_unique_handle, NULL, NULL, NULL, NULL);
-    //        Message("Needed unique %s", g_unique_handle);
-    //        dummyHandles.insert(sessionHandle);
-    //    }
-
-    //    Message("[W] WinHttpOpen(A\"%ls\", %i, A\"%ls\", A\"%ls\", %i) Ret: %p\n",
-    //        pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
-
-    //    return sessionHandle;
-    //}
-    //else {
-    //    // Explore when WinHttpOpen fails
-    //    return NULL;
-    //}
-
 }
 
 BOOL WINAPI WinHttpReceiveResponseHook(
