@@ -39,10 +39,6 @@ void CyFiFunctionModels::initialize() {
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
     m_vmi = s2e()->getPlugin<Vmi>();
 
-
-    // TODO: implement get string list for instruction tracing
-    // ins_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".instructionTracker");
-
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
