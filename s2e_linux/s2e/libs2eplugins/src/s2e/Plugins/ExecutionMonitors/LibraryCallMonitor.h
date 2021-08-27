@@ -76,6 +76,7 @@ public:
     void initialize();
 
     std::string get_export_name(S2EExecutionState *state, uint64_t pid, uint64_t targetAddr);
+
     /// Emitted on an external library function call.
     sigc::signal<void, S2EExecutionState *, /* The current execution state */
                  const ModuleDescriptor &,  /* The module that is being called */
@@ -91,6 +92,7 @@ private:
     bool m_monitorAllModules;
     bool m_monitorIndirectJumps;
     std::string m_moduleName = "";
+    bool m_aggressiveOff;
 
     void onModuleUnload(S2EExecutionState *state, const ModuleDescriptor &module);
     void onProcessUnload(S2EExecutionState *state, uint64_t addressSpace, uint64_t pid, uint64_t returnCode);
