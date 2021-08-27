@@ -240,5 +240,13 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
     onLibraryCall.emit(state, *mod, targetAddr);
 }
 
+std::string LibraryCallMonitor::get_export_name(S2EExecutionState *state, uint64_t pid, uint64_t targetAddr) {
+    DECLARE_PLUGINSTATE(LibraryCallMonitorState, state);
+    std::string exportName = "";
+    plgState->get(pid, targetAddr, exportName);
+
+    return exportName;
+}
+
 } // namespace plugins
 } // namespace s2e

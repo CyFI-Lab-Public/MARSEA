@@ -75,6 +75,7 @@ public:
 
     void initialize();
 
+    std::string get_export_name(S2EExecutionState *state, uint64_t pid, uint64_t targetAddr);
     /// Emitted on an external library function call.
     sigc::signal<void, S2EExecutionState *, /* The current execution state */
                  const ModuleDescriptor &,  /* The module that is being called */

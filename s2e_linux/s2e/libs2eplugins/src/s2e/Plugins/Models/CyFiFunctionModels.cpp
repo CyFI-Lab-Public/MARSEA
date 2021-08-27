@@ -7,6 +7,7 @@
 #include <klee/util/ExprTemplates.h>
 #include <llvm/Support/CommandLine.h>
 #include <s2e/ConfigFile.h>
+#include <s2e/Plugins/Core/Vmi.h>
 #include <s2e/S2E.h>
 #include <s2e/S2EExecutor.h>
 #include <s2e/Utils.h>
@@ -16,6 +17,7 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <unordered_map>
 
 #include "CyFiFunctionModels.h"
 using namespace klee;
@@ -24,12 +26,16 @@ namespace s2e {
 namespace plugins {
 namespace models {
 
-S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap");
+S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor");
 
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
     m_memutils = s2e()->getPlugin<MemUtils>();
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
+    m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
+    m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
+    m_vmi = s2e()->getPlugin<Vmi>();
+
 
     // TODO: implement get string list for instruction tracing
     // ins_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".instructionTracker");
@@ -44,6 +50,80 @@ void CyFiFunctionModels::initialize() {
         // Get a notification when a function is called
         monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
     }
+
+    s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
+
+}
+
+void CyFiFunctionModels::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb,
+                                             uint64_t pc, bool isStatic, uint64_t staticTarget) {
+    // Library calls/jumps are always indirect
+    if (tb->se_tb_type == TB_CALL_IND || (tb->se_tb_type == TB_JMP_IND)) {
+        signal->connect(
+            sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onIndirectCallOrJump), (unsigned) tb->se_tb_type));
+    }
+}
+
+void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t pc, unsigned sourceType) {
+
+    auto current_mod = m_map->getModule(state, pc);
+    auto mod = m_map->getModule(state);
+
+    if (!mod) {
+        return;
+    }
+
+    if (!current_mod) {
+        return;
+    }
+
+    if (mod == current_mod) {
+        return;
+    }
+
+    //We only care about the target as the caller module
+    std::string callerModule = (*current_mod.get()).Name;
+
+    if (callerModule != m_moduleName) {
+        return;
+    }
+
+    std::string exportName;
+
+    uint64_t targetAddr = state->regs()->getPc();
+
+    exportName = m_libCallMonitor->get_export_name(state, mod->Pid, targetAddr);
+
+    if (exportName.size() == 0) {
+        vmi::Exports exps;
+        auto exe = m_vmi->getFromDisk(mod->Path, mod->Name, true);
+
+        if (!exe) {
+            return;
+        }
+
+        auto pe = std::dynamic_pointer_cast<vmi::PEFile>(exe);
+
+        if (!pe) {
+            return;
+        }
+
+        auto exports = pe->getExports();
+        auto it = exports.find(targetAddr-mod->LoadBase);
+        if (it != exports.end()) {
+            exportName = (*it).second;
+        } else {
+            // Did not find any export
+            return;
+        }
+    }
+
+    if (exportName.size() == 0) {
+        return;
+    }
+
+    recent_callee = exportName;
+
 }
 
 void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
@@ -441,7 +521,7 @@ void CyFiFunctionModels::handleWinHttpReadData(S2EExecutionState *state, CYFI_WI
 void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t args[4];
-    args[0] = (uint64_t) cmd.WinHttpConnect.hsession;
+    args[0] = (uint64_t) cmd.WinHttpConnect.hSession;
     args[1] = (uint64_t) cmd.WinHttpConnect.pswzServerName;
     args[2] = (uint64_t) cmd.WinHttpConnect.nServerPort;
     args[3] = (uint64_t) cmd.WinHttpConnect.dwReserved;
@@ -672,6 +752,25 @@ void CyFiFunctionModels::handleCrc(S2EExecutionState *state, CYFI_WINWRAPPER_COM
     cmd.needOrigFunc = 0;
 }
 
+void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+
+    std::string funcName;
+
+    // std::string symbTag = "mingxuanyao";
+
+    state->mem()->readString(cmd.CheckCaller.funcName, funcName);
+
+    // state->mem()->write(cmd.CheckCaller.symbTag, symbTag.c_str(), symbTag.length());
+
+    // getDebugStream(state) << "Write to memory finished\n";
+    if (funcName == recent_callee) {
+        // getDebugStream(state) << "write true to isTargetModule\n";
+        cmd.CheckCaller.isTargetModule = true;
+    } else {
+        cmd.CheckCaller.isTargetModule = false;
+    }
+
+}
 
 // TODO: use template
 #define UPDATE_RET_VAL(CmdType, cmd)                                         \
@@ -839,6 +938,14 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             ref<Expr> retExpr;
             handleCrc(state, command, retExpr);
             UPDATE_RET_VAL(Crc, command);
+        } break;
+
+        case CHECK_CALLER: {
+            getWarningsStream(state) << "Check Caller\n";
+            checkCaller(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }
         } break;
 
         default: {
