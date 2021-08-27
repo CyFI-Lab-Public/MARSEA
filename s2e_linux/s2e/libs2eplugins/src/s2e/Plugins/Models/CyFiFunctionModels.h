@@ -5,6 +5,8 @@
 
 #include <s2e/Plugins/Core/BaseInstructions.h>
 #include <s2e/Plugins/ExecutionMonitors/FunctionMonitor.h>
+#include <s2e/Plugins/OSMonitors/ModuleDescriptor.h>
+#include <s2e/Plugins/ExecutionMonitors/LibraryCallMonitor.h>
 
 #include "BaseFunctionModels.h"
 #include <string>
@@ -15,6 +17,8 @@ namespace s2e {
 
 class S2E;
 class S2EExecutionState;
+class ModuleMap;
+
 
 namespace plugins {
 namespace models {
@@ -29,19 +33,45 @@ public:
    
     void initialize();
 
+    void onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb, uint64_t pc,
+                             bool isStatic, uint64_t staticTarget);
+
+    void onIndirectCallOrJump(S2EExecutionState *state, uint64_t pc, unsigned sourceType);
+
 
     void onTranslateInstruction(ExecutionSignal *signal,
-                                                    S2EExecutionState *state,
-                                                    TranslationBlock *tb,
-                                                    uint64_t pc);
+                                S2EExecutionState *state,
+                                TranslationBlock *tb,
+                                uint64_t pc);
 
     void onInstructionExecution(S2EExecutionState *state, uint64_t pc);
+
     std::string getTag(const std::string &sym);
+
+
+    void onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                        const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
+                        const FunctionMonitor::ReturnSignalPtr &returnSignal);
+
+    void onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                        const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
+                        uint64_t functionPc);
+
+    void cyfiDump(S2EExecutionState *state, std::string reg);
 
 private:
 
-    bool ins_tracker; 
-    bool func_tracker;
+    //bool ins_tracker; 
+    int func_to_monitor = 0;
+    ModuleMap *m_map;
+    LibraryCallMonitor *m_libCallMonitor;
+
+    std::string m_moduleName = "";
+
+    std::string recent_callee = "";
+
+    Vmi *m_vmi;
+
 
     void handleStrlen(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
     void handleStrcmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
@@ -65,12 +95,17 @@ private:
 
     void handleMultiByteToWideChar(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
+    void handleWcsstr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+
+
     void handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
     void handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
     void handleInternetConnectW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-
+    void handleInternetReadFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
     void handleCrc(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &ret);
     void handleOpcodeInvocation(S2EExecutionState *state, uint64_t guestDataPtr, uint64_t guestDataSize);
+
+    void checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 };
 
 } // namespace models

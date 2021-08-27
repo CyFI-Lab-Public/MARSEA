@@ -41,7 +41,7 @@ PCWSTR StrStrWHook(
 ) {
 
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_STRSTRA;
+    Command.Command = WINWRAPPER_STRSTRW;
     Command.StrStrW.pszFirst = (uint64_t)pszFirst;
     Command.StrStrW.pszSrch = (uint64_t)pszSrch;
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));

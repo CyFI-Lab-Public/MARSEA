@@ -68,7 +68,7 @@ static std::set<LPVOID> dummyBaseAddrs;
 /// Keep track of child processes
 static std::set<DWORD> childPids;
 
-LPCWSTR g_unique_handle = 0;
+
 
 ///
 /// Wait a set timeout (in milliseconds) for all the child processes to
@@ -457,6 +457,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("shlwapi", "StrStrA", StrStrAHook, {NULL}),
     CyFIFuncType("shlwapi", "StrStrW", StrStrWHook, {NULL}),
 
+    CyFIFuncType("winhttp", "WinHttpOpen", WinHttpOpenHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpCrackUrl", WinHttpCrackUrlHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpSendRequest", WinHttpSendRequestHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpReceiveResponse", WinHttpReceiveResponseHook, {NULL}),
@@ -475,12 +476,15 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("winhttp", "WinHttpSetOption", WinHttpSetOptionHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpSetTimeouts", WinHttpSetTimeoutsHook, {NULL}),
 
-    CyFIFuncType("winhttp", "WinHttpOpen", WinHttpOpenHook, {NULL}),
     CyFIFuncType("wininet", "InternetConnectA", InternetConnectAHook, {NULL}),
     CyFIFuncType("wininet", "HttpOpenRequestA", HttpOpenRequestAHook, {NULL}),
     CyFIFuncType("wininet", "HttpSendRequestA", HttpSendRequestAHook, {NULL}),
     CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenUrlA", InternetOpenUrlAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetOpenUrlW", InternetOpenUrlWHook, {NULL}),
+    CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
+    //CyFIFuncType("wininet", "InternetOpenA", InternetOpenAHook, {NULL}),
+    //CyFIFuncType("wininet", "InternetOpenW", InternetOpenWHook, {NULL}),
     CyFIFuncType("wininet", "InternetCloseHandle", InternetCloseHandleHook, {NULL}),
     CyFIFuncType("wininet", "HttpAddRequestHeadersA", HttpAddRequestHeadersAHook, {NULL}),
     CyFIFuncType("wininet", "HttpEndRequestA", HttpEndRequestAHook, {NULL}),

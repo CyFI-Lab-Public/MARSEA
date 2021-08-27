@@ -116,6 +116,7 @@ void LibraryCallMonitor::initialize() {
     ConfigFile *cfg = s2e()->getConfig();
     m_monitorAllModules = cfg->getBool(getConfigKey() + ".monitorAllModules");
     m_monitorIndirectJumps = cfg->getBool(getConfigKey() + ".monitorIndirectJumps");
+    m_moduleName = cfg->getString(getConfigKey() + ".moduleName");
 
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onTranslateBlockEnd));
 
@@ -153,10 +154,17 @@ void LibraryCallMonitor::logLibraryCall(S2EExecutionState *state, const ModuleDe
         return;
     }
 
-    getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
-                         << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
-                         << hexval(destPcAbsolute) << ")"
-                         << " (pid=" << hexval(sourceMod.Pid) << ")\n";
+    if ((m_moduleName != "") && (m_moduleName == sourceMod.Name)) {
+        getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
+                            << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
+                            << hexval(destPcAbsolute) << ")"
+                            << " (pid=" << hexval(sourceMod.Pid) << ")\n";
+    } else if ((m_moduleName == "")) {
+        getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
+                    << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
+                    << hexval(destPcAbsolute) << ")"
+                    << " (pid=" << hexval(sourceMod.Pid) << ")\n";
+    }
 }
 
 void LibraryCallMonitor::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb,
@@ -230,6 +238,14 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
 
     logLibraryCall(state, *currentMod.get(), *mod.get(), pc, targetAddr, sourceType, exportName);
     onLibraryCall.emit(state, *mod, targetAddr);
+}
+
+std::string LibraryCallMonitor::get_export_name(S2EExecutionState *state, uint64_t pid, uint64_t targetAddr) {
+    DECLARE_PLUGINSTATE(LibraryCallMonitorState, state);
+    std::string exportName = "";
+    plgState->get(pid, targetAddr, exportName);
+
+    return exportName;
 }
 
 } // namespace plugins

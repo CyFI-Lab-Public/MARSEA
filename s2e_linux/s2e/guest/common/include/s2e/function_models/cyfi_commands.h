@@ -38,7 +38,11 @@ enum CYFI_WINWRAPPER_COMMANDS {
     WINWRAPPER_INTERNETCONNECTW,
     WINWRAPPER_MULTIBYTETOWIDECHAR,
 
+    WINWRAPPER_WCSSTR,
+
     WRAPPER_CRC,
+
+    CHECK_CALLER,
 };
 
 struct CYFI_WINWRAPPER_COMMAND_STRCPY {
@@ -116,6 +120,8 @@ struct CYFI_WINWRAPPER_COMMAND_STRSTRA {
 struct CYFI_WINWRAPPER_COMMAND_STRSTRW {
     uint64_t pszFirst;
     uint64_t pszSrch;
+    bool symbolic;
+
 };
 
 struct CYFI_WINWRAPPER_COMMAND_LSTRLENA {
@@ -179,7 +185,7 @@ struct CYFI_WINWRAPPER_COMMAND_WINHTTPCRACKURL {
 };
 
 struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT {
-    uint64_t hsession;
+    uint64_t hSession;
     uint64_t pswzServerName;
     uint64_t nServerPort;
     uint64_t dwReserved;
@@ -203,6 +209,12 @@ struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {
     bool symbolic;
 };
 
+struct CYFI_WINWRAPPER_COMMAND_WCSSTR {
+    uint64_t str;
+    uint64_t strSearch;
+    bool symbolic;
+};
+
 enum CYFI_WRAPPER_CRC_TYPE { CYFI_WRAPPER_CRC16, CYFI_WRAPPER_CRC32 };
 
 struct CYFI_WRAPPER_COMMAND_CRC {
@@ -213,6 +225,11 @@ struct CYFI_WRAPPER_COMMAND_CRC {
     uint64_t buffer;
     uint64_t size;
     uint64_t ret;
+};
+
+struct CYFI_CHECK_CALLER{
+    uint64_t funcName;
+    bool isTargetModule;
 };
 
 struct CYFI_WINWRAPPER_COMMAND {
@@ -245,8 +262,11 @@ struct CYFI_WINWRAPPER_COMMAND {
         struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTW InternetConnectW;  
 
         struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR MultiByteToWideChar;
+        struct CYFI_WINWRAPPER_COMMAND_WCSSTR wcsstr;
 
         struct CYFI_WRAPPER_COMMAND_CRC Crc;
+
+        struct CYFI_CHECK_CALLER CheckCaller;
     };
     uint64_t needOrigFunc;
 };

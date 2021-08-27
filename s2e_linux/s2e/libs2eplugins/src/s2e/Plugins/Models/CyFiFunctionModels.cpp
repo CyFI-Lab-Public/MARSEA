@@ -2,10 +2,12 @@
 #include <s2e/function_models/cyfi_commands.h>
 #include <s2e/Plugins/ExecutionMonitors/FunctionMonitor.h>
 #include <s2e/Plugins/Searchers/MergingSearcher.h>
+#include <s2e/Plugins/OSMonitors/Support/ModuleMap.h>
 
 #include <klee/util/ExprTemplates.h>
 #include <llvm/Support/CommandLine.h>
 #include <s2e/ConfigFile.h>
+#include <s2e/Plugins/Core/Vmi.h>
 #include <s2e/S2E.h>
 #include <s2e/S2EExecutor.h>
 #include <s2e/Utils.h>
@@ -14,6 +16,8 @@
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <map>
+#include <unordered_map>
 
 #include "CyFiFunctionModels.h"
 using namespace klee;
@@ -22,19 +26,135 @@ namespace s2e {
 namespace plugins {
 namespace models {
 
-S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils");
+S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor");
 
 void CyFiFunctionModels::initialize() {
+    m_map = s2e()->getPlugin<ModuleMap>();
     m_memutils = s2e()->getPlugin<MemUtils>();
-    ins_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".instructionTracker");
-    func_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".functionTracker");
+    func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
+    m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
+    m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
+    m_vmi = s2e()->getPlugin<Vmi>();
+
+
+    // TODO: implement get string list for instruction tracing
+    // ins_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".instructionTracker");
 
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
+    if (func_to_monitor > 0) {
+        // Get an instance of the FunctionMonitor plugin
+        FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
+
+        // Get a notification when a function is called
+        monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
+    }
+
+    s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
+
 }
 
+void CyFiFunctionModels::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb,
+                                             uint64_t pc, bool isStatic, uint64_t staticTarget) {
+    // Library calls/jumps are always indirect
+    if (tb->se_tb_type == TB_CALL_IND || (tb->se_tb_type == TB_JMP_IND)) {
+        signal->connect(
+            sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onIndirectCallOrJump), (unsigned) tb->se_tb_type));
+    }
+}
 
+void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t pc, unsigned sourceType) {
+
+    auto current_mod = m_map->getModule(state, pc);
+    auto mod = m_map->getModule(state);
+
+    if (!mod) {
+        return;
+    }
+
+    if (!current_mod) {
+        return;
+    }
+
+    if (mod == current_mod) {
+        return;
+    }
+
+    //We only care about the target as the caller module
+    std::string callerModule = (*current_mod.get()).Name;
+
+    if (callerModule != m_moduleName) {
+        return;
+    }
+
+    std::string exportName;
+
+    uint64_t targetAddr = state->regs()->getPc();
+
+    exportName = m_libCallMonitor->get_export_name(state, mod->Pid, targetAddr);
+
+    if (exportName.size() == 0) {
+        vmi::Exports exps;
+        auto exe = m_vmi->getFromDisk(mod->Path, mod->Name, true);
+
+        if (!exe) {
+            return;
+        }
+
+        auto pe = std::dynamic_pointer_cast<vmi::PEFile>(exe);
+
+        if (!pe) {
+            return;
+        }
+
+        auto exports = pe->getExports();
+        auto it = exports.find(targetAddr-mod->LoadBase);
+        if (it != exports.end()) {
+            exportName = (*it).second;
+        } else {
+            // Did not find any export
+            return;
+        }
+    }
+
+    if (exportName.size() == 0) {
+        return;
+    }
+
+    recent_callee = exportName;
+
+}
+
+void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
+
+    std::map<std::string, int> m { 
+        {"eax", R_EAX}, 
+        {"ebx", R_EBX}, 
+        {"ecx", R_ECX}, 
+        {"edx", R_EDX}, 
+        {"esi", R_ESI}, 
+        {"edi", R_EDI}, 
+        {"ebp", R_EBP}, 
+        {"esp", R_ESP},        
+        };
+
+        uint32_t   temp;
+
+        state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
+        ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
+        if(!data.isNull()) {
+            if (!isa<ConstantExpr>(data)) {
+                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
+            } else {
+                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
+            }
+        }
+        else {
+            data = state->mem()->read(CPU_OFFSET(regs[m[reg]]), state->getPointerWidth());
+            getDebugStream(state) << reg << " " << data <<  " at " << hexval(temp) << "\n";
+        }        
+}
 
 void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
@@ -43,103 +163,81 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 
     // TODO: Fix this so we can specify from the lua file
     // Must manually specify instructions you want to instrument
-    // if(pc >= x && pc <= y)                                                   
-    if (!pc){
-        // When we find an interesting address, ask S2E to invoke our callback when the address is actually
-        // executed
-        signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
+    // if(pc >= x && pc <= y)                            
+
+    // When we find an interesting address, ask S2E to invoke our callback when the address is actually
+    // executed
+
+    auto currentMod = m_map->getModule(state, pc);
+
+    if (currentMod) {
+        bool ok = true;
+        uint64_t relPc;
+        ok &= currentMod.get()->ToNativeBase(pc, relPc);
+        if(ok){
+            if ((relPc >= 0x401450 && relPc <= 0x401534)||
+                (relPc >= 0x40e4f6 && relPc <= 0x40e554)||
+                (relPc >= 0x403410 && relPc <= 0x405eee)||
+                (relPc >= 0x4027d0 && relPc <= 0x4028ff)||
+                (relPc >= 0x402bd0 && relPc <= 0x402dff)||
+                (relPc >= 0x406220 && relPc <= 0x406254)||
+                (relPc >= 0x401050 && relPc <= 0x4010c0)||
+                (relPc >= 0x401260 && relPc <= 0x401352)||
+                (relPc >= 0x401fd0 && relPc <= 0x40217b)) {
+                signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
+            }
+        }
     }
+    
 }
 
 // This callback is called only when the instruction at our address is executed.
 // The callback incurs zero overhead for all other instructions
 void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64_t pc) {
 
-    s2e()->getDebugStream() << "Executing instruction at " << hexval(pc) <<  '\n';
+    auto currentMod = m_map->getModule(state, pc);
+    
+    if (currentMod) {
+        bool ok = true;
+        uint64_t relPc;
+        ok &= currentMod.get()->ToNativeBase(pc, relPc);
+        if(ok){
+            s2e()->getDebugStream(state) << "Executed instruction: " << hexval(relPc) <<  '\n';
+            std::ostringstream ss;
+            state->regs()->dump(ss);
+            s2e()->getDebugStream() << ss.str();
 
-    ref<Expr> data;
-    uint32_t   eax, ebx, ecx, edx, esp;
-
-    //if((pc >= 0x401af0 && pc <= 0x401c90) || (pc >= 0x4010a0 && pc <= 0x40123d) || pc == 401190 || (pc >= 0x401cd0 && pc <= 0x401ce7))  {
-        std::ostringstream ss;
-        state->regs()->dump(ss);
-        s2e()->getDebugStream() << ss.str();
-        ref<Expr> retExpr;
-        //state->regs()->read(CPU_OFFSET(regs[R_EAX]), &ebx, sizeof(ebx), false);
-
-        state->regs()->read(CPU_OFFSET(regs[R_EAX]), &eax, sizeof(eax), false);
-        data = state->mem()->read(eax, state->getPointerWidth());
-
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "EAX " << data << " at " << hexval(eax) << " is symbolic.\n";
-            } else {
-                getDebugStream(state) << "EAX " << data << " at " << hexval(eax) << " is concrete.\n";
-            }
+            cyfiDump(state, "eax");
+            cyfiDump(state, "ebx");
+            cyfiDump(state, "ecx");
+            cyfiDump(state, "edx");
+            cyfiDump(state, "esi");
+            cyfiDump(state, "edi");
+            cyfiDump(state, "ebp");
+            cyfiDump(state, "esp");   
         }
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[R_EAX]), state->getPointerWidth());
-            getDebugStream(state) << "EAX is " << data <<  " at " << hexval(eax) << "\n";
+    }   
+}
 
-        }
+void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                     const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
+                     const FunctionMonitor::ReturnSignalPtr &returnSignal) {
+    // Filter out functions we don't care about
+    if (state->regs()->getPc() != func_to_monitor) {
+        return;
+    }
 
-        state->regs()->read(CPU_OFFSET(regs[R_EBX]), &ebx, sizeof(ebx), false);
-        data = state->mem()->read(ebx, state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "EBX " << data << " at " << hexval(ebx) << " is symbolic.\n";
-            } else {
-                getDebugStream(state) << "EBX " << data << " at " << hexval(ebx) << " is concrete.\n";
-            }
-        }
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[R_EBX]), state->getPointerWidth());
-            getDebugStream(state) << "EBX is " << data << "\n";
-        }
+    // If you do not want to track returns, do not connect a return signal.
+    // Here, we pass the program counter to the return handler to identify the function
+    // from which execution returns.
+    returnSignal->connect(
+        sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onRet), func_to_monitor));
+}
 
-        state->regs()->read(CPU_OFFSET(regs[R_ECX]), &ecx, sizeof(ecx), false);
-        data = state->mem()->read(ecx, state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "ECX " << data << " at " << hexval(ecx) << " is symbolic.\n";
-            } else {
-                getDebugStream(state) << "ECX " << data << " at " << hexval(ecx) << " is concrete.\n";
-            }
-        }
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[R_ECX]), state->getPointerWidth());
-            getDebugStream(state) << "ECX is " << data << " at " << hexval(ecx) << "\n";
-        }        
-
-        state->regs()->read(CPU_OFFSET(regs[R_EDX]), &edx, sizeof(edx), false);
-        data = state->mem()->read(edx, state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "EDX " << data << " at " << hexval(edx) << " is symbolic.\n";
-            } else {
-                getDebugStream(state) << "EDX " << data << " at " << hexval(edx) << " is concrete.\n";
-            }
-        }   
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[R_EDX]), state->getPointerWidth());
-            getDebugStream(state) << "EDX is " << data <<  " at " << hexval(edx) << "\n";
-        }
-
-        state->regs()->read(CPU_OFFSET(regs[R_ESP]), &esp, sizeof(esp), false);
-        data = state->mem()->read(esp, state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "esp " << data << " at " << hexval(esp) << " is symbolic.\n";
-            } else {
-                getDebugStream(state) << "esp " << data << " at " << hexval(esp) << " is concrete.\n";
-            }
-        }   
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[R_ESP]), state->getPointerWidth());
-            getDebugStream(state) << "esp is " << data <<  " at " << hexval(esp) << "\n";
-        }           
-    //}
-
+void CyFiFunctionModels::onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
+                    const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
+                    uint64_t functionPc) {
+    getDebugStream(state) << "Execution returned from function " << hexval(functionPc) << "\n";
 }
 
 std::string CyFiFunctionModels::getTag(const std::string &sym)
@@ -352,6 +450,49 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
     }
 }
 
+void CyFiFunctionModels::handleStrStrW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t stringAddrs[2];
+    stringAddrs[0] = (uint64_t) cmd.StrStrW.pszFirst;
+    stringAddrs[1] = (uint64_t) cmd.StrStrW.pszSrch;
+
+    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+            std::string symb_tag = getTag(sym);
+            getCyfiStream(state) << "[L] StrStrW (" << hexval(stringAddrs[0]) << ", " << hexval(stringAddrs[1]) << ") -> tag_in: " << symb_tag << "\n";
+            cmd.StrStrW.symbolic = true;
+        } else {
+            //getCyfiStream(state) << "[L] StrStrA pszFirst = " << retExpr << ", " << hexval(stringAddrs[0]) << " is concrete\n";
+            cmd.StrStrW.symbolic = false;
+        }
+    }
+}
+
+void CyFiFunctionModels::handleWcsstr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t stringAddrs[2];
+    stringAddrs[0] = (uint64_t) cmd.wcsstr.str;
+    stringAddrs[1] = (uint64_t) cmd.wcsstr.strSearch;
+
+    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+            std::string symb_tag = getTag(sym);
+            getCyfiStream(state) << "[L] wcsstr (" << hexval(stringAddrs[0]) << ", " << hexval(stringAddrs[1]) << ") -> tag_in: " << symb_tag << "\n";
+            cmd.wcsstr.symbolic = true;
+        } else {
+            //getCyfiStream(state) << "[L] StrStrA pszFirst = " << retExpr << ", " << hexval(stringAddrs[0]) << " is concrete\n";
+            cmd.wcsstr.symbolic = false;
+        }
+    }
+}
 
 void CyFiFunctionModels::handleWinHttpReadData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
     // Read function arguments
@@ -380,7 +521,7 @@ void CyFiFunctionModels::handleWinHttpReadData(S2EExecutionState *state, CYFI_WI
 void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t args[4];
-    args[0] = (uint64_t) cmd.WinHttpConnect.hsession;
+    args[0] = (uint64_t) cmd.WinHttpConnect.hSession;
     args[1] = (uint64_t) cmd.WinHttpConnect.pswzServerName;
     args[2] = (uint64_t) cmd.WinHttpConnect.nServerPort;
     args[3] = (uint64_t) cmd.WinHttpConnect.dwReserved;
@@ -395,10 +536,10 @@ void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WIN
 	        std::string symb_tag = getTag(sym);
             getCyfiStream(state) << "[L] WinHttpConnect (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> tag_in: " << symb_tag << "\n";
             cmd.WinHttpConnect.symbolic = true;
-        } else {
+        } /*else {
             //getCyfiStream(state) << "[L] WinHttpConnect pwszUrl = " << data << ", " << hexval(args[1]) << " is concrete\n";
             cmd.WinHttpConnect.symbolic = false;
-        }
+        }*/
     }    
 }
 
@@ -538,6 +679,11 @@ void CyFiFunctionModels::handleInternetConnectW(S2EExecutionState *state, CYFI_W
     }    
 }
 
+void CyFiFunctionModels::handleInternetReadFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    ref<Expr> data = state->mem()->read(state->regs()->getSp(), state->getPointerWidth());
+    getCyfiStream(state) << "InternetreadFile " << data  << "\n";
+}
+
 void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
     // Read function arguments
     uint64_t args[4];
@@ -606,6 +752,25 @@ void CyFiFunctionModels::handleCrc(S2EExecutionState *state, CYFI_WINWRAPPER_COM
     cmd.needOrigFunc = 0;
 }
 
+void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+
+    std::string funcName;
+
+    // std::string symbTag = "mingxuanyao";
+
+    state->mem()->readString(cmd.CheckCaller.funcName, funcName);
+
+    // state->mem()->write(cmd.CheckCaller.symbTag, symbTag.c_str(), symbTag.length());
+
+    // getDebugStream(state) << "Write to memory finished\n";
+    if (funcName == recent_callee) {
+        // getDebugStream(state) << "write true to isTargetModule\n";
+        cmd.CheckCaller.isTargetModule = true;
+    } else {
+        cmd.CheckCaller.isTargetModule = false;
+    }
+
+}
 
 // TODO: use template
 #define UPDATE_RET_VAL(CmdType, cmd)                                         \
@@ -709,6 +874,15 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         } break;        
 
+        case WINWRAPPER_STRSTRW: {
+            handleStrStrW(state, command);     
+
+        } break;  
+
+        case WINWRAPPER_WCSSTR: {
+            handleWcsstr(state, command);     
+
+        } break;  
 
         case WINWRAPPER_WINHTTPCONNECT: {
             handleWinHttpConnect(state, command);
@@ -748,6 +922,10 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             }
         } break;
 
+        case WINWRAPPER_INTERNETREADFILE: {
+            handleInternetReadFile(state, command);
+        } break; 
+
         case WINWRAPPER_INTERNETCONNECTA: {
             handleInternetConnectA(state, command);
         } break; 
@@ -760,6 +938,14 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             ref<Expr> retExpr;
             handleCrc(state, command, retExpr);
             UPDATE_RET_VAL(Crc, command);
+        } break;
+
+        case CHECK_CALLER: {
+            getWarningsStream(state) << "Check Caller\n";
+            checkCaller(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }
         } break;
 
         default: {

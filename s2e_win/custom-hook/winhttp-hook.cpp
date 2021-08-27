@@ -6,6 +6,7 @@
 
 static std::set<winhttp::HINTERNET> queryDataHandles;
 static std::set<winhttp::HINTERNET> dummyHandles;
+LPCWSTR g_unique_handle = 0;
 
 BOOL WINAPI WinHttpCrackUrlHook(
 	LPCWSTR          pwszUrl,
@@ -298,12 +299,13 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
         Message("Not called by the target");
     }
     //WinHttpOpen should still succeed w/o network
-    winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
+    //winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
+    g_unique_handle += 100;
+    winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(g_unique_handle, NULL, NULL, NULL, NULL);
+    dummyHandles.insert(sessionHandle);    
     Message("[W] WinHttpOpen (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
         pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
-    //HINTERNET sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-    //HINTERNET sessionHandle = winhttp::WinHttpOpen(g_unique_handle, NULL, NULL, NULL, NULL);
-
+    return sessionHandle;
     //std::set<HINTERNET>::iterator it = dummyHandles.find(sessionHandle);
 
     //UINT8 returnSession = S2ESymbolicChar("pszAgentW", 1);
@@ -330,7 +332,6 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
     //    return NULL;
     //}
 
-    return sessionHandle;
 }
 
 BOOL WINAPI WinHttpReceiveResponseHook(
