@@ -61,7 +61,7 @@ public:
 
 private:
 
-    //bool ins_tracker; 
+    bool instructionMonitor; 
     int func_to_monitor = 0;
     ModuleMap *m_map;
     LibraryCallMonitor *m_libCallMonitor;

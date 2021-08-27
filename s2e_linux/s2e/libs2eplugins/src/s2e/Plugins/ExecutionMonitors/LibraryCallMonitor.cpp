@@ -235,7 +235,9 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
             exportName = (*it).second;
         } else {
             // Did not find any export
-            getWarningsStream(state) << "Could not get export name for address " << hexval(targetAddr) << "\n";
+            if(!m_aggressiveOff) {
+                getWarningsStream(state) << "Could not get export name for address " << hexval(targetAddr) << "\n";
+            }
             // Entry with an empty name is a blacklist, so we don't incur lookup costs all the time
             plgState->add(mod->Pid, targetAddr, "");
             return;
@@ -246,7 +248,9 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
         return;
     }
 
-    logLibraryCall(state, *currentMod.get(), *mod.get(), pc, targetAddr, sourceType, exportName);
+    if(!m_aggressiveOff) {
+        logLibraryCall(state, *currentMod.get(), *mod.get(), pc, targetAddr, sourceType, exportName);
+    }
     onLibraryCall.emit(state, *mod, targetAddr);
 }
 

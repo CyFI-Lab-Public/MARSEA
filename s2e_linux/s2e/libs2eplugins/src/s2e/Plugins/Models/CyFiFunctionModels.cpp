@@ -31,8 +31,11 @@ S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for li
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
     m_memutils = s2e()->getPlugin<MemUtils>();
+
+    instructionMonitor = s2e()->getConfig()->getBool(getConfigKey() + ".instructionMonitor");
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
     m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
+
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
     m_vmi = s2e()->getPlugin<Vmi>();
 
@@ -43,14 +46,12 @@ void CyFiFunctionModels::initialize() {
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
-    if (func_to_monitor > 0) {
-        // Get an instance of the FunctionMonitor plugin
-        FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
+    // Get an instance of the FunctionMonitor plugin
+    FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
 
-        // Get a notification when a function is called
-        monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
-    }
-
+    // Get a notification when a function is called
+    monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
+    
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
 
 }
@@ -128,32 +129,32 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
 
 void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
 
-    std::map<std::string, int> m { 
-        {"eax", R_EAX}, 
-        {"ebx", R_EBX}, 
-        {"ecx", R_ECX}, 
-        {"edx", R_EDX}, 
-        {"esi", R_ESI}, 
-        {"edi", R_EDI}, 
-        {"ebp", R_EBP}, 
-        {"esp", R_ESP},        
-        };
+    static std::unordered_map<std::string, int> m {
+        {"eax", R_EAX},
+        {"ebx", R_EBX},
+        {"ecx", R_ECX},
+        {"edx", R_EDX},
+        {"esi", R_ESI},
+        {"edi", R_EDI},
+        {"ebp", R_EBP},
+        {"esp", R_ESP},
+    };
 
-        uint32_t   temp;
+    uint32_t   temp;
 
-        state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
-        ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
-            } else {
-                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
-            }
+    state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
+    ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
+    if (!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
+        } else {
+            getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
         }
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[m[reg]]), state->getPointerWidth());
-            getDebugStream(state) << reg << " " << data <<  " at " << hexval(temp) << "\n";
-        }        
+    }
+    else {
+        data = state->mem()->read(CPU_OFFSET(regs[m[reg]]), state->getPointerWidth());
+        getDebugStream(state) << reg << " " << data <<  " at " << hexval(temp) << "\n";
+    }
 }
 
 void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
@@ -167,28 +168,28 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 
     // When we find an interesting address, ask S2E to invoke our callback when the address is actually
     // executed
+    if(!instructionMonitor){
+        return;
+    }
 
     auto currentMod = m_map->getModule(state, pc);
 
-    if (currentMod) {
-        bool ok = true;
-        uint64_t relPc;
-        ok &= currentMod.get()->ToNativeBase(pc, relPc);
-        if(ok){
-            if ((relPc >= 0x401450 && relPc <= 0x401534)||
-                (relPc >= 0x40e4f6 && relPc <= 0x40e554)||
-                (relPc >= 0x403410 && relPc <= 0x405eee)||
-                (relPc >= 0x4027d0 && relPc <= 0x4028ff)||
-                (relPc >= 0x402bd0 && relPc <= 0x402dff)||
-                (relPc >= 0x406220 && relPc <= 0x406254)||
-                (relPc >= 0x401050 && relPc <= 0x4010c0)||
-                (relPc >= 0x401260 && relPc <= 0x401352)||
-                (relPc >= 0x401fd0 && relPc <= 0x40217b)) {
-                signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
-            }
+    if (!currentMod) {
+        return;
+    }
+    // If the config contains "moduleName", then we can use that information to check if the
+    // module that the PC is currently in is the one we're interested in.
+    if (!m_moduleName.empty()) {
+        // If the current module is the one we're looking for, connect to the
+        // onInstructionExecution signal.
+
+        if (currentMod->Name != m_moduleName) {
+            s2e()->getDebugStream(state) << "3\n";
+            signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
         }
     }
-    
+    return;
+   
 }
 
 // This callback is called only when the instruction at our address is executed.
@@ -200,7 +201,7 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
     if (currentMod) {
         bool ok = true;
         uint64_t relPc;
-        ok &= currentMod.get()->ToNativeBase(pc, relPc);
+        ok &= currentMod->ToNativeBase(pc, relPc);
         if(ok){
             s2e()->getDebugStream(state) << "Executed instruction: " << hexval(relPc) <<  '\n';
             std::ostringstream ss;
@@ -222,6 +223,11 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
 void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
                      const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
                      const FunctionMonitor::ReturnSignalPtr &returnSignal) {
+
+    if (func_to_monitor == 0) {
+        return;
+    }
+
     // Filter out functions we don't care about
     if (state->regs()->getPc() != func_to_monitor) {
         return;
