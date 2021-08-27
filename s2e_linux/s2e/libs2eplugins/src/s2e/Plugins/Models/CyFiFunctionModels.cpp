@@ -156,11 +156,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
 void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
                                                 TranslationBlock *tb,
-                                                uint64_t pc) {
-
-    // TODO: Fix this so we can specify from the lua file
-    // Must manually specify instructions you want to instrument
-    // if(pc >= x && pc <= y)                            
+                                                uint64_t pc) {                  
 
     // When we find an interesting address, ask S2E to invoke our callback when the address is actually
     // executed
