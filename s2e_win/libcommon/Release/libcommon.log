@@ -1,3 +1,2 @@
-﻿  Assembling src\amd64\s2e.asm...
-  s2e-c.c
+﻿  s2e-c.c
   libcommon.vcxproj -> C:\Users\cyfi\Desktop\s2e\s2e_win\Release\libcommon.lib

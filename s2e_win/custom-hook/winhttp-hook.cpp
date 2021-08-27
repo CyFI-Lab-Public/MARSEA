@@ -18,7 +18,7 @@ BOOL WINAPI WinHttpCrackUrlHook(
     Command.WinHttpCrackUrl.pwszUrl = (uint64_t)pwszUrl;
     Command.WinHttpCrackUrl.dwUrlLength = (uint64_t)dwUrlLength;
     Command.WinHttpCrackUrl.dwFlags = (uint64_t)dwFlags;
-    Command.WinHttpCrackUrl.lpUrlComponets = (uint64_t)lpUrlComponents;
+    Command.WinHttpCrackUrl.lpUrlComponents = (uint64_t)lpUrlComponents;
 
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
@@ -248,7 +248,7 @@ BOOL WINAPI WinHttpSetCredentialsHook(
     LPCWSTR   pwszPassword,
     LPVOID    pAuthParams
 ) {
-    Message("[W] WinHttpSetCredentials(%p, %ld, %ld, %s, %s", hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword);
+    Message("[W] WinHttpSetCredentials(%p, %ld, %ld, %s, %s)\n", hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword);
 
     return TRUE;
 }
@@ -259,7 +259,7 @@ BOOL WINAPI WinHttpSetOptionHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
-    Message("[W] WinHttpSetOption(%p, %ld, %p, %ld", hInternet, dwOption, lpBuffer, dwBufferLength);
+    Message("[W] WinHttpSetOption(%p, %ld, %p, %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
     
     return TRUE;
 }
@@ -271,7 +271,7 @@ BOOL WINAPI WinHttpSetTimeoutsHook(
     int       nSendTimeout,
     int       nReceiveTimeout
 ) {
-    Message("[W] WinHttpSetTimeouts (%p, %i, %i, %i, %i)", hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
+    Message("[W] WinHttpSetTimeouts (%p, %i, %i, %i, %i)\n", hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
 
     //Call the original function just in case that we will run some functions in the future
     //If it is a valid handle
@@ -291,6 +291,12 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
     LPCWSTR pszProxyBypassW,
     DWORD dwFlags
 ) {
+    if (checkCaller("WinHttpOpen")) {
+        Message("Called by the target");
+    }
+    else {
+        Message("Not called by the target");
+    }
     //WinHttpOpen should still succeed w/o network
     winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
     Message("[W] WinHttpOpen (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",

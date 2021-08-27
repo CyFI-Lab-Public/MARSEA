@@ -75,7 +75,7 @@ BOOL WINAPI InternetCrackUrlAHook(
     Command.InternetCrackUrlA.pwszUrl = (uint64_t)pwszUrl;
     Command.InternetCrackUrlA.dwUrlLength = (uint64_t)dwUrlLength;
     Command.InternetCrackUrlA.dwFlags = (uint64_t)dwFlags;
-    Command.InternetCrackUrlA.lpUrlComponets = (uint64_t)lpUrlComponents;
+    Command.InternetCrackUrlA.lpUrlComponents = (uint64_t)lpUrlComponents;
 
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
@@ -352,4 +352,29 @@ BOOL WINAPI InternetWriteFileHook(
     Message("[W] InternetWriteFile(%p, A\"%ls\", 0x%x, %p) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
     return TRUE;
+}
+
+BOOL InternetGetConnectedStateHook(
+    LPDWORD lpdwFlags,
+    DWORD   dwReserved
+) {
+    BOOL res = InternetGetConnectedState(lpdwFlags, dwReserved);
+    Message("[W] InternetGetConnectedState (%ld, %ld) Ret: %i\n", *lpdwFlags, dwReserved, res);
+    return TRUE;
+}
+
+BOOL InternetCheckConnectionAHook(
+    LPCSTR lpszUrl,
+    DWORD  dwFlags,
+    DWORD  dwReserved
+) {
+    Message("[W] InternetCheckConnectionA (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
+    return TRUE;
+}
+
+DWORD InternetAttemptConnectHook(
+    DWORD dwReserved
+) {
+    Message("[W] InternetAttemptConnect (%ld)\n", dwReserved);
+    return ERROR_SUCCESS;
 }

@@ -1,4 +1,6 @@
-﻿  utils.cpp
+﻿  shlwapi-hook.cpp
+  winhttp-hook.cpp
+  Generating Code...
      Creating library C:\Users\cyfi\Desktop\s2e\s2e_win\Release\custom-hook.lib and object C:\Users\cyfi\Desktop\s2e\s2e_win\Release\custom-hook.exp
   LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
   custom-hook.vcxproj -> C:\Users\cyfi\Desktop\s2e\s2e_win\Release\custom-hook.dll

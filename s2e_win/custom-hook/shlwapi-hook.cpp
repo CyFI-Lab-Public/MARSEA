@@ -30,6 +30,7 @@ PCSTR StrStrAHook(
     std::string tag = GetTag("StrStrA");
     Message("[W] StrStrA (%p, %p) -> tag_out: %s\n", pszFirst, pszSrch, tag.c_str());
     S2EMakeSymbolic((PVOID)pszFirst, strlen(pszFirst), tag.c_str());
+    //bool isSymbolic = S2EIsSymbolic((PVOID)pszFirst, strlen(pszFirst));
     S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());
     return ret;
 }

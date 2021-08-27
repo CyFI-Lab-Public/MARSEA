@@ -43,3 +43,42 @@ HANDLE FindFirstFileWHook(
 DWORD GetFileTypeHook(
 	HANDLE hFile
 );
+
+BOOL ReadFileHook(
+	HANDLE       hFile,
+	LPVOID       lpBuffer,
+	DWORD        nNumberOfBytesToRead,
+	LPDWORD      lpNumberOfBytesRead,
+	LPOVERLAPPED lpOverlapped
+);
+
+DWORD GetFileSizeHook(
+	HANDLE  hFile,
+	LPDWORD lpFileSizeHigh
+);
+
+DWORD GetFileAttributesAHook(
+	LPCSTR lpFileName
+);
+
+DWORD GetFileAttributesWHook(
+	LPCWSTR lpFileName
+);
+
+DWORD GetFullPathNameAHook(
+	LPCSTR lpFileName,
+	DWORD  nBufferLength,
+	LPSTR  lpBuffer,
+	LPSTR* lpFilePart
+);
+
+BOOL FindCloseHook(
+	HANDLE hFindFile
+);
+
+BOOL GetFileTimeHook(
+	HANDLE     hFile,
+	LPFILETIME lpCreationTime,
+	LPFILETIME lpLastAccessTime,
+	LPFILETIME lpLastWriteTime
+);

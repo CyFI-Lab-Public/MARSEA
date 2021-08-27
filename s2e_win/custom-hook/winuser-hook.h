@@ -26,3 +26,19 @@ BOOL EnumDisplayMonitorsHook(
 BOOL GetCursorPosHook(
 	LPPOINT lpPoint
 );
+
+HDC GetDCHook(
+	HWND hWnd
+);
+
+DWORD GetSysColorHook(
+	int nIndex
+);
+
+BOOL GetCursorPosHook(
+	LPPOINT lpPoint
+);
+
+BOOL GetLastInputInfoHook(
+	PLASTINPUTINFO plii
+);

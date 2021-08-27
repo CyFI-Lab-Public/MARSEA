@@ -2,6 +2,7 @@
 #include "utils.h"
 #include "commands.h"
 #include <string>
+#include <stdlib.h> 
 
 int GetKeyboardTypeHook(
 	int nTypeFlag
@@ -39,9 +40,10 @@ HKL GetKeyboardLayoutHook(
 int GetSystemMetricsHook(
 	int nIndex
 ) {
+	int ret = GetSystemMetrics(nIndex);
 	std::string tag = GetTag("GetSystemMetrics");
-	Message("[W] GetSystemMetrics (%i) -> tag_out: %s\n", nIndex, tag.c_str());
-	return S2ESymbolicInt(tag.c_str(), 0x4);
+	Message("[W] GetSystemMetrics (%i) Ret: %i -> tag_out: %s\n", nIndex, ret, tag.c_str());
+	return S2ESymbolicInt(tag.c_str(), ret);
 }
 
 BOOL EnumDisplayMonitorsHook(
@@ -54,11 +56,41 @@ BOOL EnumDisplayMonitorsHook(
 	return TRUE;
 }
 
+HDC GetDCHook(
+	HWND hWnd
+) {
+	HDC handle = GetDC(hWnd);
+	Message("[W] GetDCHook (%p) Ret: %p\n", hWnd, handle);
+	return handle;
+}
+
+DWORD GetSysColorHook(
+	int nIndex
+) {
+	DWORD ret = GetSysColor(nIndex);
+	Message("[W] GetSysColor (%i) Ret: %ld\n", nIndex, ret);
+	return ret;
+}
+
 BOOL GetCursorPosHook(
 	LPPOINT lpPoint
 ) {
 	std::string tag = GetTag("GetCursorPos");
-	S2EMakeSymbolic((PVOID)lpPoint, sizeof(lpPoint), tag.c_str());
 	Message("[W] GetCursorPos (%p) -> tag_out: %s\n", lpPoint, tag.c_str());
+	lpPoint->x = rand() % 10;
+	lpPoint->y = rand() % 30;
+	S2EMakeSymbolic(lpPoint, sizeof(POINT), tag.c_str());
+	return TRUE;
+}
+
+BOOL GetLastInputInfoHook(
+	PLASTINPUTINFO plii
+) {
+	std::string tag = GetTag("GetLastInputInfo");
+	// Use concrete execution to initialize the struct size first?
+	BOOL res = GetLastInputInfo(plii);
+	Message("[W] GetLastInputInfo (%p) Ret: %i -> tag_out: %s\n", plii, res, tag.c_str());
+	plii->cbSize = sizeof(LASTINPUTINFO);
+	S2EMakeSymbolic(&(plii->dwTime), sizeof(DWORD), tag.c_str());
 	return TRUE;
 }
