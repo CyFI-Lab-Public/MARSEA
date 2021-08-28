@@ -443,15 +443,8 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("Kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
 
     /* Evasion Techniques*/
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-    CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
-=======
-=======
->>>>>>> Stashed changes
     CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     /*CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
->>>>>>> Stashed changes
     CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
     CyFIFuncType("kernel32", "GetCommandLineW", GetCommandLineWHook, {NULL}),
@@ -493,86 +486,10 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "GetFileTime", GetFileTimeHook, { NULL }),
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
-    CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
+    CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),*/
 
 };
 
-
-/*HMODULE LoadLibraryAHook(
-    LPCSTR lpLibFileName
-)
-{
-    Message("[W] LoadLibraryA (A\"%s\")\n", lpLibFileName);
-    for (unsigned i = 0; i < sizeof(functionToHook) / sizeof(CyFIFuncType); i++) {
-        LPCSTR moduleName = functionToHook[i].lib;
-        LPCSTR functionName = functionToHook[i].funcName;
-
-        //Uninstall previously installed hook
-        LhUninstallHook(&functionToHook[i].hook);
-        LhWaitForPendingRemovals();
-
-        //Install the hook
-        NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),
-            functionToHook[i].hookFunc,
-            NULL,
-            &functionToHook[i].hook);
-
-        if (FAILED(result)) {
-            Message("Rehooking failed %s.%s: %S\n", moduleName, functionName,
-                RtlGetLastErrorString());
-        }
-        else {
-            Message("Rehooking %s.%s\n", moduleName, functionName);
-        }
-
-        // Ensure that all threads _except_ the injector thread will be hooked
-        ULONG ACLEntries[1] = { 0 };
-        LhSetExclusiveACL(ACLEntries, 1, &functionToHook[i].hook);
-    }
-    RhWakeUpProcess();
-    return LoadLibraryA(lpLibFileName);
-
-}
-
-HMODULE LoadLibraryWHook(
-    LPCWSTR lpLibFileName
-)
-{
-    Message("[W] LoadLibraryW (A\"%ls\")\n", lpLibFileName);
-    for (unsigned i = 0; i < sizeof(functionToHook) / sizeof(CyFIFuncType); i++) {
-        LPCSTR moduleName = functionToHook[i].lib;
-        LPCSTR functionName = functionToHook[i].funcName;
-
-        //Uninstall previously installed hook
-        LhUninstallHook(&functionToHook[i].hook);
-        LhWaitForPendingRemovals();
-
-        //Install the hook
-        NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),
-            functionToHook[i].hookFunc,
-            NULL,
-            &functionToHook[i].hook);
-
-        if (FAILED(result)) {
-            Message("Rehooking failed %s.%s: %S\n", moduleName, functionName,
-                RtlGetLastErrorString());
-        }
-        else {
-            Message("Rehooking %s.%s\n", moduleName, functionName);
-        }
-
-        // Ensure that all threads _except_ the injector thread will be hooked
-        ULONG ACLEntries[1] = { 0 };
-        LhSetExclusiveACL(ACLEntries, 1, &functionToHook[i].hook);
-    }
-    RhWakeUpProcess();
-    return LoadLibraryW(lpLibFileName);
-}
-
-CyFIFuncType dynamicLinkingFuncsToHook[] = {
-    CyFIFuncType("Kernel32", "LoadLibraryA", LoadLibraryAHook, {NULL}),
-    CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
-};*/
 
 // EasyHook will be looking for this export to support DLL injection. If not
 // found then DLL injection will fail
@@ -584,29 +501,6 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo) {
 
     // Used by the Message function to decide where to write output to
     s2eVersion = S2EGetVersion();
-
-    /*for (unsigned i = 0; i < sizeof(dynamicLinkingFuncsToHook) / sizeof(CyFIFuncType); i++) {
-        LPCSTR moduleName = dynamicLinkingFuncsToHook[i].lib;
-        LPCSTR functionName = dynamicLinkingFuncsToHook[i].funcName;
-
-        //Install the hook
-        NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),
-            dynamicLinkingFuncsToHook[i].hookFunc,
-            NULL,
-            &dynamicLinkingFuncsToHook[i].hook);
-
-        if (FAILED(result)) {
-            Message("Failed to hook %s.%s: %S\n", moduleName, functionName,
-                RtlGetLastErrorString());
-        }
-        else {
-            Message("Successfully hooked %s.%s\n", moduleName, functionName);
-        }
-
-        // Ensure that all threads _except_ the injector thread will be hooked
-        ULONG ACLEntries[1] = { 0 };
-        LhSetExclusiveACL(ACLEntries, 1, &dynamicLinkingFuncsToHook[i].hook);
-    }*/
 
     for (unsigned i = 0; i < sizeof(functionToHook) / sizeof(CyFIFuncType); i++) {
         LPCSTR moduleName = functionToHook[i].lib;
