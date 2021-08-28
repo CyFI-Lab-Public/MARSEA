@@ -44,6 +44,8 @@ HINTERNET WINAPI InternetConnectAHook(
     DWORD_PTR     dwContext
 ) {
     if (checkCaller("InternetConnectA")) {
+        HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+        dummyHandles.insert(connectionHandle);
         if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = WINWRAPPER_INTERNETCONNECTA;
@@ -61,11 +63,14 @@ HINTERNET WINAPI InternetConnectAHook(
             __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectA.symbTag);
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-            HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(connectionHandle);
             Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), DDR (%s)\n",
                 hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, (uint32_t)Command.InternetConnectA.symbTag);
            return connectionHandle;
+        }
+        else {
+            Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), ret: %p\n",
+                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
+            return connectionHandle;
         }
     }
     Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p)\n",
@@ -84,6 +89,8 @@ HINTERNET WINAPI InternetConnectWHook(
     DWORD_PTR     dwContext
 ) {
     if (checkCaller("InternetConnectW")) {
+        HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+        dummyHandles.insert(connectionHandle);
         if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = WINWRAPPER_INTERNETCONNECTW;
@@ -101,10 +108,13 @@ HINTERNET WINAPI InternetConnectWHook(
             __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectW.symbTag);
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-            HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(connectionHandle);
             Message("[W] InternetConnectW (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), DDR (%s)\n",
                 hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, (uint32_t)Command.InternetConnectW.symbTag);
+            return connectionHandle;
+        }
+        else {
+            Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), ret: %p\n",
+                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
             return connectionHandle;
         }
     }
@@ -272,6 +282,13 @@ HINTERNET WINAPI InternetOpenUrlAHook(
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, (uint32_t)Command.InternetOpenUrlA.symbTag);
             return resourceHandle;
         }
+        else {
+            HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+            dummyHandles.insert(resourceHandle);
+            Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), ret: %p\n",
+                hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
+            return resourceHandle;
+        }
     }
     Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p)n",
         hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
@@ -307,6 +324,13 @@ HINTERNET WINAPI InternetOpenUrlWHook(
             dummyHandles.insert(resourceHandle);
             Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), DDR (%s)\n",
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, (uint32_t)Command.InternetOpenUrlW.symbTag);
+            return resourceHandle;
+        }
+        else {
+            HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+            dummyHandles.insert(resourceHandle);
+            Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), ret: %p\n",
+                hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
             return resourceHandle;
         }
     }

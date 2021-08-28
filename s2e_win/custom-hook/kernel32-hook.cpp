@@ -5,8 +5,11 @@
 void SleepHook(
 	DWORD dwMilliseconds
 ) {
-	Message("[W] Sleep(%ld)\n", dwMilliseconds);
-	return;
+	if (checkCaller("Sleep")) {
+		Message("[W] Sleep(%ld)\n", dwMilliseconds);
+		return;
+	}
+	return Sleep(dwMilliseconds);
 }
 
 LPSTR GetCommandLineAHook()
@@ -88,8 +91,11 @@ DWORD GetModuleFileNameWHook(
 BOOL IsProcessorFeaturePresentHook(
 	DWORD ProcessorFeature
 ) {
-	Message("[W] IsProcessorFeaturePresent (%ld)\n", ProcessorFeature);
-	return TRUE;
+	if (checkCaller("IsProcessorFeaturePresent")) {
+		Message("[W] IsProcessorFeaturePresent (%ld)\n", ProcessorFeature);
+		return TRUE;
+	}
+	return IsProcessorFeaturePresent(ProcessorFeature);
 }
 
 LPWCH GetEnvironmentStringsWHook() {

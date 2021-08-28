@@ -1,7 +1,7 @@
 #pragma once
 #include <urlmon.h>
 
-HRESULT URLDownloadToFileWHook(
+HRESULT URLDownloadToFileHook(
     LPUNKNOWN            pCaller,
     LPCTSTR              szURL,
     LPCTSTR              szFileName,

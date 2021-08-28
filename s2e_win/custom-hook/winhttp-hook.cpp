@@ -113,6 +113,8 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
     DWORD dwReserved
 ) {
     if (checkCaller("WinHttpConnect")) {
+        winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+        dummyHandles.insert(connectionHandle);
         if (S2EIsSymbolic((PVOID)pswzServerName, 0x4)) {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = WINWRAPPER_WINHTTPCONNECT;
@@ -125,11 +127,13 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
             __s2e_touch_string((PCSTR)(UINT_PTR)Command.WinHttpConnect.symbTag);
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-            winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
-            dummyHandles.insert(connectionHandle);
             Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), DDR (%s)\n",
                 hSession, pswzServerName, nServerPort, dwReserved, (uint32_t)Command.WinHttpConnect.symbTag);
-            exit(0);
+            return connectionHandle;
+        }
+        else {
+            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), retp: %p\n",
+                hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
             return connectionHandle;
         }
     }
