@@ -189,7 +189,6 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
         // onInstructionExecution signal.
 
         if (currentMod->Name != m_moduleName) {
-            s2e()->getDebugStream(state) << "3\n";
             signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
         }
     }
