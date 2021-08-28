@@ -423,7 +423,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
 
-    //CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
@@ -436,15 +436,15 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
 
-    //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
-    //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
     //CyFIFuncType("Kernel32", "lstrlenA", lstrlenA_model, {NULL}),
 
     /* Evasion Techniques*/
-    /*CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
+    CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
     CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
     CyFIFuncType("kernel32", "GetCommandLineW", GetCommandLineWHook, {NULL}),
@@ -486,7 +486,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "GetFileTime", GetFileTimeHook, { NULL }),
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
-    CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),*/
+    CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
 
 };
 

@@ -87,6 +87,9 @@ LSTATUS RegGetValueAHook(
 ) {
 	if (checkCaller("RegGetValueA")) {
 
+		LSTATUS ori_result = RegGetValueA(hkey, lpSubKey, lpValue, dwFlags,
+			pdwType, pvData, pcbData);
+
 		std::string tag = GetTag("RegGetValueA");
 		Message("[W] RegGetValueA (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
 
@@ -94,7 +97,7 @@ LSTATUS RegGetValueAHook(
 		std::set<HKEY>::iterator it = dummyHandles.find(hkey);
 
 		if (it == dummyHandles.end()) {
-			LSTATUS lResult = RegGetValueA(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+			LSTATUS lResult = ori_result;
 		}
 		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
 		if (pvData == NULL && pcbData != NULL) {
@@ -126,13 +129,16 @@ LSTATUS RegGetValueWHook(
 ) {
 	if (checkCaller("RegGetValueW")) {
 
+		LSTATUS ori_result = RegGetValueW(hkey, lpSubKey, lpValue, dwFlags,
+			pdwType, pvData, pcbData);
+
 		std::string tag = GetTag("RegGetValueW");
 		Message("[W] RegGetValueW (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
 		// If it is not a dummy handle, call concretely
 		std::set<HKEY>::iterator it = dummyHandles.find(hkey);
 
 		if (it == dummyHandles.end()) {
-			LSTATUS lResult = RegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+			LSTATUS lResult = ori_result;
 		}
 		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
 		if (pvData == NULL && pcbData != NULL) {
@@ -163,13 +169,16 @@ LSTATUS RegQueryValueExAHook(
 ) {
 	if (checkCaller("RegQueryValueExA")) {
 
+		LSTATUS ori_result = RegQueryValueExA(hKey, lpValueName,
+			lpReserved, lpType, lpData, lpcbData);
+
 		std::string tag = GetTag("RegQueryValueExA");
 		Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
 		// If it is not a dummy handle, call concretely
 		std::set<HKEY>::iterator it = dummyHandles.find(hKey);
 
 		if (it == dummyHandles.end()) {
-			LSTATUS lResult = RegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
+			LSTATUS lResult = ori_result;
 		}
 		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
 		if (lpData == NULL && lpcbData != NULL) {
@@ -200,13 +209,16 @@ LSTATUS RegQueryValueExWHook(
 ) {
 	if (checkCaller("RegQueryValueExW")) {
 
+		LSTATUS ori_result = RegQueryValueExW(hKey, lpValueName,
+			lpReserved, lpType, lpData, lpcbData);
+
 		std::string tag = GetTag("RegQueryValueExW");
 		Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
 		// If it is not a dummy handle, call concretely
 		std::set<HKEY>::iterator it = dummyHandles.find(hKey);
 
 		if (it == dummyHandles.end()) {
-			LSTATUS lResult = RegQueryValueExW(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
+			LSTATUS lResult = ori_result;
 		}
 		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
 		if (lpData == NULL && lpcbData != NULL) {

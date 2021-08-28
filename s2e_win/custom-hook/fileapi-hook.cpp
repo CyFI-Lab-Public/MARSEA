@@ -13,17 +13,19 @@ HANDLE CreateFileAHook(
 	DWORD                 dwFlagsAndAttributes,
 	HANDLE                hTemplateFile
 ) {
-	HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+	if (checkCaller("CreateFileA")) {
+		HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 
-	if (fileHandle == INVALID_HANDLE_VALUE) {
-		HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-		dummyHandles.insert(fileHandle);
+		if (fileHandle == INVALID_HANDLE_VALUE) {
+			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+			dummyHandles.insert(fileHandle);
+		}
+
+		Message("[W] CreateFileA (A\"%s\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);//, fileHandle);
+		return fileHandle;
 	}
-	
-	Message("[W] CreateFileA (A\"%s\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-		lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);//, fileHandle);
-	return fileHandle;
-	//return CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile); 
+	return CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile); 
 }
 
 HANDLE CreateFileWHook(
@@ -35,16 +37,19 @@ HANDLE CreateFileWHook(
 	DWORD                 dwFlagsAndAttributes,
 	HANDLE                hTemplateFile
 ) {
-	HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+	if (checkCaller("CreateFileW")) {
+		HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 
-	if (fileHandle == INVALID_HANDLE_VALUE) {
-		HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-		dummyHandles.insert(fileHandle);
+		if (fileHandle == INVALID_HANDLE_VALUE) {
+			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+			dummyHandles.insert(fileHandle);
+		}
+
+		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+		return fileHandle;
 	}
-
-	Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-		lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-	return fileHandle;
+	return CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 
 BOOL DeleteFileAHook(
@@ -115,7 +120,6 @@ BOOL ReadFileHook(
 	LPDWORD      lpNumberOfBytesRead,
 	LPOVERLAPPED lpOverlapped
 ) {
-
 	std::string tag = GetTag("ReadFile");
 	Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
 	std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
@@ -220,15 +224,26 @@ BOOL GetFileTimeHook(
 	LPFILETIME lpLastAccessTime,
 	LPFILETIME lpLastWriteTime
 ) {
-	std::string tag = GetTag("GetFileTime");
-	Message("[W] GetFileTimeHook (%p, %p, %p, %p) -> tag_out: %s\n", hFile, lpCreationTime, lpLastAccessTime, lpLastWriteTime, tag.c_str());
-	S2EMakeSymbolic(&lpCreationTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
-	S2EMakeSymbolic(&lpCreationTime->dwLowDateTime, sizeof(DWORD), tag.c_str());
-	S2EMakeSymbolic(&lpLastAccessTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
-	S2EMakeSymbolic(&lpLastAccessTime->dwLowDateTime, sizeof(DWORD), tag.c_str());
-	S2EMakeSymbolic(&lpLastWriteTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
-	S2EMakeSymbolic(&lpLastWriteTime->dwLowDateTime, sizeof(DWORD), tag.c_str());
+	if (checkCaller("GetFileTime")) {
 
-	return TRUE;
+		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
+
+		if (it == dummyHandles.end()) {
+			GetFileTime(hFile, lpCreationTime,
+				lpLastAccessTime, lpLastWriteTime);
+		}
+		std::string tag = GetTag("GetFileTime");
+		Message("[W] GetFileTimeHook (%p, %p, %p, %p) -> tag_out: %s\n", hFile, lpCreationTime, lpLastAccessTime, lpLastWriteTime, tag.c_str());
+		S2EMakeSymbolic(&lpCreationTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
+		S2EMakeSymbolic(&lpCreationTime->dwLowDateTime, sizeof(DWORD), tag.c_str());
+		S2EMakeSymbolic(&lpLastAccessTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
+		S2EMakeSymbolic(&lpLastAccessTime->dwLowDateTime, sizeof(DWORD), tag.c_str());
+		S2EMakeSymbolic(&lpLastWriteTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
+		S2EMakeSymbolic(&lpLastWriteTime->dwLowDateTime, sizeof(DWORD), tag.c_str());
+		return TRUE;
+	}
+
+	return GetFileTime(hFile, lpCreationTime,
+		lpLastAccessTime, lpLastWriteTime);
 
 }
