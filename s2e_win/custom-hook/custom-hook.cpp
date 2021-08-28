@@ -444,8 +444,11 @@ CyFIFuncType functionToHook[] = {
 
     /* Evasion Techniques*/
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
     CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
 =======
+=======
+>>>>>>> Stashed changes
     CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     /*CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
 >>>>>>> Stashed changes
