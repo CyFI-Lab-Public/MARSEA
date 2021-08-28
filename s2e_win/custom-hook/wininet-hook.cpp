@@ -68,7 +68,7 @@ HINTERNET WINAPI InternetConnectAHook(
            return connectionHandle;
         }
         else {
-            Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), ret: %p\n",
+            Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
                 hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
             return connectionHandle;
         }
@@ -113,7 +113,7 @@ HINTERNET WINAPI InternetConnectWHook(
             return connectionHandle;
         }
         else {
-            Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), ret: %p\n",
+            Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
                 hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
             return connectionHandle;
         }
@@ -283,7 +283,7 @@ HINTERNET WINAPI InternetOpenUrlAHook(
             return resourceHandle;
         }
         else {
-            Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), ret: %p\n",
+            Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
             return resourceHandle;
         }
@@ -325,7 +325,7 @@ HINTERNET WINAPI InternetOpenUrlWHook(
             return resourceHandle;
         }
         else {
-            Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), ret: %p\n",
+            Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
             return resourceHandle;
         }
