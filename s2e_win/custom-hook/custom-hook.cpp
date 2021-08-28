@@ -436,14 +436,14 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),    <- does not work
     //CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
 
-    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
 
     /* Evasion Techniques*/
-    CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     /*CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
     CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),

@@ -55,15 +55,21 @@ HANDLE CreateFileWHook(
 BOOL DeleteFileAHook(
 	LPCSTR lpFileName
 ) {
-	Message("[W] DeleteFileA (A\"%s\")\n", lpFileName);
-	return TRUE;
+	if (checkCaller("DeleteFileA")) {
+		Message("[W] DeleteFileA (A\"%s\")\n", lpFileName);
+		return TRUE;
+	}
+	return DeleteFileA(lpFileName);
 }
 
 BOOL DeleteFileWHook(
 	LPCWSTR lpFileName
 ) {
-	Message("[W] DeleteFileW (A\"%ls\")\n", lpFileName);
-	return TRUE;
+	if (checkCaller("DeleteFileW")) {
+		Message("[W] DeleteFileW (A\"%ls\")\n", lpFileName);
+		return TRUE;
+	}
+	return DeleteFileW(lpFileName);
 }
 
 HANDLE FindFirstFileAHook(
@@ -97,20 +103,22 @@ HANDLE FindFirstFileWHook(
 DWORD GetFileTypeHook(
 	HANDLE hFile
 ) {
+	if (checkCaller("GetFiletype")) {
+		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
 
-	std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
-
-	if (it == dummyHandles.end()) {
-		// The handle is not one of our dummy handles, so call the original
-		// function
-		Message("[W] GetFileType (%p)\n", hFile);
-		return GetFileType(hFile);
+		if (it == dummyHandles.end()) {
+			// The handle is not one of our dummy handles, so call the original
+			// function
+			Message("[W] GetFileType (%p)\n", hFile);
+			return GetFileType(hFile);
+		}
+		else {
+			std::string tag = GetTag("GetFileType");
+			Message("[W] GetFileType (%p) -> tag_out: %s\n", hFile, tag.c_str());
+			return S2ESymbolicInt(tag.c_str(), 0x4);
+		}
 	}
-	else {
-		std::string tag = GetTag("GetFileType");
-		Message("[W] GetFileType (%p) -> tag_out: %s\n", hFile, tag.c_str());
-		return S2ESymbolicInt(tag.c_str(), 0x4);
-	}
+	return GetFileType(hFile);
 }
 
 BOOL ReadFileHook(
@@ -120,54 +128,62 @@ BOOL ReadFileHook(
 	LPDWORD      lpNumberOfBytesRead,
 	LPOVERLAPPED lpOverlapped
 ) {
-	std::string tag = GetTag("ReadFile");
-	Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
-	std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
-	if (it == dummyHandles.end()) {
-		BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
-		if (res) {
-			S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
+	if (checkCaller("ReadFile")) {
+		std::string tag = GetTag("ReadFile");
+		Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
+		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
+		if (it == dummyHandles.end()) {
+			BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
+			if (res) {
+				S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
+			}
+			else {
+				S2EMakeSymbolic(lpBuffer, DEFAULT_MEM_LEN, tag.c_str());
+			}
 		}
 		else {
-			S2EMakeSymbolic(lpBuffer, DEFAULT_MEM_LEN, tag.c_str());
+			S2EMakeSymbolic(lpBuffer, min(nNumberOfBytesToRead, DEFAULT_MEM_LEN), tag.c_str());
+			S2EMakeSymbolic(lpNumberOfBytesRead, min(nNumberOfBytesToRead, DEFAULT_MEM_LEN), tag.c_str());
 		}
+		return TRUE;
 	}
-	else {
-		S2EMakeSymbolic(lpBuffer, min(nNumberOfBytesToRead, DEFAULT_MEM_LEN), tag.c_str());
-		S2EMakeSymbolic(lpNumberOfBytesRead, min(nNumberOfBytesToRead, DEFAULT_MEM_LEN), tag.c_str());
-	}
-	return TRUE;
+	return ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
 }
 
 DWORD GetFileSizeHook(
 	HANDLE  hFile,
 	LPDWORD lpFileSizeHigh
 ) {
-	std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
-	if (it == dummyHandles.end()) {
-		return GetFileSize(hFile, lpFileSizeHigh);
-	}
-	else {
-		std::string tag = GetTag("GetFileSize");
-		Message("[W] GetFileSize(%p, %p) -> tag_out: %s\n", hFile, lpFileSizeHigh, tag.c_str());
-		DWORD res = S2ESymbolicInt(tag.c_str(), DEFAULT_MEM_LEN);
-
-		if (lpFileSizeHigh != NULL) {
-			S2EMakeSymbolic(lpFileSizeHigh, 4, tag.c_str());
+	if (checkCaller("GetFileSize")) {
+		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
+		if (it == dummyHandles.end()) {
+			return GetFileSize(hFile, lpFileSizeHigh);
 		}
+		else {
+			std::string tag = GetTag("GetFileSize");
+			Message("[W] GetFileSize(%p, %p) -> tag_out: %s\n", hFile, lpFileSizeHigh, tag.c_str());
+			DWORD res = S2ESymbolicInt(tag.c_str(), DEFAULT_MEM_LEN);
 
-		return res;
+			if (lpFileSizeHigh != NULL) {
+				S2EMakeSymbolic(lpFileSizeHigh, 4, tag.c_str());
+			}
+			return res;
+		}
 	}
+	return GetFileSize(hFile, lpFileSizeHigh);
 }
 
 DWORD GetFileAttributesAHook(
 	LPCSTR lpFileName
 ) {
-	std::string tag = GetTag("GetFileAttributesA");
-	DWORD ret = GetFileAttributesA(lpFileName);
-	Message("[W] GetFileAttributesA (%s) Ret: %ld -> tag_out: %s\n", lpFileName, ret, tag.c_str());
-	S2EMakeSymbolic(&ret, sizeof(ret), tag.c_str());
-	return ret;
+	if (checkCaller("GetFileAttributesA")) {
+		std::string tag = GetTag("GetFileAttributesA");
+		DWORD ret = GetFileAttributesA(lpFileName);
+		Message("[W] GetFileAttributesA (%s) Ret: %ld -> tag_out: %s\n", lpFileName, ret, tag.c_str());
+		S2EMakeSymbolic(&ret, sizeof(ret), tag.c_str());
+		return ret;
+	}
+	return GetFileAttributesA(lpFileName);
 }
 
 DWORD GetFileAttributesWHook(
@@ -186,20 +202,23 @@ DWORD GetFullPathNameAHook(
 	LPSTR  lpBuffer,
 	LPSTR* lpFilePart
 ) {
-	std::string tag = GetTag("GetFullPathNameA");
-	DWORD ret = GetFullPathNameA(lpFileName, nBufferLength, lpBuffer, lpFilePart);
-	Message("[W] GetFullPathNameA (%s, %ld, %p, %p) Ret: %ld -> tag_out: %s\n", lpFileName, nBufferLength, lpBuffer, lpFilePart, ret, tag.c_str());
-	if (ret == 0) {
-		// If the function faield, symbolize the buffer and the return
-		S2EMakeSymbolic(lpBuffer, min(DEFAULT_MEM_LEN, nBufferLength), tag.c_str());
-		DWORD hack_ret = nBufferLength;
-		S2EMakeSymbolic(&hack_ret, sizeof(DWORD), tag.c_str());
-		return hack_ret;
+	if (checkCaller("GetFullPathNameA")) {
+		std::string tag = GetTag("GetFullPathNameA");
+		DWORD ret = GetFullPathNameA(lpFileName, nBufferLength, lpBuffer, lpFilePart);
+		Message("[W] GetFullPathNameA (%s, %ld, %p, %p) Ret: %ld -> tag_out: %s\n", lpFileName, nBufferLength, lpBuffer, lpFilePart, ret, tag.c_str());
+		if (ret == 0) {
+			// If the function faield, symbolize the buffer and the return
+			S2EMakeSymbolic(lpBuffer, min(DEFAULT_MEM_LEN, nBufferLength), tag.c_str());
+			DWORD hack_ret = nBufferLength;
+			S2EMakeSymbolic(&hack_ret, sizeof(DWORD), tag.c_str());
+			return hack_ret;
+		}
+		else {
+			S2EMakeSymbolic(lpBuffer, ret, tag.c_str());
+			return ret;
+		}
 	}
-	else {
-		S2EMakeSymbolic(lpBuffer, ret, tag.c_str());
-		return ret;
-	}
+	return GetFullPathNameA(lpFileName, nBufferLength, lpBuffer, lpFilePart);
 }
 
 BOOL FindCloseHook(
