@@ -689,7 +689,7 @@ void CyFiFunctionModels::handleInternetReadFile(S2EExecutionState *state, CYFI_W
     getCyfiStream(state) << "InternetreadFile " << data  << "\n";
 }
 
-void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
+void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t args[4];
     args[0] = (uint64_t) cmd.InternetCrackUrlA.pwszUrl;
@@ -706,6 +706,27 @@ void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_
             std::string sym = ss.str();
 	    std::string symbTag = getTag(sym);
             state->mem()->write(cmd.InternetCrackUrlA.symbTag, symbTag.c_str(), symbTag.length()+1);
+        } 
+    }
+}
+
+void CyFiFunctionModels::handleInternetCrackUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t args[4];
+    args[0] = (uint64_t) cmd.InternetCrackUrlW.pwszUrl;
+    args[1] = (uint64_t) cmd.InternetCrackUrlW.dwUrlLength;
+    args[2] = (uint64_t) cmd.InternetCrackUrlW.dwFlags;
+    args[3] = (uint64_t) cmd.InternetCrackUrlW.lpUrlComponents;
+
+    ref<Expr> data = state->mem()->read(args[0], state->getPointerWidth());
+
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+	        std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.InternetCrackUrlW.symbTag, symbTag.c_str(), symbTag.length()+1);
         } 
     }
 }
@@ -930,7 +951,15 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         case WINWRAPPER_INTERNETCRACKURLA: {
             ref<Expr> retExpr;
-            handleInternetCrackUrlA(state, command, retExpr);
+            handleInternetCrackUrlA(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "InternetCrackUrlA: Could not write to guest memory\n";
+            }
+        } break;
+
+        case WINWRAPPER_INTERNETCRACKURLW: {
+            ref<Expr> retExpr;
+            handleInternetCrackUrlW(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "InternetCrackUrlA: Could not write to guest memory\n";
             }
