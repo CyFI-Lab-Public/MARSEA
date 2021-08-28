@@ -74,7 +74,7 @@ BOOL WINAPI WinHttpReadDataHook(
 ) {
 
     if (dwNumberOfBytesToRead) {
-        dwNumberOfBytesToRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
+        *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
     }
     std::string tag = GetTag("WinHttpReadData");
     S2EMakeSymbolic(lpBuffer, dwNumberOfBytesToRead, tag.c_str());
