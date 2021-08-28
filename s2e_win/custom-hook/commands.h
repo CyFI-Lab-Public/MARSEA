@@ -36,8 +36,6 @@ extern "C" {
         WINWRAPPER_INTERNETCRACKURLA,
         WINWRAPPER_INTERNETCONNECTA,
         WINWRAPPER_INTERNETCONNECTW,
-        WRINWRAPPER_INTERNETWRITEFILE,
-
         WINWRAPPER_MULTIBYTETOWIDECHAR,
 
         WINWRAPPER_WCSSTR,
@@ -116,12 +114,14 @@ extern "C" {
     struct CYFI_WINWRAPPER_COMMAND_STRSTRA {
         uint64_t pszFirst;
         uint64_t pszSrch;
+        uint64_t symbTag;
         bool symbolic;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_STRSTRW {
         uint64_t pszFirst;
         uint64_t pszSrch;
+        uint64_t symbTag;
         bool symbolic;
 
     };
@@ -144,6 +144,7 @@ extern "C" {
         uint64_t dwUrlLength;
         uint64_t dwFlags;
         uint64_t lpUrlComponents;
+        uint64_t symbTag;
         bool symbolic;
     };
 
@@ -156,6 +157,7 @@ extern "C" {
         uint64_t    dwService;
         uint64_t    dwFlags;
         uint64_t    dwContext;
+        uint64_t symbTag;
         bool symbolic;
     };
 
@@ -168,6 +170,7 @@ extern "C" {
         uint64_t    dwService;
         uint64_t    dwFlags;
         uint64_t    dwContext;
+        uint64_t symbTag;
         bool symbolic;
     };
 
@@ -178,11 +181,13 @@ extern "C" {
         uint64_t lpdwNumberOfBytesRead;
     };
 
-    struct CYFI_WINWRAPPER_COMMAND_INTERNETWRITEFILE {
-        uint64_t hFile;
-        uint64_t lpBuffer;
-        uint64_t dwNumberOfBytesToWrite;
-        uint64_t lpdwNumberOfBytesWritten;
+    struct CYFI_WINWRAPPER_COMMAND_WINHTTPCRACKURL {
+        uint64_t pwszUrl;
+        uint64_t dwUrlLength;
+        uint64_t dwFlags;
+        uint64_t lpUrlComponents;
+        uint64_t symbTag;
+        bool symbolic;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT {
@@ -190,6 +195,7 @@ extern "C" {
         uint64_t pswzServerName;
         uint64_t nServerPort;
         uint64_t dwReserved;
+        uint64_t symbTag;
         bool symbolic;
     };
 
@@ -200,15 +206,6 @@ extern "C" {
         uint64_t lpdwNumberOfBytesWritten;
     };
 
-
-    struct CYFI_WINWRAPPER_COMMAND_WINHTTPCRACKURL {
-        uint64_t pwszUrl;
-        uint64_t dwUrlLength;
-        uint64_t dwFlags;
-        uint64_t lpUrlComponents;
-        bool symbolic;
-    };
-
     struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {
         uint64_t CodePage;
         uint64_t dwFlags;
@@ -216,12 +213,14 @@ extern "C" {
         int cbMultiByte;
         uint64_t lpWideCharStr;
         int ccWideChar;
+        uint64_t symbTag;
         bool symbolic;
     };
 
     struct CYFI_WINWRAPPER_COMMAND_WCSSTR {
         uint64_t str;
         uint64_t strSearch;
+        uint64_t symbTag;
         bool symbolic;
     };
 
@@ -240,7 +239,6 @@ extern "C" {
     struct CYFI_CHECK_CALLER {
         uint64_t funcName;
         bool isTargetModule;
-        uint64_t symbTag;
     };
 
     struct CYFI_WINWRAPPER_COMMAND {
@@ -268,7 +266,6 @@ extern "C" {
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA WinHttpWriteData;
 
             struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE InternetReadFile;
-            struct CYFI_WINWRAPPER_COMMAND_INTERNETWRITEFILE InternetWriteFile;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA InternetCrackUrlA;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTA InternetConnectA;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTW InternetConnectW;

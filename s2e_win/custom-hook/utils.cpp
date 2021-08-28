@@ -20,12 +20,14 @@ void Message(LPCSTR fmt, ...) {
     va_list args;
 
     va_start(args, fmt);
-    vsnprintf(message, S2E_MSG_LEN, fmt, args);
+    int written = vsnprintf(message, S2E_MSG_LEN, fmt, args);
     va_end(args);
 
+    //printf("cyfi debug 1 %s", message);
+
     if (s2eVersion) {
-        S2ECyfiMessageFmt("[0x%x|malware-hook] %s", GetCurrentProcessId(),
-            message);
+        S2ECyfiMessageFmt("[0x%x|malware-hook] %s written: %d", GetCurrentProcessId(),
+            message, written);
         //S2EMessageFmt("[0x%x|malware-hook] %s", GetCurrentProcessId(),
         //    message);
     }
@@ -48,14 +50,14 @@ bool checkCaller(std::string funcName) {
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
     Command.Command = CHECK_CALLER;
     Command.CheckCaller.funcName = (uint64_t)funcName.c_str();
-    std::string symbTag = "";
-    Command.CheckCaller.symbTag = (uint64_t)symbTag.c_str();
+    //std::string symbTag = "";
+    //Command.CheckCaller.symbTag = (uint64_t)symbTag.c_str();
 
-    __s2e_touch_string((PCSTR)(UINT_PTR)Command.CheckCaller.symbTag);
+    //__s2e_touch_string((PCSTR)(UINT_PTR)Command.CheckCaller.symbTag);
 
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-    Message("Tag is: %s\n", Command.CheckCaller.symbTag);
+    //Message("Tag is: %s\n", Command.CheckCaller.symbTag);
 
     return Command.CheckCaller.isTargetModule;
 }

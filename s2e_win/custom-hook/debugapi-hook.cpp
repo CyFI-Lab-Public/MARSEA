@@ -5,12 +5,19 @@ BOOL CheckRemoteDebuggerPresentHook(
 	HANDLE hProcess,
 	PBOOL  pbDebuggerPresent
 ) {
-	Message("[W] CheckRemoteDebuggerPresent (%p, %p)\n", hProcess, pbDebuggerPresent);
-	*pbDebuggerPresent = FALSE;
-	return TRUE;
+	if (checkCaller("CheckRemoteDebuggerPresent")) {
+		Message("[W] CheckRemoteDebuggerPresent (%p, %p)\n", hProcess, pbDebuggerPresent);
+		*pbDebuggerPresent = FALSE;
+		return TRUE;
+	}
+	return CheckRemoteDebuggerPresent(hProcess, pbDebuggerPresent);
 }
 
 BOOL IsDebuggerPresentHook() {
-	Message("[W] IsDebuggerPresent\n");
-	return FALSE;
+	if (checkCaller("IsDebuggerPresent")) {
+
+		Message("[W] IsDebuggerPresent\n");
+		return FALSE;
+	}
+	return IsDebuggerPresent();
 }
