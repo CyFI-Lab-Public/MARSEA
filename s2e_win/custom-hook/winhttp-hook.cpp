@@ -14,29 +14,29 @@ BOOL WINAPI WinHttpCrackUrlHook(
 	DWORD            dwFlags,
 	winhttp::LPURL_COMPONENTS lpUrlComponents
 ) {
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_WINHTTPCRACKURL;
-    Command.WinHttpCrackUrl.pwszUrl = (uint64_t)pwszUrl;
-    Command.WinHttpCrackUrl.dwUrlLength = (uint64_t)dwUrlLength;
-    Command.WinHttpCrackUrl.dwFlags = (uint64_t)dwFlags;
-    Command.WinHttpCrackUrl.lpUrlComponents = (uint64_t)lpUrlComponents;
+    if(checkCaller("WinHttpCrackUrl")) {
+        if (S2EIsSymbolic((PVOID)pwszUrl, 0x4)) {
+            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+            Command.Command = WINWRAPPER_WINHTTPCRACKURL;
+            Command.WinHttpCrackUrl.pwszUrl = (uint64_t)pwszUrl;
+            Command.WinHttpCrackUrl.dwUrlLength = (uint64_t)dwUrlLength;
+            Command.WinHttpCrackUrl.dwFlags = (uint64_t)dwFlags;
+            Command.WinHttpCrackUrl.lpUrlComponents = (uint64_t)lpUrlComponents;
+            std::string symbTag = "";
+            Command.WinHttpCrackUrl.symbTag = (uint64_t)symbTag.c_str();
+            __s2e_touch_string((PCSTR)(UINT_PTR)Command.WinHttpCrackUrl.symbTag);
+            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
-    if (Command.WinHttpCrackUrl.symbolic) {
-        pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
-        winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
-        std::string tag = GetTag("WinHttpCrackUrl");
-        S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
-        Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> tag_out: %s\n",
-            pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tag.c_str());
-        return TRUE;
+            pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
+            winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
+            std::string tag = GetTag("WinHttpCrackUrl");
+            S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
+            Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> tag_in: %p, tag_out: %s\n",
+                pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, (uint32_t)Command.WinHttpCrackUrl.symbTag, tag.c_str());
+            return TRUE;
+        }
     }
-    else {
-        Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p)\n", pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
-        bool ret = winhttp::WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
-        return ret;
-    }
+    return winhttp::WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
 }
 
 BOOL WINAPI WinHttpSendRequestHook(
@@ -74,7 +74,7 @@ BOOL WINAPI WinHttpReadDataHook(
 ) {
 
     if (dwNumberOfBytesToRead) {
-        dwNumberOfBytesToRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
+        *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
     }
     std::string tag = GetTag("WinHttpReadData");
     S2EMakeSymbolic(lpBuffer, dwNumberOfBytesToRead, tag.c_str());
@@ -112,20 +112,30 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
     winhttp::INTERNET_PORT nServerPort,
     DWORD dwReserved
 ) {
+    if (checkCaller("WinHttpConnect")) {
+        if (S2EIsSymbolic((PVOID)pswzServerName, 0x4)) {
+            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+            Command.Command = WINWRAPPER_WINHTTPCONNECT;
+            Command.WinHttpConnect.hSession = (uint64_t)hSession;
+            Command.WinHttpConnect.pswzServerName = (uint64_t)pswzServerName;
+            Command.WinHttpConnect.nServerPort = (uint64_t)nServerPort;
+            Command.WinHttpConnect.dwReserved = (uint64_t)dwReserved;
+            std::string symbTag = "";
+            Command.WinHttpConnect.symbTag = (uint64_t)symbTag.c_str();
+            __s2e_touch_string((PCSTR)(UINT_PTR)Command.WinHttpConnect.symbTag);
+            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_WINHTTPCONNECT;
-    Command.WinHttpConnect.hSession = (uint64_t)hSession;
-    Command.WinHttpConnect.pswzServerName = (uint64_t)pswzServerName;
-    Command.WinHttpConnect.nServerPort = (uint64_t)nServerPort;
-    Command.WinHttpConnect.dwReserved = (uint64_t)dwReserved;
-
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
-    dummyHandles.insert(connectionHandle);
-    Message("[W] WinHttpConnect (%p, A\"%ls\", i, %ld), Ret: %p\n",
-        hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
-    return connectionHandle;
+            winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+            dummyHandles.insert(connectionHandle);
+            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), DDR (%s)\n",
+                hSession, pswzServerName, nServerPort, dwReserved, (uint32_t)Command.WinHttpConnect.symbTag);
+            exit(0);
+            return connectionHandle;
+        }
+    }
+    Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld)\n",
+        hSession, pswzServerName, nServerPort, dwReserved);
+    return winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
 }
 
 BOOL WINAPI WinHttpAddRequestHeadersHook(
@@ -292,46 +302,17 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
     LPCWSTR pszProxyBypassW,
     DWORD dwFlags
 ) {
-    if (checkCaller("WinHttpOpen")) {
+    /*if (checkCaller("WinHttpOpen")) {
         Message("Called by the target");
     }
     else {
         Message("Not called by the target");
-    }
+    }*/
     //WinHttpOpen should still succeed w/o network
-    //winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
-    g_unique_handle += 100;
-    winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(g_unique_handle, NULL, NULL, NULL, NULL);
-    dummyHandles.insert(sessionHandle);    
+    winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
     Message("[W] WinHttpOpen (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
         pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
     return sessionHandle;
-    //std::set<HINTERNET>::iterator it = dummyHandles.find(sessionHandle);
-
-    //UINT8 returnSession = S2ESymbolicChar("pszAgentW", 1);
-    //if (returnSession) {
-    //    if (it == dummyHandles.end()) {
-    //        // The handle is not one of our dummy handles
-    //        dummyHandles.insert(sessionHandle);
-    //    }
-    //    else {
-    //        // The handle is a dummy handle. 
-    //        g_unique_handle += 100;
-    //        HINTERNET sessionHandle = winhttp::WinHttpOpen(g_unique_handle, NULL, NULL, NULL, NULL);
-    //        Message("Needed unique %s", g_unique_handle);
-    //        dummyHandles.insert(sessionHandle);
-    //    }
-
-    //    Message("[W] WinHttpOpen(A\"%ls\", %i, A\"%ls\", A\"%ls\", %i) Ret: %p\n",
-    //        pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
-
-    //    return sessionHandle;
-    //}
-    //else {
-    //    // Explore when WinHttpOpen fails
-    //    return NULL;
-    //}
-
 }
 
 BOOL WINAPI WinHttpReceiveResponseHook(

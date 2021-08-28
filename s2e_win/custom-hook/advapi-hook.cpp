@@ -11,20 +11,23 @@ LSTATUS RegOpenKeyExAHook(
 	REGSAM samDesired,
 	PHKEY  phkResult
 ) {
-	std::string tag = GetTag("RegOpenKeyExA");
-	Message("[W] RegOpenKeyExA (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, tag.c_str());
-	LSTATUS lResult = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
-	if (lResult == ERROR_SUCCESS) {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
+	if (checkCaller("RegOpenKeyExA")) {
+		std::string tag = GetTag("RegOpenKeyExA");
+		Message("[W] RegOpenKeyExA (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, tag.c_str());
+		LSTATUS lResult = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
+		if (lResult == ERROR_SUCCESS) {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else {
+			HKEY hackHandle = (HKEY)malloc(sizeof(HKEY));
+			*phkResult = hackHandle;
+			dummyHandles.insert(hackHandle);
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_FILE_NOT_FOUND);
+			return fakeResult;
+		}
 	}
-	else {
-		HKEY hackHandle = (HKEY)malloc(sizeof(HKEY));
-		*phkResult = hackHandle;
-		dummyHandles.insert(hackHandle);
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_FILE_NOT_FOUND);
-		return fakeResult;
-	}
+	return RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 }
 
 LSTATUS RegOpenKeyExWHook(
@@ -34,37 +37,43 @@ LSTATUS RegOpenKeyExWHook(
 	REGSAM samDesired,
 	PHKEY  phkResult
 ) {
-	std::string tag = GetTag("RegOpenKeyExW");
-	Message("[W] RegOpenKeyExW (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, tag.c_str());
-	LSTATUS lResult = RegOpenKeyExW(hKey, lpSubKey, ulOptions, samDesired, phkResult);
-	if (lResult == ERROR_SUCCESS) {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
+	if (checkCaller("RegOpenKeyExW")) {
+		std::string tag = GetTag("RegOpenKeyExW");
+		Message("[W] RegOpenKeyExW (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, tag.c_str());
+		LSTATUS lResult = RegOpenKeyExW(hKey, lpSubKey, ulOptions, samDesired, phkResult);
+		if (lResult == ERROR_SUCCESS) {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else {
+			HKEY hackHandle = (HKEY)malloc(sizeof(HKEY));
+			*phkResult = hackHandle;
+			dummyHandles.insert(hackHandle);
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_FILE_NOT_FOUND);
+			return fakeResult;
+		}
 	}
-	else {
-		HKEY hackHandle = (HKEY)malloc(sizeof(HKEY));
-		*phkResult = hackHandle;
-		dummyHandles.insert(hackHandle);
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_FILE_NOT_FOUND);
-		return fakeResult;
-	}
+	return RegOpenKeyExW(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 }
 
 LSTATUS RegCloseKeyHook(
 	HKEY hKey
 ) {
-	Message("[W] RegCloseKey (%p)\n", hKey);
-	
-	std::set<HKEY>::iterator it = dummyHandles.find(hKey);
+	if (checkCaller("RegCloseKey")) {
+		Message("[W] RegCloseKey (%p)\n", hKey);
 
-	if (it == dummyHandles.end()) {
-		return RegCloseKey(hKey);
+		std::set<HKEY>::iterator it = dummyHandles.find(hKey);
+
+		if (it == dummyHandles.end()) {
+			return RegCloseKey(hKey);
+		}
+		else {
+			free(*it);
+			dummyHandles.erase(it);
+			return ERROR_SUCCESS;
+		}
 	}
-	else {
-		free(*it);
-		dummyHandles.erase(it);
-		return ERROR_SUCCESS;
-	}
+	return RegCloseKey(hKey);
 }
 
 LSTATUS RegGetValueAHook(
@@ -76,30 +85,34 @@ LSTATUS RegGetValueAHook(
 	PVOID   pvData,
 	LPDWORD pcbData
 ) {
-	std::string tag = GetTag("RegGetValueA");
-	Message("[W] RegGetValueA (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
-	
-	// If it is not a dummy handle, call concretely
-	std::set<HKEY>::iterator it = dummyHandles.find(hkey);
+	if (checkCaller("RegGetValueA")) {
 
-	if (it == dummyHandles.end()) {
-		LSTATUS lResult = RegGetValueA(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+		std::string tag = GetTag("RegGetValueA");
+		Message("[W] RegGetValueA (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
+
+		// If it is not a dummy handle, call concretely
+		std::set<HKEY>::iterator it = dummyHandles.find(hkey);
+
+		if (it == dummyHandles.end()) {
+			LSTATUS lResult = RegGetValueA(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+		}
+		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
+		if (pvData == NULL && pcbData != NULL) {
+			// We need to consider the malware try to read the register value about vm
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else if (pvData == NULL && pcbData == NULL) {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			S2EMakeSymbolic(pvData, *pcbData, tag.c_str());
+			return fakeResult;
+		}
 	}
-	// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
-	if (pvData == NULL && pcbData != NULL) {
-		// We need to consider the malware try to read the register value about vm
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else if (pvData == NULL && pcbData == NULL) {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		S2EMakeSymbolic(pvData, *pcbData, tag.c_str());
-		return fakeResult;
-	}
+	return RegGetValueA(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
 }
 
 LSTATUS RegGetValueWHook(
@@ -111,29 +124,33 @@ LSTATUS RegGetValueWHook(
 	PVOID   pvData,
 	LPDWORD pcbData
 ) {
-	std::string tag = GetTag("RegGetValueW");
-	Message("[W] RegGetValueW (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
-	// If it is not a dummy handle, call concretely
-	std::set<HKEY>::iterator it = dummyHandles.find(hkey);
+	if (checkCaller("RegGetValueW")) {
 
-	if (it == dummyHandles.end()) {
-		LSTATUS lResult = RegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+		std::string tag = GetTag("RegGetValueW");
+		Message("[W] RegGetValueW (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
+		// If it is not a dummy handle, call concretely
+		std::set<HKEY>::iterator it = dummyHandles.find(hkey);
+
+		if (it == dummyHandles.end()) {
+			LSTATUS lResult = RegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
+		}
+		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
+		if (pvData == NULL && pcbData != NULL) {
+			// We need to consider the malware try to read the register value about vm
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else if (pvData == NULL && pcbData == NULL) {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			S2EMakeSymbolic(pvData, *pcbData, tag.c_str());
+			return fakeResult;
+		}
 	}
-	// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
-	if (pvData == NULL && pcbData != NULL) {
-		// We need to consider the malware try to read the register value about vm
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else if (pvData == NULL && pcbData == NULL) {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		S2EMakeSymbolic(pvData, *pcbData, tag.c_str());
-		return fakeResult;
-	}
+	return RegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
 }
 
 LSTATUS RegQueryValueExAHook(
@@ -144,30 +161,33 @@ LSTATUS RegQueryValueExAHook(
 	LPBYTE  lpData,
 	LPDWORD lpcbData
 ) {
+	if (checkCaller("RegQueryValueExA")) {
 
-	std::string tag = GetTag("RegQueryValueExA");
-	Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
-	// If it is not a dummy handle, call concretely
-	std::set<HKEY>::iterator it = dummyHandles.find(hKey);
+		std::string tag = GetTag("RegQueryValueExA");
+		Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
+		// If it is not a dummy handle, call concretely
+		std::set<HKEY>::iterator it = dummyHandles.find(hKey);
 
-	if (it == dummyHandles.end()) {
-		LSTATUS lResult = RegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
+		if (it == dummyHandles.end()) {
+			LSTATUS lResult = RegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
+		}
+		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
+		if (lpData == NULL && lpcbData != NULL) {
+			// We need to consider the malware try to read the register value about vm
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else if (lpData == NULL && lpcbData == NULL) {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			S2EMakeSymbolic(lpData, *lpcbData, tag.c_str());
+			return fakeResult;
+		}
 	}
-	// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
-	if (lpData == NULL && lpcbData != NULL) {
-		// We need to consider the malware try to read the register value about vm
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else if (lpData == NULL && lpcbData == NULL) {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		S2EMakeSymbolic(lpData, *lpcbData, tag.c_str());
-		return fakeResult;
-	}
+	return RegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
 }
 
 LSTATUS RegQueryValueExWHook(
@@ -178,27 +198,31 @@ LSTATUS RegQueryValueExWHook(
 	LPBYTE  lpData,
 	LPDWORD lpcbData
 ) {
-	std::string tag = GetTag("RegQueryValueExW");
-	Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
-	// If it is not a dummy handle, call concretely
-	std::set<HKEY>::iterator it = dummyHandles.find(hKey);
+	if (checkCaller("RegQueryValueExW")) {
 
-	if (it == dummyHandles.end()) {
-		LSTATUS lResult = RegQueryValueExW(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
+		std::string tag = GetTag("RegQueryValueExW");
+		Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
+		// If it is not a dummy handle, call concretely
+		std::set<HKEY>::iterator it = dummyHandles.find(hKey);
+
+		if (it == dummyHandles.end()) {
+			LSTATUS lResult = RegQueryValueExW(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
+		}
+		// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
+		if (lpData == NULL && lpcbData != NULL) {
+			// We need to consider the malware try to read the register value about vm
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else if (lpData == NULL && lpcbData == NULL) {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			return fakeResult;
+		}
+		else {
+			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
+			S2EMakeSymbolic(lpData, *lpcbData, tag.c_str());
+			return fakeResult;
+		}
 	}
-	// if pvData is NULL and pcbData is non-NULL, the malware is trying to get the size first
-	if (lpData == NULL && lpcbData != NULL) {
-		// We need to consider the malware try to read the register value about vm
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else if (lpData == NULL && lpcbData == NULL) {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		return fakeResult;
-	}
-	else {
-		LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
-		S2EMakeSymbolic(lpData, *lpcbData, tag.c_str());
-		return fakeResult;
-	}
+	return RegQueryValueExW(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
 }

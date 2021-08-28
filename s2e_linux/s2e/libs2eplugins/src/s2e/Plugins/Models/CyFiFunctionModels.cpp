@@ -16,7 +16,6 @@
 #include <iostream>
 #include <sstream>
 #include <string>
-#include <map>
 #include <unordered_map>
 
 #include "CyFiFunctionModels.h"
@@ -31,26 +30,23 @@ S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for li
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
     m_memutils = s2e()->getPlugin<MemUtils>();
+
+    instructionMonitor = s2e()->getConfig()->getBool(getConfigKey() + ".instructionMonitor");
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
     m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
+
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
     m_vmi = s2e()->getPlugin<Vmi>();
-
-
-    // TODO: implement get string list for instruction tracing
-    // ins_tracker = (bool) s2e()->getConfig()->getInt(getConfigKey() + ".instructionTracker");
 
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
-    if (func_to_monitor > 0) {
-        // Get an instance of the FunctionMonitor plugin
-        FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
+    // Get an instance of the FunctionMonitor plugin
+    FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
 
-        // Get a notification when a function is called
-        monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
-    }
-
+    // Get a notification when a function is called
+    monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
+    
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
 
 }
@@ -128,32 +124,46 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
 
 void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
 
-    std::map<std::string, int> m { 
-        {"eax", R_EAX}, 
-        {"ebx", R_EBX}, 
-        {"ecx", R_ECX}, 
-        {"edx", R_EDX}, 
-        {"esi", R_ESI}, 
-        {"edi", R_EDI}, 
-        {"ebp", R_EBP}, 
-        {"esp", R_ESP},        
-        };
+    static std::unordered_map<std::string, int> m {
+        {"eax", R_EAX},
+        {"ebx", R_EBX},
+        {"ecx", R_ECX},
+        {"edx", R_EDX},
+        {"esi", R_ESI},
+        {"edi", R_EDI},
+        {"ebp", R_EBP},
+        {"esp", R_ESP},
+    };
 
-        uint32_t   temp;
+    uint32_t temp;
 
-        state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
-        ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
-            } else {
+    state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
+    ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
+    if (!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
+        } else {
+            std::ostringstream ss;
+            ss << data;
+            uint32_t addr = std::stol(ss.str(), nullptr, 16);
+             
+            ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
+            if (!level_one.isNull()) {
+                if (!isa<ConstantExpr>(data)) {
+                    getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " contains symbolic data: " << level_one << ".\n";
+                } else {
+                    getDebugStream(state) << reg << " "  << data << " at " << hexval(temp) << " contains concrete data: " << level_one << ".\n";
+                }
+            }
+            else {
                 getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
             }
         }
-        else {
-            data = state->mem()->read(CPU_OFFSET(regs[m[reg]]), state->getPointerWidth());
-            getDebugStream(state) << reg << " " << data <<  " at " << hexval(temp) << "\n";
-        }        
+    }
+    else {
+        data = state->mem()->read(CPU_OFFSET(regs[m[reg]]), state->getPointerWidth());
+        getDebugStream(state) << reg << " " << data <<  " at " << hexval(temp) << "\n";
+    }
 }
 
 void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
@@ -161,34 +171,29 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 TranslationBlock *tb,
                                                 uint64_t pc) {
 
-    // TODO: Fix this so we can specify from the lua file
-    // Must manually specify instructions you want to instrument
-    // if(pc >= x && pc <= y)                            
-
     // When we find an interesting address, ask S2E to invoke our callback when the address is actually
     // executed
+    if(!instructionMonitor){
+        return;
+    }
 
     auto currentMod = m_map->getModule(state, pc);
 
-    if (currentMod) {
-        bool ok = true;
-        uint64_t relPc;
-        ok &= currentMod.get()->ToNativeBase(pc, relPc);
-        if(ok){
-            if ((relPc >= 0x401450 && relPc <= 0x401534)||
-                (relPc >= 0x40e4f6 && relPc <= 0x40e554)||
-                (relPc >= 0x403410 && relPc <= 0x405eee)||
-                (relPc >= 0x4027d0 && relPc <= 0x4028ff)||
-                (relPc >= 0x402bd0 && relPc <= 0x402dff)||
-                (relPc >= 0x406220 && relPc <= 0x406254)||
-                (relPc >= 0x401050 && relPc <= 0x4010c0)||
-                (relPc >= 0x401260 && relPc <= 0x401352)||
-                (relPc >= 0x401fd0 && relPc <= 0x40217b)) {
-                signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
-            }
+    if (!currentMod) {
+        return;
+    }
+    // If the config contains "moduleName", then we can use that information to check if the
+    // module that the PC is currently in is the one we're interested in.
+    if (!m_moduleName.empty()) {
+        // If the current module is the one we're looking for, connect to the
+        // onInstructionExecution signal.
+
+        if (currentMod->Name != m_moduleName) {
+            signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
         }
     }
-    
+    return;
+   
 }
 
 // This callback is called only when the instruction at our address is executed.
@@ -200,7 +205,7 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
     if (currentMod) {
         bool ok = true;
         uint64_t relPc;
-        ok &= currentMod.get()->ToNativeBase(pc, relPc);
+        ok &= currentMod->ToNativeBase(pc, relPc);
         if(ok){
             s2e()->getDebugStream(state) << "Executed instruction: " << hexval(relPc) <<  '\n';
             std::ostringstream ss;
@@ -222,6 +227,11 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
 void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
                      const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
                      const FunctionMonitor::ReturnSignalPtr &returnSignal) {
+
+    if (func_to_monitor == 0) {
+        return;
+    }
+
     // Filter out functions we don't care about
     if (state->regs()->getPc() != func_to_monitor) {
         return;
@@ -341,22 +351,17 @@ void CyFiFunctionModels::handleMemcpy(S2EExecutionState *state, CYFI_WINWRAPPER_
     if(!data.isNull()) {
         if (!isa<ConstantExpr>(data)) {
             getDebugStream(state) << "Argument " << data << " at " << hexval(memAddrs[1]) << " is symbolic\n";
-            cmd.Memcpy.symbolic = true;
-        } else {
-            cmd.Memcpy.symbolic = false;
-        }
+        } 
     }
     
     // Perform the memory copy. We don't use the return expression here because it is just a concrete address
     ref<Expr> retExpr;
      if (memcpyHelper(state, memAddrs, numBytes, retExpr)){
         cmd.needOrigFunc = 0;
-    } else {
-        if (cmd.Memcpy.symbolic) {
-            cmd.needOrigFunc = 0;
-        } else {
-            cmd.needOrigFunc = 1;
-        }
+    } 
+    else {
+        cmd.needOrigFunc = 1;
+  
     }
 
 
@@ -390,10 +395,7 @@ void CyFiFunctionModels::handleMemset(S2EExecutionState *state, CYFI_WINWRAPPER_
         if(!data.isNull()) {
             if (!isa<ConstantExpr>(data)) {
                 getDebugStream(state) << "Argument " << data << " at " << hexval(memAddrs[0]) << " is symbolic\n";
-                cmd.Memset.symbolic = true;
-            } else {
-                cmd.Memset.symbolic = false;
-            }
+            } 
         }
     }
 }
@@ -437,16 +439,15 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
     stringAddrs[0] = (uint64_t) cmd.StrStrA.pszFirst;
     stringAddrs[1] = (uint64_t) cmd.StrStrA.pszSrch;
 
-    if (StrStrAHelper(state, stringAddrs, retExpr)) {
-        std::ostringstream ss;
-        ss << retExpr;
-        std::string sym = ss.str();
-	    std::string symb_tag = getTag(sym);
-        getCyfiStream(state) << "[L] StrStrA (" << hexval(stringAddrs[0]) << ", " << hexval(stringAddrs[1]) << ") -> tag_in: " << symb_tag << "\n";
-        cmd.StrStrA.symbolic = true;
-    } else {
-        //getCyfiStream(state) << "[L] StrStrA pszFirst = " << retExpr << ", " << hexval(stringAddrs[0]) << " is concrete\n";
-        cmd.StrStrA.symbolic = false;
+    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+	        std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.StrStrA.symbTag, symbTag.c_str(), symbTag.length()+1);
+        }
     }
 }
 
@@ -462,12 +463,8 @@ void CyFiFunctionModels::handleStrStrW(S2EExecutionState *state, CYFI_WINWRAPPER
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-            std::string symb_tag = getTag(sym);
-            getCyfiStream(state) << "[L] StrStrW (" << hexval(stringAddrs[0]) << ", " << hexval(stringAddrs[1]) << ") -> tag_in: " << symb_tag << "\n";
-            cmd.StrStrW.symbolic = true;
-        } else {
-            //getCyfiStream(state) << "[L] StrStrA pszFirst = " << retExpr << ", " << hexval(stringAddrs[0]) << " is concrete\n";
-            cmd.StrStrW.symbolic = false;
+	        std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.StrStrW.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }
 }
@@ -484,12 +481,8 @@ void CyFiFunctionModels::handleWcsstr(S2EExecutionState *state, CYFI_WINWRAPPER_
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-            std::string symb_tag = getTag(sym);
-            getCyfiStream(state) << "[L] wcsstr (" << hexval(stringAddrs[0]) << ", " << hexval(stringAddrs[1]) << ") -> tag_in: " << symb_tag << "\n";
-            cmd.wcsstr.symbolic = true;
-        } else {
-            //getCyfiStream(state) << "[L] StrStrA pszFirst = " << retExpr << ", " << hexval(stringAddrs[0]) << " is concrete\n";
-            cmd.wcsstr.symbolic = false;
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.wcsstr.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }
 }
@@ -533,14 +526,10 @@ void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WIN
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-	        std::string symb_tag = getTag(sym);
-            getCyfiStream(state) << "[L] WinHttpConnect (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> tag_in: " << symb_tag << "\n";
-            cmd.WinHttpConnect.symbolic = true;
-        } /*else {
-            //getCyfiStream(state) << "[L] WinHttpConnect pwszUrl = " << data << ", " << hexval(args[1]) << " is concrete\n";
-            cmd.WinHttpConnect.symbolic = false;
-        }*/
-    }    
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.WinHttpConnect.symbTag, symbTag.c_str(), symbTag.length()+1);
+        }
+    }
 }
 
 void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
@@ -551,8 +540,6 @@ void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WI
     args[2] = (uint64_t) cmd.WinHttpCrackUrl.dwFlags;
     args[3] = (uint64_t) cmd.WinHttpCrackUrl.lpUrlComponents;
 
-    //getCyfiStream(state) << "WinHttpCrackUrl (" << args[0] << ", " << args[1] << ", " << args[2] << ", " << args[3] << ")\n";
-
     ref<Expr> data = state->mem()->read(args[0], state->getPointerWidth());
 
     if(!data.isNull()) {
@@ -560,12 +547,8 @@ void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WI
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-	        std::string symb_tag = getTag(sym);
-            getCyfiStream(state) << "[L] WinHttpCrackUrl (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> tag_in: " << symb_tag << "\n";
-            cmd.WinHttpCrackUrl.symbolic = true;
-        } else {
-            //getCyfiStream(state) << "[L] WinHttpCrackUrl (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> concrete: " << data << "\n";
-            cmd.WinHttpCrackUrl.symbolic = false;
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.WinHttpCrackUrl.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }
 }
@@ -598,11 +581,7 @@ void CyFiFunctionModels::handleMultiByteToWideChar(S2EExecutionState *state, CYF
         if(!data.isNull()) {
             if (!isa<ConstantExpr>(data)) {
                 getDebugStream(state) << "Argument " << data << " at " << hexval(args[2]) << " is symbolic\n";
-                cmd.MultiByteToWideChar.symbolic = true;
-            } else {
-                //getDebugStream(state) << "Argument " << data << " at " << hexval(args[2]) << " is concrete\n";
-                cmd.MultiByteToWideChar.symbolic = false;
-        }
+            } 
        }
     }
 }
@@ -627,18 +606,8 @@ void CyFiFunctionModels::handleInternetConnectA(S2EExecutionState *state, CYFI_W
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-	        std::string symb_tag = getTag(sym);
-            getCyfiStream(state) << "[L] InternetConnectA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
-                                << hexval(args[2]) << ", " << hexval(args[3]) << ", " 
-                                << hexval(args[4]) << ", " << hexval(args[4])
-                                << hexval(args[6]) << ", " << hexval(args[7]) << ") -> tag_in: " << symb_tag << "\n";
-            cmd.InternetConnectA.symbolic = true;
-        } else {
-            /*getCyfiStream(state) << "[L] InternetConnectA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
-                                << hexval(args[2]) << ", " << hexval(args[3]) << ", " 
-                                << hexval(args[4]) << ", " << hexval(args[4])
-                                << hexval(args[6]) << ", " << hexval(args[7]) << ") ->  concrete:: " << data << "\n"; */           
-            cmd.InternetConnectA.symbolic = false;
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.InternetConnectA.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }    
 }
@@ -663,18 +632,54 @@ void CyFiFunctionModels::handleInternetConnectW(S2EExecutionState *state, CYFI_W
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-	        std::string symb_tag = getTag(sym);
-            getCyfiStream(state) << "[L] InternetConnectW (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
-                                << hexval(args[2]) << ", " << hexval(args[3]) << ", " 
-                                << hexval(args[4]) << ", " << hexval(args[4])
-                                << hexval(args[6]) << ", " << hexval(args[7]) << ") -> tag_in: " << symb_tag << "\n";
-            cmd.InternetConnectA.symbolic = true;
-        } else {
-            /*getCyfiStream(state) << "[L] InternetConnectW (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " 
-                                << hexval(args[2]) << ", " << hexval(args[3]) << ", " 
-                                << hexval(args[4]) << ", " << hexval(args[4])
-                                << hexval(args[6]) << ", " << hexval(args[7]) << ") ->  concrete:: " << data << "\n";*/            
-            cmd.InternetConnectA.symbolic = false;
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.InternetConnectW.symbTag, symbTag.c_str(), symbTag.length()+1);
+        } 
+    }    
+}
+
+void CyFiFunctionModels::handleInternetOpenUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t args[6];
+    args[0] = (uint64_t) cmd.InternetOpenUrlA.hInternet;
+    args[1] = (uint64_t) cmd.InternetOpenUrlA.lpszUrl;
+    args[2] = (uint64_t) cmd.InternetOpenUrlA.lpszHeaders;
+    args[3] = (uint64_t) cmd.InternetOpenUrlA.dwHeadersLength;
+    args[4] = (uint64_t) cmd.InternetOpenUrlA.dwFlags;
+    args[5] = (uint64_t) cmd.InternetOpenUrlA.dwContext;
+
+    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
+
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.InternetOpenUrlA.symbTag, symbTag.c_str(), symbTag.length()+1);
+        }
+    }    
+}
+
+void CyFiFunctionModels::handleInternetOpenUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t args[6];
+    args[0] = (uint64_t) cmd.InternetOpenUrlW.hInternet;
+    args[1] = (uint64_t) cmd.InternetOpenUrlW.lpszUrl;
+    args[2] = (uint64_t) cmd.InternetOpenUrlW.lpszHeaders;
+    args[3] = (uint64_t) cmd.InternetOpenUrlW.dwHeadersLength;
+    args[4] = (uint64_t) cmd.InternetOpenUrlW.dwFlags;
+    args[5] = (uint64_t) cmd.InternetOpenUrlW.dwContext;
+
+    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
+
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.InternetOpenUrlW.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }    
 }
@@ -684,7 +689,7 @@ void CyFiFunctionModels::handleInternetReadFile(S2EExecutionState *state, CYFI_W
     getCyfiStream(state) << "InternetreadFile " << data  << "\n";
 }
 
-void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
+void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t args[4];
     args[0] = (uint64_t) cmd.InternetCrackUrlA.pwszUrl;
@@ -699,17 +704,32 @@ void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-	        std::string symb_tag = getTag(sym);
-            getCyfiStream(state) << "[L] InternetCrackUrlA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> tag_in: " << symb_tag << "\n";
-            cmd.WinHttpCrackUrl.symbolic = true;
-        } else {
-            //getCyfiStream(state) << "[L] InternetCrackUrlA (" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) << ", " << hexval(args[3]) << ") -> concrete: " << data << "\n";
-            cmd.WinHttpCrackUrl.symbolic = false;
-        }
+	    std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.InternetCrackUrlA.symbTag, symbTag.c_str(), symbTag.length()+1);
+        } 
     }
 }
 
+void CyFiFunctionModels::handleInternetCrackUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t args[4];
+    args[0] = (uint64_t) cmd.InternetCrackUrlW.pwszUrl;
+    args[1] = (uint64_t) cmd.InternetCrackUrlW.dwUrlLength;
+    args[2] = (uint64_t) cmd.InternetCrackUrlW.dwFlags;
+    args[3] = (uint64_t) cmd.InternetCrackUrlW.lpUrlComponents;
 
+    ref<Expr> data = state->mem()->read(args[0], state->getPointerWidth());
+
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+	        std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.InternetCrackUrlW.symbTag, symbTag.c_str(), symbTag.length()+1);
+        } 
+    }
+}
 
 void CyFiFunctionModels::handleCrc(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &ret) {
 
@@ -756,11 +776,8 @@ void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_C
 
     std::string funcName;
 
-    // std::string symbTag = "mingxuanyao";
-
     state->mem()->readString(cmd.CheckCaller.funcName, funcName);
 
-    // state->mem()->write(cmd.CheckCaller.symbTag, symbTag.c_str(), symbTag.length());
 
     // getDebugStream(state) << "Write to memory finished\n";
     if (funcName == recent_callee) {
@@ -871,21 +888,33 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
         case WINWRAPPER_STRSTRA: {
             ref<Expr> retExpr;
             handleStrStrA(state, command, retExpr);     
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
 
         } break;        
 
         case WINWRAPPER_STRSTRW: {
-            handleStrStrW(state, command);     
+            handleStrStrW(state, command);   
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }             
 
         } break;  
 
         case WINWRAPPER_WCSSTR: {
             handleWcsstr(state, command);     
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
 
         } break;  
 
         case WINWRAPPER_WINHTTPCONNECT: {
             handleWinHttpConnect(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
         } break; 
 
         case WINWRAPPER_WINHTTPCRACKURL: {
@@ -899,11 +928,17 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
         case WINWRAPPER_WINHTTPREADDATA: {
             ref<Expr> retExpr;
             handleWinHttpReadData(state, command, retExpr);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
         } break;
 
         case WINWRAPPER_WINHTTPWRITEDATA: {
             ref<Expr> retExpr;
             handleWinHttpWriteData(state, command, retExpr);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
         } break;
 
 
@@ -916,7 +951,15 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         case WINWRAPPER_INTERNETCRACKURLA: {
             ref<Expr> retExpr;
-            handleInternetCrackUrlA(state, command, retExpr);
+            handleInternetCrackUrlA(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "InternetCrackUrlA: Could not write to guest memory\n";
+            }
+        } break;
+
+        case WINWRAPPER_INTERNETCRACKURLW: {
+            ref<Expr> retExpr;
+            handleInternetCrackUrlW(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "InternetCrackUrlA: Could not write to guest memory\n";
             }
@@ -924,15 +967,38 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         case WINWRAPPER_INTERNETREADFILE: {
             handleInternetReadFile(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
         } break; 
 
         case WINWRAPPER_INTERNETCONNECTA: {
             handleInternetConnectA(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
         } break; 
         
         case WINWRAPPER_INTERNETCONNECTW: {
             handleInternetConnectW(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
         } break;         
+
+        case WINWRAPPER_INTERNETOPENURLA: {
+            handleInternetOpenUrlA(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
+        } break; 
+        
+        case WINWRAPPER_INTERNETOPENURLW: {
+            handleInternetOpenUrlW(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }            
+        } break; 
 
         case WRAPPER_CRC: {
             ref<Expr> retExpr;
@@ -941,7 +1007,6 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
         } break;
 
         case CHECK_CALLER: {
-            getWarningsStream(state) << "Check Caller\n";
             checkCaller(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";

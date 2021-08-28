@@ -114,6 +114,8 @@ void LibraryCallMonitor::initialize() {
     m_vmi = s2e()->getPlugin<Vmi>();
 
     ConfigFile *cfg = s2e()->getConfig();
+    m_aggressiveOff = cfg->getBool(getConfigKey() + ".aggressiveOff");
+
     m_monitorAllModules = cfg->getBool(getConfigKey() + ".monitorAllModules");
     m_monitorIndirectJumps = cfg->getBool(getConfigKey() + ".monitorIndirectJumps");
     m_moduleName = cfg->getString(getConfigKey() + ".moduleName");
@@ -122,6 +124,7 @@ void LibraryCallMonitor::initialize() {
 
     m_monitor->onProcessUnload.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onProcessUnload));
     m_monitor->onModuleUnload.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onModuleUnload));
+
 }
 
 void LibraryCallMonitor::onProcessUnload(S2EExecutionState *state, uint64_t addressSpace, uint64_t pid,
@@ -177,6 +180,10 @@ void LibraryCallMonitor::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecuti
 }
 
 void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t pc, unsigned sourceType) {
+
+    // override any flags and do not monitor anything
+    // this is needed b/c librarycallmonitor is enabled for the cyfifunctionmodels
+
     // Only interested in the processes specified in the ProcessExecutionDetector config
     if (!m_procDetector->isTracked(state)) {
         return;
@@ -225,7 +232,9 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
             exportName = (*it).second;
         } else {
             // Did not find any export
-            getWarningsStream(state) << "Could not get export name for address " << hexval(targetAddr) << "\n";
+            if(!m_aggressiveOff) {
+                getWarningsStream(state) << "Could not get export name for address " << hexval(targetAddr) << "\n";
+            }
             // Entry with an empty name is a blacklist, so we don't incur lookup costs all the time
             plgState->add(mod->Pid, targetAddr, "");
             return;
@@ -236,7 +245,9 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
         return;
     }
 
-    logLibraryCall(state, *currentMod.get(), *mod.get(), pc, targetAddr, sourceType, exportName);
+    if(!m_aggressiveOff) {
+        logLibraryCall(state, *currentMod.get(), *mod.get(), pc, targetAddr, sourceType, exportName);
+    }
     onLibraryCall.emit(state, *mod, targetAddr);
 }
 

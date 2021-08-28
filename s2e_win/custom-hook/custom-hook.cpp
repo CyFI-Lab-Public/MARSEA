@@ -119,81 +119,6 @@ static BOOL WaitForChildProcesses(DWORD timeout) {
     return retCode;
 }
 
-static VOID* memcpy_ntdll_model(
-    void* dst,
-    const void* src,
-    size_t num
-) {
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_MEMCPY;
-    Command.Memcpy.dst = (uint64_t)dst;
-    Command.Memcpy.src = (uint64_t)src;
-    Command.Memcpy.n = num;
-
-    Message("[W] (ntdll) memcpy (%p, %p, %i)\n", dst, src, num);
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    
-    if (Command.Memcpy.symbolic) {
-        Message("[W] memcpy received a symbolic src. Symbolizing the dst.\n");
-        //return memcpy(dst, src, num);
-        //char con[41] = "aHR0cHM6Ly93MHJtLmluL2pvaW4vam9pbi5waHA=";
-        //memcpy((void*)dst, con, sizeof(con));
-        S2EMakeSymbolic((PVOID)dst, 12, "CyFi_Memcpy");
-
-    }
-    else if (Command.needOrigFunc == 1) {
-        Message("[W] memcpy: function model failed with concrete params, calling ntdll.memcpy.\n");
-        return memcpy(dst, src, num);
-    }
-    else {
-        return (void*)Command.Memcpy.dst;
-    }
-
-}
-
-static VOID* memset_ntdll_model(
-    void* ptr,
-    int value,
-    size_t num
-) {
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_MEMSET;
-    Command.Memset.ptr = (uint64_t)ptr;
-    Command.Memset.value = value;
-    Command.Memset.num = (uint64_t)num;
-
-    Message("[W] (ntdll) memset (%p, %i, %i)\n", ptr, value, num);
-    //S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    return memset(ptr, value, num);
-
-    /*if (Command.Memset.symoblic) {
-        S2EMakeSymbolic((PVOID)ptr, 12, "CyFi_Memset");
-    }
-   
-    return memset(ptr, value, num);*/
-}
-
-static INT lstrlenA_model(
-    LPCSTR lpString
-) {
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_LSTRLENA;
-    Command.LstrlenA.lpString = (uint64_t)lpString;
-
-    /*Message("[W] lstrlenA (%s, %p,  %i)\n", lpString, lpString);
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    int ret = S2ESymbolicInt(lpString, 25);
-    Message("h1)\n", lpString, lpString);
-
-    return ret;
-    if (Command.LstrlenA.symbolic) {
-        int ret = S2ESymbolicInt(lpString, 25);
-        Message("h1)\n", lpString, lpString);
-
-        return ret;
-    }*/
-    return lstrlenA(lpString);
-}
 
 ////////////////////////////////////////////////////////////////////
 /// KERNEL32
@@ -502,18 +427,18 @@ CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
-    CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
+    //CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     //CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     //CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
 
-    //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
+    CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
 
-    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
     //CyFIFuncType("Kernel32", "lstrlenA", lstrlenA_model, {NULL}),
