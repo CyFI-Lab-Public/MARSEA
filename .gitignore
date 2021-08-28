@@ -10,3 +10,7 @@
 /s2e.files
 /s2e.cflags
 /s2e.cxxflags
+s2e_win/Release/custom-hook.dll
+*.obj
+*.tlog
+*.log
