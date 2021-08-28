@@ -44,14 +44,14 @@ BOOL QueryPerformanceCounterHook(
 	LARGE_INTEGER* lpPerformanceCount
 ) {
 	if (checkCaller("QueryPerformanceCounter")) {
-		QueryPerformanceCounterHook(lpPerformanceCount);
+		QueryPerformanceCounter(lpPerformanceCount);
 		std::string tag = GetTag("QueryPerformanceCounter");
 		S2EMakeSymbolic(lpPerformanceCount, 8, tag.c_str());
 		Message("[W]  QueryPerformanceCounter (%p) -> tag_out: %s\n", lpPerformanceCount, tag.c_str());
 		return TRUE;
 	}
 
-	return QueryPerformanceCounterHook(lpPerformanceCount);
+	return QueryPerformanceCounter(lpPerformanceCount);
 	
 }
 
