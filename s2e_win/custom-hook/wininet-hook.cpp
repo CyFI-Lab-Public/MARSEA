@@ -261,6 +261,8 @@ HINTERNET WINAPI InternetOpenUrlAHook(
     DWORD_PTR dwContext
 ) {
     if (checkCaller("InternetOpenUrlA")) {
+        HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+        dummyHandles.insert(resourceHandle);
         if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = WINWRAPPER_INTERNETOPENURLA;
@@ -276,15 +278,11 @@ HINTERNET WINAPI InternetOpenUrlAHook(
             __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlA.symbTag);
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-            HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(resourceHandle);
             Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), DDR (%s)\n",
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, (uint32_t)Command.InternetOpenUrlA.symbTag);
             return resourceHandle;
         }
         else {
-            HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(resourceHandle);
             Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), ret: %p\n",
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
             return resourceHandle;
@@ -305,6 +303,8 @@ HINTERNET WINAPI InternetOpenUrlWHook(
     DWORD_PTR dwContext
 ) {
     if (checkCaller("InternetOpenUrlW")) {
+        HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+        dummyHandles.insert(resourceHandle);
         if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = WINWRAPPER_INTERNETOPENURLW;
@@ -320,15 +320,11 @@ HINTERNET WINAPI InternetOpenUrlWHook(
             __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlW.symbTag);
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-            HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(resourceHandle);
             Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), DDR (%s)\n",
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, (uint32_t)Command.InternetOpenUrlW.symbTag);
             return resourceHandle;
         }
         else {
-            HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(resourceHandle);
             Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), ret: %p\n",
                 hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
             return resourceHandle;
