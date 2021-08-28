@@ -416,9 +416,12 @@ BOOL InternetGetConnectedStateHook(
     LPDWORD lpdwFlags,
     DWORD   dwReserved
 ) {
-    BOOL res = InternetGetConnectedState(lpdwFlags, dwReserved);
-    Message("[W] InternetGetConnectedState (%ld, %ld) Ret: %i\n", *lpdwFlags, dwReserved, res);
-    return TRUE;
+    if(checkCaller("InternetGetConnectedState")) {
+        BOOL res = InternetGetConnectedState(lpdwFlags, dwReserved);
+        Message("[W] InternetGetConnectedState (%ld, %ld) Ret: %i\n", *lpdwFlags, dwReserved, res);
+        return TRUE;
+    }
+    return InternetGetConnectedState(lpdwFlags, dwReserved);
 }
 
 BOOL InternetCheckConnectionAHook(
@@ -426,15 +429,21 @@ BOOL InternetCheckConnectionAHook(
     DWORD  dwFlags,
     DWORD  dwReserved
 ) {
-    Message("[W] InternetCheckConnectionA (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
-    return TRUE;
+    if (checkCaller("InternetCheckConnectionA")) {
+        Message("[W] InternetCheckConnectionA (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
+        return TRUE;
+    }
+    return InternetCheckConnectionA(lpszUrl, dwFlags, dwReserved);
 }
 
 DWORD InternetAttemptConnectHook(
     DWORD dwReserved
 ) {
-    Message("[W] InternetAttemptConnect (%ld)\n", dwReserved);
-    return ERROR_SUCCESS;
+    if (checkCaller("InternetAttemptConnect")) {
+        Message("[W] InternetAttemptConnect (%ld)\n", dwReserved);
+        return ERROR_SUCCESS;
+    }
+    return InternetAttemptConnect(dwReserved);
 }
 
 BOOL WINAPI InternetCloseHandleHook(

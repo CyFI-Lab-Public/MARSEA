@@ -5,3 +5,8 @@
 void GetLocalTimeHook(
 	LPSYSTEMTIME lpSystemTime
 );
+
+
+void GetSystemInfoHook(
+	LPSYSTEM_INFO lpSystemInfo
+);

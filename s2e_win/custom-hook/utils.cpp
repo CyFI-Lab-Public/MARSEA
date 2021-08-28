@@ -20,14 +20,12 @@ void Message(LPCSTR fmt, ...) {
     va_list args;
 
     va_start(args, fmt);
-    int written = vsnprintf(message, S2E_MSG_LEN, fmt, args);
+    vsnprintf(message, S2E_MSG_LEN, fmt, args);
     va_end(args);
-
-    //printf("cyfi debug 1 %s", message);
 
     if (s2eVersion) {
         S2ECyfiMessageFmt("[0x%x|malware-hook] %s written: %d", GetCurrentProcessId(),
-            message, written);
+            message);
         //S2EMessageFmt("[0x%x|malware-hook] %s", GetCurrentProcessId(),
         //    message);
     }
