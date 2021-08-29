@@ -1,6 +1,6 @@
 #include "string-hook.h"
 #include "utils.h"
-#include <commands.h>
+#include "commands.h""
 
 char* strtokHook(
 	char* strToken,
@@ -58,7 +58,7 @@ const char* strstrHook(
             strcat((char*)str, end);
 
             const char* ret = strstr(str, strSearch);
-            std::string tag = GetTag("strtok");
+            std::string tag = GetTag("strstr");
             Message("[W] strtok (%p, %p) -> tag_in: %s, tag_out: %s\n", str, strSearch, (uint32_t)Command.strstr.symbTag, tag.c_str());
             S2EMakeSymbolic((PVOID)str, strlen(str), tag.c_str());
             S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());

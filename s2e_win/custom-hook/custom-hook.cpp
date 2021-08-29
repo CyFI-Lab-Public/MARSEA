@@ -53,6 +53,7 @@ namespace winhttp {
 #include "debugapi-hook.h"
 #include "winternl-hook.h"
 #include "sysinfoapi-hook.h"
+#include "string-hook.h"
 
 INT s2eVersion = 0;
 
@@ -408,8 +409,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetOpenUrlA", InternetOpenUrlAHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenUrlW", InternetOpenUrlWHook, {NULL}),
     CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
-    //CyFIFuncType("wininet", "InternetOpenA", InternetOpenAHook, {NULL}),
-    //CyFIFuncType("wininet", "InternetOpenW", InternetOpenWHook, {NULL}),
+    CyFIFuncType("wininet", "InternetOpenA", InternetOpenAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetOpenW", InternetOpenWHook, {NULL}),
     CyFIFuncType("wininet", "InternetCloseHandle", InternetCloseHandleHook, {NULL}),
     CyFIFuncType("wininet", "HttpAddRequestHeadersA", HttpAddRequestHeadersAHook, {NULL}),
     CyFIFuncType("wininet", "HttpEndRequestA", HttpEndRequestAHook, {NULL}),

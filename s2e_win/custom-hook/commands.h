@@ -34,6 +34,8 @@ extern "C" {
         WINWRAPPER_WINHTTPCONNECT,
         WINWRAPPER_WINHTTPWRITEDATA,
 
+        WINWRAPPER_INTERNETOPENA,
+        WINWRAPPER_INTERNETOPENW,
         WINWRAPPER_INTERNETREADFILE,
         WINWRAPPER_INTERNETCRACKURLA,
         WINWRAPPER_INTERNETCRACKURLW,
@@ -144,7 +146,24 @@ extern "C" {
 
     };
 
-      struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE {
+    struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENA {
+        uint64_t lpszAgent;
+        uint64_t dwAccessType;
+        uint64_t lpszProxy;
+        uint64_t lpszProxyBypass;
+        uint64_t  dwFlags;
+
+    };
+
+    struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENW {
+        uint64_t lpszAgent;
+        uint64_t dwAccessType;
+        uint64_t lpszProxy;
+        uint64_t lpszProxyBypass;
+        uint64_t  dwFlags;
+
+    };
+    struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE {
         uint64_t hFile;
         uint64_t lpBuffer;
         uint64_t dwNumberOfBytesToRead;
@@ -307,6 +326,8 @@ extern "C" {
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPCONNECT WinHttpConnect;
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPWRITEDATA WinHttpWriteData;
 
+            struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENA InternetOpenA;
+            struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENW InternetOpenW;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE InternetReadFile;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA InternetCrackUrlA;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA InternetCrackUrlW;

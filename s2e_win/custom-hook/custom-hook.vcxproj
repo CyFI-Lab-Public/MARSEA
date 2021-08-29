@@ -194,7 +194,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="advapi-hook.h" />
-    <ClInclude Include="commands.h" />
+    <ClInclude Include="commands.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="debugapi-hook.h" />
     <ClInclude Include="fileapi-hook.h" />
     <ClInclude Include="kernel32-hook.h" />
