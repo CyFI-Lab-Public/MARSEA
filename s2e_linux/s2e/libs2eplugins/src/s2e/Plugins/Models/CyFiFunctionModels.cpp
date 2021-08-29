@@ -149,7 +149,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
              
             ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
             if (!level_one.isNull()) {
-                if (!isa<ConstantExpr>(data)) {
+                if (!isa<ConstantExpr>(level_one)) {
                     getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " contains symbolic data: " << level_one << ".\n";
                 } else {
                     getDebugStream(state) << reg << " "  << data << " at " << hexval(temp) << " contains concrete data: " << level_one << ".\n";
