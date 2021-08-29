@@ -176,6 +176,7 @@
     <ClCompile Include="msvcrt-hook.cpp" />
     <ClCompile Include="shlwapi-hook.cpp" />
     <ClCompile Include="socket-hook.cpp" />
+    <ClCompile Include="string-hook.cpp" />
     <ClCompile Include="stringapiset-hook.cpp" />
     <ClCompile Include="sysinfoapi-hook.cpp" />
     <ClCompile Include="urlmon-hook.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="msvcrt-hook.h" />
     <ClInclude Include="shlwapi-hook.h" />
     <ClInclude Include="socket-hook.h" />
+    <ClInclude Include="string-hook.h" />
     <ClInclude Include="stringapiset-hook.h" />
     <ClInclude Include="sysinfoapi-hook.h" />
     <ClInclude Include="urlmon-hook.h" />

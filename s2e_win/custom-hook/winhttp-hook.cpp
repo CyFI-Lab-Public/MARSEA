@@ -149,7 +149,7 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
             return connectionHandle;
         }
         else {
-            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), retp: %p\n",
+            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), Ret: %p\n",
                 hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
             return connectionHandle;
         }

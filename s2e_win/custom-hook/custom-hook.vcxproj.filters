@@ -72,6 +72,9 @@
     <ClCompile Include="sysinfoapi-hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="string-hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -132,6 +135,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="sysinfoapi-hook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="string-hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

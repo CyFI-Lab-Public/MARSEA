@@ -26,7 +26,9 @@ extern "C" {
 
         WINWRAPPER_STRSTRA,
         WINWRAPPER_STRSTRW,
-        WINWRAPPER_LSTRLENA,
+        WINWRAPPER_STRSTR,
+        WINWRAPPER_STRTOK,
+
         WINWRAPPER_WINHTTPREADDATA,
         WINWRAPPER_WINHTTPCRACKURL,
         WINWRAPPER_WINHTTPCONNECT,
@@ -121,6 +123,19 @@ extern "C" {
         
     };
 
+    struct CYFI_WINWRAPPER_COMMAND_STRSTR {
+        uint64_t str;
+        uint64_t strSearch;
+        uint64_t symbTag;
+
+    };
+
+    struct CYFI_WINWRAPPER_COMMAND_STRTOK {
+        uint64_t strToken;
+        uint64_t strDelimit;
+        uint64_t symbTag;
+
+    };
     struct CYFI_WINWRAPPER_COMMAND_STRSTRW {
         uint64_t pszFirst;
         uint64_t pszSrch;
@@ -129,12 +144,7 @@ extern "C" {
 
     };
 
-    struct CYFI_WINWRAPPER_COMMAND_LSTRLENA {
-        uint64_t lpString;
-        
-    };
-
-    struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE {
+      struct CYFI_WINWRAPPER_COMMAND_INTERNETREADFILE {
         uint64_t hFile;
         uint64_t lpBuffer;
         uint64_t dwNumberOfBytesToRead;
@@ -289,7 +299,8 @@ extern "C" {
 
             struct CYFI_WINWRAPPER_COMMAND_STRSTRA StrStrA;
             struct CYFI_WINWRAPPER_COMMAND_STRSTRW StrStrW;
-            struct CYFI_WINWRAPPER_COMMAND_LSTRLENA LstrlenA;
+            struct CYFI_WINWRAPPER_COMMAND_STRSTR strstr;
+            struct CYFI_WINWRAPPER_COMMAND_STRTOK strtok;
 
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPREADDATA WinHttpReadData;
             struct CYFI_WINWRAPPER_COMMAND_WINHTTPCRACKURL WinHttpCrackUrl;
