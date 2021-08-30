@@ -236,41 +236,7 @@ default_create_process:
         lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
         lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
 }
-/*
-static INT MultiByteToWideCharHook(
-    UINT                              CodePage,
-    DWORD                             dwFlags,
-    _In_NLS_string_(cbMultiByte)LPCCH lpMultiByteStr,
-    int                               cbMultiByte,
-    LPWSTR                            lpWideCharStr,
-    int                               cchWideChar
-) {
 
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_MULTIBYTETOWIDECHAR;
-    Command.MultiByteToWideChar.CodePage = (uint64_t)CodePage;
-    Command.MultiByteToWideChar.dwFlags = (uint64_t)dwFlags;
-    Command.MultiByteToWideChar.lpMultiByteStr = (uint64_t) lpMultiByteStr;
-    Command.MultiByteToWideChar.cbMultiByte = cbMultiByte;
-    Command.MultiByteToWideChar.lpWideCharStr = (uint64_t)lpWideCharStr;
-    Command.MultiByteToWideChar.cchWideChar = cchWideChar;
-
-    Message("[W] MultiByteToWideChar (%i, %i, %p, A\"%s\", %i, %p, %i)\n", CodePage, dwFlags, lpMultiByteStr, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
-    if (Command.MultiByteToWideChar.symbolic) {
-        S2EMakeSymbolic((PVOID)lpMultiByteStr, DEFAULT_MEM_LEN, "CyFi_MultiByteToWideChar");
-        Message("[W] MultiByteToWideChar: symbolizing %p.\n", lpWideCharStr);
-    }
-    if (cchWideChar == 0) {
-        // Force success
-        cchWideChar = DEFAULT_MEM_LEN;
-    }
-
-
-
-    return MultiByteToWideChar(CodePage, dwFlags, lpMultiByteStr, cbMultiByte, lpWideCharStr, cchWideChar);
-}*/
 
 static LPVOID VirtualAllocHook(
     LPVOID lpAddress,
@@ -440,8 +406,6 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
-
-    //CyFIFuncType("Kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
 
     /* Evasion Techniques*/
     //CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
