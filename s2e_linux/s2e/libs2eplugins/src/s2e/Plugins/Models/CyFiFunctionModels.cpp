@@ -35,6 +35,15 @@ void CyFiFunctionModels::initialize() {
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
     m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
 
+    const auto& trace_regions = s2e()->getConfig()->getString(getConfigKey() + ".traceRegions");
+    if (!trace_regions.empty()) {
+        if (!(m_traceRegions = Ranges::parse(trace_regions))) {
+            std::cerr << "Failed to parse trace regions: '" << trace_regions << "'\n";
+        } else {
+            std::cerr << "Parsed trace regions: '" << *m_traceRegions << "'\n";
+        }
+    }
+
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
     m_vmi = s2e()->getPlugin<Vmi>();
 
@@ -170,30 +179,32 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
                                                 TranslationBlock *tb,
                                                 uint64_t pc) {
-
     // When we find an interesting address, ask S2E to invoke our callback when the address is actually
     // executed
-    if(!instructionMonitor){
+    if (!instructionMonitor) {
         return;
     }
-
+    // If we've defined ranges to dump within, then use those.
+    if (m_traceRegions) {
+        if (m_traceRegions->contains(pc)) {
+            signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
+        }
+        return;
+    }
+    // Otherwise, check whether we've specified which module to trace, and if the current
+    // module's name match. If the config contains "moduleName", then we can use that info
+    // to check if the module that the PC is currently in is the one we're interested in.
     auto currentMod = m_map->getModule(state, pc);
-
     if (!currentMod) {
         return;
     }
-    // If the config contains "moduleName", then we can use that information to check if the
-    // module that the PC is currently in is the one we're interested in.
     if (!m_moduleName.empty()) {
         // If the current module is the one we're looking for, connect to the
         // onInstructionExecution signal.
-
         if (currentMod->Name != m_moduleName) {
             signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
         }
     }
-    return;
-   
 }
 
 // This callback is called only when the instruction at our address is executed.
@@ -1048,6 +1059,66 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             exit(-1);
         }
     }
+}
+
+// Super inefficient parsing, because this won't be running on the fast path (hopefully).
+// If that assumption is no longer valid, update the algorithm.
+std::unique_ptr<Ranges> Ranges::parse(const std::string& ranges_string) {
+    auto retval = std::unique_ptr<Ranges>(new Ranges());
+    std::istringstream iss(ranges_string);
+    std::string token;
+    try {
+        while (std::getline(iss, token, ',')) {
+            size_t index = 0;
+            uint64_t start = std::stoull(token, &index, 16);
+            if (index < token.size()) {
+                if (token[index] != '-') {
+                    return nullptr;
+                }
+                auto substr = token.substr(index + 1);
+                uint64_t end = std::stoull(substr, &index, 16);
+                if (index < substr.size()) {
+                    return nullptr;
+                }
+                if (end < start) {
+                    return nullptr;
+                }
+                retval->ranges_.push_back({ start, end });
+            } else {
+                retval->ranges_.push_back({ start, start });
+            }
+        }
+    } catch (...) {
+        return nullptr;
+    }
+    return retval;
+}
+
+bool Ranges::contains(uint64_t value) const {
+    for (const auto& range : ranges_) {
+        if (value >= range.first && value <= range.second) {
+            return true;
+        }
+    }
+    return false;
+}
+
+std::ostream& operator<<(std::ostream& os, const Ranges& ranges) {
+    bool first = true;
+    std::ios_base::fmtflags f = os.flags();
+    os << std::hex;
+    for (const auto& range : ranges.ranges_) {
+        if (!first) {
+            os << ',';
+        }
+        os << range.first;
+        if (range.first != range.second) {
+            os << '-' << range.second;
+        }
+        first = false;
+    }
+    os.flags(f);
+    return os;
 }
 
 } // namespace models

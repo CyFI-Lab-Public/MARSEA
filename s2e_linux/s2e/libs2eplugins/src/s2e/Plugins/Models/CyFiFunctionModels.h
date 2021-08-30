@@ -23,6 +23,34 @@ class ModuleMap;
 namespace plugins {
 namespace models {
 
+
+/* Utility class to store a list of uint64_t ranges.
+ *
+ * Range specifications are of the form "start-end" or "value". Disjoint ranges can be
+ * separated using a comma. So an example of a valid range specification could be -
+ * "1000-3001,4000,5000-6000"
+ * This would create a RangeList that includes the range 1000-3001 (INCLUSIVE), the number
+ * 4000, and the range 5000-6000 (INCLUSIVE).
+ *
+ * Note: This is not the most optimal implementation. The assumption is that the number of
+ * disjoint ranges will be quite low. If that assumption is no longer valid, a more optimal
+ * datastructure might be required.
+ */
+class Ranges {
+public:
+    // Returns a nullptr if the passed string was invalid.
+    static std::unique_ptr<Ranges> parse(const std::string& ranges_string);
+    // Checks if the provided value is within any specified range.
+    bool contains(uint64_t value) const;
+    // Recreate the range string (for debugging)
+    friend std::ostream& operator<<(std::ostream& os, const Ranges& ranges);
+
+private:
+    Ranges() {}
+    std::vector<std::pair<uint64_t, uint64_t>> ranges_;
+};
+
+
 class CyFiFunctionModels : public BaseFunctionModels, public IPluginInvoker {
     S2E_PLUGIN
 
@@ -30,7 +58,7 @@ public:
     CyFiFunctionModels(S2E *s2e) : BaseFunctionModels(s2e) {
     }
 
-   
+
     void initialize();
 
     void onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb, uint64_t pc,
@@ -67,6 +95,7 @@ private:
     LibraryCallMonitor *m_libCallMonitor;
 
     std::string m_moduleName = "";
+    std::unique_ptr<Ranges> m_traceRegions = nullptr;
 
     std::string recent_callee = "";
 
