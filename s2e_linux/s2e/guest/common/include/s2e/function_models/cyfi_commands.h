@@ -47,6 +47,8 @@ extern "C" {
         WRAPPER_CRC,
 
         CHECK_CALLER,
+
+        KILL_ANALYSIS,
     };
 
     struct CYFI_WINWRAPPER_COMMAND_STRCPY {
@@ -270,6 +272,10 @@ extern "C" {
         bool isTargetModule;
     };
 
+    struct KILL_ANALYSIS {
+        uint64_t funcName;
+    };
+
     struct CYFI_WINWRAPPER_COMMAND {
         enum CYFI_WINWRAPPER_COMMANDS Command;
         union {
@@ -308,6 +314,8 @@ extern "C" {
             struct CYFI_WRAPPER_COMMAND_CRC Crc;
 
             struct CYFI_CHECK_CALLER CheckCaller;
+
+            struct KILL_ANALYSIS KillAnalysis;
         };
         uint64_t needOrigFunc;
     };
