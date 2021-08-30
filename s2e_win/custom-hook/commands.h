@@ -172,7 +172,7 @@ extern "C" {
     };
 
     struct CYFI_WINWRAPPER_COMMAND_INTERNETCRACKURLA {
-        uint64_t pwszUrl;
+        uint64_t lpszUrl;
         uint64_t dwUrlLength;
         uint64_t dwFlags;
         uint64_t lpUrlComponents;
