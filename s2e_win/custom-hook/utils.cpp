@@ -59,3 +59,10 @@ bool checkCaller(std::string funcName) {
 
     return Command.CheckCaller.isTargetModule;
 }
+
+void killAnalysis(std::string funcName) {
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = KILL_ANALYSIS;
+    Command.KillAnalysis.funcName = (uint64_t)funcName.c_str();
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+}

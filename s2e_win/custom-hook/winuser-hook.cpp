@@ -12,7 +12,7 @@ int GetKeyboardTypeHook(
 		switch (nTypeFlag) {
 		case 0: {
 			Message("[W] GetKeyboardType (%i) -> tag_out: %s\n", nTypeFlag, tag.c_str());
-			return S2ESymbolicInt(tag.c_str(), 0x4);
+			return S2ESymbolicInt(tag.c_str(), GetKeyboardType(nTypeFlag));
 		}
 		case 1:
 			Message("[W] GetKeyboardType (%i) -> force_ret: %i\n", nTypeFlag, 0);
@@ -20,10 +20,10 @@ int GetKeyboardTypeHook(
 			return 0;
 		case 2: {
 			Message("[W] GetKeyboardType (%i) -> tag_out: %s\n", nTypeFlag, tag.c_str());
-			return S2ESymbolicInt(tag.c_str(), 0x4);
+			return S2ESymbolicInt(tag.c_str(), GetKeyboardType(nTypeFlag));
 		}
 		default:
-			return S2ESymbolicInt(tag.c_str(), 0x4);
+			return S2ESymbolicInt(tag.c_str(), GetKeyboardType(nTypeFlag));
 		}
 	}
 	return GetKeyboardType(nTypeFlag);

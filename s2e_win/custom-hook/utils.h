@@ -30,3 +30,5 @@ void Message(LPCSTR fmt, ...);
 std::string GetTag(PCSTR funcName);
 
 bool checkCaller(std::string funcName);
+
+void killAnalysis(std::string funcName);

@@ -54,6 +54,7 @@ namespace winhttp {
 #include "winternl-hook.h"
 #include "sysinfoapi-hook.h"
 #include "string-hook.h"
+#include "timeapi-hook.h"
 
 INT s2eVersion = 0;
 
@@ -344,7 +345,10 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
     CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
     CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
+
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
+
+    CyFIFuncType("winmm", "timeGetTime", timeGetTimeHook, {NULL}),
 
     CyFIFuncType("shlwapi", "StrStrA", StrStrAHook, {NULL}),
     CyFIFuncType("shlwapi", "StrStrW", StrStrWHook, {NULL}),
@@ -374,7 +378,6 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenUrlA", InternetOpenUrlAHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenUrlW", InternetOpenUrlWHook, {NULL}),
-    CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenA", InternetOpenAHook, {NULL}),
     CyFIFuncType("wininet", "InternetOpenW", InternetOpenWHook, {NULL}),
     CyFIFuncType("wininet", "InternetCloseHandle", InternetCloseHandleHook, {NULL}),
@@ -386,26 +389,29 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetSetOptionA", InternetSetOptionAHook, {NULL}),
     CyFIFuncType("wininet", "InternetWriteFile", InternetWriteFileHook, {NULL}),
 
+    CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),  //->Breaks execution...bad hook
+
+
     //CyFIFuncType("ntdll", "wcschr", wcschrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
 
     //CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
 
-    CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
+    /*CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
     CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
-    CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
+    CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),*/
     
     //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
-    CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
+    //CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
 
     /* Evasion Techniques*/
-    CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
+    /*CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
     CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
@@ -448,7 +454,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "GetFileTime", GetFileTimeHook, { NULL }),
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
-    CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
+    CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),*/
 
 };
 

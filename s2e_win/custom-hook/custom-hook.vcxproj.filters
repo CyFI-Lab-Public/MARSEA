@@ -75,6 +75,9 @@
     <ClCompile Include="string-hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="timeapi-hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -138,6 +141,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="string-hook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="timeapi-hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -97,7 +97,7 @@ BOOL WINAPI WinHttpReadDataHook(
         *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
     }
     std::string tag = GetTag("WinHttpReadData");
-    S2EMakeSymbolic(lpBuffer, dwNumberOfBytesToRead, tag.c_str());
+    S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] WinHttpReadData (%p, %p, %ld, %p)-> tag_out: %s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
@@ -149,6 +149,8 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
 
             Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), DDR (%s)\n",
                 hSession, pswzServerName, nServerPort, dwReserved, (uint32_t)Command.WinHttpConnect.symbTag);
+
+            //killAnalysis("WinHttpConnect");
             return connectionHandle;
         }
         else {
