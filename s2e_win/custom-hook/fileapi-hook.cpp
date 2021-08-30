@@ -38,9 +38,19 @@ HANDLE CreateFileWHook(
 	HANDLE                hTemplateFile
 ) {
 	if (checkCaller("CreateFileW")) {
-		HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), faile\n",
+			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+			Message("[W] CreateFileW bypass %i\n", fileHandle);
+
+			dummyHandles.insert(fileHandle);
+			return fileHandle;
+		}
+		HANDLE fileHandle = CreateFileW(lpFileName, GENERIC_READ | GENERIC_WRITE, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 
 		if (fileHandle == INVALID_HANDLE_VALUE) {
+			Message("[W] CreateFileW failed %i\n", fileHandle);
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			dummyHandles.insert(fileHandle);
 		}

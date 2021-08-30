@@ -18,6 +18,9 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
     if (checkCaller("WinHttpOpen")) {
         //WinHttpOpen should still succeed w/o network
         winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
+        if (sessionHandle == 0) {
+            sessionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+        }
         Message("[W] WinHttpOpen (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
             pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
         return sessionHandle;

@@ -398,9 +398,11 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
     CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
-    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    
+    //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
 
     /* Evasion Techniques*/
     CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),

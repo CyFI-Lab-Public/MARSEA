@@ -15,6 +15,9 @@ HINTERNET WINAPI InternetOpenAHook(
     DWORD  dwFlags
 ) {
     HINTERNET sessionHandle = InternetOpenA(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
+    if (sessionHandle == 0) {
+        sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    }
     Message("[W] InternetOpenA (A\"%s\", %ld, A\"%s\", A\"%s\", %ld), Ret: %p\n",
         lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags, sessionHandle);
     return sessionHandle;
@@ -28,6 +31,9 @@ HINTERNET WINAPI InternetOpenWHook(
     DWORD   dwFlags
 ) {
     HINTERNET sessionHandle = InternetOpenW(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
+    if (sessionHandle == 0) {
+        sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    }
     Message("[W] InternetOpenW (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
         lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags, sessionHandle);
     return sessionHandle;
