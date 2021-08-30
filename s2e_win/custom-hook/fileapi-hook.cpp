@@ -14,16 +14,23 @@ HANDLE CreateFileAHook(
 	HANDLE                hTemplateFile
 ) {
 	if (checkCaller("CreateFileA")) {
-		HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
-
-		if (fileHandle == INVALID_HANDLE_VALUE) {
+		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			dummyHandles.insert(fileHandle);
+			Message("[W] CreateFileA (A\"%s\", %d, %d, %p, %d, %d, %p), Ret: %p\n",
+				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+			return fileHandle;
 		}
-
-		Message("[W] CreateFileA (A\"%s\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);//, fileHandle);
-		return fileHandle;
+		else {
+			HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+			if (fileHandle == INVALID_HANDLE_VALUE) {
+				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+				dummyHandles.insert(fileHandle);
+				Message("[W] CreateFileA (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+					lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+				return fileHandle;
+			}
+		}
 	}
 	return CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile); 
 }
@@ -38,26 +45,24 @@ HANDLE CreateFileWHook(
 	HANDLE                hTemplateFile
 ) {
 	if (checkCaller("CreateFileW")) {
-		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), faile\n",
-			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-			Message("[W] CreateFileW bypass %i\n", fileHandle);
-
 			dummyHandles.insert(fileHandle);
+			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
 			return fileHandle;
 		}
-		HANDLE fileHandle = CreateFileW(lpFileName, GENERIC_READ | GENERIC_WRITE, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
-
-		if (fileHandle == INVALID_HANDLE_VALUE) {
-			Message("[W] CreateFileW failed %i\n", fileHandle);
-			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-			dummyHandles.insert(fileHandle);
+		else {
+			HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+			if (fileHandle == INVALID_HANDLE_VALUE) {
+				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+				dummyHandles.insert(fileHandle);
+				Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+					lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+				return fileHandle;
+			}
 		}
-
-		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-		return fileHandle;
 	}
 	return CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
@@ -86,16 +91,26 @@ HANDLE FindFirstFileAHook(
 	LPCSTR             lpFileName,
 	LPWIN32_FIND_DATAA lpFindFileData
 ) {
-	HANDLE fileHandle = FindFirstFileA(lpFileName, lpFindFileData);
-	
-	if (fileHandle == INVALID_HANDLE_VALUE) {
-		HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-		dummyHandles.insert(fileHandle);
+	if (checkCaller("FindFirstFileA")) {
+		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+			dummyHandles.insert(fileHandle);
+			Message("[W] FindFirstFileA (A\"%s\", %p), Ret: %p\n",
+				lpFileName, lpFindFileData, fileHandle);
+			return fileHandle;
+		}
+		else {
+			HANDLE fileHandle = FindFirstFileA(lpFileName, lpFindFileData);
+			if (fileHandle == INVALID_HANDLE_VALUE) {
+				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+				dummyHandles.insert(fileHandle);
+				Message("[W] FindFirstFileA (A\"%s\", %p), Ret: %p\n",
+					lpFileName, lpFindFileData, fileHandle);
+				return fileHandle;
+			}
+		}
 	}
-	
-	Message("[W] FindFirstFileA (A\"%s\", %p), Ret: %p\n",
-		lpFileName, lpFindFileData, fileHandle);
-	return fileHandle;
+	return FindFirstFileA(lpFileName, lpFindFileData);
 }
 
 HANDLE FindFirstFileWHook(
@@ -103,11 +118,26 @@ HANDLE FindFirstFileWHook(
 	LPWIN32_FIND_DATAW lpFindFileData
 )
 {
-	HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-	dummyHandles.insert(fileHandle);
-	Message("[W] FindFirstFileW (A\"%ls\", %p), Ret: %p\n",
-		lpFileName, lpFindFileData, fileHandle);
-	return fileHandle;
+	if (checkCaller("FindFirstFileW")) {
+		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+			dummyHandles.insert(fileHandle);
+			Message("[W] FindFirstFileW (A\"%ls\", %p), Ret: %p\n",
+				lpFileName, lpFindFileData, fileHandle);
+			return fileHandle;
+		}
+		else {
+			HANDLE fileHandle = FindFirstFileW(lpFileName, lpFindFileData);
+			if (fileHandle == INVALID_HANDLE_VALUE) {
+				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+				dummyHandles.insert(fileHandle);
+				Message("[W] FindFirstFileW (A\"%ls\", %p), Ret: %p\n",
+					lpFileName, lpFindFileData, fileHandle);
+				return fileHandle;
+			}
+		}
+	}
+	return FindFirstFileW(lpFileName, lpFindFileData);
 }
 
 DWORD GetFileTypeHook(
