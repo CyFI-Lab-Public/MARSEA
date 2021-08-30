@@ -133,7 +133,7 @@ BOOL WINAPI InternetCrackUrlAHook(
         if (S2EIsSymbolic((PVOID)pwszUrl, 0x4)) {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = WINWRAPPER_INTERNETCRACKURLA;
-            Command.InternetCrackUrlA.pwszUrl = (uint64_t)pwszUrl;
+            Command.InternetCrackUrlA.lpszUrl = (uint64_t)pwszUrl;
             Command.InternetCrackUrlA.dwUrlLength = (uint64_t)dwUrlLength;
             Command.InternetCrackUrlA.dwFlags = (uint64_t)dwFlags;
             Command.InternetCrackUrlA.lpUrlComponents = (uint64_t)lpUrlComponents;
@@ -166,7 +166,7 @@ BOOL WINAPI InternetCrackUrlWHook(
         if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = WINWRAPPER_INTERNETCRACKURLW;
-            Command.InternetCrackUrlW.pwszUrl = (uint64_t)lpszUrl;
+            Command.InternetCrackUrlW.lpszUrl = (uint64_t)lpszUrl;
             Command.InternetCrackUrlW.dwUrlLength = (uint64_t)dwUrlLength;
             Command.InternetCrackUrlW.dwFlags = (uint64_t)dwFlags;
             Command.InternetCrackUrlW.lpUrlComponents = (uint64_t)lpUrlComponents;
