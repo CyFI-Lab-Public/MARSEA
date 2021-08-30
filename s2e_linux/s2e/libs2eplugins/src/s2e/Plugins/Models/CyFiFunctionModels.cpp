@@ -141,7 +141,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
     ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
     if (!data.isNull()) {
         if (!isa<ConstantExpr>(data)) {
-            getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic.\n";
+            getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic\n";
         } else {
             std::ostringstream ss;
             ss << data;
@@ -150,13 +150,13 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
             ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
             if (!level_one.isNull()) {
                 if (!isa<ConstantExpr>(level_one)) {
-                    getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " contains symbolic data: " << level_one << ".\n";
+                    getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " contains symbolic data: " << level_one << "\n";
                 } else {
-                    getDebugStream(state) << reg << " "  << data << " at " << hexval(temp) << " contains concrete data: " << level_one << ".\n";
+                    getDebugStream(state) << reg << " "  << data << " at " << hexval(temp) << " contains concrete data: " << level_one << "\n";
                 }
             }
             else {
-                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete.\n";
+                getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is concrete\n";
             }
         }
     }
@@ -445,7 +445,7 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
+	    std::string symbTag = getTag(sym);
             state->mem()->write(cmd.StrStrA.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }
@@ -463,7 +463,7 @@ void CyFiFunctionModels::handleStrStrW(S2EExecutionState *state, CYFI_WINWRAPPER
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
+	    std::string symbTag = getTag(sym);
             state->mem()->write(cmd.StrStrW.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }
