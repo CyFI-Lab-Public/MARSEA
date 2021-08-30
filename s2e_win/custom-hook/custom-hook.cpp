@@ -397,12 +397,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
-
     CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
-
-    //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),    <- does not work
-    //CyFIFuncType("Kernel32", "LoadLibraryW", LoadLibraryWHook, {NULL}),
-
     CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),

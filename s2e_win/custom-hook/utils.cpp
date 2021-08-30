@@ -24,7 +24,7 @@ void Message(LPCSTR fmt, ...) {
     va_end(args);
 
     if (s2eVersion) {
-        S2ECyfiMessageFmt("[0x%x|malware-hook] %s written: %d", GetCurrentProcessId(),
+        S2ECyfiMessageFmt("[0x%x|malware-hook] %s", GetCurrentProcessId(),
             message);
         //S2EMessageFmt("[0x%x|malware-hook] %s", GetCurrentProcessId(),
         //    message);
