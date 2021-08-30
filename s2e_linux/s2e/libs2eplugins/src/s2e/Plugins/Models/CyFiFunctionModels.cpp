@@ -565,27 +565,6 @@ void CyFiFunctionModels::handleWinHttpWriteData(S2EExecutionState *state, CYFI_W
 }
 
 
-void CyFiFunctionModels::handleMultiByteToWideChar(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[6];
-    args[0] = (uint64_t) cmd.MultiByteToWideChar.CodePage;
-    args[1] = (uint64_t) cmd.MultiByteToWideChar.dwFlags;
-    args[2] = (uint64_t) cmd.MultiByteToWideChar.lpMultiByteStr;
-    args[3] = cmd.MultiByteToWideChar.cbMultiByte;
-    args[4] = (uint64_t) cmd.MultiByteToWideChar.lpWideCharStr;
-    args[5] = cmd.MultiByteToWideChar.ccWideChar;
-
-    if (MultiByteToWideCharHelper(state, args)){
-
-        ref<Expr> data = state->mem()->read(args[2], state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "Argument " << data << " at " << hexval(args[2]) << " is symbolic\n";
-            } 
-       }
-    }
-}
-
 void CyFiFunctionModels::handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t args[8];
@@ -941,13 +920,6 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             }            
         } break;
 
-
-        case WINWRAPPER_MULTIBYTETOWIDECHAR: {
-            handleMultiByteToWideChar(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "MultiByteToWideChar: Could not write to guest memory\n";
-            }
-        } break;
 
         case WINWRAPPER_INTERNETCRACKURLA: {
             ref<Expr> retExpr;
