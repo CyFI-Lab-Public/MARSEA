@@ -150,7 +150,7 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
             Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), DDR (%s)\n",
                 hSession, pswzServerName, nServerPort, dwReserved, (uint32_t)Command.WinHttpConnect.symbTag);
 
-            //killAnalysis("WinHttpConnect");
+            killAnalysis("WinHttpConnect");
             return connectionHandle;
         }
         else {

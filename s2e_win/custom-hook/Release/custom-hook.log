@@ -1,4 +1,6 @@
-﻿  winhttp-hook.cpp
+﻿  string-hook.cpp
+  winhttp-hook.cpp
+  Generating Code...
      Creating library C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\custom-hook.lib and object C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\custom-hook.exp
   LINK : /LTCG specified but no code generation required; remove /LTCG from the link command line to improve linker performance
 libcommon.lib(s2e-c.obj) : warning LNK4204: 'C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\libcommon.pdb' is missing debugging information for referencing module; linking object as if no debug info

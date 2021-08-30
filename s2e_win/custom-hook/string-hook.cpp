@@ -1,6 +1,6 @@
 #include "string-hook.h"
 #include "utils.h"
-#include "commands.h""
+#include "commands.h"
 
 char* strtokHook(
 	char* strToken,
