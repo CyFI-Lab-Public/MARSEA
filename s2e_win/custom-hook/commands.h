@@ -43,7 +43,6 @@ extern "C" {
         WINWRAPPER_INTERNETCONNECTW,
         WINWRAPPER_INTERNETOPENURLA,
         WINWRAPPER_INTERNETOPENURLW,
-        WINWRAPPER_MULTIBYTETOWIDECHAR,
 
         WINWRAPPER_WCSSTR,
 
@@ -266,17 +265,6 @@ extern "C" {
         uint64_t lpdwNumberOfBytesWritten;
     };
 
-    struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR {
-        uint64_t CodePage;
-        uint64_t dwFlags;
-        uint64_t lpMultiByteStr;
-        int cbMultiByte;
-        uint64_t lpWideCharStr;
-        int ccWideChar;
-        uint64_t symbTag;
-        
-    };
-
     struct CYFI_WINWRAPPER_COMMAND_WCSSTR {
         uint64_t str;
         uint64_t strSearch;
@@ -336,7 +324,6 @@ extern "C" {
             struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENURLA InternetOpenUrlA;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENURLW InternetOpenUrlW;
 
-            struct CYFI_WINWRAPPER_COMMAND_MULTIBYTETOWIDECHAR MultiByteToWideChar;
             struct CYFI_WINWRAPPER_COMMAND_WCSSTR wcsstr;
 
             struct CYFI_WRAPPER_COMMAND_CRC Crc;
