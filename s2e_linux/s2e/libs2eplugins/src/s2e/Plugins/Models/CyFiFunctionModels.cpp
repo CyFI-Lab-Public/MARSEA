@@ -671,7 +671,7 @@ void CyFiFunctionModels::handleInternetReadFile(S2EExecutionState *state, CYFI_W
 void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t args[4];
-    args[0] = (uint64_t) cmd.InternetCrackUrlA.pwszUrl;
+    args[0] = (uint64_t) cmd.InternetCrackUrlA.lpszUrl;
     args[1] = (uint64_t) cmd.InternetCrackUrlA.dwUrlLength;
     args[2] = (uint64_t) cmd.InternetCrackUrlA.dwFlags;
     args[3] = (uint64_t) cmd.InternetCrackUrlA.lpUrlComponents;
@@ -692,7 +692,7 @@ void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_
 void CyFiFunctionModels::handleInternetCrackUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t args[4];
-    args[0] = (uint64_t) cmd.InternetCrackUrlW.pwszUrl;
+    args[0] = (uint64_t) cmd.InternetCrackUrlW.lpszUrl;
     args[1] = (uint64_t) cmd.InternetCrackUrlW.dwUrlLength;
     args[2] = (uint64_t) cmd.InternetCrackUrlW.dwFlags;
     args[3] = (uint64_t) cmd.InternetCrackUrlW.lpUrlComponents;
