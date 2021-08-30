@@ -96,8 +96,6 @@ private:
     void handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
     void handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
-    void handleWcsstr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-
     void handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
     void handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
     void handleInternetCrackUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
