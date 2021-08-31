@@ -179,14 +179,19 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
                                                 TranslationBlock *tb,
                                                 uint64_t pc) {
-    // When we find an interesting address, ask S2E to invoke our callback when the address is actually
-    // executed
+    // When we find an interesting address, ask S2E to invoke our callback when the address is
+    // actually executed
     if (!instructionMonitor) {
+        return;
+    }
+    auto currentMod = m_map->getModule(state, pc);
+    if (!currentMod) {
         return;
     }
     // If we've defined ranges to dump within, then use those.
     if (m_traceRegions) {
-        if (m_traceRegions->contains(pc)) {
+        uint64_t relative_pc;
+        if (currentMod->ToNativeBase(pc, relative_pc) && m_traceRegions->contains(relative_pc)) {
             signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
         }
         return;
@@ -194,10 +199,6 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
     // Otherwise, check whether we've specified which module to trace, and if the current
     // module's name match. If the config contains "moduleName", then we can use that info
     // to check if the module that the PC is currently in is the one we're interested in.
-    auto currentMod = m_map->getModule(state, pc);
-    if (!currentMod) {
-        return;
-    }
     if (!m_moduleName.empty()) {
         // If the current module is the one we're looking for, connect to the
         // onInstructionExecution signal.
