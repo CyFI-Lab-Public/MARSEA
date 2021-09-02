@@ -154,7 +154,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
         } else {
             std::ostringstream ss;
             ss << data;
-            uint32_t addr = std::stol(ss.str(), nullptr, 16);
+            uint32_t addr = std::stoll(ss.str(), nullptr, 16);
              
             ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
             if (!level_one.isNull()) {
@@ -816,6 +816,36 @@ void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_C
 
 }
 
+void CyFiFunctionModels::killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+
+    std::string funcName;
+    state->mem()->readString(cmd.CheckCaller.funcName, funcName);
+    getInfoStream() << "DDR Found. Killing execution from " << funcName << "\n";
+    S2EExecutor *executor = s2e()->getExecutor();
+    const klee::StateSet &states = s2e()->getExecutor()->getStates();
+    size_t nrStatesToTerminate = (size_t)executor->getStatesCount();
+    
+    if (nrStatesToTerminate < 1 && executor->getStatesCount() > 0) {
+        nrStatesToTerminate = 1; // kill at least one state
+    }
+
+    for (auto it = states.begin(); it != states.end() && nrStatesToTerminate > 0; it++, nrStatesToTerminate--) {
+        S2EExecutionState *state = dynamic_cast<S2EExecutionState *>(*it);
+
+        // Never kill state 0, because it is used by SeedSearcher
+        /*if (state->getID() == 0) {
+            continue;
+        }*/
+
+        // We might terminate the current state so the executor could throw an exception
+        try {
+            executor->terminateState(*state);
+        } catch (s2e::CpuExitException &) {
+        }
+        }
+}
+
+
 // TODO: use template
 #define UPDATE_RET_VAL(CmdType, cmd)                                         \
     do {                                                                     \
@@ -1050,6 +1080,13 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         case CHECK_CALLER: {
             checkCaller(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }
+        } break;
+
+        case KILL_ANALYSIS: {
+            killAnalysis(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
             }

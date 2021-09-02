@@ -138,6 +138,8 @@ private:
     void handleOpcodeInvocation(S2EExecutionState *state, uint64_t guestDataPtr, uint64_t guestDataSize);
 
     void checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+
 };
 
 } // namespace models
