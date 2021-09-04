@@ -250,7 +250,7 @@ BOOL WINAPI InternetReadFileHook(
     *lpdwNumberOfBytesRead = 32;
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
-    //S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
+    S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
@@ -421,7 +421,7 @@ BOOL WINAPI InternetSetOptionAHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
-    Message("[W] WinHttpSetOption(%p, %ld, %p, %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
+    Message("[W] WinHttpSetOption(%p, %ld, %s, %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
 
     return TRUE;
 }

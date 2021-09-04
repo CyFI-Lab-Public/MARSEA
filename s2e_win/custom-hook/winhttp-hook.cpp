@@ -68,7 +68,7 @@ BOOL WINAPI WinHttpSendRequestHook(
     DWORD     dwTotalLength,
     DWORD_PTR dwContext
 ) {
-    Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, %p, 0x%x, 0x%x, %p)\n",
+    Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%ls\", 0x%x, 0x%x, %p)\n",
         hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
 
     return TRUE; //Only consider successful winhttp send requests for now
@@ -132,7 +132,6 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
     winhttp::INTERNET_PORT nServerPort,
     DWORD dwReserved
 ) {
-    if (checkCaller("WinHttpConnect")) {
         winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
         dummyHandles.insert(connectionHandle);
         if (S2EIsSymbolic((PVOID)pswzServerName, 0x4)) {
@@ -147,10 +146,10 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
             __s2e_touch_string((PCSTR)(UINT_PTR)Command.WinHttpConnect.symbTag);
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), DDR (%s)\n",
-                hSession, pswzServerName, nServerPort, dwReserved, (uint32_t)Command.WinHttpConnect.symbTag);
+            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld),Ret: %p, tag_in: %s\n",
+                hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, (uint32_t)Command.WinHttpConnect.symbTag);
 
-            killAnalysis("WinHttpConnect");
+            // killAnalysis("WinHttpConnect");
             return connectionHandle;
         }
         else {
@@ -158,10 +157,6 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
                 hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
             return connectionHandle;
         }
-    }
-    Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld)\n",
-        hSession, pswzServerName, nServerPort, dwReserved);
-    return winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
 }
 
 BOOL WINAPI WinHttpAddRequestHeadersHook(
@@ -296,7 +291,7 @@ BOOL WINAPI WinHttpSetOptionHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
-    Message("[W] WinHttpSetOption(%p, %ld, %p, %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
+    Message("[W] WinHttpSetOption(%p, %ld, %s, %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
     
     return TRUE;
 }
