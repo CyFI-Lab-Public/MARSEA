@@ -154,7 +154,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
         } else {
             std::ostringstream ss;
             ss << data;
-            uint32_t addr = std::stoll(ss.str(), nullptr, 16);
+            uint32_t addr = std::stoull(ss.str(), nullptr, 16);
              
             ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
             if (!level_one.isNull()) {
