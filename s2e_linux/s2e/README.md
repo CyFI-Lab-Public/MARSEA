@@ -30,7 +30,7 @@ pluginsConfig.CyFiFunctionModels = {
 }
 ```
 
-*Since our CyFiFunctionModels plugin depends on the LibraryCallMonitor plugin, this too must also be enabled*
+*Since our CyFiFunctionModels plugin depends on the LibraryCallMonitor plugin, this must also be enabled*
 
 #### Enable the LibraryCallMonitorPlugin
 ```
