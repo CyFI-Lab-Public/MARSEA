@@ -45,7 +45,7 @@ int WINAPIV wsprintfAHook(
 	...
 );
 
-BOOL ShowWindowHook(
+BOOL WINAPI ShowWindowHook(
 	HWND hWnd,
 	int  nCmdShow
 );
