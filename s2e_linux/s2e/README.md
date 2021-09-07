@@ -30,7 +30,7 @@ pluginsConfig.CyFiFunctionModels = {
 }
 ```
 
-*Since our CyFiFunctionModels plugin depends on the LibraryCallMonitor plugin, this must also be enabled*
+*Since our CyFiFunctionModels plugin depends on the LibraryCallMonitor plugin, this must also be enabled.*
 
 #### Enable the LibraryCallMonitorPlugin
 ```
@@ -41,7 +41,7 @@ pluginsConfig.LibraryCallMonitor = {
 }
 ```
 
-*However, you may actually want monitor any library calls, so set `agressiveOff=true`*.
+*However, you may actually want monitor library calls, so set `agressiveOff=true`*
 
 S2E Library
 ===========
