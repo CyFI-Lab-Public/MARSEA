@@ -55,6 +55,7 @@ namespace winhttp {
 #include "sysinfoapi-hook.h"
 #include "string-hook.h"
 #include "timeapi-hook.h"
+#include "consoleapi3-hook.h"
 
 INT s2eVersion = 0;
 
@@ -397,6 +398,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
 
     //CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
+
     CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
     CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
@@ -404,7 +406,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
     CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
-
+    
     //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),

@@ -141,3 +141,14 @@ int WINAPIV wsprintfAHook(
 	va_end(args);
 	return res;
 }
+
+BOOL ShowWindowHook(
+	HWND hWnd,
+	int  nCmdShow
+) {
+	if (checkCaller("ShowWindow")) {
+		Message("[W] ShowWindow (%p, %i)\n", hWnd, nCmdShow);
+		return TRUE;
+	}
+	return ShowWindow(hWnd, nCmdShow);
+}

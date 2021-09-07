@@ -44,3 +44,8 @@ int WINAPIV wsprintfAHook(
 	LPCSTR buffer,
 	...
 );
+
+BOOL ShowWindowHook(
+	HWND hWnd,
+	int  nCmdShow
+);

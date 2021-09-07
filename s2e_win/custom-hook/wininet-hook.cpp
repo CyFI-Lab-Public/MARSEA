@@ -236,19 +236,9 @@ BOOL WINAPI InternetReadFileHook(
     DWORD     dwNumberOfBytesToRead,
     LPDWORD   lpdwNumberOfBytesRead
 ) {
-    /*CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_INTERNETREADFILE;
-    Command.InternetReadFile.hFile = (uint64_t)hFile;
-    Command.InternetReadFile.lpBuffer = (uint64_t)lpBuffer;
-    Command.InternetReadFile.dwNumberOfBytesToRead = dwNumberOfBytesToRead;
-    Command.InternetReadFile.lpdwNumberOfBytesRead = (uint64_t)lpdwNumberOfBytesRead;
-
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));*/
-
     if (dwNumberOfBytesToRead) {
         *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
     }
-    *lpdwNumberOfBytesRead = 32;
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
