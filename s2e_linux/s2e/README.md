@@ -41,7 +41,7 @@ pluginsConfig.LibraryCallMonitor = {
 }
 ```
 
-*However, you may actually want monitor library calls, so set `agressiveOff=false`*
+*However, you may actually want to monitor library calls, so set `agressiveOff=false`*
 
 S2E Library
 ===========
