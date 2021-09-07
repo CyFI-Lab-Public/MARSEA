@@ -14,7 +14,7 @@ extern "C" {
 #define CHILD_PROCESS_TIMEOUT 10 * 1000
 
 /// Maximum message length to write to S2E debug log
-#define S2E_MSG_LEN 512
+#define S2E_MSG_LEN 1024//512
 
 /// Maximum path length
 #define MAX_PATH_LEN 256

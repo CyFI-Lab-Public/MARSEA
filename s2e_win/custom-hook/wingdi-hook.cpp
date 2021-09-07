@@ -1,7 +1,7 @@
 #include "wingdi-hook.h"
 #include "utils.h"
 
-int GetDeviceCapsHook(
+int WINAPI GetDeviceCapsHook(
 	HDC hdc,
 	int index
 ) {

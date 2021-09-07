@@ -2,11 +2,11 @@
 #include <Windows.h>
 #include <sysinfoapi.h>
 
-void GetLocalTimeHook(
+void WINAPI GetLocalTimeHook(
 	LPSYSTEMTIME lpSystemTime
 );
 
 
-void GetSystemInfoHook(
+void WINAPI GetSystemInfoHook(
 	LPSYSTEM_INFO lpSystemInfo
 );

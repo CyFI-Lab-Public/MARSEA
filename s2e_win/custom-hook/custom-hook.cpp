@@ -397,26 +397,26 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
 
     //CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
-
     CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
     CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
-    //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
-    
+    CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
+    //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
+
     //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
     //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
-    //CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
-    CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
+    // CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
+    // CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
 
     /* Evasion Techniques*/
     
     CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
-    CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
-    CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
+    //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
+    //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
     CyFIFuncType("kernel32", "GetCommandLineW", GetCommandLineWHook, {NULL}),
     CyFIFuncType("kernel32", "IsProcessorFeaturePresent", IsProcessorFeaturePresentHook, {NULL}),
     CyFIFuncType("kernel32", "GetFileType", GetFileTypeHook, {NULL}),
@@ -438,12 +438,11 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("gdi32", "GetDeviceCaps", GetDeviceCapsHook, {NULL}),
     CyFIFuncType("user32", "GetDC", GetDCHook, {NULL}),
     CyFIFuncType("user32", "GetSysColor", GetSysColorHook, {NULL}),
-    CyFIFuncType("user32", "GetCursorPos", GetCursorPosHook, {NULL}),
     CyFIFuncType("kernel32", "GetUserDefaultUILanguage", GetUserDefaultUILanguageHook, {NULL}),
     CyFIFuncType("kernel32", "GetFileAttributesA", GetFileAttributesAHook, {NULL}),
     CyFIFuncType("kernel32", "GetFileAttributesW", GetFileAttributesWHook, { NULL }),
     CyFIFuncType("kernel32", "GetFullPathNameA", GetFullPathNameAHook, { NULL }),
-    CyFIFuncType("kernel32", "FindClose", FindCloseHook, { NULL }),
+    // CyFIFuncType("kernel32", "FindClose", FindCloseHook, { NULL }),
     CyFIFuncType("kernel32", "IsDebuggerPresent", IsDebuggerPresentHook, { NULL }),
     CyFIFuncType("kernel32", "CheckRemoteDebuggerPresent", CheckRemoteDebuggerPresentHook, { NULL }),
     CyFIFuncType("kernel32", "GetLocaleInfoA", GetLocaleInfoAHook, { NULL }),

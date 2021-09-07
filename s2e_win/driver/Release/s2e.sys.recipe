@@ -2,7 +2,7 @@
 <Project>
   <ProjectOutputs>
     <ProjectOutput>
-      <FullPath>C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\s2e.sys</FullPath>
+      <FullPath>C:\Users\cyfi\Desktop\s2e\s2e_win\Release\s2e.sys</FullPath>
     </ProjectOutput>
   </ProjectOutputs>
   <ContentFiles />

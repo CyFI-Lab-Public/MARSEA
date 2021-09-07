@@ -39,17 +39,17 @@ BOOL WINAPI InternetQueryDataAvailableHook(HINTERNET hFile, LPDWORD lpdwNumberOf
 BOOL WINAPI InternetQueryOptionAHook(HINTERNET hInternet, DWORD dwOption, LPVOID lpBuffer, LPDWORD lpdwBufferLength);
 BOOL WINAPI InternetSetOptionAHook(HINTERNET hInternet, DWORD dwOption, LPVOID lpBuffer, DWORD dwBufferLength);
 BOOL WINAPI InternetWriteFileHook(HINTERNET hFile, LPCVOID lpBuffer, DWORD dwNumberOfBytesToWrite, LPDWORD lpdwNumberOfBytesWritten);
-BOOL InternetGetConnectedStateHook(
+BOOL WINAPI InternetGetConnectedStateHook(
 	LPDWORD lpdwFlags,
 	DWORD   dwReserved
 );
 
-BOOL InternetCheckConnectionAHook(
+BOOL WINAPI InternetCheckConnectionAHook(
 	LPCSTR lpszUrl,
 	DWORD  dwFlags,
 	DWORD  dwReserved
 );
 
-DWORD InternetAttemptConnectHook(
+DWORD WINAPI InternetAttemptConnectHook(
 	DWORD dwReserved
 );

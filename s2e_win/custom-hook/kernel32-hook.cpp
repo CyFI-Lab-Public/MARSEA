@@ -12,7 +12,7 @@ void SleepHook(
 	return Sleep(dwMilliseconds);
 }
 
-LPSTR GetCommandLineAHook()
+LPSTR WINAPI GetCommandLineAHook()
 {
 	if (checkCaller("GetCommandLineA")) {
 		std::string tag = GetTag("GetCommandLineA");
@@ -24,7 +24,7 @@ LPSTR GetCommandLineAHook()
 	return GetCommandLineA();
 }
 
-LPWSTR GetCommandLineWHook()
+LPWSTR WINAPI GetCommandLineWHook()
 {
 	if (checkCaller("GetCommandLineW")) {
 		std::string tag = GetTag("GetCommandLineW");
@@ -88,7 +88,7 @@ DWORD GetModuleFileNameWHook(
 	return GetModuleFileNameW(hModule, lpFilename, nSize);
 }
 
-BOOL IsProcessorFeaturePresentHook(
+BOOL WINAPI IsProcessorFeaturePresentHook(
 	DWORD ProcessorFeature
 ) {
 	if (checkCaller("IsProcessorFeaturePresent")) {
@@ -98,7 +98,7 @@ BOOL IsProcessorFeaturePresentHook(
 	return IsProcessorFeaturePresent(ProcessorFeature);
 }
 
-LPWCH GetEnvironmentStringsWHook() {
+LPWCH WINAPI GetEnvironmentStringsWHook() {
 	if (checkCaller("GetEnvironmentStringsW")) {
 		std::string tag = GetTag("GetEnvironmentStringsW");
 		LPWCH env_string = GetEnvironmentStringsW();
@@ -110,7 +110,7 @@ LPWCH GetEnvironmentStringsWHook() {
 	return GetEnvironmentStringsW();
 }
 
-void GetSystemTimeAsFileTimeHook(
+void WINAPI GetSystemTimeAsFileTimeHook(
 	LPFILETIME lpSystemTimeAsFileTime
 ) {
 	GetSystemTimeAsFileTime(lpSystemTimeAsFileTime);
@@ -121,7 +121,7 @@ void GetSystemTimeAsFileTimeHook(
 	}
 }
 
-DWORD GetTickCountHook() {
+DWORD WINAPI GetTickCountHook() {
 	if (checkCaller("GetTickCount")) {
 		std::string tag = GetTag("GetTickCount");
 		Message("[W] GetTickCount() -> tag_out: %s\n", tag.c_str());

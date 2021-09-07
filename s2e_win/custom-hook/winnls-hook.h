@@ -2,15 +2,15 @@
 #include <Windows.h>
 #include <WinNls.h>
 
-LANGID GetUserDefaultUILanguageHook();
+LANGID WINAPI GetUserDefaultUILanguageHook();
 
-int GetLocaleInfoAHook(
+int WINAPI GetLocaleInfoAHook(
 	LCID   Locale,
 	LCTYPE LCType,
 	LPSTR  lpLCData,
 	int    cchData
 );
 
-UINT GetOEMCPHook();
+UINT WINAPI GetOEMCPHook();
 
-LCID GetThreadLocaleHook();
+LCID WINAPI GetThreadLocaleHook();

@@ -2,9 +2,9 @@
 #include <Windows.h>
 #include <debugapi.h>
 
-BOOL CheckRemoteDebuggerPresentHook(
+BOOL WINAPI CheckRemoteDebuggerPresentHook(
 	HANDLE hProcess,
 	PBOOL  pbDebuggerPresent
 );
 
-BOOL IsDebuggerPresentHook();
+BOOL WINAPI IsDebuggerPresentHook();

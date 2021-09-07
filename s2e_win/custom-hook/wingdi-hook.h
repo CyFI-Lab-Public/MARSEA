@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <wingdi.h>
 
-int GetDeviceCapsHook(
+int WINAPI GetDeviceCapsHook(
 	HDC hdc,
 	int index
 );

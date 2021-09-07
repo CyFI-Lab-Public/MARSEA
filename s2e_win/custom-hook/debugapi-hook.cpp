@@ -1,7 +1,7 @@
 #include "debugapi-hook.h"
 #include "utils.h"
 
-BOOL CheckRemoteDebuggerPresentHook(
+BOOL WINAPI CheckRemoteDebuggerPresentHook(
 	HANDLE hProcess,
 	PBOOL  pbDebuggerPresent
 ) {
@@ -13,7 +13,7 @@ BOOL CheckRemoteDebuggerPresentHook(
 	return CheckRemoteDebuggerPresent(hProcess, pbDebuggerPresent);
 }
 
-BOOL IsDebuggerPresentHook() {
+BOOL WINAPI IsDebuggerPresentHook() {
 	if (checkCaller("IsDebuggerPresent")) {
 
 		Message("[W] IsDebuggerPresent\n");

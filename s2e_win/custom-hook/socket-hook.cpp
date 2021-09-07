@@ -19,28 +19,31 @@ SOCKET WSAAPI sockethook(
     int type,
     int protocol
 ) {
-    UINT8 retSocket = S2ESymbolicChar("socket", 1);
-    if (retSocket) {
-        SOCKET rSocket = (SOCKET)malloc(sizeof(SOCKET));
-        dummySockets.insert(rSocket);
+    if (checkCaller("socket")) {
+        UINT8 retSocket = socket(af, type, protocol);
+        
+        if (retSocket == INVALID_SOCKET) {
+            SOCKET rSocket = (SOCKET)malloc(sizeof(SOCKET));
+            dummySockets.insert(rSocket);
+            char* prot = "";
+            if (af == 23)
+            {
+                prot = "IPv6";
+            }
+            else if (af == 2)
+            {
+                prot = "IPv4";
+            }
+            Message("[W] socket(%s, %i, %i), Ret: 0x%x\n",
+                prot, type, protocol, rSocket);
 
-        char* prot = "";
-        if (af == 23)
-        {
-            prot = "IPv6";
+            return rSocket;
         }
-        else if (af == 2)
-        {
-            prot = "IPv4";
-        }
-        Message("[W] socket(%s, %i, %i), Ret: 0x%x\n",
-            prot, type, protocol, rSocket);
 
-        return rSocket;
+        return retSocket;
     }
-    else {
-        return NULL;
-    }
+
+    return socket(af, type, protocol);
 }
 
 INT WSAAPI connecthook(
@@ -48,48 +51,56 @@ INT WSAAPI connecthook(
     const sockaddr* name,
     int            namelen
 ) {
-    char *buf = "";
-    if (name->sa_family == AF_INET)
-    {
-        inet_ntop(
-            AF_INET, 
-            &(((struct sockaddr_in*)name)->sin_addr), 
-            buf, 
-            sizeof(s)
-        );
+    if (checkCaller("connect")) {
+        char* buf = "";
+        if (name->sa_family == AF_INET)
+        {
+            inet_ntop(
+                AF_INET,
+                &(((struct sockaddr_in*)name)->sin_addr),
+                buf,
+                sizeof(s)
+            );
+        }
+        else if (name->sa_family == AF_INET6)
+        {
+            inet_ntop(
+                AF_INET6,
+                &(((struct sockaddr_in6*)name)->sin6_addr),
+                buf,
+                sizeof(s)
+            );
+        }
+        Message("[W] connect (%p, %s)\n", s, buf);
+        return 0;
     }
-    else if (name->sa_family == AF_INET6)
-    {
-        inet_ntop(
-            AF_INET6,
-            &(((struct sockaddr_in6*)name)->sin6_addr),
-            buf,
-            sizeof(s)
-        );
-    }
-    Message("[W] connect (%p, %s)\n", s, buf);
-    return 0;
+
+    return connect(s, name, namelen);
 }
 
 INT WSAAPI closesockethook(
     SOCKET s
 ) {
-    Message("[W] closesocket(%p)\n", s);
 
-    std::set<SOCKET>::iterator it = dummySockets.find(s);
+    if (checkCaller("closesocket")) {
+        Message("[W] closesocket(%p)\n", s);
 
-    if (it == dummySockets.end()) {
-        // The socket is not one of our dummy sockets, so call the original
-        // closesocket function
-        return closesocket(*it);
+        std::set<SOCKET>::iterator it = dummySockets.find(s);
+
+        if (it == dummySockets.end()) {
+            // The socket is not one of our dummy sockets, so call the original
+            // closesocket function
+            return closesocket(*it);
+        }
+        else {
+            // The socket is a dummy handle. Free it
+            //free(*it);
+            dummySockets.erase(it);
+
+            return TRUE;
+        }
     }
-    else {
-        // The socket is a dummy handle. Free it
-        //free(*it);
-        dummySockets.erase(it);
-
-        return TRUE;
-    }
+    return closesocket(s);
 }
 
 INT WSAAPI recvhook(
@@ -98,14 +109,18 @@ INT WSAAPI recvhook(
     int len,
     int flags
 ) {
-    std::string tag = GetTag("recv");
-    UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
-    S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
-    // Symbolic return
-    INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
-    Message("[W] recv(%p) -> tag_out: %s\n", s, tag.c_str());
+    if (checkCaller("recv")) {
+        std::string tag = GetTag("recv");
+        UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
+        S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
+        // Symbolic return
+        INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
+        Message("[W] recv(%p) -> tag_out: %s\n", s, tag.c_str());
 
-    return bytesRead;
+        return bytesRead;
+    }
+
+    return recv(s, buf, len, flags);
 
 }
 
@@ -114,10 +129,13 @@ INT WSAAPI accepthook(
     sockaddr* addr,
     int* addrlen
 ) {
-    SOCKET acceptSocket = (SOCKET)malloc(sizeof(SOCKET));
-    dummySockets.insert(acceptSocket);
+    if (checkCaller("accept")) {
+        SOCKET acceptSocket = (SOCKET)malloc(sizeof(SOCKET));
+        dummySockets.insert(acceptSocket);
 
-    return acceptSocket;
+        return acceptSocket;
+    }
+    return accept(s, addr, addrlen);
 }
 
 INT WSAAPI selecthook(
@@ -127,9 +145,14 @@ INT WSAAPI selecthook(
     fd_set* exceptfds,
     const timeval* timeout
 ) {
-    std::string tag = GetTag("select");
-    INT ret = S2ESymbolicInt(tag.c_str(), 1);
-    return ret;
+
+    if (checkCaller("select")) {
+        std::string tag = GetTag("select");
+        INT ret = S2ESymbolicInt(tag.c_str(), 1);
+        return ret;
+    }
+
+    return select(nfds, readfds, writefds, exceptfds, timeout);
 }
 
 INT WSAAPI sendhook(
@@ -138,11 +161,15 @@ INT WSAAPI sendhook(
     int        len,
     int        flags
 ) {
-    std::string tag = GetTag("send");
-    INT ret = S2ESymbolicInt(tag.c_str(), len);
-    Message("[W] send(%p, A\"%ls\", %i, %i) -> tag_out: %s\n",
-        s, buf, len, flags, tag.c_str());
-    return ret;
+    if (checkCaller("send")) {
+        std::string tag = GetTag("send");
+        INT ret = S2ESymbolicInt(tag.c_str(), len);
+        Message("[W] send(%p, A\"%ls\", %i, %i) -> tag_out: %s\n",
+            s, buf, len, flags, tag.c_str());
+        return ret;
+    }
+
+    return send(s, buf, len, flags);
 }
 
 INT WSAAPI sendtohook(
@@ -154,9 +181,14 @@ INT WSAAPI sendtohook(
     int            tolen
 ) {
 
-    std::string tag = GetTag("sendto");
-    INT ret = S2ESymbolicInt(tag.c_str(), len);
-    Message("[W] sendto(%p, A\"%ls\", %i, %i, A\"%ls\", %i) -> tag_out: %s\n",
-        s, buf, len, flags, to, tolen, tag.c_str());
-    return ret;
+    if (checkCaller("sendto")) {
+
+        std::string tag = GetTag("sendto");
+        INT ret = S2ESymbolicInt(tag.c_str(), len);
+        Message("[W] sendto(%p, A\"%ls\", %i, %i, A\"%ls\", %i) -> tag_out: %s\n",
+            s, buf, len, flags, to, tolen, tag.c_str());
+        return ret;
+    }
+
+    return sendto(s, buf, len, flags, to, tolen);
 }

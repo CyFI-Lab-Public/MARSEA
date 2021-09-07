@@ -2,4 +2,5 @@
   debugger.c
   drvctl.c
   Generating Code...
-  drvctl.vcxproj -> C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Release\drvctl.exe
+  LINK : C:\Users\cyfi\Desktop\s2e\s2e_win\Release\drvctl.exe not found or not built by the last incremental link; performing full link
+  drvctl.vcxproj -> C:\Users\cyfi\Desktop\s2e\s2e_win\Release\drvctl.exe

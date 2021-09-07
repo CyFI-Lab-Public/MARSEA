@@ -1,7 +1,7 @@
 #include "winternl-hook.h"
 #include "utils.h"
 
-BOOLEAN RtlTimeToSecondsSince1970Hook(
+BOOLEAN NTAPI RtlTimeToSecondsSince1970Hook(
 	PLARGE_INTEGER Time,
 	PULONG         ElapsedSeconds
 ) {

@@ -4,7 +4,7 @@
 #include <string>
 #include <stdlib.h> 
 
-int GetKeyboardTypeHook(
+int WINAPI GetKeyboardTypeHook(
 	int nTypeFlag
 ) {
 	if (checkCaller("GetKeyboardType")) {
@@ -15,9 +15,9 @@ int GetKeyboardTypeHook(
 			return S2ESymbolicInt(tag.c_str(), GetKeyboardType(nTypeFlag));
 		}
 		case 1:
-			Message("[W] GetKeyboardType (%i) -> force_ret: %i\n", nTypeFlag, 0);
+			Message("[W] GetKeyboardType (%i) -> tag_out: %s\n", nTypeFlag, tag.c_str());
 			// 0 is a valid return value when nTypeFlag is 1
-			return 0;
+			return S2ESymbolicInt(tag.c_str(), GetKeyboardType(nTypeFlag));
 		case 2: {
 			Message("[W] GetKeyboardType (%i) -> tag_out: %s\n", nTypeFlag, tag.c_str());
 			return S2ESymbolicInt(tag.c_str(), GetKeyboardType(nTypeFlag));
@@ -29,7 +29,7 @@ int GetKeyboardTypeHook(
 	return GetKeyboardType(nTypeFlag);
 }
 
-HKL GetKeyboardLayoutHook(
+HKL WINAPI GetKeyboardLayoutHook(
 	DWORD idThread
 ) {
 	if (checkCaller("GetKeyboardLayout")) {
@@ -43,7 +43,7 @@ HKL GetKeyboardLayoutHook(
 	return GetKeyboardLayout(idThread);
 }
 
-int GetSystemMetricsHook(
+int WINAPI GetSystemMetricsHook(
 	int nIndex
 ) {
 	if (checkCaller("GetSystemMetrics")) {
@@ -56,12 +56,13 @@ int GetSystemMetricsHook(
 	return GetSystemMetrics(nIndex);
 }
 
-BOOL EnumDisplayMonitorsHook(
+BOOL WINAPI EnumDisplayMonitorsHook(
 	HDC             hdc,
 	LPCRECT         lprcClip,
 	MONITORENUMPROC lpfnEnum,
 	LPARAM          dwData
 ) {
+	Message("Calling EnumDisplayMonitor");
 	if (checkCaller("EnumDisplayMonitors")) {
 
 		Message("[W] EnumDisplayMonitors (%p, %p, %p, %p)\n", hdc, lprcClip, lpfnEnum, dwData);
@@ -70,7 +71,7 @@ BOOL EnumDisplayMonitorsHook(
 	return EnumDisplayMonitors(hdc, lprcClip, lpfnEnum, dwData);
 }
 
-HDC GetDCHook(
+HDC WINAPI GetDCHook(
 	HWND hWnd
 ) {
 	if (checkCaller("GetDCHook")) {
@@ -79,10 +80,10 @@ HDC GetDCHook(
 		Message("[W] GetDCHook (%p) Ret: %p\n", hWnd, handle);
 		return handle;
 	}
-	return GetDCHook(hWnd);
+	return GetDC(hWnd);
 }
 
-DWORD GetSysColorHook(
+DWORD WINAPI GetSysColorHook(
 	int nIndex
 ) {
 	if (checkCaller("GetSysColor")) {
@@ -94,11 +95,10 @@ DWORD GetSysColorHook(
 	return GetSysColor(nIndex);
 }
 
-BOOL GetCursorPosHook(
+BOOL WINAPI GetCursorPosHook(
 	LPPOINT lpPoint
 ) {
 	if (checkCaller("GetCursorPos")) {
-
 		std::string tag = GetTag("GetCursorPos");
 		Message("[W] GetCursorPos (%p) -> tag_out: %s\n", lpPoint, tag.c_str());
 		lpPoint->x = rand() % 10;
@@ -109,7 +109,7 @@ BOOL GetCursorPosHook(
 	return GetCursorPos(lpPoint);
 }
 
-BOOL GetLastInputInfoHook(
+BOOL WINAPI GetLastInputInfoHook(
 	PLASTINPUTINFO plii
 ) {
 	if (checkCaller("GetLastInputInfo")) {
@@ -123,4 +123,21 @@ BOOL GetLastInputInfoHook(
 		return TRUE;
 	}
 	return GetLastInputInfo(plii);
+}
+
+int WINAPIV wsprintfAHook(
+	LPSTR fmt,
+	LPCSTR buffer,
+	...
+) {
+	Message("[W] Start1");
+	va_list args;
+	Message("[W] Start2");
+	va_start(args, buffer);
+	Message("[W] Start3");
+	Message("[W] wsprintfA (%s, %s, %p)\n", fmt, buffer, args);
+	int res = wsprintfA(fmt, buffer, args);
+	Message("[W] Start4");
+	va_end(args);
+	return res;
 }

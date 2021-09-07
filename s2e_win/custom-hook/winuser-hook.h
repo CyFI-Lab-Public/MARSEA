@@ -4,41 +4,43 @@ namespace winuser {
 #include <winuser.h>
 }
 
-int GetKeyboardTypeHook(
+int WINAPI GetKeyboardTypeHook(
 	int nTypeFlag
 );
 
-HKL GetKeyboardLayoutHook(
+HKL WINAPI GetKeyboardLayoutHook(
 	DWORD idThread
 );
 
-int GetSystemMetricsHook(
+int WINAPI GetSystemMetricsHook(
 	int nIndex
 );
 
-BOOL EnumDisplayMonitorsHook(
+BOOL WINAPI EnumDisplayMonitorsHook(
 	HDC             hdc,
 	LPCRECT         lprcClip,
 	MONITORENUMPROC lpfnEnum,
 	LPARAM          dwData
 );
 
-BOOL GetCursorPosHook(
+BOOL WINAPI GetCursorPosHook(
 	LPPOINT lpPoint
 );
 
-HDC GetDCHook(
+HDC WINAPI GetDCHook(
 	HWND hWnd
 );
 
-DWORD GetSysColorHook(
+DWORD WINAPI GetSysColorHook(
 	int nIndex
 );
 
-BOOL GetCursorPosHook(
-	LPPOINT lpPoint
+BOOL WINAPI GetLastInputInfoHook(
+	PLASTINPUTINFO plii
 );
 
-BOOL GetLastInputInfoHook(
-	PLASTINPUTINFO plii
+int WINAPIV wsprintfAHook(
+	LPSTR fmt,
+	LPCSTR buffer,
+	...
 );

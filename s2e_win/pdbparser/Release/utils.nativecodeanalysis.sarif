@@ -12,132 +12,132 @@
       },
       "invocations": [
         {
-          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\HostX86\\x86\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x00372080 -il C:\\Users\\cyfi\\AppData\\Local\\Temp\\_CL_b0f329c2ast -typedil -f utils.cpp -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -Gs -pc \\:/ -D_MSC_VER=1916 -D_MSC_FULL_VER=191627045 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -GR -D_CPPRTTI -I C:\\Users\\cyfi\\Desktop\\projects\\s2e\\s2e_win\\packages\\tencent.rapidjson.1.1.1\\lib\\native\\include\\ -nologo -W 3 -diagnostics:column- -diagnostics:caret- -GF -Og -Oi -Ot -DCODE_ANALYSIS -DWIN32 -DNDEBUG -D_CONSOLE -EHs -D_CPPUNWIND -EHc -D_MT -D_DLL -GS -D_M_FP_PRECISE -Zc:wchar_t -Zc:forScope -FoRelease\\utils.obj -FdRelease\\vc141.pdb -Gd -analyze:quiet -analyze:ruleset C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\HostX86\\x86\\localespc.dll -FC -errorreport:prompt -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include\\v150 -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\Include\\um"
+          "commandLine": "\"C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\HostX86\\x86\\c1xx.dll\" -ACf{1F7B090C-16DB-4822-966A-A93D26ED4681} -ACpmspft140.dll -Alint -D_PREFAST_ -D_AST_FE_ -Analyze -zm0x01362080 -il C:\\Users\\cyfi\\AppData\\Local\\Temp\\_CL_ba9a5820ast -typedil -f utils.cpp -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -Gs -pc \\:/ -D_MSC_VER=1916 -D_MSC_FULL_VER=191627045 -D_MSC_BUILD=0 -D_WIN32 -D_M_IX86=600 -D_M_IX86_FP=2 -GR -D_CPPRTTI -I C:\\Users\\cyfi\\Desktop\\s2e\\s2e_win\\packages\\tencent.rapidjson.1.1.1\\lib\\native\\include\\ -nologo -W 3 -diagnostics:column- -diagnostics:caret- -GF -Og -Oi -Ot -DCODE_ANALYSIS -DWIN32 -DNDEBUG -D_CONSOLE -EHs -D_CPPUNWIND -EHc -D_MT -D_DLL -GS -D_M_FP_PRECISE -Zc:wchar_t -Zc:forScope -FoRelease\\utils.obj -FdRelease\\vc141.pdb -Gd -analyze:quiet -analyze:ruleset C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\Team Tools\\Static Analysis Tools\\Rule Sets\\NativeRecommendedRules.ruleset -analyze:plugin C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\bin\\HostX86\\x86\\localespc.dll -FC -errorreport:prompt -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Tools\\MSVC\\14.16.27023\\atlmfc\\include -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\include -I C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.10240.0\\ucrt -I C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\VS\\UnitTest\\include\\v150 -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\um -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\shared -I C:\\Program Files (x86)\\Windows Kits\\8.1\\Include\\winrt -I C:\\Program Files (x86)\\Windows Kits\\NETFXSDK\\4.6.1\\Include\\um"
         }
       ],
       "files": {
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/pdbparser/utils.cpp": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/pdbparser/utils.cpp": {
           "roles": [
             "analysisTarget",
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/encodedstream.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/encodedstream.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/rapidjson.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/rapidjson.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/allocators.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/pdbparser/pdbparser.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/pdbparser/pdbparser.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/allocators.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/stack.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/stack.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/document.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/document.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/reader.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/reader.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/stream.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/meta.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/encodings.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/stream.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/memorystream.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/encodings.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/meta.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/memorystream.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/swap.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/swap.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/strtod.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/strtod.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/ieee754.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/ieee754.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/biginteger.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/biginteger.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/diyfp.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/diyfp.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/pow10.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/pow10.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/error/error.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/error/error.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/strfunc.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/strfunc.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/writer.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/writer.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/dtoa.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/dtoa.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/itoa.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/internal/itoa.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/stringbuffer.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/stringbuffer.h": {
           "roles": [
             "resultFile"
           ]
         },
-        "file:///c:/users/cyfi/desktop/projects/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/prettywriter.h": {
+        "file:///c:/users/cyfi/desktop/s2e/s2e_win/packages/tencent.rapidjson.1.1.1/lib/native/include/rapidjson/prettywriter.h": {
           "roles": [
             "resultFile"
           ]

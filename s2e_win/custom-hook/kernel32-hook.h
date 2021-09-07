@@ -3,15 +3,14 @@
 
 
 void SleepHook(DWORD dwMilliseconds);
-LPSTR GetCommandLineAHook();
 
 
 //HMODULE LoadLibraryAHook(LPCSTR lpLibFileName);
 HMODULE LoadLibraryWHook(LPCWSTR lpLibFileName);
 
-LPSTR GetCommandLineAHook();
+LPSTR WINAPI GetCommandLineAHook();
 
-LPWSTR GetCommandLineWHook();
+LPWSTR WINAPI GetCommandLineWHook();
 
 BOOL QueryPerformanceCounterHook(LARGE_INTEGER* lpPerformanceCount);
 
@@ -19,10 +18,10 @@ DWORD GetModuleFileNameAHook(HMODULE hModule, LPSTR lpFilename, DWORD nSize);
 
 DWORD GetModuleFileNameWHook(HMODULE hModule, LPWSTR lpFilename, DWORD nSize);
 
-BOOL IsProcessorFeaturePresentHook(DWORD ProcessorFeature);
+BOOL WINAPI IsProcessorFeaturePresentHook(DWORD ProcessorFeature);
 
-LPWCH GetEnvironmentStringsWHook();
+LPWCH WINAPI GetEnvironmentStringsWHook();
 
-void GetSystemTimeAsFileTimeHook(LPFILETIME lpSystemTimeAsFileTime);
+void WINAPI GetSystemTimeAsFileTimeHook(LPFILETIME lpSystemTimeAsFileTime);
 
-DWORD GetTickCountHook();
+DWORD WINAPI GetTickCountHook();

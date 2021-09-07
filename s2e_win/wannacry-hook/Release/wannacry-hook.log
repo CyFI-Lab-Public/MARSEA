@@ -1,12 +1,12 @@
 ﻿  wannacry-hook.cpp
-c:\users\cyfi\desktop\s2e-win-utils-src\source\s2e\guest\windows\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(39): warning C4005: 'NTDDI_VERSION': macro redefinition
-  c:\program files (x86)\windows kits\8.1\include\shared\sdkddkver.h(206): note: see previous definition of 'NTDDI_VERSION'
-c:\users\cyfi\desktop\s2e-win-utils-src\source\s2e\guest\windows\packages\easyhooknativepackage.2.7.7097\build\native\include\easyhook.h(40): warning C4005: '_WIN32_WINNT': macro redefinition
-  c:\program files (x86)\windows kits\8.1\include\shared\sdkddkver.h(200): note: see previous definition of '_WIN32_WINNT'
-     Creating library C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\wannacry-hook.lib and object C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\wannacry-hook.exp
-  Generating code
-  0 of 270 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
-  Finished generating code
-  wannacry-hook.vcxproj -> C:\Users\cyfi\Desktop\s2e-win-utils-src\source\s2e\guest\windows\Release\wannacry-hook.dll
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\EasyHookNativePackage.2.7.7097\build\native\include\easyhook.h(39,1): warning C4005: 'NTDDI_VERSION': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(228): message : see previous definition of 'NTDDI_VERSION'
+C:\Users\cyfi\Desktop\s2e\s2e_win\packages\EasyHookNativePackage.2.7.7097\build\native\include\easyhook.h(40,1): warning C4005: '_WIN32_WINNT': macro redefinition
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.19041.0\shared\sdkddkver.h(218): message : see previous definition of '_WIN32_WINNT'
+     Creating library C:\Users\cyfi\Desktop\s2e\s2e_win\Release\wannacry-hook.lib and object C:\Users\cyfi\Desktop\s2e\s2e_win\Release\wannacry-hook.exp
+wannacry-hook.obj : error LNK2001: unresolved external symbol __imp__RhWakeUpProcess@0
+wannacry-hook.obj : error LNK2001: unresolved external symbol __imp__LhInstallHook@16
+wannacry-hook.obj : error LNK2001: unresolved external symbol __imp__LhSetExclusiveACL@12
+wannacry-hook.obj : error LNK2001: unresolved external symbol __imp__RtlGetLastErrorString@0
+wannacry-hook.obj : error LNK2001: unresolved external symbol __imp__RhInjectLibrary@28
+C:\Users\cyfi\Desktop\s2e\s2e_win\Release\wannacry-hook.dll : fatal error LNK1120: 5 unresolved externals

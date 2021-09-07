@@ -121,7 +121,7 @@ INT NTAPI S2EInvokePluginConcrete(PCSTR PluginName, PVOID Data, UINT32 DataSize)
 VOID S2ECyfiMessageFmt(PCHAR CyfiMessage, ...)
 {
     va_list ap;
-    CHAR String[512] = { 0 };
+    CHAR String[1024] = { 0 };
     va_start(ap, CyfiMessage);
 #if defined(USER_APP)
     vsprintf_s(String, sizeof(String) - 1, CyfiMessage, ap);

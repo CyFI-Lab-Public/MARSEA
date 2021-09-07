@@ -12,7 +12,7 @@ HANDLE CreateFileAHook(
 	HANDLE                hTemplateFile
 );
 
-HANDLE CreateFileWHook(
+HANDLE WINAPI CreateFileWHook(
 	LPCWSTR               lpFileName,
 	DWORD                 dwDesiredAccess,
 	DWORD                 dwShareMode,
@@ -40,11 +40,11 @@ HANDLE FindFirstFileWHook(
 	LPWIN32_FIND_DATAW lpFindFileData
 );
 
-DWORD GetFileTypeHook(
+DWORD WINAPI GetFileTypeHook(
 	HANDLE hFile
 );
 
-BOOL ReadFileHook(
+BOOL WINAPI ReadFileHook(
 	HANDLE       hFile,
 	LPVOID       lpBuffer,
 	DWORD        nNumberOfBytesToRead,
@@ -52,20 +52,20 @@ BOOL ReadFileHook(
 	LPOVERLAPPED lpOverlapped
 );
 
-DWORD GetFileSizeHook(
+DWORD WINAPI GetFileSizeHook(
 	HANDLE  hFile,
 	LPDWORD lpFileSizeHigh
 );
 
-DWORD GetFileAttributesAHook(
+DWORD WINAPI GetFileAttributesAHook(
 	LPCSTR lpFileName
 );
 
-DWORD GetFileAttributesWHook(
+DWORD WINAPI GetFileAttributesWHook(
 	LPCWSTR lpFileName
 );
 
-DWORD GetFullPathNameAHook(
+DWORD WINAPI GetFullPathNameAHook(
 	LPCSTR lpFileName,
 	DWORD  nBufferLength,
 	LPSTR  lpBuffer,
@@ -76,7 +76,7 @@ BOOL FindCloseHook(
 	HANDLE hFindFile
 );
 
-BOOL GetFileTimeHook(
+BOOL WINAPI GetFileTimeHook(
 	HANDLE     hFile,
 	LPFILETIME lpCreationTime,
 	LPFILETIME lpLastAccessTime,

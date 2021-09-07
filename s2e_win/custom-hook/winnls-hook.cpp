@@ -1,7 +1,7 @@
 #include "winnls-hook.h"
 #include "utils.h"
 
-LANGID GetUserDefaultUILanguageHook() {
+LANGID WINAPI GetUserDefaultUILanguageHook() {
 	if (checkCaller("GetUserDefaultUILanguage")) {
 		std::string tag = GetTag("GetUserDefaultUILanguage");
 		LANGID lan_id = GetUserDefaultUILanguage();
@@ -12,7 +12,7 @@ LANGID GetUserDefaultUILanguageHook() {
 	return GetUserDefaultUILanguage();
 }
 
-int GetLocaleInfoAHook(
+int WINAPI GetLocaleInfoAHook(
 	LCID   Locale,
 	LCTYPE LCType,
 	LPSTR  lpLCData,
@@ -28,10 +28,10 @@ int GetLocaleInfoAHook(
 			return cchData;
 		}
 	}
-	return GetLocaleInfoAHook(Locale, LCType, lpLCData, cchData);
+	return GetLocaleInfoA(Locale, LCType, lpLCData, cchData);
 }
 
-UINT GetOEMCPHook() {
+UINT WINAPI GetOEMCPHook() {
 	if (checkCaller("GetOEMCP")) {
 
 		std::string tag = GetTag("GetOEMCP");
@@ -40,10 +40,10 @@ UINT GetOEMCPHook() {
 		S2EMakeSymbolic(&ret, sizeof(UINT), tag.c_str());
 		return ret;
 	}
-	return GetUserDefaultUILanguage();
+	return GetOEMCP();
 }
 
-LCID GetThreadLocaleHook() {
+LCID WINAPI GetThreadLocaleHook() {
 	if (checkCaller("GetThreadLocale")) {
 
 		LCID ret = GetThreadLocale();

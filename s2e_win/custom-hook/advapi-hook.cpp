@@ -4,7 +4,7 @@
 
 static std::set<HKEY> dummyHandles;
 
-LSTATUS RegOpenKeyExAHook(
+LSTATUS APIENTRY RegOpenKeyExAHook(
 	HKEY   hKey,
 	LPCSTR lpSubKey,
 	DWORD  ulOptions,
@@ -30,7 +30,7 @@ LSTATUS RegOpenKeyExAHook(
 	return RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 }
 
-LSTATUS RegOpenKeyExWHook(
+LSTATUS APIENTRY RegOpenKeyExWHook(
 	HKEY   hKey,
 	LPCWSTR lpSubKey,
 	DWORD  ulOptions,
@@ -56,7 +56,7 @@ LSTATUS RegOpenKeyExWHook(
 	return RegOpenKeyExW(hKey, lpSubKey, ulOptions, samDesired, phkResult);
 }
 
-LSTATUS RegCloseKeyHook(
+LSTATUS APIENTRY RegCloseKeyHook(
 	HKEY hKey
 ) {
 	if (checkCaller("RegCloseKey")) {
@@ -76,7 +76,7 @@ LSTATUS RegCloseKeyHook(
 	return RegCloseKey(hKey);
 }
 
-LSTATUS RegGetValueAHook(
+LSTATUS APIENTRY RegGetValueAHook(
 	HKEY    hkey,
 	LPCSTR  lpSubKey,
 	LPCSTR  lpValue,
@@ -118,7 +118,7 @@ LSTATUS RegGetValueAHook(
 	return RegGetValueA(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
 }
 
-LSTATUS RegGetValueWHook(
+LSTATUS APIENTRY RegGetValueWHook(
 	HKEY    hkey,
 	LPCWSTR  lpSubKey,
 	LPCWSTR  lpValue,
@@ -159,7 +159,7 @@ LSTATUS RegGetValueWHook(
 	return RegGetValueW(hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData);
 }
 
-LSTATUS RegQueryValueExAHook(
+LSTATUS APIENTRY RegQueryValueExAHook(
 	HKEY    hKey,
 	LPCSTR  lpValueName,
 	LPDWORD lpReserved,
@@ -199,7 +199,7 @@ LSTATUS RegQueryValueExAHook(
 	return RegQueryValueExA(hKey, lpValueName, lpReserved, lpType, lpData, lpcbData);
 }
 
-LSTATUS RegQueryValueExWHook(
+LSTATUS APIENTRY RegQueryValueExWHook(
 	HKEY    hKey,
 	LPCWSTR lpValueName,
 	LPDWORD lpReserved,

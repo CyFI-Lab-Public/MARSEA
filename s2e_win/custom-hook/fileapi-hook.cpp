@@ -35,7 +35,7 @@ HANDLE CreateFileAHook(
 	return CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile); 
 }
 
-HANDLE CreateFileWHook(
+HANDLE WINAPI CreateFileWHook(
 	LPCWSTR               lpFileName,
 	DWORD                 dwDesiredAccess,
 	DWORD                 dwShareMode,
@@ -46,23 +46,43 @@ HANDLE CreateFileWHook(
 ) {
 	if (checkCaller("CreateFileW")) {
 
-		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
-			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-			dummyHandles.insert(fileHandle);
-			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-			return fileHandle;
-		}
-		else {
-			HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
-			if (fileHandle == INVALID_HANDLE_VALUE) {
-				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-				dummyHandles.insert(fileHandle);
-				Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-					lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-				return fileHandle;
-			}
-		}
+		HANDLE fileHandle = CreateFileW(lpFileName,
+			GENERIC_READ, dwShareMode,
+			lpSecurityAttributes, dwCreationDisposition,
+			dwFlagsAndAttributes, hTemplateFile);
+		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+				lpFileName, GENERIC_READ, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+		LPVOID lpMsgBuf;
+		DWORD dw = GetLastError();
+
+		FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+			FORMAT_MESSAGE_FROM_SYSTEM |
+			FORMAT_MESSAGE_IGNORE_INSERTS,
+			NULL,
+			dw,
+			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			(LPSTR)&lpMsgBuf,
+			0, NULL);
+		Message("[W] Error: %s", lpMsgBuf);
+		return fileHandle;
+
+		//if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+		//	HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+		//	dummyHandles.insert(fileHandle);
+		//	Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+		//		lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+		//	return fileHandle;
+		//}
+		//else {
+		//	HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+		//	if (fileHandle == INVALID_HANDLE_VALUE) {
+		//		HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+		//		dummyHandles.insert(fileHandle);
+		//		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+		//			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+		//		return fileHandle;
+		//	}
+		//}
 	}
 	return CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
@@ -140,7 +160,7 @@ HANDLE FindFirstFileWHook(
 	return FindFirstFileW(lpFileName, lpFindFileData);
 }
 
-DWORD GetFileTypeHook(
+DWORD WINAPI GetFileTypeHook(
 	HANDLE hFile
 ) {
 	if (checkCaller("GetFiletype")) {
@@ -161,7 +181,7 @@ DWORD GetFileTypeHook(
 	return GetFileType(hFile);
 }
 
-BOOL ReadFileHook(
+BOOL WINAPI ReadFileHook(
 	HANDLE       hFile,
 	LPVOID       lpBuffer,
 	DWORD        nNumberOfBytesToRead,
@@ -174,8 +194,29 @@ BOOL ReadFileHook(
 		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
 		if (it == dummyHandles.end()) {
 			BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
-			if (res) {
-				S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
+
+			if (res && lpOverlapped != nullptr) {
+				Message("[W] Waiting started");
+				DWORD dwWaitRes = WaitForSingleObject(lpOverlapped->hEvent, INFINITE);
+				Message("[W] Waiting finished");
+				if (dwWaitRes == WAIT_FAILED) {
+					Message("[W] Error waiting for I/O to finish\n");
+					LPVOID lpMsgBuf;
+					DWORD dw = GetLastError();
+
+					FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+						FORMAT_MESSAGE_FROM_SYSTEM |
+						FORMAT_MESSAGE_IGNORE_INSERTS,
+						NULL,
+						dw,
+						MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+						(LPSTR)&lpMsgBuf,
+						0, NULL);
+					Message("[W] Error: %s", lpMsgBuf);
+				}
+			}
+			if (res && lpNumberOfBytesRead!=nullptr) {
+				S2EMakeSymbolic(lpBuffer, min(*lpNumberOfBytesRead, DEFAULT_MEM_LEN), tag.c_str());
 			}
 			else {
 				S2EMakeSymbolic(lpBuffer, DEFAULT_MEM_LEN, tag.c_str());
@@ -183,14 +224,14 @@ BOOL ReadFileHook(
 		}
 		else {
 			S2EMakeSymbolic(lpBuffer, min(nNumberOfBytesToRead, DEFAULT_MEM_LEN), tag.c_str());
-			S2EMakeSymbolic(lpNumberOfBytesRead, min(nNumberOfBytesToRead, DEFAULT_MEM_LEN), tag.c_str());
+			S2EMakeSymbolic(lpNumberOfBytesRead, sizeof(DWORD), tag.c_str());
 		}
 		return TRUE;
 	}
 	return ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
 }
 
-DWORD GetFileSizeHook(
+DWORD WINAPI GetFileSizeHook(
 	HANDLE  hFile,
 	LPDWORD lpFileSizeHigh
 ) {
@@ -213,7 +254,7 @@ DWORD GetFileSizeHook(
 	return GetFileSize(hFile, lpFileSizeHigh);
 }
 
-DWORD GetFileAttributesAHook(
+DWORD WINAPI GetFileAttributesAHook(
 	LPCSTR lpFileName
 ) {
 	if (checkCaller("GetFileAttributesA")) {
@@ -226,7 +267,7 @@ DWORD GetFileAttributesAHook(
 	return GetFileAttributesA(lpFileName);
 }
 
-DWORD GetFileAttributesWHook(
+DWORD WINAPI GetFileAttributesWHook(
 	LPCWSTR lpFileName
 ) {
 	std::string tag = GetTag("GetFileAttributesW");
@@ -236,7 +277,7 @@ DWORD GetFileAttributesWHook(
 	return ret;
 }
 
-DWORD GetFullPathNameAHook(
+DWORD WINAPI GetFullPathNameAHook(
 	LPCSTR lpFileName,
 	DWORD  nBufferLength,
 	LPSTR  lpBuffer,
@@ -277,7 +318,7 @@ BOOL FindCloseHook(
 	}
 }
 
-BOOL GetFileTimeHook(
+BOOL WINAPI GetFileTimeHook(
 	HANDLE     hFile,
 	LPFILETIME lpCreationTime,
 	LPFILETIME lpLastAccessTime,
