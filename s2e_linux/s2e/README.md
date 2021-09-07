@@ -36,15 +36,12 @@ pluginsConfig.CyFiFunctionModels = {
 ```
 add_plugin("LibraryCallMonitor")
 pluginsConfig.LibraryCallMonitor = {
-	aggressiveOff = true,
+	aggressiveOff = false,
 	moduleName="netscout.exe",
 }
 ```
 
-*However, you may not want to actually monitor any library calls, so set `agressiveOff=true`*.
-
-If you want to monitor library calls, simply remove `agressiveOff=true` or set it to `false`.
-
+*However, you may actually want monitor any library calls, so set `agressiveOff=true`*.
 
 S2E Library
 ===========
