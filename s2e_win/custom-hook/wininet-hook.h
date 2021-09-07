@@ -49,7 +49,11 @@ BOOL WINAPI InternetCheckConnectionAHook(
 	DWORD  dwFlags,
 	DWORD  dwReserved
 );
-
+BOOL WINAPI InternetCheckConnectionWHook(
+    LPCWSTR lpszUrl,
+    DWORD   dwFlags,
+    DWORD   dwReserved
+);
 DWORD WINAPI InternetAttemptConnectHook(
 	DWORD dwReserved
 );

@@ -98,6 +98,16 @@ BOOL WINAPI IsProcessorFeaturePresentHook(
 	return IsProcessorFeaturePresent(ProcessorFeature);
 }
 
+BOOL WINAPI FreeEnvironmentStringsWHook(
+	LPWCH penv
+) {
+	if (checkCaller("FreeEnvironmentStringsW")) {
+		Message("[W] FreeEnvironmentStringsW (%p)\n", penv);
+		return TRUE;
+	}
+	return FreeEnvironmentStringsW(penv);
+}
+
 LPWCH WINAPI GetEnvironmentStringsWHook() {
 	if (checkCaller("GetEnvironmentStringsW")) {
 		std::string tag = GetTag("GetEnvironmentStringsW");

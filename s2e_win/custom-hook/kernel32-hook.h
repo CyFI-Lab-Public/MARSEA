@@ -22,6 +22,10 @@ BOOL WINAPI IsProcessorFeaturePresentHook(DWORD ProcessorFeature);
 
 LPWCH WINAPI GetEnvironmentStringsWHook();
 
+BOOL WINAPI FreeEnvironmentStringsWHook(
+	LPWCH penv
+);
+
 void WINAPI GetSystemTimeAsFileTimeHook(LPFILETIME lpSystemTimeAsFileTime);
 
 DWORD WINAPI GetTickCountHook();

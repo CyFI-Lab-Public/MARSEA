@@ -456,6 +456,18 @@ BOOL WINAPI InternetCheckConnectionAHook(
     return InternetCheckConnectionA(lpszUrl, dwFlags, dwReserved);
 }
 
+BOOL WINAPI InternetCheckConnectionWHook(
+    LPCWSTR lpszUrl,
+    DWORD   dwFlags,
+    DWORD   dwReserved
+) {
+    if (checkCaller("InternetCheckConnectionW")) {
+        Message("[W] InternetCheckConnectionW (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
+        return TRUE;
+    }
+    return InternetCheckConnectionW(lpszUrl, dwFlags, dwReserved);
+}
+
 DWORD WINAPI InternetAttemptConnectHook(
     DWORD dwReserved
 ) {
@@ -465,6 +477,7 @@ DWORD WINAPI InternetAttemptConnectHook(
     }
     return InternetAttemptConnect(dwReserved);
 }
+
 
 BOOL WINAPI InternetCloseHandleHook(
     HINTERNET hInternet
