@@ -43,6 +43,26 @@ pluginsConfig.LibraryCallMonitor = {
 
 *However, you may actually want to monitor library calls, so set `agressiveOff=false`*
 
+Running S2E
+===========
+
+The S2E project is now ready to run. You have two ways to start the analysis:
+
+    * cd /home/cyfi/s2e/projects/<project_name> && ./launch-s2e.sh
+    * Use the "s2e run" command
+
+The results of the analysis can be found in the s2e-last directory.
+You may customize s2e-config.lua, bootstrap.sh, launch-s2e.sh, and others
+as needed.
+
+If something does not run as expected, you can troubleshoot like this:
+
+    * Enable graphics output by deleting the -nographic flag from launch-s2e.sh
+    * Look at the logs in serial.txt, log.txt, s2e-last/debug.txt, and s2e-last/cyfi.txt
+    * Run S2E in GDB using ./launch-s2e.sh debug
+
+
+
 S2E Library
 ===========
 
