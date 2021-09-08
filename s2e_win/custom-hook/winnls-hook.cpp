@@ -21,7 +21,7 @@ int WINAPI GetLocaleInfoAHook(
 	if (checkCaller("GetLocaleInfoA")) {
 
 		std::string tag = GetTag("GetLocaleInfoA");
-		Message("[W] GetLocalInfoA (%p, %p, %p, %i) -> tag_out: %s\n", Locale, LCType, lpLCData, cchData);
+		Message("[W] GetLocalInfoA (%p, %p, %p, %i) -> tag_out: %s\n", Locale, LCType, lpLCData, cchData, tag.c_str());
 
 		if (lpLCData != NULL && cchData != 0) {
 			S2EMakeSymbolic(lpLCData, cchData, tag.c_str());
