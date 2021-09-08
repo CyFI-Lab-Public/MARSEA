@@ -325,3 +325,18 @@ BOOL WINAPI WinHttpReceiveResponseHook(
 
     return TRUE; //Only consider successful winhttp responses for now
 }
+
+
+BOOL WINAPI WinHttpGetIEProxyConfigForCurrentUserHook(
+    winhttp::WINHTTP_CURRENT_USER_IE_PROXY_CONFIG* pProxyConfig
+) {
+    WinHttpGetIEProxyConfigForCurrentUser(pProxyConfig);
+    pProxyConfig->fAutoDetect = TRUE;
+    std::string tag = GetTag("WinHttpGetIEProxyConfigForCurrentUser");
+    S2EMakeSymbolic(pProxyConfig->lpszAutoConfigUrl, DEFAULT_MEM_LEN, tag.c_str());
+    S2EMakeSymbolic(pProxyConfig->lpszProxy, DEFAULT_MEM_LEN, tag.c_str());
+    S2EMakeSymbolic(pProxyConfig->lpszProxyBypass, DEFAULT_MEM_LEN, tag.c_str());
+    Message("[W] WinHttpGetIEProxyConfigForCurrentUser (%p) -> tag_out: %s\n", pProxyConfig, tag.c_str());
+
+}
+
