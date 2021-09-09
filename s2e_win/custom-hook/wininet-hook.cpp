@@ -499,3 +499,4 @@ BOOL WINAPI InternetCloseHandleHook(
         return TRUE;
     }
 }
+
