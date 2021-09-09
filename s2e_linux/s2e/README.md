@@ -12,7 +12,7 @@ if (relPc == 0x402da5) {
 }
 ```
 
-Similarly, 'hooking' *evasive* APIs and updating the return value (or arguments) to include symbolic data can also cause path/state explosion. Along with the solution above, you must also ensure that your hook only affects functions called from the target module (malware sample).  In the function hook, ensure any action is within ```checkCaller()```.
+Similarly, 'hooking' *evasive* APIs and updating the return value (or arguments) to include symbolic data can also cause path/state explosion. Along with the solution above, you must also ensure that your hook only affect functions called from the target module (malware sample).  In the function hook, ensure any action is within ```checkCaller()```.
 
 ```
 int WINAPI GetKeyboardTypeHook(
@@ -22,6 +22,7 @@ int WINAPI GetKeyboardTypeHook(
 	....
 ```
 
+If it is not called by the target module, you must call the hooked function natively to ensure normal execution continues.
 
 ### 7 Sept 2021
 
