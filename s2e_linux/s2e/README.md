@@ -2,7 +2,7 @@
 
 ### 8 Sept 2021
 
-Symbolic data may cause state/path explosion. One tailored solution is to prune away paths that do not meet a certain condition.  For instance, if exploration encounters a branch and the path you desire jumps to 0x402010, and not the alternative 0x402da5, you can kill the state that allows exploration to follow 0x402da5.
+Symbolic data may cause state/path explosion. One tailored solution is to prune away paths that do not meet a certain condition.  For instance, if exploration encounters a branch and the path you desire jumps to 0x402010, and not the alternative 0x402da5, you can kill the state that allows exploration to follow 0x402da5. For example, you can put the fllowing code in the ```onInstructionExecution()``` of the **CyFiFunctionModels**.
 
 ```
 if (relPc == 0x402da5) {
