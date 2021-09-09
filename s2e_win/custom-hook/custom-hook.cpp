@@ -56,6 +56,7 @@ namespace winhttp {
 #include "string-hook.h"
 #include "timeapi-hook.h"
 #include "consoleapi3-hook.h"
+#include "processthreadsapi-hook.h"
 
 INT s2eVersion = 0;
 
@@ -68,59 +69,6 @@ static std::set<HGLOBAL> dummyStreams;
 /// Keep track of base addrs
 static std::set<LPVOID> dummyBaseAddrs;
 
-/// Keep track of child processes
-static std::set<DWORD> childPids;
-
-
-
-///
-/// Wait a set timeout (in milliseconds) for all the child processes to
-/// terminate.
-///
-static BOOL WaitForChildProcesses(DWORD timeout) {
-    bool retCode = TRUE;
-
-    if (childPids.size() > 0) {
-        // Convert the set of PIDS to a list of handles with the appropriate
-        // permissions
-        std::vector<HANDLE> childHandles;
-        for (DWORD pid : childPids) {
-            Message("Getting handle to process 0x%x\n", pid);
-            HANDLE childHandle = OpenProcess(SYNCHRONIZE | PROCESS_QUERY_INFORMATION,
-                FALSE, pid);
-            if (childHandle) {
-                childHandles.push_back(childHandle);
-            }
-            else {
-                Message("Unable to open child process 0x%x: 0x%X\n", pid,
-                    GetLastError());
-                return FALSE;
-            }
-        }
-
-        // Wait for the processes to terminate
-        Message("Waiting %d ms for %d children processes to terminate...\n",
-            timeout, childHandles.size());
-        DWORD waitRes = WaitForMultipleObjects(childHandles.size(),
-            childHandles.data(), TRUE, timeout);
-        switch (waitRes) {
-        case WAIT_FAILED:
-            Message("Failed to wait for child processes: 0x%X\n", GetLastError());
-            retCode = FALSE;
-            break;
-        case WAIT_TIMEOUT:
-            Message("Timeout - not all child processes may have terminated\n");
-            break;
-        }
-
-        // Close all handles
-        for (HANDLE handle : childHandles) {
-            CloseHandle(handle);
-        }
-    }
-
-    return retCode;
-}
 
 
 ////////////////////////////////////////////////////////////////////
@@ -164,79 +112,6 @@ static VOID ExitThreadHook(
     free(*threadID);
     dummyThreadHandles.erase(threadID);
     ExitThread(exitcode);
-}
-
-static BOOL WINAPI CreateProcessAHook(
-    LPCSTR                lpApplicationName,
-    LPSTR                 lpCommandLine,
-    LPSECURITY_ATTRIBUTES lpProcessAttributes,
-    LPSECURITY_ATTRIBUTES lpThreadAttributes,
-    BOOL                  bInheritHandles,
-    DWORD                 dwCreationFlags,
-    LPVOID                lpEnvironment,
-    LPCSTR                lpCurrentDirectory,
-    LPSTARTUPINFOA        lpStartupInfo,
-    LPPROCESS_INFORMATION lpProcessInformation
-) {
-    Message("Intercepted CreateProcessA(%s, %s, %p, %p, %d, %d, %p, %s, %p, %p)",
-        lpApplicationName, lpCommandLine, lpProcessAttributes,
-        lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
-        lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
-
-    // Get this DLL's path
-    HMODULE hDll = NULL;
-    DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
-        GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
-    if (!GetModuleHandleEx(hModFlags, (LPCTSTR)&Message, &hDll)) {
-        Message("Failed to retrive DLL handle: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
-
-    WCHAR dllPath[MAX_PATH_LEN];
-    if (!GetModuleFileNameW(hDll, dllPath, MAX_PATH_LEN)) {
-        Message("Failed to retrive DLL path: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
-
-    // Create the new process, but force it to be created in a suspended state
-    if (!CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes,
-        lpThreadAttributes, bInheritHandles, dwCreationFlags | CREATE_SUSPENDED,
-        lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation)) {
-        Message("Failed to create suspended process: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
-
-    // Inject ourselves into the new, suspended process.
-    // NativeInjectionEntryPoint will call RhWakeupProcess, which will kick
-    // ourselves out of the suspended state
-    NTSTATUS result = RhInjectLibrary(lpProcessInformation->dwProcessId,
-        lpProcessInformation->dwThreadId, EASYHOOK_INJECT_DEFAULT,
-#if defined(_M_IX86)
-        dllPath, NULL,
-#elif defined(_M_X64)
-        NULL, dllPath,
-#else
-#error "Platform not supported"
-#endif
-        NULL, 0);
-
-    if (FAILED(result)) {
-        Message("RhInjectLibrary failed: %S\n", RtlGetLastErrorString());
-        goto default_create_process;
-    }
-
-    // Save the handle to the newly-created process
-    childPids.insert(lpProcessInformation->dwProcessId);
-
-    Message("Successfully injected %S into %s %s (PID=0x%x)\n", dllPath,
-        lpApplicationName, lpCommandLine, lpProcessInformation->dwProcessId);
-
-    return TRUE;
-
-default_create_process:
-    return CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes,
-        lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
-        lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
 }
 
 
@@ -335,6 +210,7 @@ static HMODULE LoadLibraryExAHook(
 
 }
 
+
 CyFIFuncType functionToHook[] = {
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
     CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
@@ -399,30 +275,34 @@ CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
 
-    CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
+   /* CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
     CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
     CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
-    //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
+    CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),*/
     
-    //CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
-    //CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
-    // CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
-    // CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+     CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
+     CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
 
     /* Evasion Techniques*/
-    
-    CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
-    CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
+
     //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
+
+    /*CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
+    CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
     CyFIFuncType("kernel32", "GetCommandLineW", GetCommandLineWHook, {NULL}),
     CyFIFuncType("kernel32", "IsProcessorFeaturePresent", IsProcessorFeaturePresentHook, {NULL}),
     CyFIFuncType("kernel32", "GetFileType", GetFileTypeHook, {NULL}),
     CyFIFuncType("kernel32", "GetEnvironmentStringsW", GetEnvironmentStringsWHook, {NULL}),
+    CyFIFuncType("kernel32", "FreeEnvironmentStringsW", FreeEnvironmentStringsWHook, {NULL}),
     CyFIFuncType("kernel32", "GetSystemTimeAsFileTime", GetSystemTimeAsFileTimeHook, {NULL}),
     CyFIFuncType("advapi32", "RegOpenKeyExA", RegOpenKeyExAHook, {NULL}),
     CyFIFuncType("advapi32", "RegOpenKeyExW", RegOpenKeyExWHook, {NULL}),
@@ -457,6 +337,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
     CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
+    CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),*/
+
 
 };
 
