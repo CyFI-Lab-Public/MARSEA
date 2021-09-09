@@ -19,7 +19,7 @@ int WINAPI GetKeyboardTypeHook(
 	int nTypeFlag
 ) {
 	if (checkCaller("GetKeyboardType")) {
-	....
+	...
 ```
 
 If it is not called by the target module, you must call the hooked function natively to ensure normal execution continues.
