@@ -272,7 +272,7 @@ DWORD WINAPI GetFileAttributesWHook(
 ) {
 	std::string tag = GetTag("GetFileAttributesW");
 	DWORD ret = GetFileAttributesW(lpFileName);
-	Message("[W] GetFileAttributesW (%s) Ret: %ld -> tag_out: %s\n", lpFileName, ret, tag.c_str());
+	Message("[W] GetFileAttributesW (%ls) Ret: %ld -> tag_out: %s\n", lpFileName, ret, tag.c_str());
 	S2EMakeSymbolic(&ret, sizeof(ret), tag.c_str());
 	return ret;
 }

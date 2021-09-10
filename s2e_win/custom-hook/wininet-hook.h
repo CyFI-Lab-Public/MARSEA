@@ -57,3 +57,29 @@ BOOL WINAPI InternetCheckConnectionWHook(
 DWORD WINAPI InternetAttemptConnectHook(
 	DWORD dwReserved
 );
+
+BOOL WINAPI HttpSendRequestWHook(
+    HINTERNET hRequest,
+    LPCWSTR   lpszHeaders,
+    DWORD     dwHeadersLength,
+    LPVOID    lpOptional,
+    DWORD     dwOptionalLength
+);
+
+HINTERNET WINAPI HttpOpenRequestWHook(
+    HINTERNET hConnect,
+    LPCWSTR   lpszVerb,
+    LPCWSTR   lpszObjectName,
+    LPCWSTR   lpszVersion,
+    LPCWSTR   lpszReferrer,
+    LPCWSTR* lplpszAcceptTypes,
+    DWORD     dwFlags,
+    DWORD_PTR dwContext
+);
+
+BOOL WINAPI HttpAddRequestHeadersWHook(
+    HINTERNET hRequest,
+    LPCWSTR   lpszHeaders,
+    DWORD     dwHeadersLength,
+    DWORD     dwModifiers
+);

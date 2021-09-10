@@ -68,7 +68,7 @@ BOOL WINAPI WinHttpSendRequestHook(
     DWORD     dwTotalLength,
     DWORD_PTR dwContext
 ) {
-    Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%ls\", 0x%x, 0x%x, %p)\n",
+    Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p)\n",
         hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
 
     return TRUE; //Only consider successful winhttp send requests for now
@@ -291,7 +291,13 @@ BOOL WINAPI WinHttpSetOptionHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
-    Message("[W] WinHttpSetOption(%p, %ld, %s, %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
+    // lpBuffer can point to a DWROD, it can also point to a char array
+    if (dwBufferLength == 4) {
+        Message("[W] WinHttpSetOption(%p, %ld, %ld, %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
+    }
+    else {
+        Message("[W] WinHttpSetOption(%p, %ld, %ls, %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
+    }
     
     return TRUE;
 }

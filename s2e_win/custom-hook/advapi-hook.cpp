@@ -13,8 +13,8 @@ LSTATUS APIENTRY RegOpenKeyExAHook(
 ) {
 	if (checkCaller("RegOpenKeyExA")) {
 		std::string tag = GetTag("RegOpenKeyExA");
-		Message("[W] RegOpenKeyExA (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, tag.c_str());
 		LSTATUS lResult = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
+		Message("[W] RegOpenKeyExA (%p, %s, %ld, %ld, %p) Ret: %d tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, lResult, tag.c_str());
 		if (lResult == ERROR_SUCCESS) {
 			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
 			return fakeResult;
@@ -39,8 +39,8 @@ LSTATUS APIENTRY RegOpenKeyExWHook(
 ) {
 	if (checkCaller("RegOpenKeyExW")) {
 		std::string tag = GetTag("RegOpenKeyExW");
-		Message("[W] RegOpenKeyExW (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, tag.c_str());
 		LSTATUS lResult = RegOpenKeyExW(hKey, lpSubKey, ulOptions, samDesired, phkResult);
+		Message("[W] RegOpenKeyExW (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, lResult, tag.c_str());
 		if (lResult == ERROR_SUCCESS) {
 			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
 			return fakeResult;

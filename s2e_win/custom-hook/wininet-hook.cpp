@@ -215,6 +215,25 @@ HINTERNET WINAPI HttpOpenRequestAHook(
     return resourceHandle;
 }
 
+HINTERNET WINAPI HttpOpenRequestWHook(
+    HINTERNET hConnect,
+    LPCWSTR   lpszVerb,
+    LPCWSTR   lpszObjectName,
+    LPCWSTR   lpszVersion,
+    LPCWSTR   lpszReferrer,
+    LPCWSTR* lplpszAcceptTypes,
+    DWORD     dwFlags,
+    DWORD_PTR dwContext
+) {
+    HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    dummyHandles.insert(resourceHandle);
+
+    Message("[W] HttpOpenRequestW (%p, A\"%ls\", A\"%ls\", A\"%ls\", A\"%ls\", %p, 0x%x, %p), Ret: %p\n",
+        hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext, resourceHandle);
+
+    return resourceHandle;
+}
+
 BOOL WINAPI HttpSendRequestAHook(
     HINTERNET hRequest,
     LPCSTR    lpszHeaders,
@@ -223,6 +242,19 @@ BOOL WINAPI HttpSendRequestAHook(
     DWORD     dwOptionalLength
 ) {
     Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x)\n",
+        hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+
+    return TRUE; //Only consider successful http request sends for now
+}
+
+BOOL WINAPI HttpSendRequestWHook(
+    HINTERNET hRequest,
+    LPCWSTR   lpszHeaders,
+    DWORD     dwHeadersLength,
+    LPVOID    lpOptional,
+    DWORD     dwOptionalLength
+) {
+    Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x)\n",
         hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
 
     return TRUE; //Only consider successful http request sends for now
@@ -337,6 +369,17 @@ HINTERNET WINAPI InternetOpenUrlWHook(
 BOOL WINAPI HttpAddRequestHeadersAHook(
     HINTERNET hRequest,
     LPCSTR    lpszHeaders,
+    DWORD     dwHeadersLength,
+    DWORD     dwModifiers
+) {
+    Message("[W] HttpAddRequestHeaders (%p, A\"%s\", %ld, %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+
+    return TRUE;
+}
+
+BOOL WINAPI HttpAddRequestHeadersWHook(
+    HINTERNET hRequest,
+    LPCWSTR   lpszHeaders,
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {

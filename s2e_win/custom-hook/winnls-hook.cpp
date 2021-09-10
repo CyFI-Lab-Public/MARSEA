@@ -19,9 +19,9 @@ int WINAPI GetLocaleInfoAHook(
 	int    cchData
 ) {
 	if (checkCaller("GetLocaleInfoA")) {
-
+		GetLocaleInfoA(Locale, LCType, lpLCData, cchData);
 		std::string tag = GetTag("GetLocaleInfoA");
-		Message("[W] GetLocalInfoA (%p, %p, %p, %i) -> tag_out: %s\n", Locale, LCType, lpLCData, cchData);
+		Message("[W] GetLocaleInfoA (%p, %p, %p, %i) -> tag_out: %s\n", Locale, LCType, lpLCData, cchData, tag.c_str());
 
 		if (lpLCData != NULL && cchData != 0) {
 			S2EMakeSymbolic(lpLCData, cchData, tag.c_str());
@@ -45,7 +45,6 @@ UINT WINAPI GetOEMCPHook() {
 
 LCID WINAPI GetThreadLocaleHook() {
 	if (checkCaller("GetThreadLocale")) {
-
 		LCID ret = GetThreadLocale();
 		std::string tag = GetTag("GetThreadLocale");
 		Message("[W] GetThreadLocale () Ret: %ld -> tag_out: %s\n", ret, tag.c_str());
