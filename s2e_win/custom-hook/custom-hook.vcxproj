@@ -169,11 +169,13 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="advapi-hook.cpp" />
+    <ClCompile Include="consoleapi3-hook.cpp" />
     <ClCompile Include="custom-hook.cpp" />
     <ClCompile Include="debugapi-hook.cpp" />
     <ClCompile Include="fileapi-hook.cpp" />
     <ClCompile Include="kernel32-hook.cpp" />
     <ClCompile Include="msvcrt-hook.cpp" />
+    <ClCompile Include="processthreadsapi-hook.cpp" />
     <ClCompile Include="shlwapi-hook.cpp" />
     <ClCompile Include="socket-hook.cpp" />
     <ClCompile Include="string-hook.cpp" />
@@ -198,10 +200,12 @@
     <ClInclude Include="commands.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="consoleapi3-hook.h" />
     <ClInclude Include="debugapi-hook.h" />
     <ClInclude Include="fileapi-hook.h" />
     <ClInclude Include="kernel32-hook.h" />
     <ClInclude Include="msvcrt-hook.h" />
+    <ClInclude Include="processthreadsapi-hook.h" />
     <ClInclude Include="shlwapi-hook.h" />
     <ClInclude Include="socket-hook.h" />
     <ClInclude Include="string-hook.h" />

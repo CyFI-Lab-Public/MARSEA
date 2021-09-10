@@ -24,3 +24,7 @@ BOOL WINAPI WinHttpSetOptionHook(winhttp::HINTERNET hInternet, DWORD dwOption, L
 BOOL WINAPI WinHttpSetTimeoutsHook(winhttp::HINTERNET hInternet, int nResolveTimeout, int nConnectTimeout, int nSendTimeout, int nReceiveTimeout);
 winhttp::HINTERNET WINAPI WinHttpOpenHook(LPCWSTR pszAgentW, DWORD dwAccessType, LPCWSTR pszProxyW, LPCWSTR pszProxyBypassW, DWORD dwFlags);
 BOOL WINAPI WinHttpReceiveResponseHook(winhttp::HINTERNET hRequest, LPVOID lpReserved);
+BOOL WINAPI WinHttpGetIEProxyConfigForCurrentUserHook(
+	winhttp::WINHTTP_CURRENT_USER_IE_PROXY_CONFIG* pProxyConfig
+);
+
