@@ -15,7 +15,7 @@ HINTERNET WINAPI InternetOpenAHook(
     DWORD  dwFlags
 ) {
     HINTERNET sessionHandle = InternetOpenA(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
-    if (sessionHandle == 0) {
+    if (sessionHandle == NULL) {
         sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     }
     Message("[W] InternetOpenA (A\"%s\", %ld, A\"%s\", A\"%s\", %ld), Ret: %p\n",
@@ -49,40 +49,34 @@ HINTERNET WINAPI InternetConnectAHook(
     DWORD         dwFlags,
     DWORD_PTR     dwContext
 ) {
-    if (checkCaller("InternetConnectA")) {
-        HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-        dummyHandles.insert(connectionHandle);
-        if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_INTERNETCONNECTA;
-            Command.InternetConnectA.hInternet = (uint64_t)hInternet;
-            Command.InternetConnectA.lpszServerName = (uint64_t)lpszServerName;
-            Command.InternetConnectA.nServerPort = (uint64_t)nServerPort;
-            Command.InternetConnectA.lpszUserName = (uint64_t)lpszUserName;
-            Command.InternetConnectA.lpszPassword = (uint64_t)lpszPassword;
-            Command.InternetConnectA.dwService = (uint64_t)dwService;
-            Command.InternetConnectA.dwFlags = (uint64_t)dwFlags;
-            Command.InternetConnectA.dwContext = (uint64_t)dwContext;
+    HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    dummyHandles.insert(connectionHandle);
+    if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = WINWRAPPER_INTERNETCONNECTA;
+        Command.InternetConnectA.hInternet = (uint64_t)hInternet;
+        Command.InternetConnectA.lpszServerName = (uint64_t)lpszServerName;
+        Command.InternetConnectA.nServerPort = (uint64_t)nServerPort;
+        Command.InternetConnectA.lpszUserName = (uint64_t)lpszUserName;
+        Command.InternetConnectA.lpszPassword = (uint64_t)lpszPassword;
+        Command.InternetConnectA.dwService = (uint64_t)dwService;
+        Command.InternetConnectA.dwFlags = (uint64_t)dwFlags;
+        Command.InternetConnectA.dwContext = (uint64_t)dwContext;
 
-            std::string symbTag = "";
-            Command.InternetConnectA.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectA.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-            Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p tag_in: %s\n",
-                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, (uint32_t)Command.InternetConnectA.symbTag);
-           return connectionHandle;
-        }
-        else {
-            Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
-                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
-            return connectionHandle;
-        }
+        std::string symbTag = "";
+        Command.InternetConnectA.symbTag = (uint64_t)symbTag.c_str();
+        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectA.symbTag);
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+        Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p tag_in: %s\n",
+            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, (uint32_t)Command.InternetConnectA.symbTag);
+        return connectionHandle;
     }
-    HINTERNET connectionHandle = InternetConnectA(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
-    Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
-        hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
-    return connectionHandle;
-}
+    else {
+        Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
+            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
+        return connectionHandle;
+    }
+ }
 
 HINTERNET WINAPI InternetConnectWHook(
     HINTERNET     hInternet,
@@ -94,40 +88,34 @@ HINTERNET WINAPI InternetConnectWHook(
     DWORD         dwFlags,
     DWORD_PTR     dwContext
 ) {
-    if (checkCaller("InternetConnectW")) {
-        HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-        dummyHandles.insert(connectionHandle);
-        if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_INTERNETCONNECTW;
-            Command.InternetConnectW.hInternet = (uint64_t)hInternet;
-            Command.InternetConnectW.lpszServerName = (uint64_t)lpszServerName;
-            Command.InternetConnectW.nServerPort = (uint64_t)nServerPort;
-            Command.InternetConnectW.lpszUserName = (uint64_t)lpszUserName;
-            Command.InternetConnectW.lpszPassword = (uint64_t)lpszPassword;
-            Command.InternetConnectW.dwService = (uint64_t)dwService;
-            Command.InternetConnectW.dwFlags = (uint64_t)dwFlags;
-            Command.InternetConnectW.dwContext = (uint64_t)dwContext;
+    HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    dummyHandles.insert(connectionHandle);
+    if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = WINWRAPPER_INTERNETCONNECTW;
+        Command.InternetConnectW.hInternet = (uint64_t)hInternet;
+        Command.InternetConnectW.lpszServerName = (uint64_t)lpszServerName;
+        Command.InternetConnectW.nServerPort = (uint64_t)nServerPort;
+        Command.InternetConnectW.lpszUserName = (uint64_t)lpszUserName;
+        Command.InternetConnectW.lpszPassword = (uint64_t)lpszPassword;
+        Command.InternetConnectW.dwService = (uint64_t)dwService;
+        Command.InternetConnectW.dwFlags = (uint64_t)dwFlags;
+        Command.InternetConnectW.dwContext = (uint64_t)dwContext;
 
-            std::string symbTag = "";
-            Command.InternetConnectW.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectW.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+        std::string symbTag = "";
+        Command.InternetConnectW.symbTag = (uint64_t)symbTag.c_str();
+        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectW.symbTag);
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-            Message("[W] InternetConnectW (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
-                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, (uint32_t)Command.InternetConnectW.symbTag);
-            return connectionHandle;
-        }
-        else {
-            Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
-                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
-            return connectionHandle;
-        }
+        Message("[W] InternetConnectW (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
+            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, (uint32_t)Command.InternetConnectW.symbTag);
+        return connectionHandle;
     }
-    HINTERNET connectionHandle = InternetConnectW(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
-    Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
-        hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
-    return connectionHandle;
+    else {
+        Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
+            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
+        return connectionHandle;
+    }
 }
 
 BOOL WINAPI InternetCrackUrlAHook(
@@ -273,7 +261,8 @@ BOOL WINAPI InternetReadFileHook(
     }
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
-    S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
+    *lpdwNumberOfBytesRead = S2ESymbolicInt(tag.c_str(), *lpdwNumberOfBytesRead);
+    //S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
@@ -289,38 +278,34 @@ HINTERNET WINAPI InternetOpenUrlAHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
-    if (checkCaller("InternetOpenUrlA")) {
-        HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-        dummyHandles.insert(resourceHandle);
-        if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_INTERNETOPENURLA;
-            Command.InternetOpenUrlA.hInternet = (uint64_t)hInternet;
-            Command.InternetOpenUrlA.lpszUrl = (uint64_t)lpszUrl;
-            Command.InternetOpenUrlA.lpszHeaders = (uint64_t)lpszHeaders;
-            Command.InternetOpenUrlA.dwHeadersLength = (uint64_t)dwHeadersLength;
-            Command.InternetOpenUrlA.dwFlags = (uint64_t)dwFlags;
-            Command.InternetOpenUrlA.dwContext = (uint64_t)dwContext;
 
-            std::string symbTag = "";
-            Command.InternetOpenUrlA.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlA.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    dummyHandles.insert(resourceHandle);
+    if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = WINWRAPPER_INTERNETOPENURLA;
+        Command.InternetOpenUrlA.hInternet = (uint64_t)hInternet;
+        Command.InternetOpenUrlA.lpszUrl = (uint64_t)lpszUrl;
+        Command.InternetOpenUrlA.lpszHeaders = (uint64_t)lpszHeaders;
+        Command.InternetOpenUrlA.dwHeadersLength = (uint64_t)dwHeadersLength;
+        Command.InternetOpenUrlA.dwFlags = (uint64_t)dwFlags;
+        Command.InternetOpenUrlA.dwContext = (uint64_t)dwContext;
 
-            Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %s, tag_in: %s\n",
-                hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, (uint32_t)Command.InternetOpenUrlA.symbTag);
-            return resourceHandle;
-        }
-        else {
-            Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
-                hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
-            return resourceHandle;
-        }
+        std::string symbTag = "";
+        Command.InternetOpenUrlA.symbTag = (uint64_t)symbTag.c_str();
+        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlA.symbTag);
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+        Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %s, tag_in: %s\n",
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, (uint32_t)Command.InternetOpenUrlA.symbTag);
+        return resourceHandle;
     }
-    HINTERNET resourceHandle = InternetOpenUrlA(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
-    Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
-        hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
-    return resourceHandle;
+    else {
+        Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
+        return resourceHandle;
+    }
+    
 }
 
 
@@ -332,38 +317,33 @@ HINTERNET WINAPI InternetOpenUrlWHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
-    if (checkCaller("InternetOpenUrlW")) {
-        HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-        dummyHandles.insert(resourceHandle);
-        if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_INTERNETOPENURLW;
-            Command.InternetOpenUrlW.hInternet = (uint64_t)hInternet;
-            Command.InternetOpenUrlW.lpszUrl = (uint64_t)lpszUrl;
-            Command.InternetOpenUrlW.lpszHeaders = (uint64_t)lpszHeaders;
-            Command.InternetOpenUrlW.dwHeadersLength = (uint64_t)dwHeadersLength;
-            Command.InternetOpenUrlW.dwFlags = (uint64_t)dwFlags;
-            Command.InternetOpenUrlW.dwContext = (uint64_t)dwContext;
 
-            std::string symbTag = "";
-            Command.InternetOpenUrlW.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlW.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+    dummyHandles.insert(resourceHandle);
+    if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = WINWRAPPER_INTERNETOPENURLW;
+        Command.InternetOpenUrlW.hInternet = (uint64_t)hInternet;
+        Command.InternetOpenUrlW.lpszUrl = (uint64_t)lpszUrl;
+        Command.InternetOpenUrlW.lpszHeaders = (uint64_t)lpszHeaders;
+        Command.InternetOpenUrlW.dwHeadersLength = (uint64_t)dwHeadersLength;
+        Command.InternetOpenUrlW.dwFlags = (uint64_t)dwFlags;
+        Command.InternetOpenUrlW.dwContext = (uint64_t)dwContext;
 
-            Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
-                hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, (uint32_t)Command.InternetOpenUrlW.symbTag);
-            return resourceHandle;
-        }
-        else {
-            Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
-                hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
-            return resourceHandle;
-        }
+        std::string symbTag = "";
+        Command.InternetOpenUrlW.symbTag = (uint64_t)symbTag.c_str();
+        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlW.symbTag);
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+        Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, (uint32_t)Command.InternetOpenUrlW.symbTag);
+        return resourceHandle;
     }
-    HINTERNET resourceHandle = InternetOpenUrlW(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);;
-    Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
-        hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
-    return resourceHandle;
+    else {
+        Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
+        return resourceHandle;
+    }
 }
 
 BOOL WINAPI HttpAddRequestHeadersAHook(
@@ -372,8 +352,7 @@ BOOL WINAPI HttpAddRequestHeadersAHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {
-    Message("[W] HttpAddRequestHeaders (%p, A\"%s\", %ld, %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
-
+    Message("[W] HttpAddRequestHeadersA (%p, A\"%s\", %d, %d)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
     return TRUE;
 }
 
@@ -383,8 +362,7 @@ BOOL WINAPI HttpAddRequestHeadersWHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {
-    Message("[W] HttpAddRequestHeaders (%p, A\"%ls\", %ld, %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
-
+    Message("[W] HttpAddRequestHeadersW (%p, A\"%ls\", %ld, %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
     return TRUE;
 }
 
@@ -492,11 +470,8 @@ BOOL WINAPI InternetCheckConnectionAHook(
     DWORD  dwFlags,
     DWORD  dwReserved
 ) {
-    if (checkCaller("InternetCheckConnectionA")) {
-        Message("[W] InternetCheckConnectionA (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
-        return TRUE;
-    }
-    return InternetCheckConnectionA(lpszUrl, dwFlags, dwReserved);
+    Message("[W] InternetCheckConnectionA (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
+    return TRUE;
 }
 
 BOOL WINAPI InternetCheckConnectionWHook(
@@ -504,21 +479,15 @@ BOOL WINAPI InternetCheckConnectionWHook(
     DWORD   dwFlags,
     DWORD   dwReserved
 ) {
-    if (checkCaller("InternetCheckConnectionW")) {
-        Message("[W] InternetCheckConnectionW (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
-        return TRUE;
-    }
-    return InternetCheckConnectionW(lpszUrl, dwFlags, dwReserved);
+    Message("[W] InternetCheckConnectionW (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
+    return TRUE;
 }
 
 DWORD WINAPI InternetAttemptConnectHook(
     DWORD dwReserved
 ) {
-    if (checkCaller("InternetAttemptConnect")) {
-        Message("[W] InternetAttemptConnect (%ld)\n", dwReserved);
-        return ERROR_SUCCESS;
-    }
-    return InternetAttemptConnect(dwReserved);
+    Message("[W] InternetAttemptConnect (%ld)\n", dwReserved);
+    return ERROR_SUCCESS;
 }
 
 
