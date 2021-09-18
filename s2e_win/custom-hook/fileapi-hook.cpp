@@ -1,10 +1,14 @@
 #include "fileapi-hook.h"
 #include "utils.h"
+#include "commands.h"
 #include <set>
+#include <map>
 
 static std::set<HANDLE> dummyHandles;
+static std::map<HANDLE, std::string> fileMap;
+static std::map<std::string, std::string> taintFile;
 
-HANDLE CreateFileAHook(
+HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,
 	DWORD                 dwDesiredAccess,
 	DWORD                 dwShareMode,
@@ -13,9 +17,11 @@ HANDLE CreateFileAHook(
 	DWORD                 dwFlagsAndAttributes,
 	HANDLE                hTemplateFile
 ) {
+	std::string fileName = lpcstrToString(lpFileName);
 	if (checkCaller("CreateFileA")) {
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+			fileMap[fileHandle] = fileName;
 			dummyHandles.insert(fileHandle);
 			Message("[W] CreateFileA (A\"%s\", %d, %d, %p, %d, %d, %p), Ret: %p\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
@@ -26,10 +32,11 @@ HANDLE CreateFileAHook(
 			if (fileHandle == INVALID_HANDLE_VALUE) {
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
-				Message("[W] CreateFileA (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-					lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-				return fileHandle;
 			}
+			Message("[W] CreateFileA (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+			fileMap[fileHandle] = fileName;
+			return fileHandle;
 		}
 	}
 	return CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile); 
@@ -44,50 +51,34 @@ HANDLE WINAPI CreateFileWHook(
 	DWORD                 dwFlagsAndAttributes,
 	HANDLE                hTemplateFile
 ) {
+	std::string fileName = lpcwstrToString(lpFileName);
+
 	if (checkCaller("CreateFileW")) {
 
-		HANDLE fileHandle = CreateFileW(lpFileName,
-			GENERIC_READ, dwShareMode,
-			lpSecurityAttributes, dwCreationDisposition,
-			dwFlagsAndAttributes, hTemplateFile);
-		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-				lpFileName, GENERIC_READ, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-		LPVOID lpMsgBuf;
-		DWORD dw = GetLastError();
-
-		FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-			FORMAT_MESSAGE_FROM_SYSTEM |
-			FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL,
-			dw,
-			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			(LPSTR)&lpMsgBuf,
-			0, NULL);
-		Message("[W] Error: %s", lpMsgBuf);
-		return fileHandle;
-
-		//if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
-		//	HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-		//	dummyHandles.insert(fileHandle);
-		//	Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-		//		lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-		//	return fileHandle;
-		//}
-		//else {
-		//	HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
-		//	if (fileHandle == INVALID_HANDLE_VALUE) {
-		//		HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-		//		dummyHandles.insert(fileHandle);
-		//		Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-		//			lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-		//		return fileHandle;
-		//	}
-		//}
+		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+			dummyHandles.insert(fileHandle);
+			fileMap[fileHandle] = fileName;
+			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+			return fileHandle;
+		}
+		else {
+			HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+			if (fileHandle == INVALID_HANDLE_VALUE) {
+				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+				dummyHandles.insert(fileHandle);
+			}
+			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+			fileMap[fileHandle] = fileName;
+			return fileHandle;
+		}
 	}
 	return CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 }
 
-BOOL DeleteFileAHook(
+BOOL WINAPI DeleteFileAHook(
 	LPCSTR lpFileName
 ) {
 	if (checkCaller("DeleteFileA")) {
@@ -189,32 +180,43 @@ BOOL WINAPI ReadFileHook(
 	LPOVERLAPPED lpOverlapped
 ) {
 	if (checkCaller("ReadFile")) {
+		std::string tagIn = "";
+		//Try to get the fileName
+		if (fileMap.find(hFile) != fileMap.end() && taintFile.find(fileMap[hFile]) != taintFile.end()) {
+			std::string tagIn = taintFile[fileMap[hFile]];
+		}
 		std::string tag = GetTag("ReadFile");
-		Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
+
+		if (tagIn.length() > 0) {
+			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_in: %s tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tagIn.c_str(), tag.c_str());
+		}
+		else {
+			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
+		}
 		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
 		if (it == dummyHandles.end()) {
 			BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
 
-			if (res && lpOverlapped != nullptr) {
-				Message("[W] Waiting started");
-				DWORD dwWaitRes = WaitForSingleObject(lpOverlapped->hEvent, INFINITE);
-				Message("[W] Waiting finished");
-				if (dwWaitRes == WAIT_FAILED) {
-					Message("[W] Error waiting for I/O to finish\n");
-					LPVOID lpMsgBuf;
-					DWORD dw = GetLastError();
+			//if (res && lpOverlapped != nullptr) {
+			//	Message("[W] Waiting started");
+			//	DWORD dwWaitRes = WaitForSingleObject(lpOverlapped->hEvent, INFINITE);
+			//	Message("[W] Waiting finished");
+			//	if (dwWaitRes == WAIT_FAILED) {
+			//		Message("[W] Error waiting for I/O to finish\n");
+			//		LPVOID lpMsgBuf;
+			//		DWORD dw = GetLastError();
 
-					FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-						FORMAT_MESSAGE_FROM_SYSTEM |
-						FORMAT_MESSAGE_IGNORE_INSERTS,
-						NULL,
-						dw,
-						MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-						(LPSTR)&lpMsgBuf,
-						0, NULL);
-					Message("[W] Error: %s", lpMsgBuf);
-				}
-			}
+			//		FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
+			//			FORMAT_MESSAGE_FROM_SYSTEM |
+			//			FORMAT_MESSAGE_IGNORE_INSERTS,
+			//			NULL,
+			//			dw,
+			//			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
+			//			(LPSTR)&lpMsgBuf,
+			//			0, NULL);
+			//		Message("[W] Error: %s", lpMsgBuf);
+			//	}
+			//}
 			if (res && lpNumberOfBytesRead!=nullptr) {
 				S2EMakeSymbolic(lpBuffer, min(*lpNumberOfBytesRead, DEFAULT_MEM_LEN), tag.c_str());
 			}
@@ -346,4 +348,43 @@ BOOL WINAPI GetFileTimeHook(
 	return GetFileTime(hFile, lpCreationTime,
 		lpLastAccessTime, lpLastWriteTime);
 
+}
+
+BOOL WINAPI WriteFileHook(
+	HANDLE       hFile,
+	LPCVOID      lpBuffer,
+	DWORD        nNumberOfBytesToWrite,
+	LPDWORD      lpNumberOfBytesWritten,
+	LPOVERLAPPED lpOverlapped
+) {
+	if (checkCaller("WriteFile")) {
+
+		if (dummyHandles.find(hFile) != dummyHandles.end()) {
+			BOOL res = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+		}
+		// If lpBuffer is symbolic
+		if (S2EIsSymbolic((LPVOID)lpBuffer, 0x4)) {
+			CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+			Command.Command = WINWRAPPER_WRITEFILE;
+			Command.WriteFile.lpBuffer = (uint64_t)lpBuffer;
+			std::string symbTag = "";
+			Command.WriteFile.symbTag = (uint64_t)symbTag.c_str();
+			__s2e_touch_string((PCSTR)(UINT_PTR)Command.WriteFile.symbTag);
+			S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+			//Update the taintFile map
+			if (fileMap.find(hFile) != fileMap.end()) {
+				std::string fileName = fileMap[hFile];
+				taintFile[fileName] = symbTag;
+			}
+			Message("[W] WriteFile (%p, %p, %ld, %ld, %p) tag_in: %s", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, Command.WriteFile.symbTag);
+			return TRUE;
+		}
+		else {
+			Message("[W] WriteFile (%p, %p, %ld, %ld, %p)", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped);
+			return TRUE;
+		}
+	}
+	else {
+		return WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+	}
 }

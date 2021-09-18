@@ -57,6 +57,7 @@ namespace winhttp {
 #include "timeapi-hook.h"
 #include "consoleapi3-hook.h"
 #include "processthreadsapi-hook.h"
+#include "handleapi-hook.h"
 
 INT s2eVersion = 0;
 
@@ -286,12 +287,15 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
+    */
     
     CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
      CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
      CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
+     CyFIFuncType("kernel32", "WriteFile", WriteFileHook, {NULL}),
+     CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),
 
     /* Evasion Techniques*/
     CyFIFuncType("Kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),

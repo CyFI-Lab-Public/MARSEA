@@ -32,3 +32,7 @@ std::string GetTag(PCSTR funcName);
 bool checkCaller(std::string funcName);
 
 void killAnalysis(std::string funcName);
+
+std::string lpcstrToString(LPCSTR name);
+
+std::string lpcwstrToString(LPCWSTR name);

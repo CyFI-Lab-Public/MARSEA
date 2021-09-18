@@ -42,6 +42,8 @@ extern "C" {
         WINWRAPPER_INTERNETOPENURLA,
         WINWRAPPER_INTERNETOPENURLW,
 
+        WINWRAPPER_WRITEFILE,
+
         WINWRAPPER_WCSSTR,
 
         WRAPPER_CRC,
@@ -255,6 +257,11 @@ extern "C" {
         
     };
 
+    struct CYFI_WINWRAPPER_COMMAND_WRITEFILE {
+        uint64_t lpBuffer;
+        uint64_t symbTag;
+    };
+
     enum CYFI_WRAPPER_CRC_TYPE { CYFI_WRAPPER_CRC16, CYFI_WRAPPER_CRC32 };
 
     struct CYFI_WRAPPER_COMMAND_CRC {
@@ -308,6 +315,8 @@ extern "C" {
             struct CYFI_WINWRAPPER_COMMAND_INTERNETCONNECTW InternetConnectW;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENURLA InternetOpenUrlA;
             struct CYFI_WINWRAPPER_COMMAND_INTERNETOPENURLW InternetOpenUrlW;
+
+            struct CYFI_WINWRAPPER_COMMAND_WRITEFILE WriteFile;
 
             struct CYFI_WINWRAPPER_COMMAND_WCSSTR wcsstr;
 

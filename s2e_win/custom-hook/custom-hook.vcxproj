@@ -173,6 +173,7 @@
     <ClCompile Include="custom-hook.cpp" />
     <ClCompile Include="debugapi-hook.cpp" />
     <ClCompile Include="fileapi-hook.cpp" />
+    <ClCompile Include="handleapi-hook.cpp" />
     <ClCompile Include="kernel32-hook.cpp" />
     <ClCompile Include="msvcrt-hook.cpp" />
     <ClCompile Include="processthreadsapi-hook.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="consoleapi3-hook.h" />
     <ClInclude Include="debugapi-hook.h" />
     <ClInclude Include="fileapi-hook.h" />
+    <ClInclude Include="handleapi-hook.h" />
     <ClInclude Include="kernel32-hook.h" />
     <ClInclude Include="msvcrt-hook.h" />
     <ClInclude Include="processthreadsapi-hook.h" />

@@ -64,3 +64,15 @@ void killAnalysis(std::string funcName) {
     Command.KillAnalysis.funcName = (uint64_t)funcName.c_str();
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 }
+
+std::string lpcstrToString(LPCSTR name) {
+    CHAR message[S2E_MSG_LEN];
+    sprintf_s(message, S2E_MSG_LEN, "%s", name);
+    return std::string(message);
+}
+
+std::string lpcwstrToString(LPCWSTR name) {
+    CHAR message[S2E_MSG_LEN];
+    sprintf_s(message, S2E_MSG_LEN, "%ls", name);
+    return std::string(message);
+}

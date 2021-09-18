@@ -6,36 +6,41 @@
 /// Keep track of sockets 
 static std::set<FILE*> dummyHandles;
 
-FILE* fopenhook(
+FILE* __cdecl fopenhook(
 	const char* filename,
 	const char* mode
 ) {
-	std::string fileName(filename);
-	std::string fileMode(mode);
+	if (checkCaller("fopen")) {
+		std::string fileName(filename);
+		std::string fileMode(mode);
 
-	Message("[W] fopen(%s, %s)\n", filename, mode);
+		Message("[W] fopen(%s, %s)\n", filename, mode);
 
-	// Check try to open it
-	if (FILE* fhandle = fopen(filename, mode)) {
-		return fhandle;
-	}
-	// If open file failed with read mode, create the file first
-	else if (fileMode.find("r") == 0) {
-		if (FILE* fwhandle = fopen(filename, "w")) {
-			fclose(fwhandle);
-			FILE* fhandle = fopen(filename, mode);
+		// Check try to open it
+		if (FILE* fhandle = fopen(filename, mode)) {
+			return fhandle;
+		}
+		// If open file failed with read mode, create the file first
+		else if (fileMode.find("r") == 0) {
+			if (FILE* fwhandle = fopen(filename, "w")) {
+				fclose(fwhandle);
+				FILE* fhandle = fopen(filename, mode);
+			}
+			return fhandle;
+		}
+		else {
+			Message("[W] ERROR fopen(%s, %s)\n", filename, mode);
+			FILE* fhandle = (FILE*)malloc(sizeof(FILE*));
+			dummyHandles.insert(fhandle);
 			return fhandle;
 		}
 	}
 	else {
-		Message("[W] ERROR fopen(%s, %s)\n", filename, mode);
-		FILE* fhandle = (FILE*)malloc(sizeof(FILE*));
-		dummyHandles.insert(fhandle);
-		return fhandle;
+		return fopen(filename, mode);
 	}
 }
 
-size_t fwritehook(
+size_t __cdecl fwritehook(
 	const void* buffer,
 	size_t size,
 	size_t count,

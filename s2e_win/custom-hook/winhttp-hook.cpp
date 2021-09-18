@@ -51,6 +51,7 @@ BOOL WINAPI WinHttpCrackUrlHook(
             pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, (uint32_t)Command.WinHttpCrackUrl.symbTag, tag.c_str());
         return TRUE;
     }
+    return WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
 }
 
 BOOL WINAPI WinHttpSendRequestHook(
@@ -332,6 +333,6 @@ BOOL WINAPI WinHttpGetIEProxyConfigForCurrentUserHook(
     S2EMakeSymbolic(pProxyConfig->lpszProxy, DEFAULT_MEM_LEN, tag.c_str());
     S2EMakeSymbolic(pProxyConfig->lpszProxyBypass, DEFAULT_MEM_LEN, tag.c_str());
     Message("[W] WinHttpGetIEProxyConfigForCurrentUser (%p) -> tag_out: %s\n", pProxyConfig, tag.c_str());
-
+    return TRUE;
 }
 

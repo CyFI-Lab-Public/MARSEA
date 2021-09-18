@@ -2,7 +2,7 @@
 #include <Windows.h>
 #include <fileapi.h>
 
-HANDLE CreateFileAHook(
+HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,
 	DWORD                 dwDesiredAccess,
 	DWORD                 dwShareMode,
@@ -22,7 +22,7 @@ HANDLE WINAPI CreateFileWHook(
 	HANDLE                hTemplateFile
 );
 
-BOOL DeleteFileAHook(
+BOOL WINAPI DeleteFileAHook(
 	LPCSTR lpFileName
 );
 
@@ -81,4 +81,12 @@ BOOL WINAPI GetFileTimeHook(
 	LPFILETIME lpCreationTime,
 	LPFILETIME lpLastAccessTime,
 	LPFILETIME lpLastWriteTime
+);
+
+BOOL WINAPI WriteFileHook(
+	HANDLE       hFile,
+	LPCVOID      lpBuffer,
+	DWORD        nNumberOfBytesToWrite,
+	LPDWORD      lpNumberOfBytesWritten,
+	LPOVERLAPPED lpOverlapped
 );
