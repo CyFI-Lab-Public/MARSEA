@@ -248,8 +248,6 @@ BOOL WINAPI HttpSendRequestWHook(
     return TRUE; //Only consider successful http request sends for now
 }
 
-#define INTERNET_READ_FILE_SIZE_OPT 1
-
 BOOL WINAPI InternetReadFileHook(
     HINTERNET hFile,
     LPVOID    lpBuffer,
@@ -262,7 +260,7 @@ BOOL WINAPI InternetReadFileHook(
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     *lpdwNumberOfBytesRead = S2ESymbolicInt(tag.c_str(), *lpdwNumberOfBytesRead);
-    //S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
+    S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
