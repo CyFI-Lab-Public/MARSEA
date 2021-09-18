@@ -601,6 +601,22 @@ void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WI
     }
 }
 
+void CyFiFunctionModels::handleWriteFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    uint64_t lpBuffer = (uint64_t) cmd.WriteFile.lpBuffer;
+
+    ref<Expr> data = state->mem()->read(lpBuffer, state->getPointerWidth());
+
+    if(!data.isNull()) {
+        if (!isa<ConstantExpr>(data)) {
+            std::ostringstream ss;
+            ss << data;
+            std::string sym = ss.str();
+	        std::string symbTag = getTag(sym);
+            state->mem()->write(cmd.WriteFile.symbTag, symbTag.c_str(), symbTag.length()+1);
+        }
+    }
+}
+
 void CyFiFunctionModels::handleWinHttpWriteData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
   // Read function arguments
   uint64_t args[4];
@@ -1071,6 +1087,13 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             }            
 
         } break;  
+
+        case WINWRAPPER_WRITEFILE: {
+            handleWriteFile(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }  
+        } break;
 
         case WRAPPER_CRC: {
             ref<Expr> retExpr;

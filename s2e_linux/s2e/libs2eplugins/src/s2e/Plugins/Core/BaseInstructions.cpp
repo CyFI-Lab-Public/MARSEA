@@ -474,7 +474,7 @@ void BaseInstructions::printMessage(S2EExecutionState *state, int outType) {
     }
 
     std::string str = "";
-    if (!address || !state->mem()->readString(address, str)) {
+    if (!address || !state->mem()->readString(address, str, 1024)) {
         getWarningsStream(state) << "Error reading string message from the guest at address " << hexval(address)
                                  << '\n';
     } else {
