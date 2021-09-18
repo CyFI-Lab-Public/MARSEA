@@ -255,15 +255,14 @@ BOOL WINAPI InternetReadFileHook(
     LPDWORD   lpdwNumberOfBytesRead
 ) {
     if (dwNumberOfBytesToRead) {
-        *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
+        *lpdwNumberOfBytesRead = dwNumberOfBytesToRead;//min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
     }
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
-    *lpdwNumberOfBytesRead = S2ESymbolicInt(tag.c_str(), *lpdwNumberOfBytesRead);
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
-    return TRUE;
+    return FALSE;
 
 
 };
