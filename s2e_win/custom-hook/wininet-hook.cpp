@@ -457,7 +457,13 @@ BOOL WINAPI InternetSetOptionAHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
-    Message("[W] WinHttpSetOption(%p, %ld, %s, %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
+    // lpBuffer can point to a DWROD, it can also point to a char array
+    if (dwBufferLength == 4) {
+        Message("[W] InternetSetOptionA(%p, %ld, %ld, %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
+    }
+    else {
+        Message("[W] InternetSetOptionA(%p, %ld, %ls, %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
+    }
 
     return TRUE;
 }
