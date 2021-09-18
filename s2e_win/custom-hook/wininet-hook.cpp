@@ -262,7 +262,7 @@ BOOL WINAPI InternetReadFileHook(
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
-    return FALSE;
+    return TRUE;
 
 
 };
