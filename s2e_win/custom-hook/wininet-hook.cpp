@@ -255,7 +255,7 @@ BOOL WINAPI InternetReadFileHook(
     LPDWORD   lpdwNumberOfBytesRead
 ) {
     if (dwNumberOfBytesToRead) {
-        *lpdwNumberOfBytesRead = 0x8000;//min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
+        *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
     }
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
