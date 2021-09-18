@@ -8,6 +8,7 @@ extern "C" {
 
 #include <Windows.h>
 #include <string>
+#include <map>
 
 /// Maximum timeout to wait for child processes to terminate (in milliseconds).
 /// Can also be set to INFINITE.
@@ -24,6 +25,8 @@ extern "C" {
 
 /// S2E version number, or 0 if not running in S2E mode
 extern INT s2eVersion;
+
+extern std::map<std::string, std::string> taintFile;
 
 void Message(LPCSTR fmt, ...);
 

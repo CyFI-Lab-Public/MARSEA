@@ -19,60 +19,66 @@ BOOL WINAPI CreateProcessAHook(
     LPSTARTUPINFOA        lpStartupInfo,
     LPPROCESS_INFORMATION lpProcessInformation
 ) {
-    Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p)",
-        lpApplicationName, lpCommandLine, lpProcessAttributes,
-        lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
-        lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    if (checkCaller("CreateProcessA")) {
+        Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p)",
+            lpApplicationName, lpCommandLine, lpProcessAttributes,
+            lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+            lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
 
-    // Get this DLL's path
-    HMODULE hDll = NULL;
-    DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
-        GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
-    if (!GetModuleHandleEx(hModFlags, (LPCTSTR)&Message, &hDll)) {
-        Message("Failed to retrive DLL handle: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
+        // Get this DLL's path
+        HMODULE hDll = NULL;
+        DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
+        if (!GetModuleHandleEx(hModFlags, (LPCTSTR)&Message, &hDll)) {
+            Message("Failed to retrive DLL handle: 0x%X\n", GetLastError());
+            goto default_create_process;
+        }
 
-    WCHAR dllPath[MAX_PATH_LEN];
-    if (!GetModuleFileNameW(hDll, dllPath, MAX_PATH_LEN)) {
-        Message("Failed to retrive DLL path: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
+        WCHAR dllPath[MAX_PATH_LEN];
+        if (!GetModuleFileNameW(hDll, dllPath, MAX_PATH_LEN)) {
+            Message("Failed to retrive DLL path: 0x%X\n", GetLastError());
+            goto default_create_process;
+        }
 
-    // Create the new process, but force it to be created in a suspended state
-    if (!CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes,
-        lpThreadAttributes, bInheritHandles, dwCreationFlags | CREATE_SUSPENDED,
-        lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation)) {
-        Message("Failed to create suspended process: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
+        // Create the new process, but force it to be created in a suspended state
+        if (!CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes,
+            lpThreadAttributes, bInheritHandles, dwCreationFlags | CREATE_SUSPENDED,
+            lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation)) {
+            Message("Failed to create suspended process: 0x%X\n", GetLastError());
+            goto default_create_process;
+        }
 
-    // Inject ourselves into the new, suspended process.
-    // NativeInjectionEntryPoint will call RhWakeupProcess, which will kick
-    // ourselves out of the suspended state
-    NTSTATUS result = RhInjectLibrary(lpProcessInformation->dwProcessId,
-        lpProcessInformation->dwThreadId, EASYHOOK_INJECT_DEFAULT,
+        // Inject ourselves into the new, suspended process.
+        // NativeInjectionEntryPoint will call RhWakeupProcess, which will kick
+        // ourselves out of the suspended state
+        NTSTATUS result = RhInjectLibrary(lpProcessInformation->dwProcessId,
+            lpProcessInformation->dwThreadId, EASYHOOK_INJECT_DEFAULT,
 #if defined(_M_IX86)
-        dllPath, NULL,
+            dllPath, NULL,
 #elif defined(_M_X64)
-        NULL, dllPath,
+            NULL, dllPath,
 #else
 #error "Platform not supported"
 #endif
-        NULL, 0);
+            NULL, 0);
 
-    if (FAILED(result)) {
-        Message("RhInjectLibrary failed: %S\n", RtlGetLastErrorString());
-        goto default_create_process;
+        if (FAILED(result)) {
+            Message("RhInjectLibrary failed: %S\n", RtlGetLastErrorString());
+            goto default_create_process;
+        }
+
+        // Save the handle to the newly-created process
+        childPids.insert(lpProcessInformation->dwProcessId);
+
+        Message("Successfully injected %S into %s %s (PID=0x%x)\n", dllPath,
+            lpApplicationName, lpCommandLine, lpProcessInformation->dwProcessId);
+
+        return TRUE;
     }
 
-    // Save the handle to the newly-created process
-    childPids.insert(lpProcessInformation->dwProcessId);
-
-    Message("Successfully injected %S into %s %s (PID=0x%x)\n", dllPath,
-        lpApplicationName, lpCommandLine, lpProcessInformation->dwProcessId);
-
-    return TRUE;
+    else {
+        goto default_create_process;
+    }
 
 default_create_process:
     return CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes,
@@ -92,60 +98,65 @@ BOOL WINAPI CreateProcessWHook(
     LPSTARTUPINFOW        lpStartupInfo,
     LPPROCESS_INFORMATION lpProcessInformation
 ) {
-    Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
-        lpApplicationName, lpCommandLine, lpProcessAttributes,
-        lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
-        lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    if (checkCaller("CreateProcessW")) {
+        Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
+            lpApplicationName, lpCommandLine, lpProcessAttributes,
+            lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+            lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
 
-    // Get this DLL's path
-    HMODULE hDll = NULL;
-    DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
-        GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
-    if (!GetModuleHandleEx(hModFlags, (LPCTSTR)&Message, &hDll)) {
-        Message("Failed to retrive DLL handle: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
+        // Get this DLL's path
+        HMODULE hDll = NULL;
+        DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+            GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT;
+        if (!GetModuleHandleEx(hModFlags, (LPCTSTR)&Message, &hDll)) {
+            Message("Failed to retrive DLL handle: 0x%X\n", GetLastError());
+            goto default_create_process;
+        }
 
-    WCHAR dllPath[MAX_PATH_LEN];
-    if (!GetModuleFileNameW(hDll, dllPath, MAX_PATH_LEN)) {
-        Message("Failed to retrive DLL path: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
+        WCHAR dllPath[MAX_PATH_LEN];
+        if (!GetModuleFileNameW(hDll, dllPath, MAX_PATH_LEN)) {
+            Message("Failed to retrive DLL path: 0x%X\n", GetLastError());
+            goto default_create_process;
+        }
 
-    // Create the new process, but force it to be created in a suspended state
-    if (!CreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes,
-        lpThreadAttributes, bInheritHandles, dwCreationFlags | CREATE_SUSPENDED,
-        lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation)) {
-        Message("Failed to create suspended process: 0x%X\n", GetLastError());
-        goto default_create_process;
-    }
+        // Create the new process, but force it to be created in a suspended state
+        if (!CreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes,
+            lpThreadAttributes, bInheritHandles, dwCreationFlags | CREATE_SUSPENDED,
+            lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation)) {
+            Message("Failed to create suspended process: 0x%X\n", GetLastError());
+            goto default_create_process;
+        }
 
-    // Inject ourselves into the new, suspended process.
-    // NativeInjectionEntryPoint will call RhWakeupProcess, which will kick
-    // ourselves out of the suspended state
-    NTSTATUS result = RhInjectLibrary(lpProcessInformation->dwProcessId,
-        lpProcessInformation->dwThreadId, EASYHOOK_INJECT_DEFAULT,
+        // Inject ourselves into the new, suspended process.
+        // NativeInjectionEntryPoint will call RhWakeupProcess, which will kick
+        // ourselves out of the suspended state
+        NTSTATUS result = RhInjectLibrary(lpProcessInformation->dwProcessId,
+            lpProcessInformation->dwThreadId, EASYHOOK_INJECT_DEFAULT,
 #if defined(_M_IX86)
-        dllPath, NULL,
+            dllPath, NULL,
 #elif defined(_M_X64)
-        NULL, dllPath,
+            NULL, dllPath,
 #else
 #error "Platform not supported"
 #endif
-        NULL, 0);
+            NULL, 0);
 
-    if (FAILED(result)) {
-        Message("RhInjectLibrary failed: %S\n", RtlGetLastErrorString());
+        if (FAILED(result)) {
+            Message("RhInjectLibrary failed: %S\n", RtlGetLastErrorString());
+            goto default_create_process;
+        }
+
+        // Save the handle to the newly-created process
+        childPids.insert(lpProcessInformation->dwProcessId);
+
+        Message("Successfully injected %S into %s %s (PID=0x%x)\n", dllPath,
+            lpApplicationName, lpCommandLine, lpProcessInformation->dwProcessId);
+
+        return TRUE;
+    }
+    else {
         goto default_create_process;
     }
-
-    // Save the handle to the newly-created process
-    childPids.insert(lpProcessInformation->dwProcessId);
-
-    Message("Successfully injected %S into %s %s (PID=0x%x)\n", dllPath,
-        lpApplicationName, lpCommandLine, lpProcessInformation->dwProcessId);
-
-    return TRUE;
 
 default_create_process:
     return CreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes,

@@ -2,11 +2,10 @@
 #include "utils.h"
 #include "commands.h"
 #include <set>
-#include <map>
 
 static std::set<HANDLE> dummyHandles;
 static std::map<HANDLE, std::string> fileMap;
-static std::map<std::string, std::string> taintFile;
+std::map<std::string, std::string> taintFile;
 
 HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,
@@ -33,7 +32,7 @@ HANDLE WINAPI CreateFileAHook(
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
 			}
-			Message("[W] CreateFileA (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+			Message("[W] CreateFileA (A\"%s\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
 			fileMap[fileHandle] = fileName;
 			return fileHandle;
@@ -374,9 +373,9 @@ BOOL WINAPI WriteFileHook(
 			//Update the taintFile map
 			if (fileMap.find(hFile) != fileMap.end()) {
 				std::string fileName = fileMap[hFile];
-				taintFile[fileName] = symbTag;
+				taintFile[fileName] = std::string((char*)(uint32_t)Command.WriteFile.symbTag);
 			}
-			Message("[W] WriteFile (%p, %p, %ld, %ld, %p) tag_in: %s", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, Command.WriteFile.symbTag);
+			Message("[W] WriteFile (%p, %p, %ld, %ld, %p) tag_in: %s", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, (uint32_t)Command.WriteFile.symbTag);
 			return TRUE;
 		}
 		else {
