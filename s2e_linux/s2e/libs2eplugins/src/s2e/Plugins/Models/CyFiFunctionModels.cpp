@@ -202,7 +202,7 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
     if (!m_moduleName.empty()) {
         // If the current module is the one we're looking for, connect to the
         // onInstructionExecution signal.
-        if (currentMod->Name != m_moduleName) {
+        if (currentMod->Name == m_moduleName) {
             signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
         }
     }
