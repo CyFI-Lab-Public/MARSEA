@@ -382,15 +382,23 @@ BOOL WINAPI HttpQueryInfoAHook(
 
     if (lpBuffer) {
         std::string tag = GetTag("HttpQueryInfoA");
-        S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
+        // If the info level is 19 - Status Code
+        if (dwInfoLevel == 19) {
+            // Patch the lpBuffer as HTTP_STATUS_OK then mark it as symbolic
+            *(DWORD *)lpBuffer = HTTP_STATUS_OK;
+            S2EMakeSymbolic(lpBuffer, 4, tag.c_str());
+        }
+        else {
+            S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
+        }
         S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
-        Message("[W] HttpQueryInfoAHook(%p, %ld, %p, %p, %p) -> tag_out: %s\n",
+        Message("[W] HttpQueryInfoA(%p, %ld, %p, %p, %p) -> tag_out: %s\n",
             hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex, tag.c_str());
 
     }
     else
     {
-        Message("[W] HttpQueryInfoAHook(%p, %ld, %p, %p, %p)\n", hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex);
+        Message("[W] HttpQueryInfoA(%p, %ld, %p, %p, %p)\n", hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex);
     }
 
     return TRUE;
