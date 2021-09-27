@@ -37,7 +37,10 @@ void Message(LPCSTR fmt, ...) {
 /// Generate unique tag for each symbolic expression
 /// 
 std::string GetTag(PCSTR funcName) {
-    std::string tag = "CyFi_" + std::string(funcName) + std::to_string(tag_number);
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = TAG_COUNTER;
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    std::string tag = "CyFi_" + std::string(funcName) + std::to_string(Command.TagCounter.counter);
     tag_number += 1;
     return tag;
 }

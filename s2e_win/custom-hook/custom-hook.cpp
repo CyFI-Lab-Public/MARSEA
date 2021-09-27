@@ -213,6 +213,8 @@ static HMODULE LoadLibraryExAHook(
 
 
 CyFIFuncType functionToHook[] = {
+    //CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
+
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
     CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
     CyFIFuncType("Ws2_32", "closesocket", closesockethook, {NULL}),
@@ -280,22 +282,23 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
     CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
 
-   /* CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
+    /*CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
     CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
-    CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
+    CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),*/
+
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
-    */
     
-    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    
+    /*CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
-     CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
-     CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
-     CyFIFuncType("kernel32", "WriteFile", WriteFileHook, {NULL}),
-     CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
+    CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
+    CyFIFuncType("kernel32", "WriteFile", WriteFileHook, {NULL}),
+    CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),*/
 
     /* Evasion Techniques*/
     CyFIFuncType("Kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
@@ -329,15 +332,15 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("user32", "GetDC", GetDCHook, {NULL}),
     CyFIFuncType("user32", "GetSysColor", GetSysColorHook, {NULL}),
     CyFIFuncType("kernel32", "GetUserDefaultUILanguage", GetUserDefaultUILanguageHook, {NULL}),
-    CyFIFuncType("kernel32", "GetFileAttributesA", GetFileAttributesAHook, {NULL}),
-    CyFIFuncType("kernel32", "GetFileAttributesW", GetFileAttributesWHook, { NULL }),
+    //CyFIFuncType("kernel32", "GetFileAttributesA", GetFileAttributesAHook, {NULL}),
+    //CyFIFuncType("kernel32", "GetFileAttributesW", GetFileAttributesWHook, { NULL }),
     CyFIFuncType("kernel32", "GetFullPathNameA", GetFullPathNameAHook, { NULL }),
     // CyFIFuncType("kernel32", "FindClose", FindCloseHook, { NULL }),
     CyFIFuncType("kernel32", "IsDebuggerPresent", IsDebuggerPresentHook, { NULL }),
     CyFIFuncType("kernel32", "CheckRemoteDebuggerPresent", CheckRemoteDebuggerPresentHook, { NULL }),
-    CyFIFuncType("kernel32", "GetLocaleInfoA", GetLocaleInfoAHook, { NULL }),
+    //CyFIFuncType("kernel32", "GetLocaleInfoA", GetLocaleInfoAHook, { NULL }),
     CyFIFuncType("kernel32", "GetOEMCP", GetOEMCPHook, { NULL }),
-    CyFIFuncType("kernel32", "GetThreadLocale", GetThreadLocaleHook, { NULL }),
+    //CyFIFuncType("kernel32", "GetThreadLocale", GetThreadLocaleHook, { NULL }),
     CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, { NULL }),
     CyFIFuncType("ntdll", "RtlTimeToSecondsSince1970", RtlTimeToSecondsSince1970Hook, { NULL }),
     CyFIFuncType("user32", "GetLastInputInfo", GetLastInputInfoHook, { NULL }),
@@ -346,8 +349,6 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
     CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
     CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),*/
-
-
 };
 
 

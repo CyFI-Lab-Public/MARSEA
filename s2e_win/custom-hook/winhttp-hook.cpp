@@ -3,10 +3,11 @@
 #include "commands.h"
 #include <set>
 #include <string>
+#include <unordered_map>
 
 static std::set<winhttp::HINTERNET> queryDataHandles;
 static std::set<winhttp::HINTERNET> dummyHandles;
-LPCWSTR g_unique_handle = 0;
+static std::unordered_map<winhttp::HINTERNET, DWORD> perHandleBytesToRead;
 
 winhttp::HINTERNET WINAPI WinHttpOpenHook(
     LPCWSTR pszAgentW,
@@ -84,14 +85,33 @@ BOOL WINAPI WinHttpReadDataHook(
     DWORD     dwNumberOfBytesToRead,
     LPDWORD   lpdwNumberOfBytesRead
 ) {
-    if (dwNumberOfBytesToRead) {
-        *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
+    auto it = perHandleBytesToRead.find(hRequest);
+    if (it == perHandleBytesToRead.end()) {
+        perHandleBytesToRead[hRequest] = DEFAULT_MEM_LEN;
+        it = perHandleBytesToRead.find(hRequest);
     }
+    DWORD bytes_left = it->second;
+    DWORD bytes_read = bytes_left < dwNumberOfBytesToRead ? bytes_left : dwNumberOfBytesToRead;
+    it->second -= bytes_read;
+    *lpdwNumberOfBytesRead = bytes_read;
+
+    /*
+    //std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
+    std::string data_read = "DG8FV-B9TKY-FRT9J-6CRCC-XPQ4G-104A149B245C120D";   //spyanker
+    if (bytes_read < data_read.size()) {
+        data_read = data_read.substr(0, bytes_read);
+    }
+    if (bytes_read > 0) {
+        memcpy(lpBuffer, data_read.c_str(), bytes_read);
+    }*/
+
+
     std::string tag = GetTag("WinHttpReadData");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] WinHttpReadData (%p, %p, %ld, %p)-> tag_out: %s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
+
 }
 
 BOOL WINAPI WinHttpWriteDataHook(
@@ -163,20 +183,19 @@ BOOL WINAPI WinHttpAddRequestHeadersHook(
 BOOL WINAPI WinHttpCloseHandleHook(
     winhttp::HINTERNET hInternet
 ) {
+    perHandleBytesToRead.erase(hInternet);
+
     Message("[W] WinHttpCloseHandle (%p)\n", hInternet);
 
     std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
 
     if (it == dummyHandles.end()) {
-        // The handle is not one of our dummy handles, so call the original
-        // InternetCloseHandle function
         return winhttp::WinHttpCloseHandle(hInternet);
     }
     else {
         // The handle is a dummy handle. Free it
         free(*it);
         dummyHandles.erase(it);
-
         return TRUE;
     }
 }

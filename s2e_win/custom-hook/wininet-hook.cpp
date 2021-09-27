@@ -2,10 +2,10 @@
 #include "utils.h"
 #include "commands.h"
 #include <set>
+#include <unordered_map>
 
 static std::set<HINTERNET> dummyHandles;
-LPCSTR unique_handle = 0;
-LPCWSTR unique_handleW = 0;
+static std::unordered_map<HINTERNET, DWORD> perHandleBytesToRead;
 
 HINTERNET WINAPI InternetOpenAHook(
     LPCSTR lpszAgent,
@@ -254,17 +254,32 @@ BOOL WINAPI InternetReadFileHook(
     DWORD     dwNumberOfBytesToRead,
     LPDWORD   lpdwNumberOfBytesRead
 ) {
-    if (dwNumberOfBytesToRead) {
-        *lpdwNumberOfBytesRead = min(dwNumberOfBytesToRead, DEFAULT_MEM_LEN);
+    auto it = perHandleBytesToRead.find(hFile);
+    if (it == perHandleBytesToRead.end()) {
+        perHandleBytesToRead[hFile] = DEFAULT_MEM_LEN;
+        it = perHandleBytesToRead.find(hFile);
     }
+    DWORD bytes_left = it->second;
+    DWORD bytes_read = bytes_left < dwNumberOfBytesToRead ? bytes_left : dwNumberOfBytesToRead;
+    it->second -= bytes_read;
+    *lpdwNumberOfBytesRead = bytes_read;
+
+    /*
+    //std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
+    std::string data_read = "DG8FV-B9TKY-FRT9J-6CRCC-XPQ4G-104A149B245C120D";   //spyanker
+    if (bytes_read < data_read.size()) {
+        data_read = data_read.substr(0, bytes_read);
+    }
+    if (bytes_read > 0) {
+        memcpy(lpBuffer, data_read.c_str(), bytes_read);
+    }*/
+    
+
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
-    S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
-
-
 };
 
 HINTERNET WINAPI InternetOpenUrlAHook(
@@ -505,6 +520,8 @@ DWORD WINAPI InternetAttemptConnectHook(
 BOOL WINAPI InternetCloseHandleHook(
     HINTERNET hInternet
 ) {
+    perHandleBytesToRead.erase(hInternet);
+
     Message("[W] InternetCloseHandle (%p)\n", hInternet);
 
     std::set<HINTERNET>::iterator it = dummyHandles.find(hInternet);
