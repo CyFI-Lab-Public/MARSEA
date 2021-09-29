@@ -50,6 +50,8 @@ extern "C" {
 
         CHECK_CALLER,
 
+        READ_TAG,
+
 	TAG_COUNTER,
 
         KILL_ANALYSIS,
@@ -281,6 +283,11 @@ extern "C" {
         bool isTargetModule;
     };
 
+    struct CYFI_READ_TAG {
+        uint64_t buffer;
+        uint64_t symbTag;
+    };
+
     struct CYFI_TAG_COUNTER {
 	int counter;
     };
@@ -329,6 +336,8 @@ extern "C" {
             struct CYFI_WRAPPER_COMMAND_CRC Crc;
 
             struct CYFI_CHECK_CALLER CheckCaller;
+
+            struct CYFI_READ_TAG ReadTag;
 
             struct CYFI_TAG_COUNTER TagCounter;
 
