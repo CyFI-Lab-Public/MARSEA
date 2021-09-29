@@ -98,6 +98,7 @@ private:
     std::unique_ptr<Ranges> m_traceRegions = nullptr;
 
     std::string recent_callee = "";
+    int counter = 0;
 
     Vmi *m_vmi;
 
@@ -139,6 +140,8 @@ private:
     void handleOpcodeInvocation(S2EExecutionState *state, uint64_t guestDataPtr, uint64_t guestDataSize);
 
     void checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void tagCounter(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
     void killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
 };
