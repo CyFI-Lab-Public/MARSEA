@@ -64,6 +64,16 @@ S2EIsSymbolic proc near _Buffer: near ptr dword, _Size: dword
     ret 08h
 S2EIsSymbolic endp
 
+public CyFiReadTag
+CyFiReadTag proc near _Buffer: near ptr dword, _Tag: near ptr dword
+    mov ecx, _Buffer
+    mov eax, _Tag
+    db 0fh, 3fh
+    db 00h, 57h, 00h, 00h
+    db 00h, 00h, 00h, 00h
+    ret
+CyFiReadTag endp
+
 public S2EGetExample
 S2EGetExample proc near _Buffer: near ptr dword, _Size: dword
     mov eax, _Buffer

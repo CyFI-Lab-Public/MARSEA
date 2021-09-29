@@ -71,6 +71,7 @@ VOID NTAPI S2EGetRange(UINT_PTR Expr, UINT_PTR *Low, UINT_PTR *High);
 INT NTAPI S2EGetExample(PVOID Buffer, UINT32 Size);
 INT NTAPI S2EConcretize(PVOID Buffer, UINT32 Size);
 INT NTAPI S2EIsSymbolic(PVOID Buffer, UINT32 Size);
+VOID NTAPI CyFiReadTag(PVOID Buffer, PVOID Tag);
 VOID NTAPI S2EMakeSymbolicRaw(PVOID Buffer, UINT32 Size, PCSTR Name);
 VOID NTAPI S2EMessageRaw(PCSTR Message);
 VOID NTAPI S2ECyfiMessageRaw(PCSTR Message);

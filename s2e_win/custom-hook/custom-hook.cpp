@@ -33,6 +33,8 @@ namespace winhttp {
 
 #include <easyhook.h>
 
+#include <heapapi.h>
+
 #include <atlbase.h>
 #include "commands.h"
 #include "utils.h"
@@ -282,14 +284,15 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
     CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
 
-    /*CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
-    CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
-    CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
-    CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
-    CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),*/
+    //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
+    //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
+    //CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
+    //CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
+    //CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
+    
     
     
     /*CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
@@ -307,7 +310,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
 
-    /*CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
+    CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
     CyFIFuncType("kernel32", "GetCommandLineW", GetCommandLineWHook, {NULL}),
     CyFIFuncType("kernel32", "IsProcessorFeaturePresent", IsProcessorFeaturePresentHook, {NULL}),
@@ -340,7 +343,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "CheckRemoteDebuggerPresent", CheckRemoteDebuggerPresentHook, { NULL }),
     //CyFIFuncType("kernel32", "GetLocaleInfoA", GetLocaleInfoAHook, { NULL }),
     CyFIFuncType("kernel32", "GetOEMCP", GetOEMCPHook, { NULL }),
-    //CyFIFuncType("kernel32", "GetThreadLocale", GetThreadLocaleHook, { NULL }),
+   // CyFIFuncType("kernel32", "GetThreadLocale", GetThreadLocaleHook, { NULL }),
     CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, { NULL }),
     CyFIFuncType("ntdll", "RtlTimeToSecondsSince1970", RtlTimeToSecondsSince1970Hook, { NULL }),
     CyFIFuncType("user32", "GetLastInputInfo", GetLastInputInfoHook, { NULL }),
@@ -348,7 +351,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
     CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
-    CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),*/
+    CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),
+
 };
 
 

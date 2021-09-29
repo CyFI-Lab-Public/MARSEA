@@ -39,3 +39,5 @@ void killAnalysis(std::string funcName);
 std::string lpcstrToString(LPCSTR name);
 
 std::string lpcwstrToString(LPCWSTR name);
+
+std::string ReadTag(PVOID Buffer);

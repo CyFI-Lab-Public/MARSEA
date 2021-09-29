@@ -69,6 +69,18 @@ S2EIsSymbolic proc frame ; _Buffer: near ptr dword, _Size: dword
 S2EIsSymbolic endp
 
 ;RCX, RDX, R8, R9
+public CyFiReadTag
+CyFiReadTag proc near _Buffer: near ptr dword, _Tag: near ptr dword
+    .endprolog
+    ;mov rcx, rcx
+    mov rax, rdx
+    db 0fh, 3fh
+    db 00h, 57h, 00h, 00h
+    db 00h, 00h, 00h, 00h
+    ret
+CyFiReadTag endp
+
+;RCX, RDX, R8, R9
 public S2EGetExample
 S2EGetExample proc frame ; _Buffer: near ptr dword, _Size: dword
     .endprolog

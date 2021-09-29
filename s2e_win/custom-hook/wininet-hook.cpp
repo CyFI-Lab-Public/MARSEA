@@ -264,21 +264,25 @@ BOOL WINAPI InternetReadFileHook(
     it->second -= bytes_read;
     *lpdwNumberOfBytesRead = bytes_read;
 
-    /*
-    //std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
-    std::string data_read = "DG8FV-B9TKY-FRT9J-6CRCC-XPQ4G-104A149B245C120D";   //spyanker
-    if (bytes_read < data_read.size()) {
-        data_read = data_read.substr(0, bytes_read);
-    }
-    if (bytes_read > 0) {
-        memcpy(lpBuffer, data_read.c_str(), bytes_read);
-    }*/
+    //
+    ////std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
+    //std::string data_read = "DG8FV-B9TKY-FRT9J-6CRCC-XPQ4G-104A149B245C120D";   //spyanker
+    //if (bytes_read < data_read.size()) {
+    //    data_read = data_read.substr(0, bytes_read);
+    //}
+    //if (bytes_read > 0) {
+    //    memcpy(lpBuffer, data_read.c_str(), bytes_read);
+    //}
     
 
     std::string tag = GetTag("InternetReadFile");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
+
+    //std::string read_tag = ReadTag(lpBuffer);
+
+    //Message("[W] Tag Read: %s", read_tag.c_str());
     return TRUE;
 };
 

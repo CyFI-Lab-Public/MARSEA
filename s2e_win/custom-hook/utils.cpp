@@ -38,11 +38,28 @@ void Message(LPCSTR fmt, ...) {
 /// 
 std::string GetTag(PCSTR funcName) {
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = TAG_COUNTER;
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    std::string tag = "CyFi_" + std::string(funcName) + std::to_string(Command.TagCounter.counter);
+    //Command.Command = TAG_COUNTER;
+    //S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    //std::string tag = "CyFi_" + std::string(funcName) + std::to_string(Command.TagCounter.counter);
+    std::string tag = "CyFi_" + std::string(funcName) + std::to_string(tag_number);
     tag_number += 1;
     return tag;
+}
+
+std::string ReadTag(PVOID Buffer) {
+    CHAR symbTag[50] = { 0 };
+
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = READ_TAG;
+    Command.ReadTag.buffer = (uint64_t)Buffer;
+    Command.ReadTag.symbTag = (uint64_t)symbTag;
+
+    __s2e_touch_buffer((PCSTR)(UINT_PTR)Command.ReadTag.symbTag, 51);
+
+    //__s2e_touch_string((PCSTR)(UINT_PTR)Command.ReadTag.symbTag);
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+    return std::string((PCSTR)Command.ReadTag.symbTag);
 }
 
 bool checkCaller(std::string funcName) {
