@@ -107,7 +107,7 @@ size_t __cdecl fwritehook(
 	std::set<FILE*>::iterator it = dummyHandles.find(stream);
 
 	if (it == dummyHandles.end()) {
-		return fwrite(buffer, size, count, stream);
+		size_t ret = fwrite(buffer, size, count, stream);
 	}
 	else {
 		std::string tag = ReadTag((PVOID)buffer);

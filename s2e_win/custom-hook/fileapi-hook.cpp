@@ -358,7 +358,7 @@ BOOL WINAPI WriteFileHook(
 	if (checkCaller("WriteFile")) {
 
 		if (dummyHandles.find(hFile) != dummyHandles.end()) {
-			return WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+			BOOL res =  WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
 		}
 		// If lpBuffer is symbolic
 		if (S2EIsSymbolic((LPVOID)lpBuffer, 0x4)) {
