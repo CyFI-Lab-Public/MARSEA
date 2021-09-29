@@ -51,24 +51,12 @@ HINTERNET WINAPI InternetConnectAHook(
 ) {
     HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(connectionHandle);
-    if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = WINWRAPPER_INTERNETCONNECTA;
-        Command.InternetConnectA.hInternet = (uint64_t)hInternet;
-        Command.InternetConnectA.lpszServerName = (uint64_t)lpszServerName;
-        Command.InternetConnectA.nServerPort = (uint64_t)nServerPort;
-        Command.InternetConnectA.lpszUserName = (uint64_t)lpszUserName;
-        Command.InternetConnectA.lpszPassword = (uint64_t)lpszPassword;
-        Command.InternetConnectA.dwService = (uint64_t)dwService;
-        Command.InternetConnectA.dwFlags = (uint64_t)dwFlags;
-        Command.InternetConnectA.dwContext = (uint64_t)dwContext;
 
-        std::string symbTag = "";
-        Command.InternetConnectA.symbTag = (uint64_t)symbTag.c_str();
-        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectA.symbTag);
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    std::string tag = ReadTag((PVOID)lpszServerName);
+    if (tag != "") {
+
         Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p tag_in: %s\n",
-            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, (uint32_t)Command.InternetConnectA.symbTag);
+            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
         return connectionHandle;
     }
     else {
@@ -90,25 +78,11 @@ HINTERNET WINAPI InternetConnectWHook(
 ) {
     HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(connectionHandle);
-    if (S2EIsSymbolic((PVOID)lpszServerName, 0x4)) {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = WINWRAPPER_INTERNETCONNECTW;
-        Command.InternetConnectW.hInternet = (uint64_t)hInternet;
-        Command.InternetConnectW.lpszServerName = (uint64_t)lpszServerName;
-        Command.InternetConnectW.nServerPort = (uint64_t)nServerPort;
-        Command.InternetConnectW.lpszUserName = (uint64_t)lpszUserName;
-        Command.InternetConnectW.lpszPassword = (uint64_t)lpszPassword;
-        Command.InternetConnectW.dwService = (uint64_t)dwService;
-        Command.InternetConnectW.dwFlags = (uint64_t)dwFlags;
-        Command.InternetConnectW.dwContext = (uint64_t)dwContext;
-
-        std::string symbTag = "";
-        Command.InternetConnectW.symbTag = (uint64_t)symbTag.c_str();
-        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetConnectW.symbTag);
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    std::string tag = ReadTag((PVOID)lpszServerName);
+    if (tag != "") {
 
         Message("[W] InternetConnectW (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
-            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, (uint32_t)Command.InternetConnectW.symbTag);
+            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
         return connectionHandle;
     }
     else {
@@ -125,24 +99,14 @@ BOOL WINAPI InternetCrackUrlAHook(
     LPURL_COMPONENTSA lpUrlComponents
 ) {
     if (checkCaller("InternetCrackUrlA")) {
-        if (S2EIsSymbolic((PVOID)pwszUrl, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_INTERNETCRACKURLA;
-            Command.InternetCrackUrlA.lpszUrl = (uint64_t)pwszUrl;
-            Command.InternetCrackUrlA.dwUrlLength = (uint64_t)dwUrlLength;
-            Command.InternetCrackUrlA.dwFlags = (uint64_t)dwFlags;
-            Command.InternetCrackUrlA.lpUrlComponents = (uint64_t)lpUrlComponents;
-            std::string symbTag = "";
-            Command.InternetCrackUrlA.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetCrackUrlA.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
+        std::string tagIn = ReadTag((PVOID)pwszUrl);
+        if (tagIn != "") {
             pwszUrl = "http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
             std::string tag = GetTag("InternetCrackUrlA");
             S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
             InternetCrackUrlA(pwszUrl, 52, dwFlags, lpUrlComponents);
             Message("[W] InternetCrackUrlA (%s, %ld, %ld, %p) -> tag_in: %p, tag_out: %s\n", 
-                pwszUrl, 52, dwFlags, lpUrlComponents, (uint32_t)Command.InternetCrackUrlA.symbTag, tag.c_str());
+                pwszUrl, 52, dwFlags, lpUrlComponents, tagIn.c_str(), tag.c_str());
             return TRUE;
         }
     }
@@ -158,24 +122,15 @@ BOOL WINAPI InternetCrackUrlWHook(
     LPURL_COMPONENTSW lpUrlComponents
 ) {
     if (checkCaller("InternetCrackUrlW")) {
-        if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_INTERNETCRACKURLW;
-            Command.InternetCrackUrlW.lpszUrl = (uint64_t)lpszUrl;
-            Command.InternetCrackUrlW.dwUrlLength = (uint64_t)dwUrlLength;
-            Command.InternetCrackUrlW.dwFlags = (uint64_t)dwFlags;
-            Command.InternetCrackUrlW.lpUrlComponents = (uint64_t)lpUrlComponents;
-            std::string symbTag = "";
-            Command.InternetCrackUrlW.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetCrackUrlW.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+        std::string tagIn = ReadTag((PVOID)lpszUrl);
+        if (tagIn != "") {
 
             lpszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
             std::string tag = GetTag("InternetCrackUrlW");
             S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
             InternetCrackUrlW(lpszUrl, 52, dwFlags, lpUrlComponents);
             Message("[W] InternetCrackUrlW (%s, %ld, %ld, %p) -> tag_in: %p, tag_out: %s\n",
-                lpszUrl, 52, dwFlags, lpUrlComponents, (uint32_t)Command.InternetCrackUrlW.symbTag, tag.c_str());
+                lpszUrl, 52, dwFlags, lpUrlComponents, tagIn.c_str(), tag.c_str());
             return TRUE;
         }
     }
@@ -279,10 +234,6 @@ BOOL WINAPI InternetReadFileHook(
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
-
-    //std::string read_tag = ReadTag(lpBuffer);
-
-    //Message("[W] Tag Read: %s", read_tag.c_str());
     return TRUE;
 };
 
@@ -297,23 +248,11 @@ HINTERNET WINAPI InternetOpenUrlAHook(
 
     HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(resourceHandle);
-    if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = WINWRAPPER_INTERNETOPENURLA;
-        Command.InternetOpenUrlA.hInternet = (uint64_t)hInternet;
-        Command.InternetOpenUrlA.lpszUrl = (uint64_t)lpszUrl;
-        Command.InternetOpenUrlA.lpszHeaders = (uint64_t)lpszHeaders;
-        Command.InternetOpenUrlA.dwHeadersLength = (uint64_t)dwHeadersLength;
-        Command.InternetOpenUrlA.dwFlags = (uint64_t)dwFlags;
-        Command.InternetOpenUrlA.dwContext = (uint64_t)dwContext;
 
-        std::string symbTag = "";
-        Command.InternetOpenUrlA.symbTag = (uint64_t)symbTag.c_str();
-        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlA.symbTag);
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
+    std::string tag = ReadTag((PVOID)lpszUrl);
+    if(tag != ""){
         Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %s, tag_in: %s\n",
-            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, (uint32_t)Command.InternetOpenUrlA.symbTag);
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, tag.c_str());
         return resourceHandle;
     }
     else {
@@ -336,23 +275,11 @@ HINTERNET WINAPI InternetOpenUrlWHook(
 
     HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(resourceHandle);
-    if (S2EIsSymbolic((PVOID)lpszUrl, 0x4)) {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = WINWRAPPER_INTERNETOPENURLW;
-        Command.InternetOpenUrlW.hInternet = (uint64_t)hInternet;
-        Command.InternetOpenUrlW.lpszUrl = (uint64_t)lpszUrl;
-        Command.InternetOpenUrlW.lpszHeaders = (uint64_t)lpszHeaders;
-        Command.InternetOpenUrlW.dwHeadersLength = (uint64_t)dwHeadersLength;
-        Command.InternetOpenUrlW.dwFlags = (uint64_t)dwFlags;
-        Command.InternetOpenUrlW.dwContext = (uint64_t)dwContext;
-
-        std::string symbTag = "";
-        Command.InternetOpenUrlW.symbTag = (uint64_t)symbTag.c_str();
-        __s2e_touch_string((PCSTR)(UINT_PTR)Command.InternetOpenUrlW.symbTag);
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    std::string tag = ReadTag((PVOID)lpszUrl);
+    if (tag != "") {
 
         Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
-            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, (uint32_t)Command.InternetOpenUrlW.symbTag);
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, tag.c_str());
         return resourceHandle;
     }
     else {
