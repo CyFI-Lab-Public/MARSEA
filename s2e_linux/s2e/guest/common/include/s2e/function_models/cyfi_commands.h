@@ -50,6 +50,8 @@ extern "C" {
 
         CHECK_CALLER,
 
+	TAG_COUNTER,
+
         KILL_ANALYSIS,
     };
 
@@ -279,6 +281,10 @@ extern "C" {
         bool isTargetModule;
     };
 
+    struct CYFI_TAG_COUNTER {
+	int counter;
+    };
+
     struct KILL_ANALYSIS {
         uint64_t funcName;
     };
@@ -323,6 +329,8 @@ extern "C" {
             struct CYFI_WRAPPER_COMMAND_CRC Crc;
 
             struct CYFI_CHECK_CALLER CheckCaller;
+
+            struct CYFI_TAG_COUNTER TagCounter;
 
             struct KILL_ANALYSIS KillAnalysis;
         };

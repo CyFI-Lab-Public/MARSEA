@@ -832,6 +832,13 @@ void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_C
 
 }
 
+
+void CyFiFunctionModels::tagCounter(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    counter = counter + 1;
+    cmd.TagCounter.counter = counter;
+    s2e()->getWarningsStream(state) << "Tag Counter = " << counter << "\n";
+}
+
 void CyFiFunctionModels::killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
 
     std::string funcName;
@@ -1107,6 +1114,13 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
                 getWarningsStream(state) << "Could not write to guest memory\n";
             }
         } break;
+
+	case TAG_COUNTER: {
+	    tagCounter(state, command);
+	    if(!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+		getWarningsStream(state) << "Could not write to guest memory\n";
+	    }
+	} break;
 
         case KILL_ANALYSIS: {
             killAnalysis(state, command);
