@@ -5,7 +5,6 @@
 
 static std::set<HANDLE> dummyHandles;
 static std::map<HANDLE, std::string> fileMap;
-std::map<std::string, std::string> taintFile;
 
 HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,
@@ -359,7 +358,7 @@ BOOL WINAPI WriteFileHook(
 	if (checkCaller("WriteFile")) {
 
 		if (dummyHandles.find(hFile) != dummyHandles.end()) {
-			BOOL res = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+			return WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
 		}
 		// If lpBuffer is symbolic
 		if (S2EIsSymbolic((LPVOID)lpBuffer, 0x4)) {

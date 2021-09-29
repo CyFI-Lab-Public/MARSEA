@@ -61,6 +61,7 @@ namespace winhttp {
 #include "processthreadsapi-hook.h"
 #include "handleapi-hook.h"
 
+
 INT s2eVersion = 0;
 
 /// Keep track of thread handles we've created
@@ -72,6 +73,7 @@ static std::set<HGLOBAL> dummyStreams;
 /// Keep track of base addrs
 static std::set<LPVOID> dummyBaseAddrs;
 
+std::map<std::string, std::string> taintFile;
 
 
 ////////////////////////////////////////////////////////////////////
@@ -227,6 +229,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
     CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
     CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
+    CyFIFuncType("msvcrt", "fread", freadhook, {NULL}),
+    CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
 
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
 
@@ -292,7 +296,6 @@ CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
-    
     
     
     /*CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
