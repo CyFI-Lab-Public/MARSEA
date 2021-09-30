@@ -98,7 +98,7 @@ BOOL WINAPI DeleteFileWHook(
 	return DeleteFileW(lpFileName);
 }
 
-HANDLE FindFirstFileAHook(
+HANDLE WINAPI FindFirstFileAHook(
 	LPCSTR             lpFileName,
 	LPWIN32_FIND_DATAA lpFindFileData
 ) {
@@ -124,7 +124,7 @@ HANDLE FindFirstFileAHook(
 	return FindFirstFileA(lpFileName, lpFindFileData);
 }
 
-HANDLE FindFirstFileWHook(
+HANDLE WINAPI FindFirstFileWHook(
 	LPCWSTR            lpFileName,
 	LPWIN32_FIND_DATAW lpFindFileData
 )

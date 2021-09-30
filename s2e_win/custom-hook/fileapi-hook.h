@@ -30,12 +30,12 @@ BOOL WINAPI DeleteFileWHook(
 	LPCWSTR lpFileName
 );
 
-HANDLE FindFirstFileAHook(
+HANDLE WINAPI FindFirstFileAHook(
 	LPCSTR             lpFileName,
 	LPWIN32_FIND_DATAA lpFindFileData
 );
 
-HANDLE FindFirstFileWHook(
+HANDLE WINAPI FindFirstFileWHook(
 	LPCWSTR            lpFileName,
 	LPWIN32_FIND_DATAW lpFindFileData
 );

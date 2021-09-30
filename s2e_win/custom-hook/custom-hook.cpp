@@ -76,8 +76,6 @@ static std::set<HGLOBAL> dummyStreams;
 /// Keep track of base addrs
 static std::set<LPVOID> dummyBaseAddrs;
 
-std::map<std::string, std::string> taintFile;
-
 
 ////////////////////////////////////////////////////////////////////
 /// KERNEL32
