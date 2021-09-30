@@ -62,10 +62,7 @@ std::string ReadTag(PVOID Buffer) {
     Command.ReadTag.symbTag = (uint64_t)symbTag;
 
     __s2e_touch_buffer((PCSTR)(UINT_PTR)Command.ReadTag.symbTag, 51);
-
-    //__s2e_touch_string((PCSTR)(UINT_PTR)Command.ReadTag.symbTag);
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
     return std::string((PCSTR)Command.ReadTag.symbTag);
 }
 

@@ -62,6 +62,7 @@ namespace winhttp {
 #include "handleapi-hook.h"
 #include "shellapi-hook.h"
 
+
 INT s2eVersion = 0;
 
 std::map<std::string, std::string> taintFile;
@@ -75,6 +76,7 @@ static std::set<HGLOBAL> dummyStreams;
 /// Keep track of base addrs
 static std::set<LPVOID> dummyBaseAddrs;
 
+std::map<std::string, std::string> taintFile;
 
 
 ////////////////////////////////////////////////////////////////////
@@ -230,6 +232,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
     CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
     CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
+    CyFIFuncType("msvcrt", "fread", freadhook, {NULL}),
+    CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
 
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
 
