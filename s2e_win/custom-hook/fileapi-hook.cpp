@@ -115,8 +115,8 @@ HANDLE FindFirstFileAHook(
 				dummyHandles.insert(fileHandle);
 				Message("[W] FindFirstFileA (A\"%s\", %p), Ret: %p\n",
 					lpFileName, lpFindFileData, fileHandle);
-				return fileHandle;
 			}
+			return fileHandle;
 		}
 	}
 	return FindFirstFileA(lpFileName, lpFindFileData);
@@ -142,8 +142,8 @@ HANDLE FindFirstFileWHook(
 				dummyHandles.insert(fileHandle);
 				Message("[W] FindFirstFileW (A\"%ls\", %p), Ret: %p\n",
 					lpFileName, lpFindFileData, fileHandle);
-				return fileHandle;
 			}
+			return fileHandle;
 		}
 	}
 	return FindFirstFileW(lpFileName, lpFindFileData);
