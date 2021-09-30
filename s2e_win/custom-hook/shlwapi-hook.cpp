@@ -28,7 +28,7 @@ PCSTR StrStrAHook(
 
             PCSTR ret = StrStrA(pszFirst, pszSrch);
             std::string tag = GetTag("StrStrA");
-            Message("[W] StrStrA (%p, %p) -> tag_in: %s, tag_out: %s\n", pszFirst, pszSrch, (uint32_t) Command.StrStrA.symbTag, tag.c_str());
+            Message("[W] StrStrA (%p, %p) -> tag_in: %s tag_out: %s\n", pszFirst, pszSrch, (uint32_t) Command.StrStrA.symbTag, tag.c_str());
             S2EMakeSymbolic((PVOID)pszFirst, strlen(pszFirst), tag.c_str());
             S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());
             return ret;
@@ -98,7 +98,7 @@ PCSTR StrStrIAHook(
 
             PCSTR ret = StrStrA(pszFirst, pszSrch);
             std::string tag = GetTag("StrStrIA");
-            Message("[W] StrStrA (%p, %p) -> tag_in: %s, tag_out: %s\n", pszFirst, pszSrch, (uint32_t)Command.StrStrA.symbTag, tag.c_str());
+            Message("[W] StrStrA (%p, %p) -> tag_in: %s tag_out: %s\n", pszFirst, pszSrch, (uint32_t)Command.StrStrA.symbTag, tag.c_str());
             S2EMakeSymbolic((PVOID)pszFirst, strlen(pszFirst), tag.c_str());
             S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());
             return ret;

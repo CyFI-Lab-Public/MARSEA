@@ -26,7 +26,7 @@ char* strtokHook(
 
             char* ret = strtok(strToken, strDelimit);
             std::string tag = GetTag("strtok");
-            Message("[W] strtok (%p, %p) -> tag_in: %s, tag_out: %s\n", strToken, strDelimit, (uint32_t)Command.strtok.symbTag, tag.c_str());
+            Message("[W] strtok (%p, %p) -> tag_in: %s tag_out: %s\n", strToken, strDelimit, (uint32_t)Command.strtok.symbTag, tag.c_str());
             S2EMakeSymbolic((PVOID)strToken, strlen(strToken), tag.c_str());
             S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());
             return ret;
@@ -59,7 +59,7 @@ const char* strstrHook(
 
             const char* ret = strstr(str, strSearch);
             std::string tag = GetTag("strstr");
-            Message("[W] strtok (%p, %p) -> tag_in: %s, tag_out: %s\n", str, strSearch, (uint32_t)Command.strstr.symbTag, tag.c_str());
+            Message("[W] strtok (%p, %p) -> tag_in: %s tag_out: %s\n", str, strSearch, (uint32_t)Command.strstr.symbTag, tag.c_str());
             S2EMakeSymbolic((PVOID)str, strlen(str), tag.c_str());
             S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());
             return ret;
