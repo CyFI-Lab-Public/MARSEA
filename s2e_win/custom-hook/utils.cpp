@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <iostream>
 #include <string>
+#include <type_traits>
 
 #include "utils.h"
 #include "commands.h"
@@ -47,6 +48,12 @@ std::string GetTag(PCSTR funcName) {
 }
 
 std::string ReadTag(PVOID Buffer) {
+
+    if (Buffer == NULL || Buffer == nullptr) {
+        std::string res = "";
+        return res;
+    }
+
     CHAR symbTag[50] = { 0 };
 
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
@@ -85,7 +92,40 @@ void killAnalysis(std::string funcName) {
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 }
 
+std::string getFileTag(LPCSTR buffer) {
+    std::string file_string(buffer);
+
+    for (auto i = taintFile.begin(); i != taintFile.end(); i++) {
+        std::string taint_file_name = i->first;
+        std::string tag = i->second;
+
+        if (file_string.find(taint_file_name) != std::string::npos) {
+            return tag;
+        }
+    }
+
+    return std::string("");
+
+}
+
+std::string getFileTag(LPCWSTR buffer) {
+    std::string file_string = lpcwstrToString(buffer);
+
+    for (auto i = taintFile.begin(); i != taintFile.end(); i++) {
+        std::string taint_file_name = i->first;
+        std::string tag = i->second;
+
+        if (file_string.find(taint_file_name) != std::string::npos) {
+            return tag;
+        }
+    }
+
+    return std::string("");
+
+}
+
 std::string lpcstrToString(LPCSTR name) {
+    //https://docs.microsoft.com/en-us/cpp/text/how-to-convert-between-various-string-types?redirectedfrom=MSDN&view=msvc-160
     CHAR message[S2E_MSG_LEN];
     sprintf_s(message, S2E_MSG_LEN, "%s", name);
     return std::string(message);

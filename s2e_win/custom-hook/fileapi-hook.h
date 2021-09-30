@@ -26,7 +26,7 @@ BOOL WINAPI DeleteFileAHook(
 	LPCSTR lpFileName
 );
 
-BOOL DeleteFileWHook(
+BOOL WINAPI DeleteFileWHook(
 	LPCWSTR lpFileName
 );
 

@@ -41,3 +41,7 @@ std::string lpcstrToString(LPCSTR name);
 std::string lpcwstrToString(LPCWSTR name);
 
 std::string ReadTag(PVOID Buffer);
+
+std::string getFileTag(LPCSTR buffer);
+
+std::string getFileTag(LPCWSTR buffer);

@@ -20,11 +20,28 @@ BOOL WINAPI CreateProcessAHook(
     LPPROCESS_INFORMATION lpProcessInformation
 ) {
     if (checkCaller("CreateProcessA")) {
-        Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p)",
-            lpApplicationName, lpCommandLine, lpProcessAttributes,
-            lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
-            lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+        std::string app_tag = getFileTag(lpApplicationName);
+        std::string cmd_tag = getFileTag(lpCommandLine);
 
+        if (app_tag.length() > 1) {
+            Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p) tag_in: %s",
+                lpApplicationName, lpCommandLine, lpProcessAttributes,
+                lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+                lpCurrentDirectory, lpStartupInfo, lpProcessInformation, app_tag.c_str());
+        }
+        else if (cmd_tag.length() > 1) {
+            Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p) tag_in: %s",
+                lpApplicationName, lpCommandLine, lpProcessAttributes,
+                lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+                lpCurrentDirectory, lpStartupInfo, lpProcessInformation, cmd_tag.c_str());
+        }
+        else {
+            Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p)",
+                lpApplicationName, lpCommandLine, lpProcessAttributes,
+                lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+                lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+        }
+    
         // Get this DLL's path
         HMODULE hDll = NULL;
         DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
@@ -99,10 +116,28 @@ BOOL WINAPI CreateProcessWHook(
     LPPROCESS_INFORMATION lpProcessInformation
 ) {
     if (checkCaller("CreateProcessW")) {
-        Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
-            lpApplicationName, lpCommandLine, lpProcessAttributes,
-            lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
-            lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+
+        std::string app_tag = getFileTag(lpApplicationName);
+        std::string cmd_tag = getFileTag(lpCommandLine);
+
+        if (app_tag.length() > 1) {
+            Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
+                lpApplicationName, lpCommandLine, lpProcessAttributes,
+                lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+                lpCurrentDirectory, lpStartupInfo, lpProcessInformation, app_tag.c_str());
+        }
+        else if (cmd_tag.length() > 1) {
+            Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
+                lpApplicationName, lpCommandLine, lpProcessAttributes,
+                lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+                lpCurrentDirectory, lpStartupInfo, lpProcessInformation, cmd_tag.c_str());
+        }
+        else {
+            Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
+                lpApplicationName, lpCommandLine, lpProcessAttributes,
+                lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
+                lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+        }
 
         // Get this DLL's path
         HMODULE hDll = NULL;

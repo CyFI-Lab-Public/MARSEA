@@ -177,6 +177,7 @@
     <ClCompile Include="kernel32-hook.cpp" />
     <ClCompile Include="msvcrt-hook.cpp" />
     <ClCompile Include="processthreadsapi-hook.cpp" />
+    <ClCompile Include="shellapi-hook.cpp" />
     <ClCompile Include="shlwapi-hook.cpp" />
     <ClCompile Include="socket-hook.cpp" />
     <ClCompile Include="string-hook.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="kernel32-hook.h" />
     <ClInclude Include="msvcrt-hook.h" />
     <ClInclude Include="processthreadsapi-hook.h" />
+    <ClInclude Include="shellapi-hook.h" />
     <ClInclude Include="shlwapi-hook.h" />
     <ClInclude Include="socket-hook.h" />
     <ClInclude Include="string-hook.h" />

@@ -229,8 +229,21 @@ BOOL WINAPI HttpSendRequestAHook(
     LPVOID    lpOptional,
     DWORD     dwOptionalLength
 ) {
-    Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x)\n",
-        hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+    std::string header_tag = ReadTag((PVOID)lpszHeaders);
+    std::string option_tag = ReadTag((PVOID)lpOptional);
+
+    if (header_tag.length() > 0) {
+        Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x) tag_in: %s\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, header_tag.c_str());
+    }
+    else if (option_tag.length() > 0) {
+        Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x) tag_in: %s\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, option_tag.c_str());
+    }
+    else {
+        Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x)\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+    }
 
     return TRUE; //Only consider successful http request sends for now
 }
@@ -242,8 +255,20 @@ BOOL WINAPI HttpSendRequestWHook(
     LPVOID    lpOptional,
     DWORD     dwOptionalLength
 ) {
-    Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x)\n",
-        hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+    std::string header_tag = ReadTag((PVOID)lpszHeaders);
+    std::string option_tag = ReadTag((PVOID)lpOptional);
+    if (header_tag.length() > 0) {
+        Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x) tag_in: %s\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, header_tag.c_str());
+    }
+    else if (option_tag.length() > 0) {
+        Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x) tag_in: %s\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, option_tag.c_str());
+    }
+    else {
+        Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x)\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+    }
 
     return TRUE; //Only consider successful http request sends for now
 }
@@ -280,9 +305,9 @@ BOOL WINAPI InternetReadFileHook(
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
 
-    //std::string read_tag = ReadTag(lpBuffer);
+    //std::string read_tag = ReadTag(lpdwNumberOfBytesRead);
 
-    //Message("[W] Tag Read: %s", read_tag.c_str());
+    //Message("[W] Tag Read: %d", read_tag.length());
     return TRUE;
 };
 
@@ -368,7 +393,13 @@ BOOL WINAPI HttpAddRequestHeadersAHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {
-    Message("[W] HttpAddRequestHeadersA (%p, A\"%s\", %d, %d)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    std::string header_tag = ReadTag((PVOID)lpszHeaders);
+    if (header_tag.length() > 0) {
+        Message("[W] HttpAddRequestHeadersA (%p, A\"%s\", %d, %d) tag_in: %s\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
+    }
+    else {
+        Message("[W] HttpAddRequestHeadersA (%p, A\"%s\", %d, %d)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    }
     return TRUE;
 }
 
@@ -378,7 +409,13 @@ BOOL WINAPI HttpAddRequestHeadersWHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {
-    Message("[W] HttpAddRequestHeadersW (%p, A\"%ls\", %ld, %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    std::string header_tag = ReadTag((PVOID)lpszHeaders);
+    if (header_tag.length() > 0) {
+        Message("[W] HttpAddRequestHeadersW (%p, A\"%ls\", %ld, %ld) tag_in: %s\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
+    }
+    else {
+        Message("[W] HttpAddRequestHeadersW (%p, A\"%ls\", %ld, %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    }
     return TRUE;
 }
 
@@ -478,8 +515,18 @@ BOOL WINAPI InternetWriteFileHook(
 ) {
     std::string tag = GetTag("InternetWriteFile");
     S2EMakeSymbolic(lpdwNumberOfBytesWritten, 4, tag.c_str());
-    Message("[W] InternetWriteFile(%p, A\"%ls\", 0x%x, %p) -> tag_out: %s\n",
-        hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
+
+    std::string read_tag = ReadTag((PVOID)lpBuffer);
+
+    if (read_tag.length() > 0) {
+        Message("[W] InternetWriteFile(%p, A\"%ls\", 0x%x, %p) -> tag_in: %s tag_out: %s\n",
+            hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, read_tag.c_str(), tag.c_str());
+    }
+    else {
+        Message("[W] InternetWriteFile(%p, A\"%ls\", 0x%x, %p) -> tag_out: %s\n",
+            hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
+    }
+
     return TRUE;
 }
 

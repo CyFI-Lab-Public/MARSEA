@@ -64,8 +64,25 @@ BOOL WINAPI WinHttpSendRequestHook(
     DWORD     dwTotalLength,
     DWORD_PTR dwContext
 ) {
-    Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p)\n",
-        hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
+    std::string read_header_tag = ReadTag((PVOID)lpszHeaders);
+    std::string read_option_tag = "";
+    if (lpOptional != WINHTTP_NO_REQUEST_DATA) {
+        read_option_tag = ReadTag((PVOID)lpOptional);
+    }
+
+    if (read_header_tag.length() > 0) {
+        Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p) tag_in: %s\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_header_tag.c_str());
+    }
+    else if (read_option_tag.length() > 0) {
+        Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p) tag_in: %s\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_option_tag.c_str());
+    }
+    else {
+        Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p)\n",
+            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
+    }
+
     return TRUE; //Only consider successful winhttp send requests for now
 }
 
@@ -131,8 +148,17 @@ BOOL WINAPI WinHttpWriteDataHook(
 
     std::string tag = GetTag("WinHttpWriteData");
     S2EMakeSymbolic(lpdwNumberOfBytesWritten, 4, tag.c_str());
-    Message("[W] WinHttpWriteData (%p, A\"%ls\", 0x%x, %p) -> tag_out: %s\n",
-        hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
+
+    std::string read_tag = ReadTag((PVOID)lpBuffer);
+
+    if (read_tag.length() > 0) {
+        Message("[W] WinHttpWriteData (%p, A\"%ls\", 0x%x, %p) -> tag_in: %s tag_out: %s\n",
+            hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, read_tag.c_str(), tag.c_str());
+    }
+    else {
+        Message("[W] WinHttpWriteData (%p, A\"%ls\", 0x%x, %p) -> tag_out: %s\n",
+            hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
+    }
     return TRUE;
 }
 
@@ -175,8 +201,16 @@ BOOL WINAPI WinHttpAddRequestHeadersHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {
-    Message("[W] WinHttpAddRequestHeaders (%p, A\"%ls\", 0x%x,  0x%x)\n",
-        hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    std::string header_tag = ReadTag((PVOID)lpszHeaders);
+    if (header_tag.length() > 0) {
+        Message("[W] WinHttpAddRequestHeaders (%p, A\"%ls\", 0x%x,  0x%x) tag_in: %s\n",
+            hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag);
+    }
+    else {
+        Message("[W] WinHttpAddRequestHeaders (%p, A\"%ls\", 0x%x,  0x%x)\n",
+            hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    }
+
     return TRUE;
 }
 

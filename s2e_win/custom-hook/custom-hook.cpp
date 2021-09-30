@@ -60,8 +60,11 @@ namespace winhttp {
 #include "consoleapi3-hook.h"
 #include "processthreadsapi-hook.h"
 #include "handleapi-hook.h"
+#include "shellapi-hook.h"
 
 INT s2eVersion = 0;
+
+std::map<std::string, std::string> taintFile;
 
 /// Keep track of thread handles we've created
 static std::set<HANDLE> dummyThreadHandles;
@@ -283,6 +286,11 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
     CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
+
+    CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
+
+    CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
@@ -295,13 +303,14 @@ CyFIFuncType functionToHook[] = {
     
     
     
-    /*CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
-    CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
+    CyFIFuncType("Kernel32", "DeleteFileW", DeleteFileWHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetFileType", GetFileTypeHook, {NULL}),
     CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
     CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
     CyFIFuncType("kernel32", "WriteFile", WriteFileHook, {NULL}),
-    CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),*/
+    CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),
 
     /* Evasion Techniques*/
     CyFIFuncType("Kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),

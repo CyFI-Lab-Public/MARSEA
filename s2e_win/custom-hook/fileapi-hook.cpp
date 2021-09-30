@@ -5,7 +5,6 @@
 
 static std::set<HANDLE> dummyHandles;
 static std::map<HANDLE, std::string> fileMap;
-std::map<std::string, std::string> taintFile;
 
 HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,
@@ -19,11 +18,12 @@ HANDLE WINAPI CreateFileAHook(
 	std::string fileName = lpcstrToString(lpFileName);
 	if (checkCaller("CreateFileA")) {
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+			std::string file_name_tag = ReadTag((PVOID)lpFileName);
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			fileMap[fileHandle] = fileName;
 			dummyHandles.insert(fileHandle);
-			Message("[W] CreateFileA (A\"%s\", %d, %d, %p, %d, %d, %p), Ret: %p\n",
-				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+			Message("[W] CreateFileA (A\"%s\", %d, %d, %p, %d, %d, %p), Ret: %p tag_in: %s\n",
+				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle, file_name_tag.c_str());
 			return fileHandle;
 		}
 		else {
@@ -55,11 +55,12 @@ HANDLE WINAPI CreateFileWHook(
 	if (checkCaller("CreateFileW")) {
 
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+			std::string file_name_tag = ReadTag((PVOID)lpFileName);
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			dummyHandles.insert(fileHandle);
 			fileMap[fileHandle] = fileName;
-			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
-				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
+			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p tag_in: %s\n",
+				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle, file_name_tag.c_str());
 			return fileHandle;
 		}
 		else {
@@ -87,7 +88,7 @@ BOOL WINAPI DeleteFileAHook(
 	return DeleteFileA(lpFileName);
 }
 
-BOOL DeleteFileWHook(
+BOOL WINAPI DeleteFileWHook(
 	LPCWSTR lpFileName
 ) {
 	if (checkCaller("DeleteFileW")) {
@@ -358,28 +359,25 @@ BOOL WINAPI WriteFileHook(
 ) {
 	if (checkCaller("WriteFile")) {
 
-		if (dummyHandles.find(hFile) != dummyHandles.end()) {
-			BOOL res = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
-		}
-		// If lpBuffer is symbolic
-		if (S2EIsSymbolic((LPVOID)lpBuffer, 0x4)) {
-			CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-			Command.Command = WINWRAPPER_WRITEFILE;
-			Command.WriteFile.lpBuffer = (uint64_t)lpBuffer;
-			std::string symbTag = "";
-			Command.WriteFile.symbTag = (uint64_t)symbTag.c_str();
-			__s2e_touch_string((PCSTR)(UINT_PTR)Command.WriteFile.symbTag);
-			S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+		std::string buffer_tag = ReadTag((LPVOID)lpBuffer);
+
+		if (buffer_tag.length() > 0) {
+			Message("[W] WriteFile (%p, %p, %ld, %ld, %p) tag_in: %s", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, buffer_tag.c_str());
 			//Update the taintFile map
 			if (fileMap.find(hFile) != fileMap.end()) {
 				std::string fileName = fileMap[hFile];
-				taintFile[fileName] = std::string((char*)(uint32_t)Command.WriteFile.symbTag);
+				taintFile[fileName] = buffer_tag;
 			}
-			Message("[W] WriteFile (%p, %p, %ld, %ld, %p) tag_in: %s", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, (uint32_t)Command.WriteFile.symbTag);
-			return TRUE;
 		}
 		else {
 			Message("[W] WriteFile (%p, %p, %ld, %ld, %p)", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped);
+		}
+
+		if (dummyHandles.find(hFile) == dummyHandles.end()) {
+			BOOL res = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+			return res;
+		}
+		else {
 			return TRUE;
 		}
 	}
