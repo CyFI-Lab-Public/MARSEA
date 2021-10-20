@@ -232,6 +232,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
     CyFIFuncType("msvcrt", "fread", freadhook, {NULL}),
     CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
+    CyFIFuncType("msvcrt", "fseek", fseekhook, {NULL}),
 
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
 
@@ -260,6 +261,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("winhttp", "WinHttpSetTimeouts", WinHttpSetTimeoutsHook, {NULL}),
 
     CyFIFuncType("wininet", "InternetConnectA", InternetConnectAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetConnectW", InternetConnectWHook, {NULL}),
     CyFIFuncType("wininet", "HttpOpenRequestA", HttpOpenRequestAHook, {NULL}),
     CyFIFuncType("wininet", "HttpOpenRequestW", HttpOpenRequestWHook, {NULL}),
     CyFIFuncType("wininet", "HttpSendRequestA", HttpSendRequestAHook, {NULL}),
@@ -321,7 +323,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
 
-    CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
+    /*CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
     CyFIFuncType("kernel32", "GetCommandLineW", GetCommandLineWHook, {NULL}),
     CyFIFuncType("kernel32", "IsProcessorFeaturePresent", IsProcessorFeaturePresentHook, {NULL}),
@@ -362,7 +364,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
     CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
-    CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),
+    CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),*/
 
 };
 
