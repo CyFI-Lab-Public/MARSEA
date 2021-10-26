@@ -48,7 +48,7 @@ BOOL WINAPI WinHttpCrackUrlHook(
         winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
         std::string tag = GetTag("WinHttpCrackUrl");
         S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
-        Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> tag_in: %p tag_out: %s\n",
+        Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> tag_in: %s tag_out: %s\n",
             pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, (uint32_t)Command.WinHttpCrackUrl.symbTag, tag.c_str());
         return TRUE;
     }

@@ -18,6 +18,14 @@ HRESULT WINAPI URLDownloadToFileWHook(
     LPBINDSTATUSCALLBACK lpfnCB
 );
 
+HRESULT WINAPI URLDownloadToFileAHook(
+    LPUNKNOWN            pCaller,
+    LPCSTR              szURL,
+    LPCSTR              szFileName,
+    _Reserved_ DWORD     dwReserved,
+    LPBINDSTATUSCALLBACK lpfnCB
+);
+
 HRESULT WINAPI URLDownloadToCacheFileHook(
     _In_       LPUNKNOWN           lpUnkcaller,
     _In_       LPCSTR              szURL,

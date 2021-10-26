@@ -5,6 +5,7 @@
 
 static std::set<HANDLE> dummyHandles;
 static std::map<HANDLE, std::string> fileMap;
+std::unordered_map<HANDLE, DWORD> perHandleBytesToRead;
 
 HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,
@@ -32,6 +33,7 @@ HANDLE WINAPI CreateFileAHook(
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
 			}
+			
 			Message("[W] CreateFileA (A\"%s\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
 			fileMap[fileHandle] = fileName;
@@ -180,6 +182,15 @@ BOOL WINAPI ReadFileHook(
 	LPOVERLAPPED lpOverlapped
 ) {
 	if (checkCaller("ReadFile")) {
+		auto it = perHandleBytesToRead.find(hFile);
+		if (it == perHandleBytesToRead.end()) {
+			perHandleBytesToRead[hFile] = 256;
+			it = perHandleBytesToRead.find(hFile);
+		}
+		DWORD bytes_left = it->second;
+		DWORD bytes_read = bytes_left < nNumberOfBytesToRead ? bytes_left : nNumberOfBytesToRead;
+		it->second -= bytes_read;
+
 		std::string tagIn = "";
 		//Try to get the fileName
 		if (fileMap.find(hFile) != fileMap.end() && taintFile.find(fileMap[hFile]) != taintFile.end()) {
@@ -193,8 +204,9 @@ BOOL WINAPI ReadFileHook(
 		else {
 			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
 		}
-		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
-		if (it == dummyHandles.end()) {
+		return ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
+		std::set<HANDLE>::iterator it_2 = dummyHandles.find(hFile);
+		if (it_2 == dummyHandles.end()) {
 			BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
 
 			//if (res && lpOverlapped != nullptr) {
@@ -217,15 +229,12 @@ BOOL WINAPI ReadFileHook(
 			//		Message("[W] Error: %s", lpMsgBuf);
 			//	}
 			//}
-			if (res && lpNumberOfBytesRead!=nullptr) {
-				S2EMakeSymbolic(lpBuffer, min(*lpNumberOfBytesRead, DEFAULT_MEM_LEN), tag.c_str());
-			}
-			else {
-				S2EMakeSymbolic(lpBuffer, DEFAULT_MEM_LEN, tag.c_str());
-			}
+			*lpNumberOfBytesRead = bytes_read;
+			S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
 		}
 		else {
-			S2EMakeSymbolic(lpBuffer, min(nNumberOfBytesToRead, DEFAULT_MEM_LEN), tag.c_str());
+			*lpNumberOfBytesRead = bytes_read;
+			S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
 			S2EMakeSymbolic(lpNumberOfBytesRead, sizeof(DWORD), tag.c_str());
 		}
 		return TRUE;

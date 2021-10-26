@@ -1,6 +1,9 @@
 #pragma once
 #include <Windows.h>
 #include <fileapi.h>
+#include <unordered_map>
+
+extern std::unordered_map<HANDLE, DWORD> perHandleBytesToRead;
 
 HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,

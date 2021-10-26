@@ -8,14 +8,16 @@ char* strtokHook(
 ){     
     if (checkCaller("strtok")) {
         if (S2EIsSymbolic((PVOID)strToken, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_STRTOK;
-            Command.strtok.strToken = (uint64_t)strToken;
-            Command.strtok.strDelimit = (uint64_t)strDelimit;
-            std::string symbTag = "";
-            Command.strtok.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.strtok.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+            //CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+            //Command.Command = WINWRAPPER_STRTOK;
+            //Command.strtok.strToken = (uint64_t)strToken;
+            //Command.strtok.strDelimit = (uint64_t)strDelimit;
+            //std::string symbTag = "";
+            //Command.strtok.symbTag = (uint64_t)symbTag.c_str();
+            //__s2e_touch_string((PCSTR)(UINT_PTR)Command.strtok.symbTag);
+            //S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+            std::string symbTag = ReadTag((PVOID)strToken);
 
             char start[7] = "start_";
             char end[5] = "_end";
@@ -26,7 +28,7 @@ char* strtokHook(
 
             char* ret = strtok(strToken, strDelimit);
             std::string tag = GetTag("strtok");
-            Message("[W] strtok (%p, %p) -> tag_in: %s tag_out: %s\n", strToken, strDelimit, (uint32_t)Command.strtok.symbTag, tag.c_str());
+            Message("[W] strtok (%p, %p) -> tag_in: %s tag_out: %s\n", strToken, strDelimit, symbTag.c_str(), tag.c_str());
             S2EMakeSymbolic((PVOID)strToken, strlen(strToken), tag.c_str());
             S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());
             return ret;
@@ -41,14 +43,16 @@ const char* strstrHook(
 ) {
     if (checkCaller("strstr")) {
         if (S2EIsSymbolic((PVOID)str, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_STRSTR;
-            Command.strstr.str = (uint64_t)str;
-            Command.strstr.strSearch = (uint64_t)strSearch;
-            std::string symbTag = "";
-            Command.strstr.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.strstr.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+            //CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+            //Command.Command = WINWRAPPER_STRSTR;
+            //Command.strstr.str = (uint64_t)str;
+            //Command.strstr.strSearch = (uint64_t)strSearch;
+            //std::string symbTag = "";
+            //Command.strstr.symbTag = (uint64_t)symbTag.c_str();
+            //__s2e_touch_string((PCSTR)(UINT_PTR)Command.strstr.symbTag);
+            //S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+            std::string symbTag = ReadTag((PVOID)str);
 
             char start[7] = "start_";
             char end[5] = "_end";
@@ -59,7 +63,7 @@ const char* strstrHook(
 
             const char* ret = strstr(str, strSearch);
             std::string tag = GetTag("strstr");
-            Message("[W] strtok (%p, %p) -> tag_in: %s tag_out: %s\n", str, strSearch, (uint32_t)Command.strstr.symbTag, tag.c_str());
+            Message("[W] strtok (%p, %p) -> tag_in: %s tag_out: %s\n", str, strSearch, symbTag.c_str(), tag.c_str());
             S2EMakeSymbolic((PVOID)str, strlen(str), tag.c_str());
             S2EMakeSymbolic((PVOID)ret, strlen(ret), tag.c_str());
             return ret;
