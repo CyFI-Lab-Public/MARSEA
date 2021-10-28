@@ -204,7 +204,7 @@ BOOL WINAPI ReadFileHook(
 		else {
 			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
 		}
-		return ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
+
 		std::set<HANDLE>::iterator it_2 = dummyHandles.find(hFile);
 		if (it_2 == dummyHandles.end()) {
 			BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
