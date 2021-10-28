@@ -15,7 +15,7 @@ Open the "s2e" solution in the "windows" folder of this repository.
 
 If prompted by visual studio, install the EasyHookNative NuGet package.
 
-Compile the solution as a Release build for Win32. This will produce an modified EasyHook and custom-hook DLL.
+Build the Win32 Release solution for projects `custom-hook` and `malware-inject`. This will produce an modified custom-hook DLL and malware-inject.exe
 
 The custom-hook.cpp can be modified and recompiled to include any new function models.
 
