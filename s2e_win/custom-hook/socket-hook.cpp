@@ -52,26 +52,52 @@ INT WSAAPI connecthook(
     int            namelen
 ) {
     if (checkCaller("connect")) {
-        char* buf = "";
+        PSTR buf = "";
         if (name->sa_family == AF_INET)
         {
-            inet_ntop(
+            PCSTR ret = inet_ntop(
                 AF_INET,
                 &(((struct sockaddr_in*)name)->sin_addr),
                 buf,
                 sizeof(s)
             );
+            std::string tag_in = ReadTag((PVOID)ret);
+            if (tag_in.length() > 0) {
+                Message("[W] connect (%p, A\"%s\") tag_in: %s \n", s, buf, tag_in.c_str());
+            }
+            else {
+                tag_in = ReadTag((PVOID) & (((struct sockaddr_in*)name)->sin_addr));
+                if (tag_in.length() > 0) {
+                    Message("[W] connect (%p, A\"%s\") tag_in: %s, DDR\n", s, buf, tag_in.c_str());
+                }
+                else {
+                    Message("[W] connect (%p, A\"%s\")\n", s, buf);
+                }
+            }
+
         }
         else if (name->sa_family == AF_INET6)
         {
-            inet_ntop(
+            PCSTR ret = inet_ntop(
                 AF_INET6,
                 &(((struct sockaddr_in6*)name)->sin6_addr),
                 buf,
                 sizeof(s)
             );
+            std::string tag_in = ReadTag((PVOID)ret);
+            if (tag_in.length() > 0) {
+                Message("[W] connect (%p, A\"%s\") tag_in: %s \n", s, buf, tag_in.c_str());
+            }
+            else {
+                tag_in = ReadTag((PVOID) & (((struct sockaddr_in6*)name)->sin6_addr));
+                if (tag_in.length() > 0) {
+                    Message("[W] connect (%p, A\"%s\") tag_in: %s\n", s, buf, tag_in.c_str());
+                }
+                else {
+                    Message("[W] connect (%p, A\"%s\")\n", s, buf);
+                }
+            }
         }
-        Message("[W] connect (%p, %s)\n", s, buf);
         return 0;
     }
 

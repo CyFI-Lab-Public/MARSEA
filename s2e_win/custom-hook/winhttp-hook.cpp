@@ -32,16 +32,14 @@ BOOL WINAPI WinHttpCrackUrlHook(
 	DWORD            dwFlags,
 	winhttp::LPURL_COMPONENTS lpUrlComponents
 ) {
-    if (S2EIsSymbolic((PVOID)pwszUrl, 0x4)) {
+    std::string tagin = ReadTag((PVOID)pwszUrl);
+    if (tagin != "") {
         CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
         Command.Command = WINWRAPPER_WINHTTPCRACKURL;
         Command.WinHttpCrackUrl.pwszUrl = (uint64_t)pwszUrl;
         Command.WinHttpCrackUrl.dwUrlLength = (uint64_t)dwUrlLength;
         Command.WinHttpCrackUrl.dwFlags = (uint64_t)dwFlags;
         Command.WinHttpCrackUrl.lpUrlComponents = (uint64_t)lpUrlComponents;
-        std::string symbTag = "";
-        Command.WinHttpCrackUrl.symbTag = (uint64_t)symbTag.c_str();
-        __s2e_touch_string((PCSTR)(UINT_PTR)Command.WinHttpCrackUrl.symbTag);
         S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
         pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
@@ -49,11 +47,44 @@ BOOL WINAPI WinHttpCrackUrlHook(
         std::string tag = GetTag("WinHttpCrackUrl");
         S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
         Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> tag_in: %s tag_out: %s\n",
-            pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, (uint32_t)Command.WinHttpCrackUrl.symbTag, tag.c_str());
+            pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tagin.c_str(), tag.c_str());
         return TRUE;
     }
     return WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
 }
+
+winhttp::HINTERNET WINAPI WinHttpConnectHook(
+    winhttp::HINTERNET hSession,
+    LPCWSTR pswzServerName,
+    winhttp::INTERNET_PORT nServerPort,
+    DWORD dwReserved
+) {
+    winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+    dummyHandles.insert(connectionHandle);
+    std::string tagin = ReadTag((PVOID)pswzServerName);
+    if (tagin != "") {
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = WINWRAPPER_WINHTTPCONNECT;
+        Command.WinHttpConnect.hSession = (uint64_t)hSession;
+        Command.WinHttpConnect.pswzServerName = (uint64_t)pswzServerName;
+        Command.WinHttpConnect.nServerPort = (uint64_t)nServerPort;
+        Command.WinHttpConnect.dwReserved = (uint64_t)dwReserved;
+
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+        Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld),Ret: %p, tag_in: %s\n",
+            hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, tagin.c_str());
+
+        // killAnalysis("WinHttpConnect");
+        return connectionHandle;
+    }
+    else {
+        Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), Ret: %p\n",
+            hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
+        return connectionHandle;
+    }
+}
+
 
 BOOL WINAPI WinHttpSendRequestHook(
     winhttp::HINTERNET hRequest,
@@ -160,39 +191,6 @@ BOOL WINAPI WinHttpWriteDataHook(
             hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
     }
     return TRUE;
-}
-
-winhttp::HINTERNET WINAPI WinHttpConnectHook(
-    winhttp::HINTERNET hSession,
-    LPCWSTR pswzServerName,
-    winhttp::INTERNET_PORT nServerPort,
-    DWORD dwReserved
-) {
-        winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
-        dummyHandles.insert(connectionHandle);
-        if (S2EIsSymbolic((PVOID)pswzServerName, 0x4)) {
-            CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-            Command.Command = WINWRAPPER_WINHTTPCONNECT;
-            Command.WinHttpConnect.hSession = (uint64_t)hSession;
-            Command.WinHttpConnect.pswzServerName = (uint64_t)pswzServerName;
-            Command.WinHttpConnect.nServerPort = (uint64_t)nServerPort;
-            Command.WinHttpConnect.dwReserved = (uint64_t)dwReserved;
-            std::string symbTag = "";
-            Command.WinHttpConnect.symbTag = (uint64_t)symbTag.c_str();
-            __s2e_touch_string((PCSTR)(UINT_PTR)Command.WinHttpConnect.symbTag);
-            S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
-            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld),Ret: %p, tag_in: %s\n",
-                hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, (uint32_t)Command.WinHttpConnect.symbTag);
-
-            // killAnalysis("WinHttpConnect");
-            return connectionHandle;
-        }
-        else {
-            Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), Ret: %p\n",
-                hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
-            return connectionHandle;
-        }
 }
 
 BOOL WINAPI WinHttpAddRequestHeadersHook(
