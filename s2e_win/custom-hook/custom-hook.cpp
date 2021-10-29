@@ -232,7 +232,6 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
     CyFIFuncType("msvcrt", "fread", freadhook, {NULL}),
     CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
-    CyFIFuncType("msvcrt", "fseek", fseekhook, {NULL}),
 
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
 
