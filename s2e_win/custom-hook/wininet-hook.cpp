@@ -242,7 +242,7 @@ BOOL WINAPI InternetReadFileHook(
     DWORD bytes_left = it->second;
     DWORD bytes_read = bytes_left < dwNumberOfBytesToRead ? bytes_left : dwNumberOfBytesToRead;
     it->second -= bytes_read;
-    *lpdwNumberOfBytesRead = bytes_read;
+    //*lpdwNumberOfBytesRead = bytes_read;
 
     //
     ////std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
@@ -259,7 +259,7 @@ BOOL WINAPI InternetReadFileHook(
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
     Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
-        hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, lpdwNumberOfBytesRead, tag.c_str());
+        hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
 };
 
