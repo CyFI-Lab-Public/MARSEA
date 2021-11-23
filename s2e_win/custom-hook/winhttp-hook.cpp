@@ -157,7 +157,7 @@ BOOL WINAPI WinHttpReadDataHook(
     std::string tag = GetTag("WinHttpReadData");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
-    Message("[W] WinHttpReadData (%p, %p, %ld, %p)-> tag_out: %s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, tag.c_str());
+    Message("[W] WinHttpReadData (%p, %p, %ld, %p=0x%x)-> tag_out: %s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
 
 }
