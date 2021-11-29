@@ -242,7 +242,7 @@ BOOL WINAPI InternetReadFileHook(
     DWORD bytes_left = it->second;
     DWORD bytes_read = bytes_left < dwNumberOfBytesToRead ? bytes_left : dwNumberOfBytesToRead;
     it->second -= bytes_read;
-    //*lpdwNumberOfBytesRead = bytes_read;
+    *lpdwNumberOfBytesRead = bytes_read;
 
     //
     ////std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
