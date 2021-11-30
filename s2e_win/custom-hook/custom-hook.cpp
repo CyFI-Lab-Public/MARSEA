@@ -121,13 +121,34 @@ static VOID ExitThreadHook(
 }
 
 
-static LPVOID VirtualAllocHook(
+static LPVOID WINAPI VirtualAllocHook(
     LPVOID lpAddress,
     SIZE_T dwSize,
     DWORD flAllocationType,
     DWORD flProtect
 ) {
+    if (lpAddress != 0 && S2EIsSymbolic(&lpAddress, 4)) {
+        Message("[W] VirtualAlloc Pointer Symbolic!\n");
+        std::string tag = ReadTag(&lpAddress);
+        if (tag != "") {
+            Message("[W] VA Pointer constraints %s\n", tag.c_str());
+        }
+    }
+
+    if (S2EIsSymbolic(&dwSize, 4)) {
+        Message("[W] VirtualAlloc Size Symbolic!\n");
+        std::string tag = ReadTag(&dwSize);
+        if (tag != "") {
+            Message("[W] VA Size constraints %s\n", tag.c_str());
+        }
+    }
+
+    if (lpAddress != 0 && S2EIsSymbolic(lpAddress, dwSize)) {
+        Message("[W] VirtualAlloc Symbolic!\n");
+    }
+
     Message("[W] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect);
+
     return VirtualAlloc(lpAddress, dwSize, flAllocationType, flProtect);
     /*
     UINT8 branch = S2ESymbolicChar("lpvResult", 1);
@@ -146,14 +167,45 @@ static LPVOID VirtualAllocHook(
 }
 
 
-static BOOL VirtualFreeHook(
+static BOOL WINAPI VirtualFreeHook(
     LPVOID lpAddress,
     SIZE_T dwSize,
     DWORD dwFreeType
 ) {
+    bool ignore_vf = false;
+
+    if (S2EIsSymbolic(&lpAddress, 4)) {
+        ignore_vf = true;
+        Message("[W] VirtualFree symbolic pointer\n");
+        std::string tag = ReadTag(&lpAddress);
+        if (tag != "") {
+            Message("[W] VF Pointer constraints %s\n", tag.c_str());
+        }
+    }
+
+    if (S2EIsSymbolic(lpAddress, dwSize)) {
+        Message("[W] VirtualFree symbolic buffer\n");
+    }
+
+    if (S2EIsSymbolic(&dwSize, 4)) {
+        ignore_vf = true;
+        Message("[W] VirtualFree symbolic size\n");
+        std::string tag = ReadTag(&dwSize);
+        if (tag != "") {
+            Message("[W] VF dwSize constraints %s\n", tag.c_str());
+        }
+    }
+
     Message("[W] VirtualFree (%p, %i, %i)\n", lpAddress, dwSize, dwFreeType);
-    VirtualFree(lpAddress, dwSize, dwFreeType);
-    return TRUE;
+
+    if (ignore_vf) {
+        return true;
+    }
+    else {
+        return VirtualFree(lpAddress, dwSize, dwFreeType);
+    }
+    
+    //return TRUE;
     /*
     std::set<LPVOID>::iterator it = dummyBaseAddrs.find(lpAddress);
     if (it == dummyBaseAddrs.end()) {
@@ -217,7 +269,7 @@ static HMODULE LoadLibraryExAHook(
 
 
 CyFIFuncType functionToHook[] = {
-    //CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
+    CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
 
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
     CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
@@ -280,6 +332,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetSetOptionA", InternetSetOptionAHook, {NULL}),
     CyFIFuncType("wininet", "InternetWriteFile", InternetWriteFileHook, {NULL}),
 
+    CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
+
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),  //->Breaks execution...bad hook
 
 
@@ -303,8 +357,6 @@ CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
-    
-    
     
     CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
     CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
