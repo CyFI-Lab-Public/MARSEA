@@ -186,7 +186,6 @@ static HRESULT CreateStreamOnHGlobalHook(
 
     }
     return hr;
-
 }
 
 
@@ -231,6 +230,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
     CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
     CyFIFuncType("msvcrt", "fread", freadhook, {NULL}),
+    //CyFIFuncType("msvcrt", "fseek", fseekhook, {NULL}),
     CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
 
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
