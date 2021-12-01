@@ -331,6 +331,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetQueryOptionA", InternetQueryOptionAHook, {NULL}),
     CyFIFuncType("wininet", "InternetSetOptionA", InternetSetOptionAHook, {NULL}),
     CyFIFuncType("wininet", "InternetWriteFile", InternetWriteFileHook, {NULL}),
+    CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, {NULL}),
+    CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
 
     CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
 
@@ -408,12 +410,11 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("kernel32", "GetLocaleInfoA", GetLocaleInfoAHook, { NULL }),
     CyFIFuncType("kernel32", "GetOEMCP", GetOEMCPHook, { NULL }),
    // CyFIFuncType("kernel32", "GetThreadLocale", GetThreadLocaleHook, { NULL }),
-    CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, { NULL }),
     CyFIFuncType("ntdll", "RtlTimeToSecondsSince1970", RtlTimeToSecondsSince1970Hook, { NULL }),
     CyFIFuncType("user32", "GetLastInputInfo", GetLastInputInfoHook, { NULL }),
     CyFIFuncType("kernel32", "GetFileTime", GetFileTimeHook, { NULL }),
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
-    CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
+    
     CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
     CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),*/
 
