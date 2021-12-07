@@ -90,6 +90,8 @@ void killAnalysis(std::string funcName) {
 }
 
 std::string getFileTag(LPCSTR buffer) {
+    if (buffer == NULL || buffer[0] == 0) {return std::string("");}
+
     std::string file_string(buffer);
 
     for (auto i = taintFile.begin(); i != taintFile.end(); i++) {
@@ -106,6 +108,7 @@ std::string getFileTag(LPCSTR buffer) {
 }
 
 std::string getFileTag(LPCWSTR buffer) {
+    if (buffer == NULL || buffer[0] == 0) { return std::string(""); }
     std::string file_string = lpcwstrToString(buffer);
 
     for (auto i = taintFile.begin(); i != taintFile.end(); i++) {
