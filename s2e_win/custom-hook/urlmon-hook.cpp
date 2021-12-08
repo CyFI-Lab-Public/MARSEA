@@ -14,8 +14,9 @@ HRESULT WINAPI URLDownloadToFileHook(
         Message("[W] URLDownloadToFile (%p, A\"%s\", A\"%s\", %ld, %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
         Message("[W] URLDownloadToFile - Not implemented yet\n");
     }
-    return URLDownloadToFileW(pCaller, szURL, szFileName, dwReserved, lpfnCB);
+    return URLDownloadToFile(pCaller, szURL, szFileName, dwReserved, lpfnCB);
 }
+
 
 HRESULT WINAPI URLDownloadToFileWHook(
     LPUNKNOWN            pCaller,
@@ -24,42 +25,24 @@ HRESULT WINAPI URLDownloadToFileWHook(
     _Reserved_ DWORD     dwReserved,
     LPBINDSTATUSCALLBACK lpfnCB
 ) {
-        std::string tag_in = ReadTag((PVOID)szURL);
-        if (tag_in.length() > 0) {
-            Message("[W] URLDownloadToFileW (%p, A\"%ls\", A\"%ls\", %ld, %p) tag_in: %s \n", pCaller, szURL, szFileName, dwReserved, lpfnCB, tag_in.c_str());
-        }
-        else {
-            Message("[W] URLDownloadToFileW (%p, A\"%ls\", A\"%ls\", %ld, %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
-        }
-        Message("[W] URLDownloadToFileW - Not implemented yet\n");
-        return S_OK;
-}
-
-HRESULT WINAPI URLDownloadToFileAHook(
-    LPUNKNOWN            pCaller,
-    LPCSTR              szURL,
-    LPCSTR              szFileName,
-    _Reserved_ DWORD     dwReserved,
-    LPBINDSTATUSCALLBACK lpfnCB
-) {
     std::string tag_in = ReadTag((PVOID)szURL);
     if (tag_in.length() > 0) {
-        Message("[W] URLDownloadToFileA (%p, A\"%s\", A\"%s\", %ld, %p) tag_in: %s \n", pCaller, szURL, szFileName, dwReserved, lpfnCB, tag_in.c_str());
+        Message("[W] URLDownloadToFileW (%p, A\"%s\", A\"%s\", %ld, %p) tag_in: %s \n", pCaller, szURL, szFileName, dwReserved, lpfnCB, tag_in.c_str());
     }
     else {
-        Message("[W] URLDownloadToFileA (%p, A\"%s\", A\"%s\", %ld, %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
+        Message("[W] URLDownloadToFileW (%p, A\"%s\", A\"%s\", %ld, %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
     }
-    Message("[W] URLDownloadToFileA - Not implemented yet\n");
+    Message("[W] URLDownloadToFileW - Not implemented yet\n");
     return S_OK;
 }
 
 HRESULT WINAPI URLDownloadToCacheFileHook(
-    _In_       LPUNKNOWN           lpUnkcaller,
-    _In_       LPCSTR              szURL,
-    _Out_      LPTSTR              szFileName,
-    _In_       DWORD               cchFileName,
-    _Reserved_ DWORD               dwReserved,
-    _In_opt_   IBindStatusCallback* pBSC
+   LPUNKNOWN           lpUnkcaller,
+   LPCSTR              szURL,
+   LPTSTR              szFileName,
+   DWORD               cchFileName,
+   DWORD               dwReserved,
+   IBindStatusCallback* pBSC
 ) {
     std::string tag_in = ReadTag((PVOID)szURL);
     if (tag_in.length() > 0) {

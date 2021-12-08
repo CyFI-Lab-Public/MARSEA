@@ -362,6 +362,11 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
 
+    CyFIFuncType("Urlmon", "URLDownloadToFileA", URLDownloadToFileHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
+
+
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),  //->Breaks execution...bad hook
     //CyFIFuncType("kernel32", "SetFilePointer", SetFilePointerHook, {NULL}),
 
@@ -370,12 +375,9 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
 
-    CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
-    CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
-    CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
 
     CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
-
+    
     CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
