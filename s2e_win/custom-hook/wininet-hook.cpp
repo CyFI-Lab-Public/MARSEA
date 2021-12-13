@@ -272,11 +272,18 @@ HINTERNET WINAPI InternetOpenUrlAHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
+    // If lpszUrl is not symbolic and is empty, returns NULL
+    std::string tag = ReadTag((PVOID)lpszUrl);
+
+    if (tag == "" && lstrlenA(lpszUrl) == 0) {
+        Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: NULL\n",
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
+        return NULL;
+    }
 
     HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(resourceHandle);
-
-    std::string tag = ReadTag((PVOID)lpszUrl);
+    
     if(tag != ""){
         Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %s, tag_in: %s\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, tag.c_str());
@@ -299,10 +306,17 @@ HINTERNET WINAPI InternetOpenUrlWHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
+    std::string tag = ReadTag((PVOID)lpszUrl);
+
+    if (tag == "" && lstrlenW(lpszUrl) == 0) {
+        Message("[W] InternetOpenUrlW (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: NULL\n",
+            hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
+        return NULL;
+    }
 
     HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(resourceHandle);
-    std::string tag = ReadTag((PVOID)lpszUrl);
+    
     if (tag != "") {
 
         Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",

@@ -58,7 +58,7 @@ BOOL QueryPerformanceCounterHook(
 	
 }
 
-DWORD GetModuleFileNameAHook(
+DWORD WINAPI GetModuleFileNameAHook(
 	HMODULE hModule,
 	LPSTR   lpFilename,
 	DWORD   nSize

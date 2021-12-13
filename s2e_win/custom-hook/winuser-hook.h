@@ -49,3 +49,7 @@ BOOL WINAPI ShowWindowHook(
 	HWND hWnd,
 	int  nCmdShow
 );
+
+SHORT WINAPI GetAsyncKeyStateHook(
+	int vKey
+);
