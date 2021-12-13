@@ -61,6 +61,7 @@ namespace winhttp {
 #include "processthreadsapi-hook.h"
 #include "handleapi-hook.h"
 #include "shellapi-hook.h"
+#include "winbase-hook.h"
 
 
 INT s2eVersion = 0;
@@ -285,12 +286,16 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("msvcrt", "fseek", fseekhook, {NULL}),
     CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
 
+    CyFIFuncType("msvcrt", "strstr", strstrhook, {NULL}),
+
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
 
     CyFIFuncType("winmm", "timeGetTime", timeGetTimeHook, {NULL}),
 
     CyFIFuncType("shlwapi", "StrStrA", StrStrAHook, {NULL}),
     CyFIFuncType("shlwapi", "StrStrW", StrStrWHook, {NULL}),
+    CyFIFuncType("shlwapi", "StrStrIA", StrStrIAHook, {NULL}),
+    CyFIFuncType("shlwapi", "StrStrIW", StrStrIWHook, {NULL}),
 
     CyFIFuncType("winhttp", "WinHttpOpen", WinHttpOpenHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpCrackUrl", WinHttpCrackUrlHook, {NULL}),
@@ -336,6 +341,10 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
 
+    CyFIFuncType("Kernel32", "lstrlenA", lstrlenAHook, {NULL}),
+
+    CyFIFuncType("Kernel32", "LocalAlloc", LocalAllocHook, {NULL}),
+
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),  //->Breaks execution...bad hook
 
 
@@ -373,8 +382,10 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
     CyFIFuncType("Kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
 
-    //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
+    CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
+
+    //CyFIFuncType("user32", "GetAsyncKeyState", GetAsyncKeyStateHook, { NULL }),
 
     /*CyFIFuncType("Kernel32", "GetSystemInfo", GetSystemInfoHook, {NULL}),
     CyFIFuncType("kernel32", "QueryPerformanceCounter", QueryPerformanceCounterHook, {NULL}),
