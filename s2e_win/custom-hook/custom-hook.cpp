@@ -268,8 +268,34 @@ static HMODULE LoadLibraryExAHook(
 
 }
 
+#include <Dbghelp.h>
+static BOOL WINAPI MiniDumpWriteDumpHook(
+    HANDLE                            hProcess,
+    DWORD                             ProcessId,
+    HANDLE                            hFile,
+    MINIDUMP_TYPE                     DumpType,
+    PMINIDUMP_EXCEPTION_INFORMATION   ExceptionParam,
+    PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
+    PMINIDUMP_CALLBACK_INFORMATION    CallbackParam
+) {
+    Message("[W] MiniDumpWriteDump ()\n");
+    return TRUE;
+}
 
+#include <sysinfoapi.h>
+static UINT WINAPI GetSystemDirectoryAHook(
+    LPSTR lpBuffer,
+    UINT  uSize
+) {
+    Message("[W] GetSystemDirectoryA (%s, %i)\n", lpBuffer, uSize);
+    return GetSystemDirectoryA(lpBuffer, uSize);
+
+}
 CyFIFuncType functionToHook[] = {
+       
+    //CyFIFuncType("dbghelp", "MiniDumpWriteDump", MiniDumpWriteDumpHook, {NULL}),
+    //CyFIFuncType("kernel32", "GetSystemDirectoryA", GetSystemDirectoryAHook, {NULL}),
+
     CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
 
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
@@ -344,20 +370,22 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Kernel32", "lstrlenA", lstrlenAHook, {NULL}),
 
     CyFIFuncType("Kernel32", "LocalAlloc", LocalAllocHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToFileA", URLDownloadToFileHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
+
 
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),  //->Breaks execution...bad hook
+    //CyFIFuncType("kernel32", "SetFilePointer", SetFilePointerHook, {NULL}),
 
 
     //CyFIFuncType("ntdll", "wcschr", wcschrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
 
-    CyFIFuncType("Urlmon", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
-    CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
-    CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
 
     CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
-
+    
     CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
@@ -378,11 +406,11 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "WriteFile", WriteFileHook, {NULL}),
     CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),
 
-    /* Evasion Techniques*/
-    CyFIFuncType("Kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
-    CyFIFuncType("Kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
+    CyFIFuncType("kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
+    CyFIFuncType("kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
 
-    CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
+    /* Evasion Techniques*/
+    //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
 
     //CyFIFuncType("user32", "GetAsyncKeyState", GetAsyncKeyStateHook, { NULL }),
@@ -426,6 +454,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "GetFileTime", GetFileTimeHook, { NULL }),
     CyFIFuncType("kernel32", "GetLocalTime", GetLocalTimeHook, { NULL }),
     
+
     CyFIFuncType("wininet", "InternetAttemptConnect", InternetAttemptConnectHook, { NULL }),
     CyFIFuncType("winhttp", "WinHttpGetIEProxyConfigForCurrentUser", WinHttpGetIEProxyConfigForCurrentUserHook, { NULL }),*/
 

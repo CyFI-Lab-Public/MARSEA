@@ -41,7 +41,7 @@ BOOL WINAPI CreateProcessAHook(
                 lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
                 lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
         }
-    
+
         // Get this DLL's path
         HMODULE hDll = NULL;
         DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |

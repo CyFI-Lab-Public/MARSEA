@@ -93,3 +93,10 @@ BOOL WINAPI WriteFileHook(
 	LPDWORD      lpNumberOfBytesWritten,
 	LPOVERLAPPED lpOverlapped
 );
+
+DWORD WINAPI SetFilePointerHook(
+	HANDLE hFile,
+	LONG   lDistanceToMove,
+	PLONG  lpDistanceToMoveHigh,
+	DWORD  dwMoveMethod
+);

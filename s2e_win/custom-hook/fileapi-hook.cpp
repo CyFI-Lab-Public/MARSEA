@@ -199,11 +199,12 @@ BOOL WINAPI ReadFileHook(
 		std::string tag = GetTag("ReadFile");
 
 		if (tagIn.length() > 0) {
-			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_in: %s tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tagIn.c_str(), tag.c_str());
+			Message("[W] ReadFile (%p, %p, %ld, %p=0x%x, %p) -> tag_in: %s tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, bytes_read, lpOverlapped, tagIn.c_str(), tag.c_str());
 		}
 		else {
-			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
+			Message("[W] ReadFile (%p, %p, %ld, %p=0x%x, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, bytes_read, lpOverlapped, tag.c_str());
 		}
+	
 
 		std::set<HANDLE>::iterator it_2 = dummyHandles.find(hFile);
 		if (it_2 == dummyHandles.end()) {
@@ -393,4 +394,16 @@ BOOL WINAPI WriteFileHook(
 	else {
 		return WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
 	}
+}
+
+DWORD WINAPI SetFilePointerHook(
+	HANDLE hFile,
+	LONG   lDistanceToMove,
+	PLONG  lpDistanceToMoveHigh,
+	DWORD  dwMoveMethod
+)
+{
+	Message("[W] SetFilePointer (%p, %ld, %p, %d)", hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod);
+	return -1;
+
 }
