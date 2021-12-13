@@ -96,6 +96,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;CUSTOMHOOK_EXPORTS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -187,6 +188,7 @@
     <ClCompile Include="urlmon-hook.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="wchar-hook.cpp" />
+    <ClCompile Include="winbase-hook.cpp" />
     <ClCompile Include="wingdi-hook.cpp" />
     <ClCompile Include="winhttp-hook.cpp" />
     <ClCompile Include="wininet-hook.cpp" />
@@ -219,6 +221,7 @@
     <ClInclude Include="urlmon-hook.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="wchar-hook.h" />
+    <ClInclude Include="winbase-hook.h" />
     <ClInclude Include="wingdi-hook.h" />
     <ClInclude Include="winhttp-hook.h" />
     <ClInclude Include="wininet-hook.h" />

@@ -30,3 +30,25 @@ int wcscmpHook(
 	return wcscmp(string1, string2);
 }
 
+char* strstrhook(
+	char* str,
+	const char* strSearch
+) {
+	Message("[W] strstr get called\n");
+
+	if (checkCaller("strstr")) {
+		Message("strstr(%p, %p)\n", str, strSearch);
+
+		if (S2EIsSymbolic(str, 4)) {
+			Message("Symbolic First\n");
+		}
+
+		if (S2EIsSymbolic((PVOID)strSearch, 4)) {
+			Message("Symbolic search string\n");
+		}
+
+	}
+
+	return strstr(str, strSearch);
+}
+
