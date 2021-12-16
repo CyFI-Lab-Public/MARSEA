@@ -2,7 +2,7 @@
 
 ### 16 Dec 2021 (ref 7 Sept updates for context)
 
-#### Invoke the CyFiFunctionModels plugin, add the following to the lua file.
+#### Invoke the LibraryCallMonitor plugin, add the following to the lua file.
 
 ``` 
 add_plugin("LibraryCallMonitor")
