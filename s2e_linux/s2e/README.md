@@ -5,13 +5,18 @@
 #### Invoke the CyFiFunctionModels plugin, add the following to the lua file.
 
 ``` 
-add_plugin("CyFiFunctionModels")
-pluginsConfig.CyFiFunctionModels = {
-  moduleNames = {
-  	"<project_name>", 
-	"rundll32.exe",
-	},
-}
+add_plugin("LibraryCallMonitor")
+pluginsConfig.LibraryCallMonitor = {
+        monitorIndirectJumps = true,                          
+        moduleNames = {                                                
+                          
+                "barlaiy",
+                "cyfirundll.exe",                             
+                "rundll32-ng.exe",                          
+                "rundll32.exe",                                 
+                "nx00615.ttf",                                         
+        },                                              
+}     
 ```
 
 ### 8 Sept 2021
@@ -55,7 +60,7 @@ add_plugin("FunctionMonitor")
 ``` 
 add_plugin("CyFiFunctionModels")
 pluginsConfig.CyFiFunctionModels = {
-  moduleName = "<project_name>",   **DEPRECATED. See 16 Dec update.**
+  moduleName = "<project_name>",   
 }
 ```
 #### Monitor executed instructions (ALL)
@@ -85,7 +90,7 @@ Besides changed above, please refer `s2e/s2e_linux/projects/razy/s2e-config.lua`
 add_plugin("LibraryCallMonitor")
 pluginsConfig.LibraryCallMonitor = {
 	aggressiveOff = true,
-	moduleName="netscout.exe",
+	moduleName="netscout.exe", **DEPRECATED. See 16 Dec update.**
 }
 ```
 
