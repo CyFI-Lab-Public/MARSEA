@@ -23,6 +23,9 @@ BOOL WINAPI CreateProcessAHook(
         std::string app_tag = getFileTag(lpApplicationName);
         std::string cmd_tag = getFileTag(lpCommandLine);
 
+        //LPSTR lpCommandLine = "C:\\s2e\\cyfirundll.exe C:\\Users\\s2e\\AppData\\Roaming\\nx00615.ttf DisPlay 64";
+        //LPSTR lpCommandLine = "C:\\s2e\\rundll32-ng.exe C:\\Users\\s2e\\AppData\\Roaming\\nx00615.ttf DisPlay 64";
+
         if (app_tag.length() > 1) {
             Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p) tag_in: %s",
                 lpApplicationName, lpCommandLine, lpProcessAttributes,

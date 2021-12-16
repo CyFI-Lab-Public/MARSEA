@@ -2,7 +2,7 @@
 #include "utils.h"
 #include <set>
 
-void SleepHook(
+void WINAPI SleepHook(
 	DWORD dwMilliseconds
 ) {
 	if (checkCaller("Sleep")) {
@@ -14,6 +14,8 @@ void SleepHook(
 
 LPSTR WINAPI GetCommandLineAHook()
 {
+	Message("[W] GetCommandLineA ()\n");
+	return GetCommandLineA();
 	if (checkCaller("GetCommandLineA")) {
 		std::string tag = GetTag("GetCommandLineA");
 		LPSTR cmd_line_str = "";
@@ -36,12 +38,6 @@ LPWSTR WINAPI GetCommandLineWHook()
 	return GetCommandLineW();
 }
 
-HMODULE LoadLibraryWHook(LPCWSTR lpLibFileName)
-{
-	Message("[W] LoadLibraryW (%ls)\n", lpLibFileName);
-	return LoadLibraryW(lpLibFileName);
-
-}
 
 BOOL QueryPerformanceCounterHook(
 	LARGE_INTEGER* lpPerformanceCount
@@ -132,10 +128,14 @@ void WINAPI GetSystemTimeAsFileTimeHook(
 }
 
 DWORD WINAPI GetTickCountHook() {
+	Message("[W] GetTickCount()\n");
+	return GetTickCount();
+
 	if (checkCaller("GetTickCount")) {
 		std::string tag = GetTag("GetTickCount");
 		Message("[W] GetTickCount() -> tag_out: %s\n", tag.c_str());
 		DWORD def_value = GetTickCount();
+		return 598;
 		return S2ESymbolicInt(tag.c_str(), def_value);
 	}
 	return GetTickCount();

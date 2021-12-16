@@ -2,11 +2,7 @@
 #include <Windows.h>
 
 
-void SleepHook(DWORD dwMilliseconds);
-
-
-//HMODULE LoadLibraryAHook(LPCSTR lpLibFileName);
-HMODULE LoadLibraryWHook(LPCWSTR lpLibFileName);
+void WINAPI SleepHook(DWORD dwMilliseconds);
 
 LPSTR WINAPI GetCommandLineAHook();
 

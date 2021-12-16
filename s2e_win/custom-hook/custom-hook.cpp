@@ -14,6 +14,7 @@
 #include <string>
 #include <sstream>
 #include <iostream>
+#include <cassert>
 
 #ifndef WIN32
 #define WIN32
@@ -255,47 +256,7 @@ public:
     }
 };
 
-static HMODULE LoadLibraryExAHook(
-    LPCSTR lpLibFileName,
-    HANDLE hFile,
-    DWORD  dwFlags
-)
-{
-    Message("[W] LoadLibraryExA (A\"%s\")\n", lpLibFileName);
-
-    return LoadLibraryExA(lpLibFileName, hFile, dwFlags);
-
-}
-
-#include <Dbghelp.h>
-static BOOL WINAPI MiniDumpWriteDumpHook(
-    HANDLE                            hProcess,
-    DWORD                             ProcessId,
-    HANDLE                            hFile,
-    MINIDUMP_TYPE                     DumpType,
-    PMINIDUMP_EXCEPTION_INFORMATION   ExceptionParam,
-    PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
-    PMINIDUMP_CALLBACK_INFORMATION    CallbackParam
-) {
-    Message("[W] MiniDumpWriteDump ()\n");
-    return TRUE;
-}
-
-#include <sysinfoapi.h>
-static UINT WINAPI GetSystemDirectoryAHook(
-    LPSTR lpBuffer,
-    UINT  uSize
-) {
-    Message("[W] GetSystemDirectoryA (%s, %i)\n", lpBuffer, uSize);
-    return GetSystemDirectoryA(lpBuffer, uSize);
-
-}
-CyFIFuncType functionToHook[] = {
-       
-    //CyFIFuncType("dbghelp", "MiniDumpWriteDump", MiniDumpWriteDumpHook, {NULL}),
-    //CyFIFuncType("kernel32", "GetSystemDirectoryA", GetSystemDirectoryAHook, {NULL}),
-
-    CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
+/*CyFIFuncType functionToHook2[] = {
 
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
     CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
@@ -359,6 +320,210 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetWriteFile", InternetWriteFileHook, {NULL}),
     CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, {NULL}),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
+    CyFIFuncType("Urlmon", "URLDownloadToFileA", URLDownloadToFileHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
+    CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
+    CyFIFuncType("kernel32", "GetTickCount", GetTickCountHook, {NULL}),
+    CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
+    CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
+    CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateFileA", CreateFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "DeleteFileA", DeleteFileAHook, {NULL}),
+    CyFIFuncType("Kernel32", "DeleteFileW", DeleteFileWHook, {NULL}),
+    CyFIFuncType("Kernel32", "CreateFileW", CreateFileWHook, {NULL}),
+    CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
+    CyFIFuncType("kernel32", "WriteFile", WriteFileHook, {NULL}),
+    CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),
+    CyFIFuncType("kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
+    CyFIFuncType("kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
+};
+
+static HMODULE WINAPI LoadLibraryExWHook(
+    LPCWSTR lpLibFileName,
+    HANDLE hFile,
+    DWORD  dwFlags
+)
+{
+
+    HMODULE ret = LoadLibraryExW(lpLibFileName, hFile, dwFlags);
+    DWORD tid =  GetCurrentThreadId();    
+    Message("[W] LoadLibraryExW (A\"%ls\", %p, %d) ttid=%d\n", lpLibFileName, hFile, dwFlags, tid);
+
+
+    //assert(LhUninstallAllHooks()==0);
+    //assert(LhWaitForPendingRemovals() == 0);
+   
+    for (unsigned i = 0; i < sizeof(functionToHook2) / sizeof(CyFIFuncType); i++) {
+        LPCSTR moduleName = functionToHook2[i].lib;
+        LPCSTR functionName = functionToHook2[i].funcName;
+
+        //Install the hook
+        NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),
+            functionToHook2[i].hookFunc,
+            NULL,
+            &functionToHook2[i].hook);
+
+        if (FAILED(result)) {
+            Message("Failed to re-hook %s.%s: %S\n", moduleName, functionName,
+                RtlGetLastErrorString());
+        }
+        else {
+            Message("Successfully re-hooked %s.%s\n", moduleName, functionName);
+        }
+
+        // Ensure that all threads _except_ the injector thread will be hooked
+        ULONG ACLEntries[1] = { 0 };
+        LhSetExclusiveACL(ACLEntries, 1, &functionToHook2[i].hook);
+    }
+
+    return ret;
+
+}*/
+
+static BOOL WINAPI SetProcessDEPPolicyHook(DWORD dwFlags)
+{
+    Message("[W] SetProcessDepPolicy (%d)\n", dwFlags);
+    return SetProcessDEPPolicy(dwFlags);
+}
+
+#include <Dbghelp.h>
+static BOOL WINAPI MiniDumpWriteDumpHook(
+    HANDLE                            hProcess,
+    DWORD                             ProcessId,
+    HANDLE                            hFile,
+    MINIDUMP_TYPE                     DumpType,
+    PMINIDUMP_EXCEPTION_INFORMATION   ExceptionParam,
+    PMINIDUMP_USER_STREAM_INFORMATION UserStreamParam,
+    PMINIDUMP_CALLBACK_INFORMATION    CallbackParam
+) {
+    Message("[W] MiniDumpWriteDump ()\n");
+    return TRUE;
+}
+
+#include <sysinfoapi.h>
+static UINT WINAPI GetSystemDirectoryAHook(
+    LPSTR lpBuffer,
+    UINT  uSize
+) {
+    Message("[W] GetSystemDirectoryA (%s, %i)\n", lpBuffer, uSize);
+    return GetSystemDirectoryA(lpBuffer, uSize);
+
+}
+
+static DWORD WINAPI GetCurrentProcessIdHook() {
+    DWORD ret = GetCurrentProcessId();
+    Message("[W] ProcID %d\n", ret);
+    return ret;
+}
+static DWORD WINAPI GetCurrentThreadIdHook() {
+    DWORD ret = GetCurrentThreadId();
+    Message("[W] ThreadID %d\n", ret);
+    return ret;
+}
+static HMODULE WINAPI GetModuleHandleWHook(
+    LPCWSTR lpModuleName
+) {
+    Message("[W] GetModuleHandleW tid=%d\n", GetCurrentThreadId());
+    return GetModuleHandleW(lpModuleName);
+
+}
+
+static FARPROC WINAPI GetProcAddressHook(
+    HMODULE hModule,
+    LPCSTR  lpProcName
+) {
+    FARPROC ret = GetProcAddress(hModule, lpProcName);
+    Message("[W] GetProcAddress (%p, %s) ret=%d\n", hModule, lpProcName, ret);
+    return ret;
+}
+
+static HWND WINAPI GetCaptureHook() {
+    HWND ret = GetCapture();
+    if (ret == 0) {
+        ret = (HWND)malloc(sizeof(HWND));
+    }
+    Message("[W] GetCaptureHook() %p\n", ret);
+    return ret;
+}
+
+CyFIFuncType functionToHook[] = {
+
+    //CyFIFuncType("dbghelp", "MiniDumpWriteDump", MiniDumpWriteDumpHook, {NULL}),
+    //CyFIFuncType("kernel32", "GetSystemDirectoryA", GetSystemDirectoryAHook, {NULL}),
+
+    //CyFIFuncType("kernel32", "LoadLibraryExW", LoadLibraryExWHook, {NULL}),
+    //CyFIFuncType("kernel32", "GetTickCount", GetTickCountHook, {NULL}),
+    //CyFIFuncType("kernel32", "GetProcAddress", GetProcAddressHook, {NULL}),
+    //CyFIFuncType("User32", "GetCapture", GetCaptureHook, {NULL}),
+
+    CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
+
+    CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
+    CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
+    CyFIFuncType("Ws2_32", "closesocket", closesockethook, {NULL}),
+    CyFIFuncType("Ws2_32", "getaddrinfo", getaddrinfohook, {NULL}),
+    CyFIFuncType("Ws2_32", "getsockname", getsocknamehook, {NULL}),   
+    CyFIFuncType("Ws2_32", "getpeername", getpeernamehook, {NULL}),
+    CyFIFuncType("Ws2_32", "ntohs", ntohshook, {NULL}),
+    CyFIFuncType("Ws2_32", "recv", recvhook, {NULL}),
+    CyFIFuncType("Ws2_32", "accept", accepthook, {NULL}),
+    CyFIFuncType("Ws2_32", "select", selecthook, {NULL}),
+    CyFIFuncType("Ws2_32", "send", sendhook, {NULL}),
+    CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
+    CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
+    CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
+    CyFIFuncType("msvcrt", "fread", freadhook, {NULL}),
+    //CyFIFuncType("msvcrt", "fseek", fseekhook, {NULL}),
+    CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
+
+    CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
+
+    //CyFIFuncType("winmm", "timeGetTime", timeGetTimeHook, {NULL}),
+
+    CyFIFuncType("shlwapi", "StrStrA", StrStrAHook, {NULL}),
+    CyFIFuncType("shlwapi", "StrStrW", StrStrWHook, {NULL}),
+
+    CyFIFuncType("winhttp", "WinHttpOpen", WinHttpOpenHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpCrackUrl", WinHttpCrackUrlHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpSendRequest", WinHttpSendRequestHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpReceiveResponse", WinHttpReceiveResponseHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpQueryDataAvailable", WinHttpQueryDataAvailableHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpReadData", WinHttpReadDataHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpWriteData", WinHttpWriteDataHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpConnect", WinHttpConnectHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpAddRequestHeaders", WinHttpAddRequestHeadersHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpCloseHandle", WinHttpCloseHandleHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpGetProxyForUrl", WinHttpGetProxyForUrlHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpOpenRequest", WinHttpOpenRequestHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpQueryHeaders", WinHttpQueryHeadersHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpQueryOption", WinHttpQueryOptionHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpResetAutoProxy", WinHttpResetAutoProxyHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpSetCredentials", WinHttpSetCredentialsHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpSetOption", WinHttpSetOptionHook, {NULL}),
+    CyFIFuncType("winhttp", "WinHttpSetTimeouts", WinHttpSetTimeoutsHook, {NULL}),
+
+    CyFIFuncType("wininet", "InternetConnectA", InternetConnectAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetConnectW", InternetConnectWHook, {NULL}),
+    CyFIFuncType("wininet", "HttpOpenRequestA", HttpOpenRequestAHook, {NULL}),
+    CyFIFuncType("wininet", "HttpOpenRequestW", HttpOpenRequestWHook, {NULL}),
+    CyFIFuncType("wininet", "HttpSendRequestA", HttpSendRequestAHook, {NULL}),
+    CyFIFuncType("wininet", "HttpSendRequestW", HttpSendRequestWHook, {NULL}),
+    CyFIFuncType("wininet", "InternetReadFile", InternetReadFileHook, {NULL}),
+    CyFIFuncType("wininet", "InternetOpenUrlA", InternetOpenUrlAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetOpenUrlW", InternetOpenUrlWHook, {NULL}),
+    CyFIFuncType("wininet", "InternetOpenA", InternetOpenAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetOpenW", InternetOpenWHook, {NULL}),
+    CyFIFuncType("wininet", "InternetCloseHandle", InternetCloseHandleHook, {NULL}),
+    CyFIFuncType("wininet", "HttpAddRequestHeadersA", HttpAddRequestHeadersAHook, {NULL}),
+    CyFIFuncType("wininet", "HttpAddRequestHeadersW", HttpAddRequestHeadersWHook, {NULL}),
+    CyFIFuncType("wininet", "HttpEndRequestA", HttpEndRequestAHook, {NULL}),
+    CyFIFuncType("wininet", "HttpQueryInfoA", HttpQueryInfoAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetQueryDataAvailable", InternetQueryDataAvailableHook, {NULL}),
+    CyFIFuncType("wininet", "InternetQueryOptionA", InternetQueryOptionAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetSetOptionA", InternetSetOptionAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetWriteFile", InternetWriteFileHook, {NULL}),
+    CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, {NULL}),
+    CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
 
     CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
 
@@ -374,8 +539,6 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcschr", wcschrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
-
-
     CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
     
     CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
@@ -385,6 +548,8 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("User32", "GetSystemMetrics", GetSystemMetricsHook, {NULL}),
     //CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     //CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
+    
+    CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),

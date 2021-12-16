@@ -9,3 +9,22 @@ INT WSAAPI accepthook(SOCKET s, sockaddr* addr, int* addrlen);
 INT WSAAPI selecthook(int nfds, fd_set* readfds, fd_set* writefds, fd_set* exceptfds, const timeval* timeout);
 INT WSAAPI sendhook(SOCKET s, const char* buf, int len, int flags);
 INT WSAAPI sendtohook(SOCKET s, const char* buf, int len, int flags, const sockaddr* to, int tolen);
+INT WSAAPI getaddrinfohook(
+    PCSTR           pNodeName,
+    PCSTR           pServiceName,
+    const ADDRINFOA* pHints,
+    PADDRINFOA* ppResult
+);
+int WSAAPI getsocknamehook(
+    SOCKET   s,
+    sockaddr* name,
+    int* namelen
+);
+u_short WSAAPI ntohshook(
+    u_short netshort
+);
+int WSAAPI getpeernamehook(
+    SOCKET   s,
+    sockaddr* name,
+    int* namelen
+);

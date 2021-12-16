@@ -30,6 +30,7 @@ HANDLE WINAPI CreateFileAHook(
 		else {
 			HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 			if (fileHandle == INVALID_HANDLE_VALUE) {
+				Message("[W] CreateFileA Invalid Handle. Need to fake it.\n");
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
 			}
@@ -380,12 +381,13 @@ BOOL WINAPI WriteFileHook(
 			}
 		}
 		else {
-			Message("[W] WriteFile (%p, %p, %ld, %ld, %p)", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped);
+			Message("[W] WriteFile (%p, %p=%s, %ld, %ld, %p)", hFile, lpBuffer, (LPCTSTR)lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped);
 		}
 
-		if (dummyHandles.find(hFile) == dummyHandles.end()) {
-			BOOL res = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
-			return res;
+		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
+		if (it == dummyHandles.end()) {
+			bool ret = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+			return ret;
 		}
 		else {
 			return TRUE;
