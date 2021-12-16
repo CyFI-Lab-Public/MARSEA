@@ -1,5 +1,19 @@
 ## Updates
 
+### 16 Dec 2021
+
+#### Invoke the CyFiFunctionModels plugin, add the following to the lua file.
+
+``` 
+add_plugin("CyFiFunctionModels")
+pluginsConfig.CyFiFunctionModels = {
+  moduleNames = {
+  	"<project_name>", 
+	"rundll32.exe",
+	},=
+}
+```
+
 ### 8 Sept 2021
 
 Symbolic data may cause state/path explosion. One tailored solution is to prune away paths that do not meet a certain condition.  For instance, if exploration encounters a branch and the path you desire jumps to 0x402010, and not the alternative 0x402da5, you can kill the state that allows exploration to follow 0x402da5. For example, you can put the fllowing code in the ```onInstructionExecution()``` of the **CyFiFunctionModels**.
@@ -41,7 +55,7 @@ add_plugin("FunctionMonitor")
 ``` 
 add_plugin("CyFiFunctionModels")
 pluginsConfig.CyFiFunctionModels = {
-  moduleName = "<project_name>",
+  moduleName = "<project_name>",   **DEPRECATED. See 16 Dec update.**
 }
 ```
 #### Monitor executed instructions (ALL)
