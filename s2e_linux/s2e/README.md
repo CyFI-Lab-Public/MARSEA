@@ -11,9 +11,7 @@ pluginsConfig.LibraryCallMonitor = {
         moduleNames = {                                                
                           
                 "barlaiy",
-                "cyfirundll.exe",                             
-                "rundll32-ng.exe",                          
-                "rundll32.exe",                                 
+                "cyfirundll.exe",                                                           
                 "nx00615.ttf",                                         
         },                                              
 }     
