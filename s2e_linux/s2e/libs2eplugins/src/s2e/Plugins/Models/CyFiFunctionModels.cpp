@@ -3,6 +3,8 @@
 #include <s2e/Plugins/ExecutionMonitors/FunctionMonitor.h>
 #include <s2e/Plugins/Searchers/MergingSearcher.h>
 #include <s2e/Plugins/OSMonitors/Support/ModuleMap.h>
+#include <s2e/Plugins/OSMonitors/Support/ProcessExecutionDetector.h>
+#include <s2e/Plugins/OSMonitors/Windows/WindowsMonitor.h>
 
 #include <klee/util/ExprTemplates.h>
 #include <llvm/Support/CommandLine.h>
@@ -25,7 +27,7 @@ namespace s2e {
 namespace plugins {
 namespace models {
 
-S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor");
+S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor", "OSMonitor", "WindowsMonitor", "ProcessExecutionDetector");
 
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
@@ -46,7 +48,11 @@ void CyFiFunctionModels::initialize() {
 
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
     m_vmi = s2e()->getPlugin<Vmi>();
+    m_monitor = static_cast<OSMonitor *>(s2e()->getPlugin("OSMonitor"));
+    m_procDetector = s2e()->getPlugin<ProcessExecutionDetector>();
 
+    m_monitor->onProcessLoad.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onProcessLoad));
+    
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
@@ -59,7 +65,18 @@ void CyFiFunctionModels::initialize() {
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
 
 }
+void CyFiFunctionModels::onProcessLoad(S2EExecutionState *state, uint64_t pageDir, uint64_t pid, const std::string &ImageFileName) {
+    
+    if (moduleId > 0) {
+        getDebugStream(state) << "Tracking " << ImageFileName << " pid: " << hexval(pid) << " from ppid: " << hexval(moduleId) <<  "\n";
+        m_procDetector->trackModule(state, pid, ImageFileName);
+        moduleId = pid;
+    }
+    if ((m_moduleName != "") && (m_moduleName == ImageFileName)) {
+        moduleId = pid;
+    }
 
+}
 void CyFiFunctionModels::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb,
                                              uint64_t pc, bool isStatic, uint64_t staticTarget) {
     // Library calls/jumps are always indirect
@@ -184,6 +201,7 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
     if (!instructionMonitor) {
         return;
     }
+
     auto currentMod = m_map->getModule(state, pc);
     if (!currentMod) {
         return;
@@ -278,6 +296,7 @@ std::string CyFiFunctionModels::getTag(const std::string &sym)
 	}
 	return std::string(&sym[sym.find("CyFi")], &sym[pos_end]);
 }
+
 
 void CyFiFunctionModels::handleStrlen(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
     // Read function arguments
@@ -847,6 +866,13 @@ void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMA
             state->mem()->write(cmd.ReadTag.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
     }
+}
+
+void CyFiFunctionModels::trackModule(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+
+    std::string funcName;
+    state->mem()->readString(cmd.CheckCaller.funcName, funcName);
+
 }
 
 void CyFiFunctionModels::tagCounter(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {

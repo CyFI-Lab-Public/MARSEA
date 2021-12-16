@@ -89,9 +89,10 @@ private:
     ProcessExecutionDetector *m_procDetector;
     Vmi *m_vmi;
 
+    typedef std::unordered_set<std::string> StringSet;
+    StringSet m_trackedModules;
     bool m_monitorAllModules;
     bool m_monitorIndirectJumps;
-    std::string m_moduleName = "";
     bool m_aggressiveOff;
 
     void onModuleUnload(S2EExecutionState *state, const ModuleDescriptor &module);

@@ -50,6 +50,7 @@ public:
     bool isTrackedPc(S2EExecutionState *state, uint64_t pc, bool checkCpl = false);
 
     void trackPid(S2EExecutionState *state, uint64_t pid);
+    void trackModule(S2EExecutionState *state, uint64_t pid, const std::string &module);
 
     sigc::signal<void, S2EExecutionState *> onMonitorLoad;
     sigc::signal<void, S2EExecutionState *> onAllProcessesTerminated;

@@ -156,6 +156,15 @@ void ProcessExecutionDetector::trackPid(S2EExecutionState *state, uint64_t pid) 
     plgState->m_trackedPids.insert(pid);
 }
 
+void ProcessExecutionDetector::trackModule(S2EExecutionState *state, uint64_t pid, const std::string &module) {
+    
+    DECLARE_PLUGINSTATE(ProcessExecutionDetectorState, state);
+
+    getDebugStream(state) << "starting to track module: " << module << " (pid: " << hexval(pid) << ")\n";
+    plgState->m_trackedPids.insert(pid);
+    m_trackedModules.insert(module);
+}
+
 void ProcessExecutionDetector::onMonitorLoadCb(S2EExecutionState *state) {
     onMonitorLoad.emit(state);
 }

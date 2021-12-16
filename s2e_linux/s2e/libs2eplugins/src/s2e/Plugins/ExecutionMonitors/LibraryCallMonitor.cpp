@@ -118,8 +118,12 @@ void LibraryCallMonitor::initialize() {
 
     m_monitorAllModules = cfg->getBool(getConfigKey() + ".monitorAllModules");
     m_monitorIndirectJumps = cfg->getBool(getConfigKey() + ".monitorIndirectJumps");
-    m_moduleName = cfg->getString(getConfigKey() + ".moduleName");
 
+    bool ok;
+    ConfigFile::string_list moduleList = cfg->getStringList(getConfigKey() + ".moduleNames", ConfigFile::string_list(), &ok);
+    foreach2 (it, moduleList.begin(), moduleList.end()) { m_trackedModules.insert(*it); }
+
+    
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onTranslateBlockEnd));
 
     m_monitor->onProcessUnload.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onProcessUnload));
@@ -157,12 +161,13 @@ void LibraryCallMonitor::logLibraryCall(S2EExecutionState *state, const ModuleDe
         return;
     }
 
-    if ((m_moduleName != "") && (m_moduleName == sourceMod.Name)) {
+    if(!m_trackedModules.empty() && m_trackedModules.find(sourceMod.Name) != m_trackedModules.end()) {
         getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
                             << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
                             << hexval(destPcAbsolute) << ")"
                             << " (pid=" << hexval(sourceMod.Pid) << ")\n";
-    } else if ((m_moduleName == "")) {
+    } 
+    else if (m_trackedModules.empty()) { 
         getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
                     << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
                     << hexval(destPcAbsolute) << ")"
