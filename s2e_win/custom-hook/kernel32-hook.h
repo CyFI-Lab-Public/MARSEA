@@ -10,7 +10,7 @@ LPWSTR WINAPI GetCommandLineWHook();
 
 BOOL QueryPerformanceCounterHook(LARGE_INTEGER* lpPerformanceCount);
 
-DWORD GetModuleFileNameAHook(HMODULE hModule, LPSTR lpFilename, DWORD nSize);
+DWORD WINAPI GetModuleFileNameAHook(HMODULE hModule, LPSTR lpFilename, DWORD nSize);
 
 DWORD GetModuleFileNameWHook(HMODULE hModule, LPWSTR lpFilename, DWORD nSize);
 

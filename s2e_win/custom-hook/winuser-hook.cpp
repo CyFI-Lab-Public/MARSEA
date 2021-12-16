@@ -152,3 +152,17 @@ BOOL WINAPI ShowWindowHook(
 	}
 	return ShowWindow(hWnd, nCmdShow);
 }
+
+SHORT WINAPI GetAsyncKeyStateHook(
+	int vKey
+) {
+	if (checkCaller("GetAsyncKeyState")) {
+		std::string tag = GetTag("GetAsynckeyState");
+		SHORT ret = GetAsyncKeyState(vKey);
+		Message("[W] GetAsyncKeyState(%d) Ret: %d", vKey, ret);
+		S2EMakeSymbolic(&ret, sizeof(ret), tag.c_str());
+		return ret;
+	}
+
+	return GetAsyncKeyState(vKey);
+}

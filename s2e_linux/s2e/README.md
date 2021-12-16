@@ -28,6 +28,14 @@ If it is not called by the target module, you must call the hooked function nati
 
 All of the recent major changes to the linux S2E code can be invoked from the project-specific ``s2e-config.lua`` file.
 
+If the users want to invoke CyFiFunctionModels plugin, they can copy `s2e/s2e_linux/s2e` from this repo and overwrite the local `s2e` folder. Or they can cherry pick. But please notice the difference in `libs2eplugins/src/CMakeLists.txt`.
+
+#### Make sure there is FunctionMonitor plugin added
+
+```
+add_plugin("FunctionMonitor")
+```
+
 #### Invoke the CyFiFunctionModels plugin, add the following to the lua file.
 
 ``` 
@@ -55,6 +63,8 @@ pluginsConfig.CyFiFunctionModels = {
 ```
 
 *Since our CyFiFunctionModels plugin depends on the LibraryCallMonitor plugin, this must also be enabled.*
+
+Besides changed above, please refer `s2e/s2e_linux/projects/razy/s2e-config.lua` to see if there is anything missing. 
 
 #### Enable the LibraryCallMonitorPlugin
 ```
