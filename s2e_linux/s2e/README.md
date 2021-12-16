@@ -1,6 +1,6 @@
 ## Updates
 
-### 16 Dec 2021
+### 16 Dec 2021 (ref 7 Sept updates for context)
 
 #### Invoke the CyFiFunctionModels plugin, add the following to the lua file.
 
@@ -10,7 +10,7 @@ pluginsConfig.CyFiFunctionModels = {
   moduleNames = {
   	"<project_name>", 
 	"rundll32.exe",
-	},=
+	},
 }
 ```
 
@@ -42,7 +42,7 @@ If it is not called by the target module, you must call the hooked function nati
 
 All of the recent major changes to the linux S2E code can be invoked from the project-specific ``s2e-config.lua`` file.
 
-If the users want to invoke CyFiFunctionModels plugin, they can copy `s2e/s2e_linux/s2e` from this repo and overwrite the local `s2e` folder. Or they can cherry pick. But please notice the difference in `libs2eplugins/src/CMakeLists.txt`.
+If the user wants to invoke CyFiFunctionModels plugin, they can copy `s2e/s2e_linux/s2e` from this repo and overwrite the local `s2e` folder. Or they can cherry pick. But please notice the difference in `libs2eplugins/src/CMakeLists.txt`.
 
 #### Make sure there is FunctionMonitor plugin added
 
