@@ -423,9 +423,7 @@ end
 add_plugin("CyFiFunctionModels")
 pluginsConfig.CyFiFunctionModels = {
 	instructionMonitor=false,
-	moduleNames = {
-		"razy.exe", 
-	},
+	moduleName = "razy.exe", 
 }
 
 add_plugin("ControlFlowGraph")
@@ -437,123 +435,13 @@ add_plugin("BasicBlockCoverage")
 
 add_plugin("FunctionMonitor")
 
---[[
-MOVZX_ADDR=$(objdump -M intel -d $TARGET | grep movzx | cut -d ':' -f 1 | xargs)
-if [ "x$MOVZX_ADDR" = "x" ]; then
-    echo "Could not get instruction address for movzx instructions"
-    exit 1
-fi
---]]
-add_plugin("LuaInstructionInstrumentation")
-pluginsConfig.LuaInstructionInstrumentation = {
-    -- For each instruction to instrument, provide an entry in the "instrumentation" table
-    instrumentation = {
-        -- Defines an instrumentation called "success"
-        success = {
-            module_name = "razy.exe",
-            name = "on_success",
-            pc = 0x540117a,--0x401c0c,
-        },
-
-        -- Defines an instrumentation called "failure"
-        failure = {
-            module_name = "razy.exe",
-            name = "on_failure",
-            pc = 0x4011fd,
-        }
-        
-        --[[
-        skip = {
-        	module_name = "razy.exe",
-        	name = "skip",
-        	pc = 0x401c8e,
-        },
-        skiip = {
-        	module_name = "razy.exe",
-        	name = "skip",
-        	pc = 0x401c91,
-        }     --]]   
-
-    }
-}
-
-printf = function(s, ...)
-    return io.write(s:format(...))
-end
-
-g_platform = "$PLATFORM"
-
--- An instruction instrumentation takes
--- a LuaS2EExecutionState object and a LuaInstrumentationState object.
-function on_success(state, instrumentation_state)
-    g_s2e:debug("called lstrlenA instrumentation")
-    ptr_size = state:getPointerSize()
-    if ptr_size == 4 then
-        -- 32-bit calling convention
-        sp = state:regs():getSp()
-        printf("sp: %#x ptr_size: %d\n", sp, ptr_size)
-        -- Compute the stack address that contains the address
-        -- to the concrete buffer (second argument of scanf)
-        buffer_addr_ptr = sp + ptr_size * 1
-        printf("buffer_addr_ptr: %#x\n", buffer_addr_ptr)
-        -- Read the pointer to the buffer from the stack
-        buffer_addr = state:mem():readPointer(buffer_addr_ptr)
-        if buffer_addr == nil then
-           g_s2e:debug("Could not read pointer")
-           g_s2e:exit(-1)
-        end
-        printf("buffer_addr: %#x\n", buffer_addr)
-    else
-        if g_platform == "windows" then
-            -- Microsoft x64 calling convention
-            -- 2nd parameter is in RDX=2
-            buffer_addr = state:regs():read(2 * ptr_size, ptr_size)
-        else
-            -- System V AMD64 ABI
-            -- 2nd parameter is in RSI=6
-            buffer_addr = state:regs():read(6 * ptr_size, ptr_size)
-        end
-    end
-    -- Make 30 bytes of that buffer symbolic
-    --state:mem():makeSymbolic(buffer_addr, 25, "CyFi_Lua_LstrlenA")
-    -- Write 25 to eax. This is an example of what lsrlentA would have returned
-    -- if it actually got executed.
-    state:regs():write(0, 11, ptr_size)
-    state:mem():makeSymbolic(sp-ptr_size, 25, "CyFi_Lua_LstrlenA")
-    --state:regs():write(0, 11, ptr_size)
-    -- Don't execute the instruction, jump straight to the next one.
-    instrumentation_state:skipInstruction(1)
-end
-
-function on_failure(state, instrumentation_state)
-    -- There is no reason to continue execution any further because any other paths
-    -- that will fork from here will not lead to success.
-    state:kill(1, "Dead-end path")
-end
-
-function skip(state, instrumentation_state)
-    instrumentation_state:skipInstruction(1)
-end
-
-
---[[
-add_plugin("MemoryTracer")
-pluginsConfig.MemoryTracer = {
-    traceMemory = true,
-    tracePageFaults = true,
-    traceTlbMisses = true,
-
-    -- Restrict tracing to the "test" binary. Note that the modules specified here
-    -- must run in the context of the process(es) defined in ProcessExecutionDetector.
-    moduleNames = { "razy" }
-}
-
-
 add_plugin("LibraryCallMonitor")
 pluginsConfig.LibraryCallMonitor = {
-	monitorIndirectJumps = true,
-	moduleName = "razy.exe",
-
-}
---]]
-
+        monitorIndirectJumps = true,                          
+        moduleNames = {                                                
+                          
+                "razy.exe",
+                "cyfirundll.exe",                             
+                                         
+        },                                              
+}          
