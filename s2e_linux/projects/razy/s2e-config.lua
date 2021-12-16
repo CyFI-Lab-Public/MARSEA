@@ -422,9 +422,10 @@ end
 
 add_plugin("CyFiFunctionModels")
 pluginsConfig.CyFiFunctionModels = {
-    -- Turn on/off instruction tracking
-    instrutionTracker = false,  -- strangely, false means on
-    functionTracker = true,
+	instructionMonitor=false,
+	moduleNames = {
+		"razy.exe", 
+	},
 }
 
 add_plugin("ControlFlowGraph")
