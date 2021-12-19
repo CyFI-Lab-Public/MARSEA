@@ -323,6 +323,25 @@ static HWND WINAPI GetCaptureHook() {
     return ret;
 }
 
+
+static int MultiByteToWideCharHook(
+    UINT                              CodePage,
+    DWORD                             dwFlags,
+    _In_NLS_string_(cbMultiByte)LPCCH lpMultiByteStr,
+    int                               cbMultiByte,
+    LPWSTR                            lpWideCharStr,
+    int                               cchWideChar
+) {
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = WINWRAPPER_INTERNETCONNECTA;
+    Command.InternetConnectA.lpszServerName = (uint64_t)lpMultiByteStr;
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    Message("[W] 5\n");
+    killAnalysis("MultiByteToWideChar");
+    return 0;
+
+}
+
 CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("dbghelp", "MiniDumpWriteDump", MiniDumpWriteDumpHook, {NULL}),
@@ -334,6 +353,10 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("User32", "GetCapture", GetCaptureHook, {NULL}),
 
     CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
+    CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
+    CyFIFuncType("Kernel32", "lstrlenA", lstrlenAHook, {NULL}),
+    //CyFIFuncType("kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
+    //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
 
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
     CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
@@ -406,17 +429,11 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, {NULL}),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
 
-    CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
-
-    CyFIFuncType("Kernel32", "lstrlenA", lstrlenAHook, {NULL}),
-
     CyFIFuncType("Kernel32", "LocalAlloc", LocalAllocHook, {NULL}),
     CyFIFuncType("Urlmon", "URLDownloadToFileA", URLDownloadToFileHook, {NULL}),
     CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
     CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
 
-
-    //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),  //->Breaks execution...bad hook
     //CyFIFuncType("kernel32", "SetFilePointer", SetFilePointerHook, {NULL}),
 
 

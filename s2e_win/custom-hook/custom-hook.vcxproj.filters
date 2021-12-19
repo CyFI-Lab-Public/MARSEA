@@ -90,7 +90,7 @@
     <ClCompile Include="shellapi-hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="libloaderapi-hook.cpp">
+    <ClCompile Include="winbase-hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -173,7 +173,7 @@
     <ClInclude Include="shellapi-hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="libloaderapi-hook.h">
+    <ClInclude Include="winbase-hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

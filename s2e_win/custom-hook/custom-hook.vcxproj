@@ -176,7 +176,6 @@
     <ClCompile Include="fileapi-hook.cpp" />
     <ClCompile Include="handleapi-hook.cpp" />
     <ClCompile Include="kernel32-hook.cpp" />
-    <ClCompile Include="libloaderapi-hook.cpp" />
     <ClCompile Include="msvcrt-hook.cpp" />
     <ClCompile Include="processthreadsapi-hook.cpp" />
     <ClCompile Include="shellapi-hook.cpp" />
@@ -210,7 +209,6 @@
     <ClInclude Include="fileapi-hook.h" />
     <ClInclude Include="handleapi-hook.h" />
     <ClInclude Include="kernel32-hook.h" />
-    <ClInclude Include="libloaderapi-hook.h" />
     <ClInclude Include="msvcrt-hook.h" />
     <ClInclude Include="processthreadsapi-hook.h" />
     <ClInclude Include="shellapi-hook.h" />
