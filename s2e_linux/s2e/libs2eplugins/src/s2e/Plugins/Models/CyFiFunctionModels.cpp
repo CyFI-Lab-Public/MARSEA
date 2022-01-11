@@ -19,6 +19,8 @@
 #include <sstream>
 #include <string>
 #include <unordered_map>
+#include <optional>
+#include <utility>
 
 #include "CyFiFunctionModels.h"
 using namespace klee;
@@ -27,7 +29,143 @@ namespace s2e {
 namespace plugins {
 namespace models {
 
-S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor", "OSMonitor", "WindowsMonitor", "ProcessExecutionDetector");
+#define PRINT_DOT_GRAPH 1
+
+static constexpr size_t countExprNumBytes = 8;
+static bool export_to_s_expr = false;
+static std::string dot_graph_name;
+static std::string dot_graph_path;
+static std::string s_expr_path;
+
+static std::unordered_map<Expr::Kind, double> countExprKinds(const ref<Expr>& data, size_t num_bytes) {
+    std::unordered_map<Expr::Kind, double> expr_kind_counts;
+    std::function<void(ref<Expr>)> recur = nullptr;
+    recur = [&recur, &expr_kind_counts](ref<Expr> node) {
+        if (!node.isNull()) {
+            expr_kind_counts[node->getKind()] += 1.0;
+            for (int i = 0; i < node->getNumKids(); ++i) {
+                recur(node->getKid(i));
+            }
+        }
+    };
+    recur(data);
+    // Divide by num_bytes to get an average
+    for (auto it : expr_kind_counts) {
+        it.second /= num_bytes;
+    }
+    return expr_kind_counts;
+}
+
+static llvm::raw_ostream& operator<<(llvm::raw_ostream& os, const std::unordered_map<Expr::Kind, double>& data) {
+    os << "expr_kind_counts: {\n";
+    for (const auto& it : data) {
+        os << "  ";
+        Expr::printKind(os, it.first);
+        os << ": " << it.second << '\n';
+    }
+    return os << '}';
+}
+
+// Write out the expression to a path as an s-expression
+static void exprToSexpr(const ref<Expr>& expr) {
+    if (!export_to_s_expr || s_expr_path.empty()) {
+        std::cerr << "WARNING: S-expr not generated: add exportToSExpr=true and sExprPath in s2e-config.lua\n";
+        return;
+    }
+    std::function<void(const ref<Expr>, std::optional<size_t>)> recur = nullptr;
+    // Open file for writing
+    std::error_code ec;
+    llvm::raw_fd_ostream os(s_expr_path, ec);
+    if (ec) {
+        std::cerr << "ERROR: Could not open file for S-expression: " << s_expr_path;
+        return;
+    }
+    // Recurse into expression tree
+    recur = [&recur, &os](const ref<Expr> node, std::optional<size_t> indent) {
+        if (node.isNull()) {
+            return;
+        }
+        if (indent.has_value()) {
+            for (size_t i = 0; i < indent.value(); ++i) {
+                os << ' ';
+            }
+        }
+        if (node->getNumKids() == 0) {
+            if (node->getKind() == Expr::Constant) {
+                node->print(os);
+            } else {
+                Expr::printKind(os, node->getKind());
+            }
+            return;
+        }
+        os << '(';
+        Expr::printKind(os, node->getKind());
+        for (unsigned i = 0; i < node->getNumKids(); ++i) {
+            auto child = node->getKid(i);
+            if (indent.has_value()) {
+                os << '\n';
+                recur(child, indent.value() + 2);
+            } else {
+                os << ' ';
+                recur(child, {});
+            }
+        }
+        os << ')';
+    };
+    recur(expr, {});
+    os << '\n';
+}
+
+// Extract a dot graph with the given name for the expression and write out to a path
+static void exprToDotGraph(const ref<Expr>& expr) {
+    if (dot_graph_name.empty() || dot_graph_path.empty()) {
+        std::cerr << "WARNING: Dot graph not generated: add dotGraphName and dotGraphPath in s2e-config.lua\n";
+        return;
+    }
+
+    std::unordered_map<Expr::Kind, size_t> kind_counts;
+    std::function<void(ref<Expr>, std::optional<std::pair<Expr::Kind, size_t>>)> recur = nullptr;
+    // Open file for writing
+    std::error_code ec;
+    llvm::raw_fd_ostream os(dot_graph_path, ec);
+    if (ec) {
+        std::cerr << "ERROR: Could not open file for dot graph: " << dot_graph_path;
+        return;
+    }
+    // Write beginning of file
+    os << "digraph " << dot_graph_name << " {\n";
+    // Recurse into expression tree.
+    recur = [&recur, &kind_counts, &os](ref<Expr> node, const std::optional<std::pair<Expr::Kind, size_t>>& parent) {
+        if (node.isNull()) {
+            return;
+        }
+        auto node_kind = node->getKind();
+        size_t index = kind_counts[node_kind]++;
+        if (parent.has_value()) {
+            const auto& tmp = parent.value();
+            os << "  ";
+            Expr::printKind(os, tmp.first);
+            os << tmp.second << " -> ";
+            Expr::printKind(os, node_kind);
+            os << index << ";\n";
+        }
+        for (int i = 0; i < node->getNumKids(); ++i) {
+            recur(node->getKid(i), {{ node_kind, index }});
+        }
+    };
+    recur(expr, {});
+    os << "}\n";
+}
+
+static void dumpExpresisonToFile(const ref<Expr>& expr) {
+    if (export_to_s_expr) {
+        exprToSexpr(expr);
+    } else {
+        exprToDotGraph(expr);
+    }
+}
+
+S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor");
 
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
@@ -46,6 +184,15 @@ void CyFiFunctionModels::initialize() {
         }
     }
 
+    dot_graph_name = s2e()->getConfig()->getString(getConfigKey() + ".dotGraphName");
+    dot_graph_path = s2e()->getConfig()->getString(getConfigKey() + ".dotGraphPath");
+    export_to_s_expr = s2e()->getConfig()->getBool(getConfigKey() + ".exportToSExpr", false);
+    s_expr_path = s2e()->getConfig()->getString(getConfigKey() + ".sExprPath");
+    std::cerr << "DEBUG: dotGraphName: " << dot_graph_name <<
+        "\n       dotGraphPath: " << dot_graph_path <<
+        "\n       exportToSExpr: " << (export_to_s_expr ? "true" : "false") <<
+        "\n       sExprPath: " << s_expr_path << '\n';
+
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
     m_vmi = s2e()->getPlugin<Vmi>();
     m_monitor = static_cast<OSMonitor *>(s2e()->getPlugin("OSMonitor"));
@@ -61,7 +208,7 @@ void CyFiFunctionModels::initialize() {
 
     // Get a notification when a function is called
     monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
-    
+
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
 
 }
@@ -172,7 +319,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
             std::ostringstream ss;
             ss << data;
             uint32_t addr = std::stoull(ss.str(), nullptr, 16);
-             
+
             ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
             if (!level_one.isNull()) {
                 if (!isa<ConstantExpr>(level_one)) {
@@ -231,7 +378,7 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64_t pc) {
 
     auto currentMod = m_map->getModule(state, pc);
-    
+
     if (currentMod) {
         bool ok = true;
         uint64_t relPc;
@@ -249,9 +396,9 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
             cyfiDump(state, "esi");
             cyfiDump(state, "edi");
             cyfiDump(state, "ebp");
-            cyfiDump(state, "esp");   
+            cyfiDump(state, "esp");
         }
-    }   
+    }
 }
 
 void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
@@ -382,17 +529,17 @@ void CyFiFunctionModels::handleMemcpy(S2EExecutionState *state, CYFI_WINWRAPPER_
     if(!data.isNull()) {
         if (!isa<ConstantExpr>(data)) {
             getDebugStream(state) << "Argument " << data << " at " << hexval(memAddrs[1]) << " is symbolic\n";
-        } 
+        }
     }
-    
+
     // Perform the memory copy. We don't use the return expression here because it is just a concrete address
     ref<Expr> retExpr;
-     if (memcpyHelper(state, memAddrs, numBytes, retExpr)){
+    if (memcpyHelper(state, memAddrs, numBytes, retExpr)){
         cmd.needOrigFunc = 0;
-    } 
+    }
     else {
         cmd.needOrigFunc = 1;
-  
+
     }
 
 
@@ -419,14 +566,14 @@ void CyFiFunctionModels::handleMemset(S2EExecutionState *state, CYFI_WINWRAPPER_
     memAddrs[0] = (uint64_t) cmd.Memset.ptr;
     memAddrs[1] = (uint64_t) cmd.Memset.value;
     uint64_t numBytes = (int) cmd.Memset.num;
-    
+
     ref<Expr> retExpr;
     if (memsetHelper(state, memAddrs, numBytes, retExpr)){
         ref<Expr> data = state->mem()->read(memAddrs[0], state->getPointerWidth());
         if(!data.isNull()) {
             if (!isa<ConstantExpr>(data)) {
                 getDebugStream(state) << "Argument " << data << " at " << hexval(memAddrs[0]) << " is symbolic\n";
-            } 
+            }
         }
     }
 }
@@ -579,45 +726,22 @@ void CyFiFunctionModels::handleWinHttpReadData(S2EExecutionState *state, CYFI_WI
 }
 
 void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[4];
-    args[0] = (uint64_t) cmd.WinHttpConnect.hSession;
-    args[1] = (uint64_t) cmd.WinHttpConnect.pswzServerName;
-    args[2] = (uint64_t) cmd.WinHttpConnect.nServerPort;
-    args[3] = (uint64_t) cmd.WinHttpConnect.dwReserved;
-
-    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.WinHttpConnect.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
+    ref<Expr> data = state->mem()->read(cmd.WinHttpConnect.pswzServerName, countExprNumBytes * 8);
+    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
+    getDebugStream(state) << "WinHttpConnect: pswzServerName: " << expr_kind_counts;
+#if PRINT_DOT_GRAPH
+    dumpExpresisonToFile(data);
+#endif
 }
 
 void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-    // Read function arguments
-    uint64_t args[4];
-    args[0] = (uint64_t) cmd.WinHttpCrackUrl.pwszUrl;
-    args[1] = (uint64_t) cmd.WinHttpCrackUrl.dwUrlLength;
-    args[2] = (uint64_t) cmd.WinHttpCrackUrl.dwFlags;
-    args[3] = (uint64_t) cmd.WinHttpCrackUrl.lpUrlComponents;
+    ref<Expr> data = state->mem()->read(cmd.WinHttpCrackUrl.pwszUrl, countExprNumBytes * 8);
+    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
+    getDebugStream(state) << "WinHttpCrackUrl: pwszUrl: " << expr_kind_counts;
 
-    ref<Expr> data = state->mem()->read(args[0], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.WinHttpCrackUrl.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
+#if PRINT_DOT_GRAPH
+    dumpExpresisonToFile(data);
+#endif
 }
 
 void CyFiFunctionModels::handleWriteFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
@@ -649,101 +773,43 @@ void CyFiFunctionModels::handleWinHttpWriteData(S2EExecutionState *state, CYFI_W
 
 
 void CyFiFunctionModels::handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[8];
-    args[0] = (uint64_t) cmd.InternetConnectA.hInternet;
-    args[1] = (uint64_t) cmd.InternetConnectA.lpszServerName;
-    args[2] = (uint64_t) cmd.InternetConnectA.nServerPort;
-    args[3] = (uint64_t) cmd.InternetConnectA.lpszUserName;
-    args[4] = (uint64_t) cmd.InternetConnectA.lpszPassword;
-    args[5] = (uint64_t) cmd.InternetConnectA.dwService;
-    args[6] = (uint64_t) cmd.InternetConnectA.dwFlags;
-    args[7] = (uint64_t) cmd.InternetConnectA.dwContext;
+    ref<Expr> data = state->mem()->read(cmd.InternetConnectA.lpszServerName, countExprNumBytes * 8);
+    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
+    getDebugStream(state) << "InternetConnectA: lpszServerName: " << expr_kind_counts;
 
-
-    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.InternetConnectA.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }    
+#if PRINT_DOT_GRAPH
+    dumpExpresisonToFile(data);
+#endif
 }
 
 void CyFiFunctionModels::handleInternetConnectW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[8];
-    args[0] = (uint64_t) cmd.InternetConnectW.hInternet;
-    args[1] = (uint64_t) cmd.InternetConnectW.lpszServerName;
-    args[2] = (uint64_t) cmd.InternetConnectW.nServerPort;
-    args[3] = (uint64_t) cmd.InternetConnectW.lpszUserName;
-    args[4] = (uint64_t) cmd.InternetConnectW.lpszPassword;
-    args[5] = (uint64_t) cmd.InternetConnectW.dwService;
-    args[6] = (uint64_t) cmd.InternetConnectW.dwFlags;
-    args[7] = (uint64_t) cmd.InternetConnectW.dwContext;
+    ref<Expr> data = state->mem()->read(cmd.InternetConnectW.lpszServerName, countExprNumBytes * 8);
+    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
+    getDebugStream(state) << "InternetConnectW: lpszServerName: " << expr_kind_counts;
 
-
-    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.InternetConnectW.symbTag, symbTag.c_str(), symbTag.length()+1);
-        } 
-    }    
+#if PRINT_DOT_GRAPH
+    dumpExpresisonToFile(data);
+#endif
 }
 
 void CyFiFunctionModels::handleInternetOpenUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[6];
-    args[0] = (uint64_t) cmd.InternetOpenUrlA.hInternet;
-    args[1] = (uint64_t) cmd.InternetOpenUrlA.lpszUrl;
-    args[2] = (uint64_t) cmd.InternetOpenUrlA.lpszHeaders;
-    args[3] = (uint64_t) cmd.InternetOpenUrlA.dwHeadersLength;
-    args[4] = (uint64_t) cmd.InternetOpenUrlA.dwFlags;
-    args[5] = (uint64_t) cmd.InternetOpenUrlA.dwContext;
+    ref<Expr> data = state->mem()->read(cmd.InternetOpenUrlA.lpszUrl, countExprNumBytes * 8);
+    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
+    getDebugStream(state) << "InternetOpenUrlA: lpszUrl: " << expr_kind_counts;
 
-    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.InternetOpenUrlA.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }    
+#if PRINT_DOT_GRAPH
+    dumpExpresisonToFile(data);
+#endif
 }
 
 void CyFiFunctionModels::handleInternetOpenUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[6];
-    args[0] = (uint64_t) cmd.InternetOpenUrlW.hInternet;
-    args[1] = (uint64_t) cmd.InternetOpenUrlW.lpszUrl;
-    args[2] = (uint64_t) cmd.InternetOpenUrlW.lpszHeaders;
-    args[3] = (uint64_t) cmd.InternetOpenUrlW.dwHeadersLength;
-    args[4] = (uint64_t) cmd.InternetOpenUrlW.dwFlags;
-    args[5] = (uint64_t) cmd.InternetOpenUrlW.dwContext;
+    ref<Expr> data = state->mem()->read(cmd.InternetOpenUrlW.lpszUrl, countExprNumBytes * 8);
+    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
+    getDebugStream(state) << "InternetOpenUrlW: lpszUrl: " << expr_kind_counts;
 
-    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.InternetOpenUrlW.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }    
+#if PRINT_DOT_GRAPH
+    dumpExpresisonToFile(data);
+#endif
 }
 
 void CyFiFunctionModels::handleInternetReadFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
@@ -768,7 +834,7 @@ void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_
             std::string sym = ss.str();
 	        std::string symbTag = getTag(sym);
             state->mem()->write(cmd.InternetCrackUrlA.symbTag, symbTag.c_str(), symbTag.length()+1);
-        } 
+        }
     }
 }
 
@@ -789,7 +855,7 @@ void CyFiFunctionModels::handleInternetCrackUrlW(S2EExecutionState *state, CYFI_
             std::string sym = ss.str();
 	        std::string symbTag = getTag(sym);
             state->mem()->write(cmd.InternetCrackUrlW.symbTag, symbTag.c_str(), symbTag.length()+1);
-        } 
+        }
     }
 }
 
@@ -853,7 +919,7 @@ void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_C
 
 void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     uint64_t buffer = cmd.ReadTag.buffer;
-    
+
     // Check if buffer is symbolic
     ref<Expr> data = state->mem()->read(buffer, state->getPointerWidth());
 
@@ -889,7 +955,7 @@ void CyFiFunctionModels::killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_
     S2EExecutor *executor = s2e()->getExecutor();
     const klee::StateSet &states = s2e()->getExecutor()->getStates();
     size_t nrStatesToTerminate = (size_t)executor->getStatesCount();
-    
+
     if (nrStatesToTerminate < 1 && executor->getStatesCount() > 0) {
         nrStatesToTerminate = 1; // kill at least one state
     }
@@ -1009,40 +1075,40 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         case WINWRAPPER_STRSTRA: {
             ref<Expr> retExpr;
-            handleStrStrA(state, command);     
+            handleStrStrA(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
+            }
 
-        } break;        
+        } break;
 
         case WINWRAPPER_STRSTRW: {
-            handleStrStrW(state, command);   
+            handleStrStrW(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }             
+            }
 
-        } break;  
+        } break;
 
 
         case WINWRAPPER_STRSTR: {
             ref<Expr> retExpr;
-            handleStrStr(state, command);     
+            handleStrStr(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
+            }
 
-        } break;   
+        } break;
 
 
         case WINWRAPPER_STRTOK: {
             ref<Expr> retExpr;
-            handleStrtok(state, command);     
+            handleStrtok(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
+            }
 
-        } break;   
+        } break;
 
 
         case WINWRAPPER_WINHTTPREADDATA: {
@@ -1050,7 +1116,7 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             handleWinHttpReadData(state, command, retExpr);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
+            }
         } break;
 
         case WINWRAPPER_WINHTTPCRACKURL: {
@@ -1065,15 +1131,15 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             handleWinHttpConnect(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
-        } break; 
+            }
+        } break;
 
         case WINWRAPPER_WINHTTPWRITEDATA: {
             ref<Expr> retExpr;
             handleWinHttpWriteData(state, command, retExpr);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
+            }
         } break;
 
 
@@ -1081,8 +1147,8 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             handleInternetReadFile(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
-        } break; 
+            }
+        } break;
 
         case WINWRAPPER_INTERNETCRACKURLA: {
             ref<Expr> retExpr;
@@ -1104,44 +1170,44 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             handleInternetConnectA(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
-        } break; 
-        
+            }
+        } break;
+
         case WINWRAPPER_INTERNETCONNECTW: {
             handleInternetConnectW(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
-        } break;         
+            }
+        } break;
 
         case WINWRAPPER_INTERNETOPENURLA: {
             handleInternetOpenUrlA(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
-        } break; 
-        
+            }
+        } break;
+
         case WINWRAPPER_INTERNETOPENURLW: {
             handleInternetOpenUrlW(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
-        } break; 
+            }
+        } break;
 
 
         case WINWRAPPER_WCSSTR: {
-            handleWcsstr(state, command);     
+            handleWcsstr(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }            
+            }
 
-        } break;  
+        } break;
 
         case WINWRAPPER_WRITEFILE: {
             handleWriteFile(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }  
+            }
         } break;
 
         case WRAPPER_CRC: {
