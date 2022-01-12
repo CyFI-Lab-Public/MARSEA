@@ -66,15 +66,29 @@ static llvm::raw_ostream& operator<<(llvm::raw_ostream& os, const std::unordered
     return os << '}';
 }
 
-static std::string exprToSExprString(const ref<Expr>& expr) {
-    std::string output;
-    llvm::raw_string_ostream os(output);
+// Write out the expression to a path as an s-expression
+static void exprToSexpr(const ref<Expr>& expr) {
+    static std::set<std::string> already_written;
+    if (!export_to_s_expr || s_expr_path.empty()) {
+        std::cerr << "WARNING: S-expr not generated: add exportToSExpr=true and sExprPath in s2e-config.lua\n";
+        return;
+    }
+
+    std::ostringstream ss;
+    ss << expr;
+    if (already_written.find(ss.str()) != already_written.end()) {
+        return;
+    }
+
+    std::string updated_s_expr_path = s_expr_path + "." + std::to_string(already_written.size());
+    already_written.insert(ss.str());
+
     std::function<void(const ref<Expr>, std::optional<size_t>)> recur = nullptr;
     // Open file for writing
     std::error_code ec;
-    llvm::raw_fd_ostream os(s_expr_path, ec);
+    llvm::raw_fd_ostream os(updated_s_expr_path, ec);
     if (ec) {
-        std::cerr << "ERROR: Could not open file for S-expression: " << s_expr_path;
+        std::cerr << "ERROR: Could not open file for S-expression: " << updated_s_expr_path;
         return;
     }
     // Recurse into expression tree
@@ -110,31 +124,7 @@ static std::string exprToSExprString(const ref<Expr>& expr) {
         os << ')';
     };
     recur(expr, {});
-    os << '\n';
-    return output;
-}
-
-// Write out the expression to a path as an s-expression
-static void exprToSexpr(const ref<Expr>& expr) {
-    static std::set<std::string> already_written;
-    if (!export_to_s_expr || s_expr_path.empty()) {
-        std::cerr << "WARNING: S-expr not generated: add exportToSExpr=true and sExprPath in s2e-config.lua\n";
-        return;
-    }
-    std::string to_string = exprToSExprString(expr);
-    if (already_written.find(to_string) != already_written.end()) {
-        return;
-    }
-    std::string updated_s_expr_path = s_expr_path + "." + std::to_string(already_written.size());
-    already_written.insert(to_string);
-    // Open file for writing
-    std::error_code ec;
-    llvm::raw_fd_ostream os(updated_s_expr_path, ec);
-    if (ec) {
-        std::cerr << "ERROR: Could not open file for S-expression: " << s_expr_path;
-        return;
-    }
-    os << to_string;
+    os << '\n'; 
 }
 
 // Extract a dot graph with the given name for the expression and write out to a path
