@@ -68,16 +68,27 @@ static llvm::raw_ostream& operator<<(llvm::raw_ostream& os, const std::unordered
 
 // Write out the expression to a path as an s-expression
 static void exprToSexpr(const ref<Expr>& expr) {
+    static std::set<std::string> already_written;
     if (!export_to_s_expr || s_expr_path.empty()) {
         std::cerr << "WARNING: S-expr not generated: add exportToSExpr=true and sExprPath in s2e-config.lua\n";
         return;
     }
+
+    std::ostringstream ss;
+    ss << expr;
+    if (already_written.find(ss.str()) != already_written.end()) {
+        return;
+    }
+
+    std::string updated_s_expr_path = s_expr_path + "." + std::to_string(already_written.size());
+    already_written.insert(ss.str());
+
     std::function<void(const ref<Expr>, std::optional<size_t>)> recur = nullptr;
     // Open file for writing
     std::error_code ec;
-    llvm::raw_fd_ostream os(s_expr_path, ec);
+    llvm::raw_fd_ostream os(updated_s_expr_path, ec);
     if (ec) {
-        std::cerr << "ERROR: Could not open file for S-expression: " << s_expr_path;
+        std::cerr << "ERROR: Could not open file for S-expression: " << updated_s_expr_path;
         return;
     }
     // Recurse into expression tree
@@ -113,7 +124,7 @@ static void exprToSexpr(const ref<Expr>& expr) {
         os << ')';
     };
     recur(expr, {});
-    os << '\n';
+    os << '\n'; 
 }
 
 // Extract a dot graph with the given name for the expression and write out to a path
@@ -165,7 +176,7 @@ static void dumpExpresisonToFile(const ref<Expr>& expr) {
     }
 }
 
-S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor");
+S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor", "OSMonitor", "WindowsMonitor", "ProcessExecutionDetector");
 
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
@@ -729,6 +740,7 @@ void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WIN
     ref<Expr> data = state->mem()->read(cmd.WinHttpConnect.pswzServerName, countExprNumBytes * 8);
     auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
     getDebugStream(state) << "WinHttpConnect: pswzServerName: " << expr_kind_counts;
+
 #if PRINT_DOT_GRAPH
     dumpExpresisonToFile(data);
 #endif
