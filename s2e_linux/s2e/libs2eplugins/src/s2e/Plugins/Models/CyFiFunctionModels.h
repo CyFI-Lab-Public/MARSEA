@@ -140,6 +140,7 @@ private:
     void tagCounter(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
     void killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
+    void dumpExpression(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 };
 
 } // namespace models

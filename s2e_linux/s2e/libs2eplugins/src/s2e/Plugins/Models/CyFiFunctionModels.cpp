@@ -783,6 +783,13 @@ void CyFiFunctionModels::handleWinHttpWriteData(S2EExecutionState *state, CYFI_W
   WinHttpWriteDataHelper(state, args, retExpr);
 }
 
+void CyFiFunctionModels::dumpExpression(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    ref<Expr> data = state->mem()->read(cmd.dumpExpression.buffer, countExprNumBytes * 8);
+
+#if PRINT_DOT_GRAPH
+    dumpExpresisonToFile(data);
+#endif
+}
 
 void CyFiFunctionModels::handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     ref<Expr> data = state->mem()->read(cmd.InternetConnectA.lpszServerName, countExprNumBytes * 8);
@@ -1255,6 +1262,9 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
                 getWarningsStream(state) << "Could not write to guest memory\n";
             }
         } break;
+	case DUMP_EXPRESSION: {
+	    dumpExpression(state, command);
+	} break;
 
         default: {
             getWarningsStream(state) << "Invalid command " << hexval(command.Command) << "\n";
