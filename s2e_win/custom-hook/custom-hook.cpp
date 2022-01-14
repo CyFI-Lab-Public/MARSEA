@@ -354,7 +354,9 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
     CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
-    CyFIFuncType("Kernel32", "lstrlenA", lstrlenAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "lstrlenA", lstrlenAHook, {NULL}),
+
+    /* Won't work...for testing razy only*/
     //CyFIFuncType("kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
 

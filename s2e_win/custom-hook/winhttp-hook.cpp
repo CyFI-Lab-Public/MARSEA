@@ -35,11 +35,8 @@ BOOL WINAPI WinHttpCrackUrlHook(
     std::string tagin = ReadTag((PVOID)pwszUrl);
     if (tagin != "") {
         CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = WINWRAPPER_WINHTTPCRACKURL;
-        Command.WinHttpCrackUrl.pwszUrl = (uint64_t)pwszUrl;
-        Command.WinHttpCrackUrl.dwUrlLength = (uint64_t)dwUrlLength;
-        Command.WinHttpCrackUrl.dwFlags = (uint64_t)dwFlags;
-        Command.WinHttpCrackUrl.lpUrlComponents = (uint64_t)lpUrlComponents;
+        Command.Command = DUMP_EXPRESSION;
+        Command.dumpExpression.buffer = (uint64_t)pwszUrl;
         S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
         pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";

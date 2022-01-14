@@ -55,6 +55,8 @@ extern "C" {
         TAG_COUNTER,
 
         KILL_ANALYSIS,
+
+        DUMP_EXPRESSION,
     };
 
     struct CYFI_WINWRAPPER_COMMAND_STRCPY {
@@ -296,6 +298,10 @@ extern "C" {
         uint64_t funcName;
     };
 
+    struct CYFI_DUMP_EXPRESSION {
+        uint64_t buffer;
+    };
+
     struct CYFI_WINWRAPPER_COMMAND {
         enum CYFI_WINWRAPPER_COMMANDS Command;
         union {
@@ -342,6 +348,8 @@ extern "C" {
             struct CYFI_TAG_COUNTER TagCounter;
 
             struct CYFI_KILL_ANALYSIS KillAnalysis;
+
+            struct CYFI_DUMP_EXPRESSION dumpExpression;
         };
         uint64_t needOrigFunc;
     };
