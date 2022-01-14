@@ -59,7 +59,7 @@ INT WSAAPI connecthook(
     int            namelen
 ) {
 
-    if (!checkCaller("connect")) {
+    if (checkCaller("connect")) {
         char ip[INET6_ADDRSTRLEN] = { 0 };
         sockaddr* sa = new sockaddr();
         switch (name->sa_family) {
@@ -140,9 +140,9 @@ INT WSAAPI recvhook(
     int len,
     int flags
 ) {
-    if (!checkCaller("recv")) {
+    if (checkCaller("recv")) {
 
-        auto it = perSocketBytesToRead.find(s);
+        /*auto it = perSocketBytesToRead.find(s);
         if (it == perSocketBytesToRead.end()) {
             perSocketBytesToRead[s] = DEFAULT_MEM_LEN;
             it = perSocketBytesToRead.find(s);
@@ -150,15 +150,15 @@ INT WSAAPI recvhook(
         int bytes_left = it->second;
         int bytes_read = bytes_left < len ? bytes_left : len;
         it->second -= bytes_read;
-        len = bytes_read;
+        len = bytes_read;*/
 
 
         std::string tag = GetTag("recv");
         UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
         S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
         // Symbolic return
-        INT bytesRead = 0;//S2ESymbolicInt(tag.c_str(), bytesToRead);
-        Message("[W] recv (%p, %s, %i, %i), ret: %i, -> tag_out: %s\n", s, buf, len, flags, bytesRead, tag.c_str());
+        INT bytesRead = S2ESymbolicInt(tag.c_str(), len);
+        Message("[W] recv (%p, %p, %i, %i), ret: %i, -> tag_out: %s\n", s, buf, len, flags, bytesRead, tag.c_str());
 
         return bytesRead;
     }
@@ -189,7 +189,7 @@ INT WSAAPI selecthook(
     const timeval* timeout
 ) {
 
-    if (!checkCaller("select")) {
+    if (checkCaller("select")) {
         std::string tag = GetTag("select");
         INT ret = S2ESymbolicInt(tag.c_str(), 1);
         Message("[W] select(%i, %p, %p, %p, %i)\n", nfds, readfds, writefds, exceptfds, timeout);
@@ -205,7 +205,7 @@ INT WSAAPI sendhook(
     int        len,
     int        flags
 ) {
-    if (!checkCaller("send")) {
+    if (checkCaller("send")) {
         std::string tag = GetTag("send");
         //INT ret = S2ESymbolicInt(tag.c_str(), len);
         //Message("[W] send (%p, A\"%s\", %i, %i) -> tag_out: %s\n",
