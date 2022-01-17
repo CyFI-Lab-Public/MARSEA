@@ -213,7 +213,6 @@ BOOL WINAPI ReadFileHook(
 				S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
 			}
 			else {
-				Message("[W] ReadFile (%d %p %i) \n", bytes_read, lpNumberOfBytesRead, *lpNumberOfBytesRead);
 				*lpNumberOfBytesRead = bytes_read;
 				S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
 			}
