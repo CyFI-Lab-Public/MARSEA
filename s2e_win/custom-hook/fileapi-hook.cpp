@@ -209,13 +209,8 @@ BOOL WINAPI ReadFileHook(
 		std::set<HANDLE>::iterator it_2 = dummyHandles.find(hFile);
 		if (it_2 == dummyHandles.end()) {
 			BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
-			if (lpNumberOfBytesRead == 0) {
-				S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
-			}
-			else {
-				*lpNumberOfBytesRead = bytes_read;
-				S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
-			}
+			*lpNumberOfBytesRead = bytes_read;
+			S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
 		}
 		else {
 			*lpNumberOfBytesRead = bytes_read;
