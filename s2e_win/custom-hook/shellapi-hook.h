@@ -19,3 +19,7 @@ HINSTANCE WINAPI ShellExecuteWHook(
 	LPCWSTR lpDirectory,
 	INT     nShowCmd
 );
+
+int WINAPI SHFileOperationAHook(
+	LPSHFILEOPSTRUCTA lpFileOp
+);

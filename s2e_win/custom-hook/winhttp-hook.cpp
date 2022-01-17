@@ -61,12 +61,8 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
     std::string tagin = ReadTag((PVOID)pswzServerName);
     if (tagin != "") {
         CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = WINWRAPPER_WINHTTPCONNECT;
-        Command.WinHttpConnect.hSession = (uint64_t)hSession;
-        Command.WinHttpConnect.pswzServerName = (uint64_t)pswzServerName;
-        Command.WinHttpConnect.nServerPort = (uint64_t)nServerPort;
-        Command.WinHttpConnect.dwReserved = (uint64_t)dwReserved;
-
+        Command.Command = DUMP_EXPRESSION;
+        Command.dumpExpression.buffer = (uint64_t)pswzServerName;
         S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
         Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld),Ret: %p, tag_in: %s\n",

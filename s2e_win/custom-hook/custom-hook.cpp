@@ -443,8 +443,8 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
     CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
-    
     CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
+    //CyFIFuncType("shell32", "SHFileOperationA", SHFileOperationAHook, { NULL }),
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
@@ -452,7 +452,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("User32", "EnumDisplayMonitors", EnumDisplayMonitorsHook, {NULL}),
     //CyFIFuncType("User32", "GetCursorPos", GetCursorPosHook, {NULL}),
     
-    CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
+    //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
 
     //CyFIFuncType("Kernel32", "GetCommandLineA", GetCommandLineAHook, {NULL}),
     //CyFIFuncType("User32", "wsprintfA", wsprintfAHook, {NULL}),
