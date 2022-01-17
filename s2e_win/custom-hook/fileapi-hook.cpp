@@ -197,42 +197,26 @@ BOOL WINAPI ReadFileHook(
 		if (fileMap.find(hFile) != fileMap.end() && taintFile.find(fileMap[hFile]) != taintFile.end()) {
 			std::string tagIn = taintFile[fileMap[hFile]];
 		}
-		std::string tag = GetTag("ReadFile");
 
+		std::string tag = GetTag("ReadFile");
 		if (tagIn.length() > 0) {
-			Message("[W] ReadFile (%p, %p, %ld, %p=0x%x, %p) -> tag_in: %s tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, bytes_read, lpOverlapped, tagIn.c_str(), tag.c_str());
+			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_in: %s tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tagIn.c_str(), tag.c_str());
 		}
 		else {
-			Message("[W] ReadFile (%p, %p, %ld, %p=0x%x, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, bytes_read, lpOverlapped, tag.c_str());
+			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
 		}
-	
 
 		std::set<HANDLE>::iterator it_2 = dummyHandles.find(hFile);
 		if (it_2 == dummyHandles.end()) {
 			BOOL res = ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
-
-			//if (res && lpOverlapped != nullptr) {
-			//	Message("[W] Waiting started");
-			//	DWORD dwWaitRes = WaitForSingleObject(lpOverlapped->hEvent, INFINITE);
-			//	Message("[W] Waiting finished");
-			//	if (dwWaitRes == WAIT_FAILED) {
-			//		Message("[W] Error waiting for I/O to finish\n");
-			//		LPVOID lpMsgBuf;
-			//		DWORD dw = GetLastError();
-
-			//		FormatMessageA(FORMAT_MESSAGE_ALLOCATE_BUFFER |
-			//			FORMAT_MESSAGE_FROM_SYSTEM |
-			//			FORMAT_MESSAGE_IGNORE_INSERTS,
-			//			NULL,
-			//			dw,
-			//			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT),
-			//			(LPSTR)&lpMsgBuf,
-			//			0, NULL);
-			//		Message("[W] Error: %s", lpMsgBuf);
-			//	}
-			//}
-			*lpNumberOfBytesRead = bytes_read;
-			S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
+			if (lpNumberOfBytesRead == 0) {
+				S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
+			}
+			else {
+				Message("[W] ReadFile (%d %p %i) \n", bytes_read, lpNumberOfBytesRead, *lpNumberOfBytesRead);
+				*lpNumberOfBytesRead = bytes_read;
+				S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
+			}
 		}
 		else {
 			*lpNumberOfBytesRead = bytes_read;
