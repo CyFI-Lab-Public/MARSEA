@@ -20,6 +20,16 @@ class Record():
         self.call_addr = 0
         self.isJump = False
 
+def analyze_record():
+    res = {}
+
+    for rec in RECORD:
+        if not rec.funcName in res:
+            res[rec.funcName] = 0
+        res[rec.funcName] += 1
+
+    return res
+
 def run_fork(proj_name):
     result = subprocess.run(['s2e', 'forkprofiler', proj_name], stdout=subprocess.PIPE)
     output = result.stdout.decode('utf-8')
