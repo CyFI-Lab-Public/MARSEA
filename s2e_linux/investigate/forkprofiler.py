@@ -30,6 +30,15 @@ def analyze_record():
 
     return res
 
+def get_line_number_from_func(func):
+    res = []
+
+    for rec in RECORD:
+        if rec.funcName == func:
+            res.append(rec.lineNumber)
+
+    return res
+
 def run_fork(proj_name):
     result = subprocess.run(['s2e', 'forkprofiler', proj_name], stdout=subprocess.PIPE)
     output = result.stdout.decode('utf-8')
