@@ -173,3 +173,14 @@ int __cdecl fclosehook(FILE* fp)
 	}
 	return fclose(fp);
 }
+
+int randhook(void) {
+	if (checkCaller("rand")) {
+		std::string tag_out = GetTag("rand");
+		int ran = rand();
+		return S2ESymbolicInt(tag_out.c_str(), ran);
+	}
+	else {
+		return rand();
+	}
+}

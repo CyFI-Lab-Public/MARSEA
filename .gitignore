@@ -16,3 +16,5 @@ s2e_win/Release/custom-hook.dll
 *.log
 *.tlog
 *.tlog
+*.log
+*.sarif

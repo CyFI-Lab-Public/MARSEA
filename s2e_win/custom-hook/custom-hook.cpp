@@ -379,6 +379,9 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("msvcrt", "fclose", fclosehook, {NULL}),
 
     CyFIFuncType("msvcrt", "strstr", strstrhook, {NULL}),
+    CyFIFuncType("msvcrt", "_strlwr", _strlwrhook, {NULL}),
+
+    CyFIFuncType("msvcrt", "rand", randhook, {NULL}),
 
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
 
@@ -470,7 +473,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
 
     /* Evasion Techniques*/
-    //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
+    CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
     //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
 
     //CyFIFuncType("user32", "GetAsyncKeyState", GetAsyncKeyStateHook, { NULL }),
