@@ -24,6 +24,8 @@
 namespace klee {
 class ExecutionState;
 
+extern std::unordered_map<uint64_t, bool> tbTrace;
+
 class Searcher {
 public:
     virtual ~Searcher();

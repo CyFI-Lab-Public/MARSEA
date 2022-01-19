@@ -104,18 +104,25 @@ def analyze_fork_record(trace):
 
     rec = Record()
 
-    module = trace['module']['name']
-    pc = trace['pc']
-    sid = trace['state_id']
-    call_addr, top_module, func, line, isJump = lookup_debug(sid, pc)
+    # Consider the condition that the module is malware itself
+    if trace['module']['name'] == "/s2e/"+PROJ:
+        rec.top_module = PROJ
+        rec.bottom_module = PROJ
 
-    rec.top_module = top_module
-    rec.bottom_module = module
-    rec.funcName = func
-    rec.lineNumber = line
-    rec.state_id = sid
-    rec.call_addr = call_addr
-    rec.isJump = isJump
+    else:
+
+        module = trace['module']['name']
+        pc = trace['pc']
+        sid = trace['state_id']
+        call_addr, top_module, func, line, isJump = lookup_debug(sid, pc)
+
+        rec.top_module = top_module
+        rec.bottom_module = module
+        rec.funcName = func
+        rec.lineNumber = line
+        rec.state_id = sid
+        rec.call_addr = call_addr
+        rec.isJump = isJump
 
     RECORD.append(rec)
 

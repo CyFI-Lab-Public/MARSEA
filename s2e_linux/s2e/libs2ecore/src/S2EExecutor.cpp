@@ -1396,6 +1396,10 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
 
     res = Executor::fork(current, condition, keepConditionTrueInCurrentState);
 
+    klee::ref<Expr> evalResult = current.concolics->evaluate(condition);
+    klee::ConstantExpr *ce = dyn_cast<klee::ConstantExpr>(evalResult);
+    bool conditionIsTrue = ce->isTrue();
+
     currentState->forkDisabled = oldForkStatus;
 
     if (!(res.first && res.second)) {
@@ -1405,6 +1409,14 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
     S2EExecutionState *newStates[2];
     newStates[0] = static_cast<S2EExecutionState *>(res.first);
     newStates[1] = static_cast<S2EExecutionState *>(res.second);
+
+    // Calcuate next PC
+    uint64_t staticTargets[2] = {0};
+    if (currentState->getStaticBranchTargets(&staticTargets[0], &staticTargets[1])) {
+        m_s2e->getDebugStream(currentState) << "is True: " << conditionIsTrue << "\n";
+        m_s2e->getDebugStream(currentState) << "True PC: " << hexval(staticTargets[0]) << "\n";
+        m_s2e->getDebugStream(currentState) << "False PC: " << hexval(staticTargets[1]) << "\n";
+    }
 
     klee::ref<Expr> newConditions[2];
     newConditions[0] = condition;
@@ -1426,6 +1438,17 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
         if (newStates[i] != currentState) {
             newStates[i]->m_needFinalizeTBExec = true;
             newStates[i]->m_active = false;
+            if (conditionIsTrue) {
+                newStates[i]->startPC = staticTargets[1];
+            } else {
+                newStates[i]->startPC = staticTargets[0];
+            }
+        } else {
+            if (conditionIsTrue) {
+                newStates[i]->startPC = staticTargets[0];
+            } else {
+                newStates[i]->startPC = staticTargets[1];
+            }
         }
     }
 
