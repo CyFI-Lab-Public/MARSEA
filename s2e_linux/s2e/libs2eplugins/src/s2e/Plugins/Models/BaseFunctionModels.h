@@ -56,6 +56,7 @@ private:
 
 protected:
     MemUtils *m_memutils;
+    BaseInstructions *m_base;
 
     klee::UpdateListPtr m_crc16_ul;
     klee::UpdateListPtr m_crc32_ul;

@@ -181,6 +181,7 @@ S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for li
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
     m_memutils = s2e()->getPlugin<MemUtils>();
+    m_base = s2e()->getPlugin<BaseInstructions>();
 
     instructionMonitor = s2e()->getConfig()->getBool(getConfigKey() + ".instructionMonitor");
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
@@ -1016,6 +1017,34 @@ void CyFiFunctionModels::killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_
         }
 }
 
+void CyFiFunctionModels::concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    uint64_t address = (uint64_t) cmd.concretizeAll.buffer;
+    unsigned i = 0;
+
+    while (True) {
+        klee::ref<klee::Expr> ret = state->mem()->read(address + i);
+        if (ret.isNull()) {
+            getWarningsStream() << "Could not read address " << hexval(address + i) << "\n";
+            break;
+        }
+
+        if (!isa<ConstantExpr>(ret)) {
+            uint8_t b = 0;
+            if (!state->mem()->read<uint8_t>(address + i, &b, VirtualAddress)) {
+                getWarningsStream() << "Could not concretize address " << hexval(address + i) << "\n";
+                break;
+            } 
+        } else {
+            break;
+        }
+
+        i++;
+    }
+
+    getDebugStream(state) << "Concretizing buffer " << hexval(address) << " with size " << i << "\n";
+
+    return;
+}
 
 // TODO: use template
 #define UPDATE_RET_VAL(CmdType, cmd)                                         \
@@ -1286,6 +1315,13 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 	case DUMP_EXPRESSION: {
 	    dumpExpression(state, command);
 	} break;
+
+    case CONCRETIZE_ALL: {
+        concretizeAll(state, command);
+        if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }
+    } break;
 
         default: {
             getWarningsStream(state) << "Invalid command " << hexval(command.Command) << "\n";

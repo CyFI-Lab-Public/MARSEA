@@ -141,6 +141,7 @@ private:
     void killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
     void dumpExpression(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 };
 
 } // namespace models
