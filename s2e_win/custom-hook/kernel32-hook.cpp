@@ -62,8 +62,8 @@ DWORD WINAPI GetModuleFileNameAHook(
 	if (checkCaller("GetModuleFileNameA")) {
 		GetModuleFileNameA(hModule, lpFilename, nSize);
 		std::string tag = GetTag("GetModuleFileNameA");
+		Message("[W] GetModuleFileNameA (%p, %s, %ld) -> tag_out: %s\n", hModule, lpFilename, nSize, tag.c_str());
 		S2EMakeSymbolic(lpFilename, min(nSize, DEFAULT_MEM_LEN), tag.c_str());
-		Message("[W] GetModuleFileNameA (%p, %p, %ld) -> tag_out: %s\n", hModule, lpFilename, nSize, tag.c_str());
 		return nSize;
 	}
 	return GetModuleFileNameA(hModule, lpFilename, nSize);

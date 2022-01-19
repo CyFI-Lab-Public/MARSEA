@@ -11,3 +11,7 @@ char* strstrhook(
 	const char* strSearch
 );
 
+char* _strlwrhook(
+	char* str
+);
+
