@@ -85,6 +85,11 @@ public:
 
     unsigned incomingBBIndex;
 
+    // Start pc (tb) of this state. Can be zero when klee cant figure out the branch target.
+    uint64_t startPC = 0;
+
+    bool inTargetModule = false;
+
 private:
     /// Simplifier user to simplify expressions when adding them
     static BitfieldSimplifier s_simplifier;

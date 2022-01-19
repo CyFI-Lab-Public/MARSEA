@@ -39,6 +39,7 @@ using namespace llvm;
 namespace {
 cl::opt<bool> UseDfsSearch("use-dfs-search");
 cl::opt<bool> UseRandomSearch("use-random-search");
+cl::opt<bool> UseCyfiSearch("use-cyfi-search");
 
 std::random_device rd;
 std::mt19937 rng(rd());
@@ -47,6 +48,8 @@ std::uniform_int_distribution<uint32_t> uni(0, UINT32_MAX);
 } // namespace
 
 namespace klee {
+
+std::unordered_map<uint64_t, bool> tbTrace;
 
 Searcher::~Searcher() {
 }

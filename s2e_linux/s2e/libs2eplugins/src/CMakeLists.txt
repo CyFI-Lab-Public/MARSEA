@@ -89,6 +89,8 @@ add_library(
     s2e/Plugins/Searchers/MergingSearcher.cpp
     s2e/Plugins/Searchers/LoopExitSearcher.cpp
     s2e/Plugins/Searchers/CUPASearcher.cpp
+    s2e/Plugins/Searchers/CyFiSearcher.cpp
+    s2e/Plugins/Searchers/NewCodeSearcher.cpp
     s2e/Plugins/Searchers/SeedSearcher.cpp
     s2e/Plugins/Searchers/SeedScheduler.cpp
 

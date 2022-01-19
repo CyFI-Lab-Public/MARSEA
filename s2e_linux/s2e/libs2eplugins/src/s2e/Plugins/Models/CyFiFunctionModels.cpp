@@ -628,16 +628,36 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
     stringAddrs[0] = (uint64_t) cmd.StrStrA.pszFirst;
     stringAddrs[1] = (uint64_t) cmd.StrStrA.pszSrch;
 
-    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	    std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.StrStrA.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
+    m_base->makeSymbolic(state, stringAddrs[1], state->getPointerSize(), "temp");
+
+    klee::ref<klee::Expr> data = state->mem()->read(stringAddrs[1], state->getPointerWidth());
+
+    klee::ref<klee::Expr> possible_1 = klee::ConstantExpr::create(stringAddrs[0], state->getPointerWidth());
+
+    klee::ref<klee::Expr> possible_2 = klee::ConstantExpr::create(0, state->getPointerWidth());
+
+    klee::ref<klee::Expr> condition = klee::OrExpr::create(klee::EqExpr::create(data, possible_1), klee::EqExpr::create(data, possible_2));
+
+    
+    klee::ref<klee::Expr> zero = klee::ConstantExpr::create(0, condition.get()->getWidth());
+    klee::ref<klee::Expr> boolExpr = klee::NeExpr::create(condition, zero);
+
+    getDebugStream(state) << "Assuming " << boolExpr << "\n";
+
+    if (!state->addConstraint(boolExpr, true)) {
+        s2e()->getExecutor()->terminateState(*state, "Tried to add an invalid constraint");
     }
+
+    // ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
+    // if(!data.isNull()) {
+    //     if (!isa<ConstantExpr>(data)) {
+    //         std::ostringstream ss;
+    //         ss << data;
+    //         std::string sym = ss.str();
+	//     std::string symbTag = getTag(sym);
+    //         state->mem()->write(cmd.StrStrA.symbTag, symbTag.c_str(), symbTag.length()+1);
+    //     }
+    // }
 }
 
 void CyFiFunctionModels::handleStrStrW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
@@ -947,6 +967,7 @@ void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMA
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
+            getDebugStream(state) << "symbolic constraints: " << sym << "\n";
             std::string symbTag = getTag(sym);
             state->mem()->write(cmd.ReadTag.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
