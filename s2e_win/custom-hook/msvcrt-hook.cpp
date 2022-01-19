@@ -1,5 +1,6 @@
 #include "msvcrt-hook.h"
 #include "utils.h"
+#include "commands.h"
 #include <string>
 #include <set>
 #include <unordered_map>
@@ -16,6 +17,11 @@ FILE* __cdecl fopenhook(
 	const char* mode
 ) {
 	if (checkCaller("fopen")) {
+
+		if (S2EIsSymbolic((PVOID)filename, 4)) {
+			concretizeAll((PVOID)filename);
+		}
+
 		std::string fileName(filename);
 		std::string fileMode(mode);
 

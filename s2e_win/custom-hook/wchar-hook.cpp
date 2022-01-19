@@ -90,7 +90,8 @@ char* _strlwrhook(
 			tag_in = ReadTag(str);
 			// If the str points to a symbolic buffer, concretize it first and then mark it symbolic again
 			Message("[W] Concretize");
-			S2EConcretize(str, strlen(str));
+			concretizeAll(str);
+			// S2EConcretize(str, strlen(str));
 		}
 
 		Message("[W] Nativa call strlwr");
@@ -112,5 +113,54 @@ char* _strlwrhook(
 		return _strlwr(str);
 	}
 	
+}
+
+char* strrchrhook(
+	char* str,
+	int c
+) {
+	if (checkCaller("strrchr")) {
+
+		if (S2EIsSymbolic(&str, 4)) {
+			concretizeAll(&str);
+		}
+
+		std::string tagin = ReadTag(str);
+
+		if (tagin != "") {
+
+			char* temp = NULL;
+
+			char search = c + '0';
+
+			char start[7] = "start_";
+			char end[5] = "_end";
+			strcpy(str, start);
+			strcat(str, &search);
+			strcat(str, end);
+			strcat(str, end);
+
+			char* ret = strrchr(str, c);
+
+			CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+			Command.Command = WINWRAPPER_STRSTRA;
+			Command.StrStrA.pszFirst = (uint64_t)ret;
+			Command.StrStrA.pszSrch = (uint64_t)(&temp);
+			std::string symbTag = "";
+			Command.StrStrA.symbTag = (uint64_t)symbTag.c_str();
+			__s2e_touch_string((PCSTR)(UINT_PTR)Command.StrStrA.symbTag);
+			S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+			std::string tag = GetTag("strrchr");
+			Message("[W] strrchr (%p, %c) -> tag_in: %s tag_out: %s\n", str, c, tagin.c_str(), tag.c_str());
+			S2EMakeSymbolic((PVOID)str, strlen(str), tag.c_str());
+
+			return temp;
+		}
+
+		return strrchr(str, c);
+	}
+
+	return strrchr(str, c);
 }
 
