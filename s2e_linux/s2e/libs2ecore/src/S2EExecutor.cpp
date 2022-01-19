@@ -758,7 +758,7 @@ void S2EExecutor::stateSwitchTimerCallback(void *opaque) {
 
     assert(env->current_tb == nullptr);
 
-    if (g_s2e_state) {
+    if (g_s2e_state && c->states.size()>=2) {
         c->doLoadBalancing();
         S2EExecutionState *nextState = c->selectNextState(g_s2e_state);
         if (nextState) {

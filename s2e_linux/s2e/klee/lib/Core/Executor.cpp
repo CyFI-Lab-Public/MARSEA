@@ -70,6 +70,8 @@
 #include <errno.h>
 #include <inttypes.h>
 
+#include <unistd.h>
+
 using namespace llvm;
 using namespace klee;
 

@@ -967,6 +967,7 @@ void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMA
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
+            getDebugStream(state) << "symbolic constraints: " << sym << "\n";
             std::string symbTag = getTag(sym);
             state->mem()->write(cmd.ReadTag.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
