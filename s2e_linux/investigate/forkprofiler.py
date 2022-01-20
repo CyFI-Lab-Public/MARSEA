@@ -164,6 +164,33 @@ def load_execution_trace(etrace_file):
         if trace['type'] == "TRACE_FORK":
             analyze_fork_record(trace)
 
+def analyze_execution_trace(proj_fd):
+    global PROJ
+    global DEBUG
+    global FOUND_LINE
+    global RECORD
+
+    FOUND_LINE = []
+    RECORD = []
+    PROJ = ""
+    DEBUG = []
+
+    opath = Path(proj_fd)
+    PROJ = opath.stem
+    # Generate the executraion_trace.json
+    os.system('s2e execution_trace -pp ' + PROJ)
+
+    dfile = opath/"s2e-last"/"debug.txt"
+    etrace = opath/"s2e-last"/"execution_trace.json"
+
+    if not (dfile.exists() and etrace.exists()):
+        return []
+
+    DEBUG = [x.strip() for x in Path(dfile).open().readlines()]
+
+    load_execution_trace(etrace)
+
+    return RECORD
 
 def main():
     if len(sys.argv) != 2:
