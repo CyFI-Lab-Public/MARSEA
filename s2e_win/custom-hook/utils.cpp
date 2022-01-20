@@ -66,6 +66,19 @@ std::string ReadTag(PVOID Buffer) {
     return std::string((PCSTR)Command.ReadTag.symbTag);
 }
 
+void concretizeAll(PVOID Buffer) {
+    if (Buffer == NULL || Buffer == nullptr) {
+        return;
+    }
+
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = CONCRETIZE_ALL;
+    Command.concretizeAll.buffer = (uint64_t)Buffer;
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+    return;
+}
+
 bool checkCaller(std::string funcName) {
     CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
     Command.Command = CHECK_CALLER;

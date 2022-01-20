@@ -57,6 +57,8 @@ extern "C" {
         KILL_ANALYSIS,
 
         DUMP_EXPRESSION,
+
+        CONCRETIZE_ALL
     };
 
     struct CYFI_WINWRAPPER_COMMAND_STRCPY {
@@ -302,6 +304,10 @@ extern "C" {
         uint64_t buffer;
     };
 
+    struct CYFI_CONCRETIZE_ALL {
+        uint64_t buffer;
+    };
+
     struct CYFI_WINWRAPPER_COMMAND {
         enum CYFI_WINWRAPPER_COMMANDS Command;
         union {
@@ -350,6 +356,8 @@ extern "C" {
             struct CYFI_KILL_ANALYSIS KillAnalysis;
 
             struct CYFI_DUMP_EXPRESSION dumpExpression;
+
+            struct CYFI_CONCRETIZE_ALL concretizeAll;
         };
         uint64_t needOrigFunc;
     };

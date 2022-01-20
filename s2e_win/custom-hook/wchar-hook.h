@@ -15,3 +15,8 @@ char* _strlwrhook(
 	char* str
 );
 
+char* strrchrhook(
+	char* str,
+	int c
+);
+
