@@ -3,6 +3,7 @@ import json
 import sys
 import subprocess
 import tqdm
+import re
 
 PROJ = ""
 FOUND_LINE = []
@@ -78,7 +79,7 @@ def lookup_debug(state_id, pc):
 
             for check in list(range(i))[::-1]:
                 temp_line = DEBUG[check]
-                if "LibraryCallMonitor: "+PROJ in temp_line:
+                if '[State ' + str(state_id) + ']' in temp_line and "LibraryCallMonitor: "+PROJ in temp_line:
                     jump = False
                     # Hack jumped to
                     if "jumped to" in temp_line:
@@ -92,10 +93,32 @@ def lookup_debug(state_id, pc):
                     res = [call_addr, module, func, i+1, jump]
                     break
 
+                if 'state ' + str(state_id) + ' with condition' in temp_line:
+                    new_state_id = find_parent_state_id(check)
+                    
+                    if new_state_id is not None:
+                        state_id = new_state_id
+
+                    else:
+                        import ipdb
+                        ipdb.set_trace()
+
         if res:
             break
 
     return res
+
+def find_parent_state_id(index):
+    for check in list(range(index))[::-1]:
+        temp_line = DEBUG[check]
+
+        result = re.search("Forking state (\d+) at pc", temp_line)
+
+        if result is not None:
+            new_state_id = result.group(1)
+            return int(new_state_id)
+
+    return None
 
 def analyze_fork_record(trace):
     if not 'module' in trace:
@@ -110,7 +133,6 @@ def analyze_fork_record(trace):
         rec.bottom_module = PROJ
 
     else:
-
         module = trace['module']['name']
         pc = trace['pc']
         sid = trace['state_id']
