@@ -166,3 +166,37 @@ SHORT WINAPI GetAsyncKeyStateHook(
 
 	return GetAsyncKeyState(vKey);
 }
+
+int WINAPI LoadStringAHook(
+	HINSTANCE hInstance,
+	UINT      uID,
+	LPSTR     lpBuffer,
+	int       cchBufferMax
+) {
+	if (checkCaller("LoadStringA")) {
+
+		std::string tag = GetTag("LoadStringA");
+		int ret = 0;
+		if (cchBufferMax == 0) {
+			ret = DEFAULT_MEM_LEN;
+		}
+		else {
+			ret = min(cchBufferMax, DEFAULT_MEM_LEN);
+		}
+		Message("[W] LoadStringA (%p, %i, %p, %i) tag_out: %s\n", hInstance, uID, lpBuffer, cchBufferMax, tag.c_str());
+		S2EMakeSymbolic(lpBuffer, ret, tag.c_str());
+		return ret;
+	}
+	return LoadStringA(hInstance, uID, lpBuffer, cchBufferMax);
+}
+
+BOOL WINAPI PeekMessageAHook(
+	LPMSG lpMsg,
+	HWND  hWnd,
+	UINT  wMsgFilterMin,
+	UINT  wMsgFilterMax,
+	UINT  wRemoveMsg
+) {
+	Message("[W] PeekMessageA (%p, %p, %i, %i, %i)\n", lpMsg, hWnd, wMsgFilterMin, wMsgFilterMax, wRemoveMsg);
+	return TRUE;
+}
