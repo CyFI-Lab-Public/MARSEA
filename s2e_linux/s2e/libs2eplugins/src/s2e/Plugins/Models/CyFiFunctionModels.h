@@ -89,6 +89,9 @@ private:
     LibraryCallMonitor *m_libCallMonitor;
     ProcessExecutionDetector *m_procDetector;
     uint64_t moduleId = 0;
+
+    typedef std::unordered_set<std::string> StringSet;
+    StringSet m_moduleNames;
     std::string m_moduleName = "";
     std::unique_ptr<Ranges> m_traceRegions = nullptr;
 

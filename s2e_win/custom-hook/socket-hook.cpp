@@ -18,6 +18,7 @@
 /// Keep track of sockets 
 static std::set<SOCKET> dummySockets;
 static std::unordered_map<SOCKET, int> perSocketBytesToRead;
+static std::set<SOCKET> socketTracker;
 
 SOCKET WSAAPI sockethook(
     int af,
@@ -142,29 +143,24 @@ INT WSAAPI recvhook(
 ) {
     if (checkCaller("recv")) {
 
-        /*auto it = perSocketBytesToRead.find(s);
-        if (it == perSocketBytesToRead.end()) {
-            perSocketBytesToRead[s] = DEFAULT_MEM_LEN;
-            it = perSocketBytesToRead.find(s);
-        }
-        int bytes_left = it->second;
-        int bytes_read = bytes_left < len ? bytes_left : len;
-        it->second -= bytes_read;
-        len = bytes_read;*/
-
-
         std::string tag = GetTag("recv");
-        UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
+
+        std::string data_read = "(url)f237769666e6f636f2336313e28393e2039313e2838313f2f2a307474786(/ url)";
+        memcpy(buf, data_read.c_str(), data_read.size());
+        
+        Message("[W] recv (%p, %p, %i, %i), ret: %i, -> tag_out: %s\n", s, buf, len, flags, data_read.size(), tag.c_str());
+
+        int ret = data_read.size();//S2ESymbolicInt(tag.c_str(), data_read.size());
+        S2EMakeSymbolic(buf, data_read.size(), tag.c_str());
+        return ret;
+
+        /*UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
+        Message("[W] recv (%p, %p, %i, %i), ret: %i, -> tag_out: %s\n", s, buf, len, flags, bytesToRead, tag.c_str());
         S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
         // Symbolic return
-        INT bytesRead = S2ESymbolicInt(tag.c_str(), len);
-        Message("[W] recv (%p, %p, %i, %i), ret: %i, -> tag_out: %s\n", s, buf, len, flags, bytesRead, tag.c_str());
-
-        return bytesRead;
+        //INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
+        return bytesToRead;//bytesRead;*/
     }
-    Message("[W] recv (%p) elsewhere\n", s);
-    return recv(s, buf, len, flags);
-
 }
 
 INT WSAAPI accepthook(
@@ -181,6 +177,7 @@ INT WSAAPI accepthook(
     return accept(s, addr, addrlen);
 }
 
+
 INT WSAAPI selecthook(
     int           nfds,
     fd_set* readfds,
@@ -190,14 +187,37 @@ INT WSAAPI selecthook(
 ) {
 
     if (checkCaller("select")) {
-        std::string tag = GetTag("select");
+
+        int socketCount = readfds->fd_count;
+        if (socketCount > 0) {
+            for (int i = 0; i < readfds->fd_count; i++) {
+                SOCKET s = readfds->fd_array[i];
+                std::set<SOCKET>::iterator it = socketTracker.find(s);
+                if (it == socketTracker.end()) {
+                    socketTracker.insert(s);
+                }
+                else {
+                    socketTracker.erase(it);
+                    socketCount--;
+                }
+            }
+            Message("[W] select(%i, %p, %i, %i, %i) ret: %i\n", nfds, readfds->fd_count, writefds->fd_count, exceptfds, timeout, socketCount);
+            return socketCount;
+        }
+        return 0;
+
+        /*std::string tag = GetTag("select");
         INT ret = S2ESymbolicInt(tag.c_str(), 1);
+        Message("[W] count: %i \n", readfds->fd_count);
+
         Message("[W] select(%i, %p, %p, %p, %i)\n", nfds, readfds, writefds, exceptfds, timeout);
-        return ret;
+        return 0;*/
     }
 
     return select(nfds, readfds, writefds, exceptfds, timeout);
 }
+
+
 
 INT WSAAPI sendhook(
     SOCKET     s,

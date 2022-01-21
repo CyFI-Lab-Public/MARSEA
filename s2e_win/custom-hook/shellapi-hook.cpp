@@ -11,8 +11,7 @@ HINSTANCE WINAPI ShellExecuteAHook(
 	INT    nShowCmd
 ) {
 	if (checkCaller("ShellExecuteA")) {
-		HINSTANCE ret = (HINSTANCE)malloc(sizeof(HINSTANCE));
-
+		HINSTANCE ret = ShellExecuteA(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
 		std::string file_tag = getFileTag(lpFile);
 		if (file_tag.length() > 1) {
 			Message("[W] ShellExecuteA(%p, %s, %s, %s, %s, %i) ret: %p tag_in: %s\n", hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd, ret, file_tag.c_str());
@@ -21,11 +20,8 @@ HINSTANCE WINAPI ShellExecuteAHook(
 			Message("[W] ShellExecuteA(%p, %s, %p=%s, %s, %s, %i) ret: %p\n", hwnd, lpOperation, lpFile, lpFile, lpParameters, lpDirectory, nShowCmd, ret);
 		}
 		return ret;
-		return ShellExecuteA(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
 	}
-
 	return ShellExecuteA(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
-
 }
 
 HINSTANCE WINAPI ShellExecuteWHook(
@@ -57,6 +53,9 @@ int WINAPI SHFileOperationAHook(
 	LPSHFILEOPSTRUCTA lpFileOp
 ) {
 	int ret = SHFileOperationA(lpFileOp);
-	Message("[W] SHFileOperationA(%i, %s, %p,  ) ret: %i\n", lpFileOp->wFunc, lpFileOp->pFrom, lpFileOp->pTo, ret);
+	Message("[W] SHFileOperationA(%i, %s, %p) ret: %i\n", lpFileOp->wFunc, lpFileOp->pFrom, lpFileOp->pTo, ret);
+	if (ret == 0 || ret == 183) {
+		return ret;
+	}
 	return 0;
 }

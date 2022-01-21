@@ -64,6 +64,7 @@ namespace winhttp {
 #include "shellapi-hook.h"
 #include "winbase-hook.h"
 
+#include <synchapi.h>
 
 INT s2eVersion = 0;
 
@@ -342,6 +343,14 @@ static int MultiByteToWideCharHook(
 
 }
 
+DWORD WINAPI WaitForSingleObjectHook(
+    HANDLE hHandle,
+    DWORD  dwMilliseconds
+) {
+    Message("[W] WaitForSingleObject(%p, %d)\n", hHandle, dwMilliseconds);
+    return WAIT_TIMEOUT;
+}
+
 CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("dbghelp", "MiniDumpWriteDump", MiniDumpWriteDumpHook, {NULL}),
@@ -443,13 +452,15 @@ CyFIFuncType functionToHook[] = {
 
     //CyFIFuncType("kernel32", "SetFilePointer", SetFilePointerHook, {NULL}),
 
-
     //CyFIFuncType("ntdll", "wcschr", wcschrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
-    CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
+    //CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
     CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
     //CyFIFuncType("shell32", "SHFileOperationA", SHFileOperationAHook, { NULL }),
+    //CyFIFuncType("User32", "PeekMessageA", PeekMessageAHook, { NULL }),
+    //CyFIFuncType("kernel32", "WaitForSingleObject", WaitForSingleObjectHook, { NULL }),
+
 
     //CyFIFuncType("User32", "GetKeyboardType", GetKeyboardTypeHook, {NULL}),
     //CyFIFuncType("User32", "GetKeyboardLayout", GetKeyboardLayoutHook, {NULL}),
@@ -472,7 +483,6 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),
 
     CyFIFuncType("kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
-    CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, { NULL }),
     CyFIFuncType("kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
 
     /* Evasion Techniques*/

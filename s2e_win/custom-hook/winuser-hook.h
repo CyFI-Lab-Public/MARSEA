@@ -53,3 +53,18 @@ BOOL WINAPI ShowWindowHook(
 SHORT WINAPI GetAsyncKeyStateHook(
 	int vKey
 );
+
+int WINAPI LoadStringAHook(
+	HINSTANCE hInstance,
+	UINT      uID,
+	LPSTR     lpBuffer,
+	int       cchBufferMax
+);
+
+BOOL WINAPI PeekMessageAHook(
+	LPMSG lpMsg,
+	HWND  hWnd,
+	UINT  wMsgFilterMin,
+	UINT  wMsgFilterMax,
+	UINT  wRemoveMsg
+);
