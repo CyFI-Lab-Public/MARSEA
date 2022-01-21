@@ -186,6 +186,12 @@ void CyFiFunctionModels::initialize() {
     instructionMonitor = s2e()->getConfig()->getBool(getConfigKey() + ".instructionMonitor");
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
     m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
+	    bool ok;
+    ConfigFile::string_list moduleNames = s2e()->getConfig()->getStringList(getConfigKey() + ".moduleNames", ConfigFile::string_list(), &ok); 
+    foreach2 (it, m_moduleNames.begin(), m_moduleNames.end()) { m_moduleNames.insert(*it); }
+    if (!m_moduleName.empty()) {
+	    m_moduleNames.insert(m_moduleName);
+    }
 
     const auto& trace_regions = s2e()->getConfig()->getString(getConfigKey() + ".traceRegions");
     if (!trace_regions.empty()) {
@@ -228,11 +234,15 @@ void CyFiFunctionModels::onProcessLoad(S2EExecutionState *state, uint64_t pageDi
     
     if (moduleId > 0) {
         getDebugStream(state) << "Tracking " << ImageFileName << " pid: " << hexval(pid) << " from ppid: " << hexval(moduleId) <<  "\n";
+	m_moduleNames.insert(ImageFileName);
         m_procDetector->trackModule(state, pid, ImageFileName);
         moduleId = pid;
     }
-    if ((m_moduleName != "") && (m_moduleName == ImageFileName)) {
-        moduleId = pid;
+    //if ((m_moduleName != "") && (m_moduleName == ImageFileName)) {
+    //    moduleId = pid;
+    //}
+    if(!m_moduleNames.empty() && m_moduleNames.find(ImageFileName) != m_moduleNames.end()){
+	    moduleId = pid;
     }
 
 }
@@ -265,9 +275,12 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
     //We only care about the target as the caller module
     std::string callerModule = (*current_mod.get()).Name;
 
-    if (callerModule != m_moduleName) {
-        return;
+    if(m_moduleNames.find(callerModule) == m_moduleNames.end()) {
+	    return;
     }
+    //if (callerModule != m_moduleName) {
+    //    return;
+    //}
 
     std::string exportName;
 
@@ -376,12 +389,15 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
     // Otherwise, check whether we've specified which module to trace, and if the current
     // module's name match. If the config contains "moduleName", then we can use that info
     // to check if the module that the PC is currently in is the one we're interested in.
-    if (!m_moduleName.empty()) {
+    /*if (!m_moduleName.empty()) {
         // If the current module is the one we're looking for, connect to the
         // onInstructionExecution signal.
         if (currentMod->Name == m_moduleName) {
             signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
         }
+    }*/
+    if(m_moduleNames.find(currentMod->Name) != m_moduleNames.end()) {
+        signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
     }
 }
 
