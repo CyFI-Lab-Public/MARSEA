@@ -1,0 +1,1578 @@
+Revision: 0be5c89df54b534025ea078488889ccbf20d6344
+Config date: Wed 11 Aug 2021 03:15:35 PM EDT
+
+Started new node id=1 index=1 pid=36119 parent_id=0
+LoadBalancing: terminating states
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608dfc3
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608e6d9
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x76094d59
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608e68c
+Vmi: Loading module from disk /Windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll (comctl32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll (comctl32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x748cb4d1
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82750): s2e.sys: detected image load pid=000007A0 addr=74720000 size=0x40000 \Windows\System32\uxtheme.dll kernel=0 allpids=0
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82750): s2e.sys: detected image load pid=000007A0 addr=74720000 size=0x40000 \Windows\System32\uxtheme.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+61 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=uxtheme.dll Path=/Windows/System32/uxtheme.dll Size=0x40000 AddressSpace=0x110d1000 Pid=0x7a0 EntryPoint=0x6ce7a2dd Checksum=0x3d4ec
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7472a2dd
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7472b0a7
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7472b0d8
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7472b105
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7472b130
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/uxtheme.dll (uxtheme.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/uxtheme.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll (comctl32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x748bb8f5
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=728C0000 size=0x1c000 \Windows\System32\IPHLPAPI.DLL kernel=0 allpids=0
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=728C0000 size=0x1c000 \Windows\System32\IPHLPAPI.DLL kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/IPHLPAPI.DLL (iphlpapi.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/iphlpapi.dll
+61 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=iphlpapi.dll Path=/Windows/System32/IPHLPAPI.DLL Size=0x1c000 AddressSpace=0x110d1000 Pid=0x7a0 EntryPoint=0x40c9a439 Checksum=0x248dd
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=728B0000 size=0x7000 \Windows\System32\winnsi.dll kernel=0 allpids=0
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=728B0000 size=0x7000 \Windows\System32\winnsi.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/winnsi.dll (winnsi.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/winnsi.dll
+61 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=winnsi.dll Path=/Windows/System32/winnsi.dll Size=0x7000 AddressSpace=0x110d1000 Pid=0x7a0 EntryPoint=0x3fd9128d Checksum=0x104eb
+Vmi: Loading module from disk /Windows/System32/winnsi.dll (winnsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/winnsi.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x728b128d
+Vmi: Loading module from disk /Windows/System32/IPHLPAPI.DLL (iphlpapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/iphlpapi.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x728ca439
+Vmi: Loading module from disk /Windows/System32/IPHLPAPI.DLL (iphlpapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/iphlpapi.dll
+Vmi: Loading module from disk /Windows/System32/winnsi.dll (winnsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/winnsi.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+Vmi: Loading module from disk /Windows/System32/winnsi.dll (winnsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/winnsi.dll
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f114): s2e.sys: caught thread creation pid=0x7a0 tid=0x184 create=1
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f114): s2e.sys: caught thread creation pid=0x7a0 tid=0x184 create=1
+61 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82660
+Vmi: Loading module from disk /s2e/EasyHook32.dll (easyhook32.dll)
+Vmi: Could not find host path for easyhook32.dll
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8e104): s2e.sys: caught thread creation pid=0x7a0 tid=0x1d8 create=1
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8e104): s2e.sys: caught thread creation pid=0x7a0 tid=0x1d8 create=1
+61 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82378
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x773cfa10
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+61 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x773bbedb
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /s2e/EasyHook32.dll (easyhook32.dll)
+Vmi: Could not find host path for easyhook32.dll
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80faf104): s2e.sys: caught thread creation pid=0x354 tid=0x124 create=1
+61 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80faf104): s2e.sys: caught thread creation pid=0x354 tid=0x124 create=1
+61 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84aec030
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/IPHLPAPI.DLL (iphlpapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/iphlpapi.dll
+Vmi: Loading module from disk /Windows/System32/IPHLPAPI.DLL (iphlpapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/iphlpapi.dll
+Vmi: Loading module from disk /Windows/System32/nsi.dll (nsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/nsi.dll
+Vmi: Loading module from disk /Windows/System32/IPHLPAPI.DLL (iphlpapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/iphlpapi.dll
+Vmi: Loading module from disk /Windows/System32/nsi.dll (nsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/nsi.dll
+Vmi: Loading module from disk /Windows/System32/nsi.dll (nsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/nsi.dll
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72890000 size=0xd000 \Windows\System32\dhcpcsvc6.dll kernel=0 allpids=0
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72890000 size=0xd000 \Windows\System32\dhcpcsvc6.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc6.dll (dhcpcsvc6.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc6.dll
+62 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=dhcpcsvc6.dll Path=/Windows/System32/dhcpcsvc6.dll Size=0xd000 AddressSpace=0x110d1000 Pid=0x7a0 EntryPoint=0x40462012 Checksum=0x139f7
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc6.dll (dhcpcsvc6.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc6.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x72892012
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc6.dll (dhcpcsvc6.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc6.dll
+Vmi: Loading module from disk /Windows/System32/IPHLPAPI.DLL (iphlpapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/iphlpapi.dll
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc6.dll (dhcpcsvc6.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc6.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x72891bf0
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc6.dll (dhcpcsvc6.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc6.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x72894cb6
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc6.dll (dhcpcsvc6.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc6.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x728914d0
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc6.dll (dhcpcsvc6.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc6.dll
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72870000 size=0x12000 \Windows\System32\dhcpcsvc.dll kernel=0 allpids=0
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72870000 size=0x12000 \Windows\System32\dhcpcsvc.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc.dll (dhcpcsvc.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc.dll
+62 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=dhcpcsvc.dll Path=/Windows/System32/dhcpcsvc.dll Size=0x12000 AddressSpace=0x110d1000 Pid=0x7a0 EntryPoint=0x40ed3271 Checksum=0x1aef7
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc.dll (dhcpcsvc.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x72873271
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc.dll (dhcpcsvc.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc.dll
+Vmi: Loading module from disk /Windows/System32/nsi.dll (nsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/nsi.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc.dll (dhcpcsvc.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc.dll
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc.dll (dhcpcsvc.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x72872e55
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc.dll (dhcpcsvc.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7287274a
+Vmi: Loading module from disk /Windows/System32/dhcpcsvc.dll (dhcpcsvc.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dhcpcsvc.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/nsi.dll (nsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/nsi.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608fb88
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608fc1f
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ole32.dll (ole32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ole32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82750): s2e.sys: detected image load pid=000007A0 addr=75830000 size=0xc000 \Windows\System32\cryptbase.dll kernel=0 allpids=0
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82750): s2e.sys: detected image load pid=000007A0 addr=75830000 size=0xc000 \Windows\System32\cryptbase.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/cryptbase.dll (cryptbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/cryptbase.dll
+62 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=cryptbase.dll Path=/Windows/System32/cryptbase.dll Size=0xc000 AddressSpace=0x110d1000 Pid=0x7a0 EntryPoint=0x100010e1 Checksum=0x13f7a
+Vmi: Loading module from disk /Windows/System32/cryptbase.dll (cryptbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/cryptbase.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x758310e1
+Vmi: Loading module from disk /Windows/System32/cryptbase.dll (cryptbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/cryptbase.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/ole32.dll (ole32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ole32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x762262d5
+Vmi: Loading module from disk /Windows/System32/ole32.dll (ole32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ole32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x76343ae0
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608f31b
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x775341c5
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608aab2
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x7608808c
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x760b41be
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/lpk.dll (lpk.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/lpk.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/lpk.dll (lpk.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/lpk.dll
+Vmi: Loading module from disk /Windows/System32/usp10.dll (usp10.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/usp10.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+Vmi: Loading module from disk /Windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll (comctl32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/winsxs/x86_microsoft.windows.common-controls_6595b64144ccf1df_6.0.7601.24483_none_2b200f664577e14b/comctl32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x74935560
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+62 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x76092243
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c08f750): s2e.sys: detected image load pid=00000498 addr=02DA0000 size=0x29000 \s2e\fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 kernel=0 allpids=0
+62 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c08f750): s2e.sys: detected image load pid=00000498 addr=02DA0000 size=0x29000 \s2e\fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 kernel=0 allpids=0
+Vmi: Loading module from disk /s2e/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 (fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99)
+Vmi: Found cached entry for /home/cyfi/s2e/projects/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99
+62 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 Path=/s2e/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 Size=0x29000 AddressSpace=0x48a67000 Pid=0x498 EntryPoint=0x401140 Checksum=0x0
+62 [Node 1/1 - State 0] ModuleExecutionDetector: loading id mod_0
+Vmi: Loading module from disk /s2e/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 (fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99)
+Vmi: Found cached entry for /home/cyfi/s2e/projects/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99
+62 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 Path=/s2e/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 Size=0x29000 AddressSpace=0x48a67000 Pid=0x498 EntryPoint=0x401140 Checksum=0x0
+63 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+63 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/MMDevAPI.dll (mmdevapi.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/mmdevapi.dll
+63 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=mmdevapi.dll Path=/Windows/System32/MMDevAPI.dll Size=0x39000 AddressSpace=0x293fa000 Pid=0x4b8 EntryPoint=0x6c98e2de Checksum=0x3dfbb
+63 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+63 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/propsys.dll (propsys.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/propsys.dll
+63 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=propsys.dll Path=/Windows/System32/propsys.dll Size=0xf5000 AddressSpace=0x293fa000 Pid=0x4b8 EntryPoint=0x1d310da6 Checksum=0xf5cc1
+80 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+80 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+80 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x860ff4b0
+85 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+85 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+85 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x860ff4b0
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+86 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aac540
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+86 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82d48
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+86 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x849da768
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+86 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+86 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x849da480
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+92 [Node 1/1 - State 0] LibraryCallMonitor: Could not get export name for address 0x773bdb6b
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+96 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+96 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+96 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aa7030
+99 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+99 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+99 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8606e820
+99 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+99 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+99 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a93570
+101 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+101 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+101 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a531e0
+108 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+108 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+108 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a55d48
+110 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+110 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+110 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a67990
+110 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+110 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+110 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a77448
+110 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+110 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+110 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849c0ad0
+Vmi: Loading module from disk /Windows/System32/thumbcache.dll (thumbcache.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/thumbcache.dll
+111 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=thumbcache.dll Path=/Windows/System32/thumbcache.dll Size=0x16000 AddressSpace=0x48a67000 Pid=0x498 EntryPoint=0x40761d6d Checksum=0x1bafe
+Vmi: Loading module from disk /Windows/System32/psapi.dll (psapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/psapi.dll
+111 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=psapi.dll Path=/Windows/System32/psapi.dll Size=0x5000 AddressSpace=0x48a67000 Pid=0x498 EntryPoint=0x7daa1438 Checksum=0xccd3
+114 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+114 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+114 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x85f0ed48
+114 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+114 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+114 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84b02ac8
+114 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+114 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+114 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a955a8
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+117 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84aa7030
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+117 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a59528
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+117 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a57890
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+117 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+117 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a93938
+121 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+121 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+121 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a9c788
+122 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+122 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+122 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x85f0ed48
+123 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+123 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+123 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84b06d48
+123 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+123 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+123 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8601a2f8
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x860337c0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a65d48
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849d1d48
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a67020
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a63210
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a0c458
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a57528
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+129 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+129 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849b7d48
+Vmi: Loading module from disk /s2e/EasyHook32.dll (easyhook32.dll)
+Vmi: Could not find host path for easyhook32.dll
+Vmi: Loading module from disk /s2e/EasyHook32.dll (easyhook32.dll)
+Vmi: Could not find host path for easyhook32.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+130 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+130 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+130 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+130 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+130 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8e90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+130 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8e90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+130 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82660
+130 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+130 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+130 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848e3c90
+134 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+134 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+134 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a43d48
+140 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+140 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+140 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a95030
+148 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+148 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+148 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a57528
+148 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+148 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+148 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82660
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+150 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x848e3c90
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+150 [Node 1/1 - State 0] WindowsMonitor: Process load /Windows/System32/wermgr.exe (wermgr.exe) pid=1060
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+150 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84b06d48
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=00220000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+150 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=00220000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/wermgr.exe (wermgr.exe)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wermgr.exe
+150 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=wermgr.exe Path=/Windows/System32/wermgr.exe Size=0x10000 AddressSpace=0x2c36f000 Pid=0x1e0 EntryPoint=0x1002aff Checksum=0x17f2f
+Vmi: Loading module from disk /Windows/System32/wermgr.exe (wermgr.exe)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wermgr.exe
+150 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wermgr.exe Path=/Windows/System32/wermgr.exe Size=0x10000 AddressSpace=0x2c36f000 Pid=0x1e0 EntryPoint=0x1002aff Checksum=0x17f2f
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00320000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00320000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/wermgr.exe (wermgr.exe)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wermgr.exe
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=wermgr.exe Path=/Windows/System32/wermgr.exe Size=0x10000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x1002aff Checksum=0x17f2f
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=ntdll.dll Path=/Windows/System32/ntdll.dll Size=0x142000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77ec0000 Checksum=0x148e08
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=kernel32.dll Path=/Windows/System32/kernel32.dll Size=0xd5000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77e2cf3f Checksum=0xdb88a
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=kernelbase.dll Path=/Windows/System32/KernelBase.dll Size=0x4b000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0xdce7d88 Checksum=0x503ba
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=msvcrt.dll Path=/Windows/System32/msvcrt.dll Size=0xac000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6ff5a472 Checksum=0xb65c4
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/advapi32.dll (advapi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/advapi32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=advapi32.dll Path=/Windows/System32/advapi32.dll Size=0xa1000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77c74919 Checksum=0xab220
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/sechost.dll (sechost.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/sechost.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=sechost.dll Path=/Windows/System32/sechost.dll Size=0x19000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x2b24975 Checksum=0x1b5d1
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=rpcrt4.dll Path=/Windows/System32/rpcrt4.dll Size=0xa2000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77be21fb Checksum=0xae8ff
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/shell32.dll (shell32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/shell32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=shell32.dll Path=/Windows/System32/shell32.dll Size=0xc4c000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x738814f9 Checksum=0xc520bb
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/shlwapi.dll (shlwapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/shlwapi.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=shlwapi.dll Path=/Windows/System32/shlwapi.dll Size=0x57000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6de39c02 Checksum=0x58d59
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=gdi32.dll Path=/Windows/System32/gdi32.dll Size=0x4e000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77b69e79 Checksum=0x5642b
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=user32.dll Path=/Windows/System32/user32.dll Size=0xc9000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77d2d501 Checksum=0xd0bbe
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/lpk.dll (lpk.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/lpk.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=lpk.dll Path=/Windows/System32/lpk.dll Size=0xa000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x402c136c Checksum=0x804b
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/usp10.dll (usp10.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/usp10.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=usp10.dll Path=/Windows/System32/usp10.dll Size=0x9d000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6f9142dc Checksum=0xa70a4
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/wer.dll (wer.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wer.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=wer.dll Path=/Windows/System32/wer.dll Size=0x61000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6e483959 Checksum=0x6334b
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/ole32.dll (ole32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ole32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=ole32.dll Path=/Windows/System32/ole32.dll Size=0x15f000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x7258b955 Checksum=0x16165e
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/oleaut32.dll (oleaut32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/oleaut32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=oleaut32.dll Path=/Windows/System32/oleaut32.dll Size=0x92000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6fc342a1 Checksum=0x99a7a
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=imm32.dll Path=/Windows/System32/imm32.dll Size=0x1f000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x41841355 Checksum=0x2a3a9
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=msctf.dll Path=/Windows/System32/msctf.dll Size=0xce000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x7099169b Checksum=0xcee24
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+151 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a95030
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+Vmi: Loading module from disk /Windows/System32/profapi.dll (profapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/profapi.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onModuleLoad ModuleDescriptor Name=profapi.dll Path=/Windows/System32/profapi.dll Size=0xb000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x10001992 Checksum=0x126fb
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+151 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84b06d48
+Vmi: Loading module from disk /Windows/System32/wermgr.exe (wermgr.exe)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wermgr.exe
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wermgr.exe Path=/Windows/System32/wermgr.exe Size=0x10000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x1002aff Checksum=0x17f2f
+Vmi: Loading module from disk /Windows/System32/wer.dll (wer.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wer.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wer.dll Path=/Windows/System32/wer.dll Size=0x61000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6e483959 Checksum=0x6334b
+Vmi: Loading module from disk /Windows/System32/profapi.dll (profapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/profapi.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=profapi.dll Path=/Windows/System32/profapi.dll Size=0xb000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x10001992 Checksum=0x126fb
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=kernelbase.dll Path=/Windows/System32/KernelBase.dll Size=0x4b000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0xdce7d88 Checksum=0x503ba
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=kernel32.dll Path=/Windows/System32/kernel32.dll Size=0xd5000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77e2cf3f Checksum=0xdb88a
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=user32.dll Path=/Windows/System32/user32.dll Size=0xc9000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77d2d501 Checksum=0xd0bbe
+Vmi: Loading module from disk /Windows/System32/ole32.dll (ole32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ole32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ole32.dll Path=/Windows/System32/ole32.dll Size=0x15f000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x7258b955 Checksum=0x16165e
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=imm32.dll Path=/Windows/System32/imm32.dll Size=0x1f000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x41841355 Checksum=0x2a3a9
+Vmi: Loading module from disk /Windows/System32/usp10.dll (usp10.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/usp10.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=usp10.dll Path=/Windows/System32/usp10.dll Size=0x9d000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6f9142dc Checksum=0xa70a4
+Vmi: Loading module from disk /Windows/System32/shell32.dll (shell32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/shell32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=shell32.dll Path=/Windows/System32/shell32.dll Size=0xc4c000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x738814f9 Checksum=0xc520bb
+Vmi: Loading module from disk /Windows/System32/advapi32.dll (advapi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/advapi32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=advapi32.dll Path=/Windows/System32/advapi32.dll Size=0xa1000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77c74919 Checksum=0xab220
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=msvcrt.dll Path=/Windows/System32/msvcrt.dll Size=0xac000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6ff5a472 Checksum=0xb65c4
+Vmi: Loading module from disk /Windows/System32/lpk.dll (lpk.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/lpk.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=lpk.dll Path=/Windows/System32/lpk.dll Size=0xa000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x402c136c Checksum=0x804b
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=rpcrt4.dll Path=/Windows/System32/rpcrt4.dll Size=0xa2000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77be21fb Checksum=0xae8ff
+Vmi: Loading module from disk /Windows/System32/oleaut32.dll (oleaut32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/oleaut32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=oleaut32.dll Path=/Windows/System32/oleaut32.dll Size=0x92000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6fc342a1 Checksum=0x99a7a
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=msctf.dll Path=/Windows/System32/msctf.dll Size=0xce000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x7099169b Checksum=0xcee24
+Vmi: Loading module from disk /Windows/System32/sechost.dll (sechost.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/sechost.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=sechost.dll Path=/Windows/System32/sechost.dll Size=0x19000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x2b24975 Checksum=0x1b5d1
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ntdll.dll Path=/Windows/System32/ntdll.dll Size=0x142000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77ec0000 Checksum=0x148e08
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=gdi32.dll Path=/Windows/System32/gdi32.dll Size=0x4e000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x77b69e79 Checksum=0x5642b
+Vmi: Loading module from disk /Windows/System32/shlwapi.dll (shlwapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/shlwapi.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=shlwapi.dll Path=/Windows/System32/shlwapi.dll Size=0x57000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x6de39c02 Checksum=0x58d59
+Vmi: Loading module from disk /Windows/System32/apisetschema.dll (apisetschema.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/apisetschema.dll
+151 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=apisetschema.dll Path=/Windows/System32/apisetschema.dll Size=0x50000 AddressSpace=0x123cb000 Pid=0x424 EntryPoint=0x38000000 Checksum=0xfdc4
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+151 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+151 [Node 1/1 - State 0] WindowsMonitor: Process unload pid=0x424
+154 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+154 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+154 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8603fbc0
+154 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+154 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+154 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8601a2f8
+155 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea2104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+155 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea2104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+155 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x860337c0
+156 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+156 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+156 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849da480
+156 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+156 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+156 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849da768
+156 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+156 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+156 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8607cb50
+157 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+157 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+157 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84b06d48
+162 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+162 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+162 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84ab6450
+Vmi: Loading module from disk /Windows/System32/wbem/wmiprov.dll (wmiprov.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wbem/wmiprov.dll
+169 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wmiprov.dll Path=/Windows/System32/wbem/wmiprov.dll Size=0x28000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x40fa1544 Checksum=0x29f6f
+Vmi: Loading module from disk /Windows/System32/wbemcomn.dll (wbemcomn.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wbemcomn.dll
+169 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wbemcomn.dll Path=/Windows/System32/wbemcomn.dll Size=0x5c000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x6dbc2b48 Checksum=0x6018b
+Vmi: Loading module from disk /Windows/System32/wbem/wmiutils.dll (wmiutils.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wbem/wmiutils.dll
+169 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wmiutils.dll Path=/Windows/System32/wbem/wmiutils.dll Size=0x1a000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x100103d0 Checksum=0x1e234
+170 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+170 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+170 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84987030
+170 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+170 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+170 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84ab2030
+180 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+180 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+180 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aa8d48
+186 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+186 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+186 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a45c10
+Vmi: Loading module from disk /s2e/EasyHook32.dll (easyhook32.dll)
+Vmi: Could not find host path for easyhook32.dll
+Vmi: Loading module from disk /s2e/EasyHook32.dll (easyhook32.dll)
+Vmi: Could not find host path for easyhook32.dll
+191 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+191 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+191 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+191 [Node 1/1 - State 0] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+191 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+191 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+191 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82948
+191 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+191 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+191 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a9bd48
+199 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+199 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+199 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84b027e0
+203 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+203 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+203 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849d0d48
+217 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+217 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+217 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aaa7e8
+217 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+217 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+217 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8497f6b8
+217 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+217 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+217 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82948
+219 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+219 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+219 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a99280
+221 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x168 create=0
+221 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x168 create=0
+221 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8601a2f8
+222 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea290c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+222 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea290c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+222 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aec030
+223 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x2b4 tid=0x230 create=1
+223 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x2b4 tid=0x230 create=1
+223 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x849d0d48
+224 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+224 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+224 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84ab2030
+224 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x760 create=0
+224 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x760 create=0
+224 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848e3c90
+225 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x59c create=1
+225 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x59c create=1
+225 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8607cb50
+226 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x39c tid=0x7b0 create=1
+226 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x39c tid=0x7b0 create=1
+226 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a99280
+253 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x118 create=1
+253 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x118 create=1
+253 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8601a2f8
+259 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x22c tid=0x438 create=0
+259 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x22c tid=0x438 create=0
+259 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84b0a030
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x778 create=1
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x778 create=1
+270 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84aa8d48
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x160 create=1
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x160 create=1
+270 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x848e3c90
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x500 create=1
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x500 create=1
+270 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84ab6450
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x1f8 tid=0x774 create=1
+270 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x1f8 tid=0x774 create=1
+270 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8603fbc0
+277 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f17104): s2e.sys: caught thread creation pid=0x1e0 tid=0x42c create=1
+277 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f17104): s2e.sys: caught thread creation pid=0x1e0 tid=0x42c create=1
+277 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a955a8
+281 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x568 create=1
+281 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x568 create=1
+281 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a57890
+282 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x3e8 create=1
+282 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x3e8 create=1
+282 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a9bd48
+282 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eff104): s2e.sys: caught thread creation pid=0x3f8 tid=0x524 create=1
+282 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eff104): s2e.sys: caught thread creation pid=0x3f8 tid=0x524 create=1
+282 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a531e0
+285 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x2e0 tid=0x7d8 create=0
+285 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x2e0 tid=0x7d8 create=0
+285 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x85f0ed48
+291 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x2b4 tid=0x4dc create=0
+291 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x2b4 tid=0x4dc create=0
+291 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82660
+292 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c08b104): s2e.sys: caught thread creation pid=0x58c tid=0x398 create=1
+292 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c08b104): s2e.sys: caught thread creation pid=0x58c tid=0x398 create=1
+292 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a55d48
+294 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x39c tid=0x5dc create=0
+294 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x39c tid=0x5dc create=0
+294 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a43d48
+317 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82104): s2e.sys: caught thread creation pid=0x39c tid=0x414 create=1
+317 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82104): s2e.sys: caught thread creation pid=0x39c tid=0x414 create=1
+317 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a93938
+321 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x498 tid=0x118 create=0
+321 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x498 tid=0x118 create=0
+321 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8601a2f8
+Vmi: Loading module from disk /Windows/System32/netprofm.dll (netprofm.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/netprofm.dll
+321 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=netprofm.dll Path=/Windows/System32/netprofm.dll Size=0x5a000 AddressSpace=0x48a67000 Pid=0x498 EntryPoint=0x6e1c1f35 Checksum=0x5de2b
+Vmi: Loading module from disk /Windows/System32/networkexplorer.dll (networkexplorer.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/networkexplorer.dll
+321 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=networkexplorer.dll Path=/Windows/System32/networkexplorer.dll Size=0x198000 AddressSpace=0x48a67000 Pid=0x498 EntryPoint=0x236612a1 Checksum=0x19636a
+338 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ec690c): s2e.sys: caught thread termination pid=0x1f0 tid=0x160 create=0
+338 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ec690c): s2e.sys: caught thread termination pid=0x1f0 tid=0x160 create=0
+338 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848e3c90
+338 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x500 create=0
+338 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x500 create=0
+338 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84ab6450
+338 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x1f8 tid=0x3e4 create=0
+338 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x1f8 tid=0x3e4 create=0
+338 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aa7030
+340 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x2b4 tid=0x2a8 create=1
+340 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x2b4 tid=0x2a8 create=1
+340 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x85f0ed48
+340 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x59c create=0
+340 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x59c create=0
+340 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8607cb50
+340 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2e0 tid=0x3f0 create=1
+340 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2e0 tid=0x3f0 create=1
+340 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82660
+346 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x234 create=0
+346 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x234 create=0
+346 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84b06d48
+346 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c28090c): s2e.sys: caught thread termination pid=0x1e0 tid=0x428 create=0
+346 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c28090c): s2e.sys: caught thread termination pid=0x1e0 tid=0x428 create=0
+346 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a643a8
+350 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80efb90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x568 create=0
+350 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80efb90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x568 create=0
+350 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a57890
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e2fc): s2e.sys: caught thread creation pid=0x39c tid=0x54c create=1
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e2fc): s2e.sys: caught thread creation pid=0x39c tid=0x54c create=1
+351 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x848e3c90
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82104): s2e.sys: caught thread creation pid=0x39c tid=0x378 create=1
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e82104): s2e.sys: caught thread creation pid=0x39c tid=0x378 create=1
+351 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8607cb50
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c225104): s2e.sys: caught thread creation pid=0x22c tid=0x3bc create=1
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c225104): s2e.sys: caught thread creation pid=0x22c tid=0x3bc create=1
+351 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a67990
+Vmi: Loading module from disk /Windows/System32/wbem/wbemsvc.dll (wbemsvc.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wbem/wbemsvc.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wbemsvc.dll Path=/Windows/System32/wbem/wbemsvc.dll Size=0xf000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x100093d0 Checksum=0x122dc
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x22c tid=0x3b4 create=0
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x22c tid=0x3b4 create=0
+351 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84986b98
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x22c tid=0x2c8 create=0
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x22c tid=0x2c8 create=0
+351 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8496d778
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f778e4): s2e.sys: caught thread termination pid=0x22c tid=0x27c create=0
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f778e4): s2e.sys: caught thread termination pid=0x22c tid=0x27c create=0
+351 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8496e3e8
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2258e4): s2e.sys: caught thread termination pid=0x22c tid=0x5e4 create=0
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2258e4): s2e.sys: caught thread termination pid=0x22c tid=0x5e4 create=0
+351 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a57528
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ec68e4): s2e.sys: caught thread termination pid=0x22c tid=0x3bc create=0
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ec68e4): s2e.sys: caught thread termination pid=0x22c tid=0x3bc create=0
+351 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a67990
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6792c): s2e.sys: caught thread termination pid=0x22c tid=0x138 create=0
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6792c): s2e.sys: caught thread termination pid=0x22c tid=0x138 create=0
+351 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8496b558
+Vmi: Loading module from disk /Windows/System32/wbem/WmiPrvSE.exe (wmiprvse.exe)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wbem/wmiprvse.exe
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wmiprvse.exe Path=/Windows/System32/wbem/WmiPrvSE.exe Size=0x5a000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x43a810 Checksum=0x64cb3
+Vmi: Loading module from disk /Windows/System32/ntmarta.dll (ntmarta.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntmarta.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ntmarta.dll Path=/Windows/System32/ntmarta.dll Size=0x21000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x4150145e Checksum=0x2760c
+Vmi: Loading module from disk /Windows/System32/ncobjapi.dll (ncobjapi.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ncobjapi.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ncobjapi.dll Path=/Windows/System32/ncobjapi.dll Size=0xf000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x10007f10 Checksum=0xe44a
+Vmi: Loading module from disk /Windows/System32/ntdsapi.dll (ntdsapi.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdsapi.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ntdsapi.dll Path=/Windows/System32/ntdsapi.dll Size=0x18000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x40a81335 Checksum=0x20d5a
+Vmi: Loading module from disk /Windows/System32/wbem/fastprox.dll (fastprox.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wbem/fastprox.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=fastprox.dll Path=/Windows/System32/wbem/fastprox.dll Size=0xa6000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x1006a2f0 Checksum=0xa9cdb
+Vmi: Loading module from disk /Windows/System32/wbemcomn2.dll (wbemcomn2.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wbemcomn2.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wbemcomn2.dll Path=/Windows/System32/wbemcomn2.dll Size=0x61000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x1003bf40 Checksum=0x5d491
+Vmi: Loading module from disk /Windows/System32/rsaenh.dll (rsaenh.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rsaenh.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=rsaenh.dll Path=/Windows/System32/rsaenh.dll Size=0x3b000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0xac0128d Checksum=0x401a8
+Vmi: Loading module from disk /Windows/System32/cryptsp.dll (cryptsp.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/cryptsp.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=cryptsp.dll Path=/Windows/System32/cryptsp.dll Size=0x17000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x5143573 Checksum=0x2281b
+Vmi: Loading module from disk /Windows/System32/bcrypt.dll (bcrypt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/bcrypt.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=bcrypt.dll Path=/Windows/System32/bcrypt.dll Size=0x17000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x6d803514 Checksum=0x22b98
+Vmi: Loading module from disk /Windows/System32/cryptbase.dll (cryptbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/cryptbase.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=cryptbase.dll Path=/Windows/System32/cryptbase.dll Size=0xc000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x100010e1 Checksum=0x13f7a
+Vmi: Loading module from disk /Windows/System32/RpcRtRemote.dll (rpcrtremote.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrtremote.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=rpcrtremote.dll Path=/Windows/System32/RpcRtRemote.dll Size=0xe000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x10001235 Checksum=0xd0fe
+Vmi: Loading module from disk /Windows/System32/KernelBase.dll (kernelbase.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernelbase.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=kernelbase.dll Path=/Windows/System32/KernelBase.dll Size=0x4b000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0xdce7d88 Checksum=0x503ba
+Vmi: Loading module from disk /Windows/System32/kernel32.dll (kernel32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/kernel32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=kernel32.dll Path=/Windows/System32/kernel32.dll Size=0xd5000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x77e2cf3f Checksum=0xdb88a
+Vmi: Loading module from disk /Windows/System32/nsi.dll (nsi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/nsi.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=nsi.dll Path=/Windows/System32/nsi.dll Size=0x6000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x40161782 Checksum=0x674d
+Vmi: Loading module from disk /Windows/System32/user32.dll (user32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/user32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=user32.dll Path=/Windows/System32/user32.dll Size=0xc9000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x77d2d501 Checksum=0xd0bbe
+Vmi: Loading module from disk /Windows/System32/clbcatq.dll (clbcatq.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/clbcatq.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=clbcatq.dll Path=/Windows/System32/clbcatq.dll Size=0x83000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x6f85227e Checksum=0x8a2d1
+Vmi: Loading module from disk /Windows/System32/ole32.dll (ole32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ole32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ole32.dll Path=/Windows/System32/ole32.dll Size=0x15f000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x7258b955 Checksum=0x16165e
+Vmi: Loading module from disk /Windows/System32/imm32.dll (imm32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/imm32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=imm32.dll Path=/Windows/System32/imm32.dll Size=0x1f000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x41841355 Checksum=0x2a3a9
+Vmi: Loading module from disk /Windows/System32/usp10.dll (usp10.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/usp10.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=usp10.dll Path=/Windows/System32/usp10.dll Size=0x9d000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x6f9142dc Checksum=0xa70a4
+Vmi: Loading module from disk /Windows/System32/advapi32.dll (advapi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/advapi32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=advapi32.dll Path=/Windows/System32/advapi32.dll Size=0xa1000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x77c74919 Checksum=0xab220
+Vmi: Loading module from disk /Windows/System32/msvcrt.dll (msvcrt.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msvcrt.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=msvcrt.dll Path=/Windows/System32/msvcrt.dll Size=0xac000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x6ff5a472 Checksum=0xb65c4
+Vmi: Loading module from disk /Windows/System32/lpk.dll (lpk.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/lpk.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=lpk.dll Path=/Windows/System32/lpk.dll Size=0xa000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x402c136c Checksum=0x804b
+Vmi: Loading module from disk /Windows/System32/rpcrt4.dll (rpcrt4.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/rpcrt4.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=rpcrt4.dll Path=/Windows/System32/rpcrt4.dll Size=0xa2000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x77be21fb Checksum=0xae8ff
+Vmi: Loading module from disk /Windows/System32/oleaut32.dll (oleaut32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/oleaut32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=oleaut32.dll Path=/Windows/System32/oleaut32.dll Size=0x92000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x6fc342a1 Checksum=0x99a7a
+Vmi: Loading module from disk /Windows/System32/ws2_32.dll (ws2_32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ws2_32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ws2_32.dll Path=/Windows/System32/ws2_32.dll Size=0x35000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x41ac145d Checksum=0x35877
+Vmi: Loading module from disk /Windows/System32/msctf.dll (msctf.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/msctf.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=msctf.dll Path=/Windows/System32/msctf.dll Size=0xce000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x7099169b Checksum=0xcee24
+Vmi: Loading module from disk /Windows/System32/sechost.dll (sechost.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/sechost.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=sechost.dll Path=/Windows/System32/sechost.dll Size=0x19000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x2b24975 Checksum=0x1b5d1
+Vmi: Loading module from disk /Windows/System32/ntdll.dll (ntdll.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/ntdll.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=ntdll.dll Path=/Windows/System32/ntdll.dll Size=0x142000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x77ec0000 Checksum=0x148e08
+Vmi: Loading module from disk /Windows/System32/gdi32.dll (gdi32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/gdi32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=gdi32.dll Path=/Windows/System32/gdi32.dll Size=0x4e000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x77b69e79 Checksum=0x5642b
+Vmi: Loading module from disk /Windows/System32/Wldap32.dll (wldap32.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/wldap32.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=wldap32.dll Path=/Windows/System32/Wldap32.dll Size=0x45000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x6cd811e5 Checksum=0x44b4d
+Vmi: Loading module from disk /Windows/System32/apisetschema.dll (apisetschema.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/apisetschema.dll
+351 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=apisetschema.dll Path=/Windows/System32/apisetschema.dll Size=0x50000 AddressSpace=0x2075b000 Pid=0x22c EntryPoint=0x38000000 Checksum=0xfdc4
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f67a28): s2e.sys: caught process termination pid=0000022C parent=0000026C
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f67a28): s2e.sys: caught process termination pid=0000022C parent=0000026C
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f67a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wbem\WmiPrvSE.exe
+351 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f67a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wbem\WmiPrvSE.exe
+351 [Node 1/1 - State 0] WindowsMonitor: Process unload pid=0x22c
+353 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x12c create=0
+353 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x12c create=0
+353 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84ab2030
+354 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x1e0 tid=0x3e0 create=1
+354 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x1e0 tid=0x3e0 create=1
+354 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8496b558
+354 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f77104): s2e.sys: caught thread creation pid=0x1e0 tid=0x440 create=1
+354 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f77104): s2e.sys: caught thread creation pid=0x1e0 tid=0x440 create=1
+354 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8496e3e8
+360 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ece104): s2e.sys: caught thread creation pid=0x1f8 tid=0x450 create=1
+360 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ece104): s2e.sys: caught thread creation pid=0x1f8 tid=0x450 create=1
+360 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a57528
+360 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x58c tid=0x398 create=0
+360 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x58c tid=0x398 create=0
+360 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a55d48
+375 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22190c): s2e.sys: caught thread termination pid=0x498 tid=0x4f0 create=0
+375 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22190c): s2e.sys: caught thread termination pid=0x498 tid=0x4f0 create=0
+375 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a77a60
+397 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x1f4 create=0
+397 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x1f4 create=0
+397 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82d48
+408 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x400 create=0
+408 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x400 create=0
+408 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82948
+408 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x230 create=0
+408 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x230 create=0
+408 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849d0d48
+409 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eff90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x3e8 create=0
+409 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eff90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x3e8 create=0
+409 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a9bd48
+409 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c15d90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x224 create=0
+409 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c15d90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x224 create=0
+409 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a673c0
+411 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4ec create=1
+411 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4ec create=1
+411 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84ab2030
+418 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x39c tid=0x414 create=0
+418 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x39c tid=0x414 create=0
+418 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a93938
+418 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x39c tid=0x7b0 create=0
+418 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x39c tid=0x7b0 create=0
+418 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a99280
+418 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x334 create=1
+418 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x334 create=1
+418 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a55d48
+421 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x42c create=0
+421 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x42c create=0
+421 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a955a8
+421 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f7790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x3e0 create=0
+421 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f7790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x3e0 create=0
+421 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8496b558
+427 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x450 create=0
+427 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x450 create=0
+427 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a57528
+438 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca104): s2e.sys: caught thread creation pid=0x39c tid=0xf8 create=1
+438 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca104): s2e.sys: caught thread creation pid=0x39c tid=0xf8 create=1
+438 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82d48
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab104): s2e.sys: caught thread creation pid=0x1e0 tid=0x180 create=1
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab104): s2e.sys: caught thread creation pid=0x1e0 tid=0x180 create=1
+453 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84ab6450
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x328 create=1
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x328 create=1
+453 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a67990
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x7f4 create=1
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x7f4 create=1
+453 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84b06d48
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x1e0 tid=0x134 create=1
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x1e0 tid=0x134 create=1
+453 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a643a8
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ece104): s2e.sys: caught thread creation pid=0x1f8 tid=0x51c create=1
+453 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ece104): s2e.sys: caught thread creation pid=0x1f8 tid=0x51c create=1
+453 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a57890
+478 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x2a8 create=0
+478 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x2a8 create=0
+478 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x85f0ed48
+485 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x334 create=0
+485 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x334 create=0
+485 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a55d48
+505 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x39c tid=0x378 create=0
+505 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x39c tid=0x378 create=0
+505 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8607cb50
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c590c): s2e.sys: caught thread termination pid=0x2b4 tid=0x408 create=0
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c590c): s2e.sys: caught thread termination pid=0x2b4 tid=0x408 create=0
+519 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848e9030
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x39c tid=0xac create=1
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x39c tid=0xac create=1
+519 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82948
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x338 create=1
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x338 create=1
+519 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x849d0d48
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x2b4 tid=0x57c create=1
+519 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x2b4 tid=0x57c create=1
+519 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a673c0
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x5ec create=0
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x5ec create=0
+520 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a676a8
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x134 create=0
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x134 create=0
+520 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a643a8
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x440 create=0
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x440 create=0
+520 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8496e3e8
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1f0 tid=0x7f4 create=0
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1f0 tid=0x7f4 create=0
+520 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84b06d48
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ece90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x774 create=0
+520 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ece90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x774 create=0
+520 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8603fbc0
+522 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x5a0 create=1
+522 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x5a0 create=1
+522 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a93938
+550 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x79c create=0
+550 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x79c create=0
+550 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x86090d48
+561 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x39c tid=0x54c create=0
+561 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x39c tid=0x54c create=0
+561 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848e3c90
+561 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c205104): s2e.sys: caught thread creation pid=0x2e0 tid=0x588 create=1
+561 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c205104): s2e.sys: caught thread creation pid=0x2e0 tid=0x588 create=1
+561 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a99280
+575 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x128 create=1
+575 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x128 create=1
+575 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x85f0ed48
+579 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x77c create=1
+579 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x77c create=1
+579 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a55d48
+586 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x2b4 tid=0x4ec create=0
+586 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x2b4 tid=0x4ec create=0
+586 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84ab2030
+586 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef790c): s2e.sys: caught thread termination pid=0x39c tid=0xf8 create=0
+586 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef790c): s2e.sys: caught thread termination pid=0x39c tid=0xf8 create=0
+586 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82d48
+588 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c5104): s2e.sys: caught thread creation pid=0x39c tid=0x634 create=1
+588 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c5104): s2e.sys: caught thread creation pid=0x39c tid=0x634 create=1
+588 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8607cb50
+628 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x3f0 create=0
+628 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x3f0 create=0
+628 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82660
+632 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x650 create=1
+632 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x650 create=1
+632 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a676a8
+633 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x63c create=1
+633 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x63c create=1
+633 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a643a8
+633 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x2b4 tid=0x648 create=1
+633 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x2b4 tid=0x648 create=1
+633 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8496e3e8
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x1e0 tid=0x64c create=1
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x1e0 tid=0x64c create=1
+634 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84b06d48
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x640 create=1
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x640 create=1
+634 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8603fbc0
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x638 create=1
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x638 create=1
+634 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x848e3c90
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f0b104): s2e.sys: caught thread creation pid=0x1f8 tid=0x320 create=1
+634 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f0b104): s2e.sys: caught thread creation pid=0x1f8 tid=0x320 create=1
+634 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a955a8
+639 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8a104): s2e.sys: caught thread creation pid=0x2e0 tid=0x31c create=1
+639 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8a104): s2e.sys: caught thread creation pid=0x2e0 tid=0x31c create=1
+639 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8496b558
+642 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x498 tid=0x128 create=0
+642 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x498 tid=0x128 create=0
+642 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x85f0ed48
+642 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x498 tid=0x338 create=0
+642 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x498 tid=0x338 create=0
+642 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x849d0d48
+646 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x5a0 create=0
+646 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x5a0 create=0
+646 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a93938
+653 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x624 create=1
+653 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x624 create=1
+653 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a57528
+655 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c590c): s2e.sys: caught thread termination pid=0x39c tid=0xac create=0
+655 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c590c): s2e.sys: caught thread termination pid=0x39c tid=0xac create=0
+655 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82948
+680 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x39c tid=0x548 create=1
+680 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x39c tid=0x548 create=1
+680 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a82d48
+694 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x584 create=1
+694 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x584 create=1
+694 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84ab2030
+694 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x6cc create=1
+694 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x6cc create=1
+694 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a59528
+694 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x3f8 tid=0x314 create=1
+694 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x3f8 tid=0x314 create=1
+694 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x849d0d48
+702 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x57c create=0
+702 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x57c create=0
+702 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a673c0
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x778 create=0
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x778 create=0
+703 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aa8d48
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x638 create=0
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x638 create=0
+703 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848e3c90
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f3790c): s2e.sys: caught thread termination pid=0x1f0 tid=0x640 create=0
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f3790c): s2e.sys: caught thread termination pid=0x1f0 tid=0x640 create=0
+703 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8603fbc0
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f0b90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x51c create=0
+703 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f0b90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x51c create=0
+703 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a57890
+708 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x77c create=0
+708 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c10590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x77c create=0
+708 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a55d48
+708 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8a90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x588 create=0
+708 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e8a90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x588 create=0
+708 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a99280
+747 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef790c): s2e.sys: caught thread termination pid=0x39c tid=0x634 create=0
+747 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80ef790c): s2e.sys: caught thread termination pid=0x39c tid=0x634 create=0
+747 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8607cb50
+753 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4a8 create=1
+753 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4a8 create=1
+753 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a43d48
+753 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x650 create=0
+753 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x650 create=0
+753 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a676a8
+753 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f77104): s2e.sys: caught thread creation pid=0x2e0 tid=0x628 create=1
+753 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f77104): s2e.sys: caught thread creation pid=0x2e0 tid=0x628 create=1
+753 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84aa7030
+754 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x620 create=1
+754 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x620 create=1
+754 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x848e3c90
+762 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x768 create=1
+762 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c221104): s2e.sys: caught thread creation pid=0x1e0 tid=0x768 create=1
+762 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a57890
+762 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c21995c): s2e.sys: caught thread termination pid=0x4 tid=0x658 create=0
+762 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c21995c): s2e.sys: caught thread termination pid=0x4 tid=0x658 create=0
+762 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848f01f8
+763 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x584 create=0
+763 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x584 create=0
+763 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84ab2030
+771 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c5104): s2e.sys: caught thread creation pid=0x39c tid=0x754 create=1
+771 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c5104): s2e.sys: caught thread creation pid=0x39c tid=0x754 create=1
+771 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a55d48
+783 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x624 create=0
+783 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x624 create=0
+783 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a57528
+809 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c5104): s2e.sys: caught thread creation pid=0x39c tid=0x3d8 create=1
+809 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c5104): s2e.sys: caught thread creation pid=0x39c tid=0x3d8 create=1
+809 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84ab2030
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x6dc create=1
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x6dc create=1
+818 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a57528
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x114 create=1
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x114 create=1
+818 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84aa8d48
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c219104): s2e.sys: caught thread creation pid=0x1e0 tid=0x7cc create=1
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c219104): s2e.sys: caught thread creation pid=0x1e0 tid=0x7cc create=1
+818 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8603fbc0
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6b104): s2e.sys: caught thread creation pid=0x1f8 tid=0x370 create=1
+818 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6b104): s2e.sys: caught thread creation pid=0x1f8 tid=0x370 create=1
+818 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a99280
+821 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x648 create=0
+821 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x648 create=0
+821 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8496e3e8
+821 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f7790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x31c create=0
+821 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f7790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x31c create=0
+821 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8496b558
+822 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f0790c): s2e.sys: caught thread termination pid=0x3f8 tid=0x524 create=0
+822 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f0790c): s2e.sys: caught thread termination pid=0x3f8 tid=0x524 create=0
+822 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a531e0
+822 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x3f8 tid=0x6cc create=0
+822 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x3f8 tid=0x6cc create=0
+822 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a59528
+829 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22190c): s2e.sys: caught thread termination pid=0x1e0 tid=0x180 create=0
+829 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22190c): s2e.sys: caught thread termination pid=0x1e0 tid=0x180 create=0
+829 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84ab6450
+829 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x620 create=0
+829 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x620 create=0
+829 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x848e3c90
+830 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x310 create=1
+830 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x310 create=1
+830 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8607cb50
+867 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c39995c): s2e.sys: caught thread termination pid=0x4 tid=0xf0 create=0
+867 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c39995c): s2e.sys: caught thread termination pid=0x4 tid=0xf0 create=0
+867 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x85ab5798
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f37104): s2e.sys: caught thread creation pid=0x2b4 tid=0x748 create=1
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f37104): s2e.sys: caught thread creation pid=0x2b4 tid=0x748 create=1
+868 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8496e3e8
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c093104): s2e.sys: caught thread creation pid=0x474 tid=0x714 create=1
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c093104): s2e.sys: caught thread creation pid=0x474 tid=0x714 create=1
+868 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8496b558
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f4b104): s2e.sys: caught thread creation pid=0x26c tid=0x6fc create=1
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f4b104): s2e.sys: caught thread creation pid=0x26c tid=0x6fc create=1
+868 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a531e0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0dd90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x44c create=0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0dd90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x44c create=0
+868 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x860595d8
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x444 create=0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x444 create=0
+868 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x86059ba8
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d190c): s2e.sys: caught thread termination pid=0x3f8 tid=0x43c create=0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d190c): s2e.sys: caught thread termination pid=0x3f8 tid=0x43c create=0
+868 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x860436f8
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c053104): s2e.sys: caught thread creation pid=0x384 tid=0x71c create=1
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c053104): s2e.sys: caught thread creation pid=0x384 tid=0x71c create=1
+868 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84a59528
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa104): s2e.sys: caught thread creation pid=0x354 tid=0x64 create=1
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80eaa104): s2e.sys: caught thread creation pid=0x354 tid=0x64 create=1
+868 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x84ab6450
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x4cc create=1
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x4cc create=1
+868 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x848e3c90
+Vmi: Loading module from disk /Windows/System32/dnsext.dll (dnsext.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dnsext.dll
+868 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=dnsext.dll Path=/Windows/System32/dnsext.dll Size=0x5000 AddressSpace=0x2916c000 Pid=0x3f8 EntryPoint=0x100015f6 Checksum=0x3f22
+Vmi: Loading module from disk /Windows/System32/userenv.dll (userenv.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/userenv.dll
+868 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=userenv.dll Path=/Windows/System32/userenv.dll Size=0x19000 AddressSpace=0x2916c000 Pid=0x3f8 EntryPoint=0x406a1ca5 Checksum=0x215a1
+Vmi: Loading module from disk /Windows/System32/profapi.dll (profapi.dll)
+Vmi: Found cached entry for /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/profapi.dll
+868 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=profapi.dll Path=/Windows/System32/profapi.dll Size=0xb000 AddressSpace=0x2916c000 Pid=0x3f8 EntryPoint=0x10001992 Checksum=0x126fb
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0e190c): s2e.sys: caught thread termination pid=0x3f8 tid=0x454 create=0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0e190c): s2e.sys: caught thread termination pid=0x3f8 tid=0x454 create=0
+868 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8605fd48
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d990c): s2e.sys: caught thread termination pid=0x3f8 tid=0x448 create=0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d990c): s2e.sys: caught thread termination pid=0x3f8 tid=0x448 create=0
+868 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x860598c0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c92fc): s2e.sys: caught thread creation pid=0x1e0 tid=0x578 create=1
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c92fc): s2e.sys: caught thread creation pid=0x1e0 tid=0x578 create=1
+868 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x85ab57a8
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x578 create=0
+868 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c0d990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x578 create=0
+868 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x85ab57a8
+Vmi: Loading module from disk /Windows/System32/dnsrslvr.dll (dnsrslvr.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dnsrslvr.dll
+868 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=dnsrslvr.dll Path=/Windows/System32/dnsrslvr.dll Size=0x23000 AddressSpace=0x2916c000 Pid=0x3f8 EntryPoint=0x4199c360 Checksum=0x2bffd
+Vmi: Loading module from disk /Windows/System32/dnsapi.dll (dnsapi.dll)
+Vmi: Attempting to load binary file: /home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs/windows/system32/dnsapi.dll
+868 [Node 1/1 - State 0] WindowsMonitor: onPerfLogImageUnload ModuleDescriptor Name=dnsapi.dll Path=/Windows/System32/dnsapi.dll Size=0x44000 AddressSpace=0x2916c000 Pid=0x3f8 EntryPoint=0x6dc1640d Checksum=0x4c74e
+876 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c590c): s2e.sys: caught thread termination pid=0x39c tid=0x548 create=0
+876 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c1c590c): s2e.sys: caught thread termination pid=0x39c tid=0x548 create=0
+876 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a82d48
+882 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c205104): s2e.sys: caught thread creation pid=0x2e0 tid=0x4a4 create=1
+882 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c205104): s2e.sys: caught thread creation pid=0x2e0 tid=0x4a4 create=1
+882 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x8605fd48
+882 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x6e8 create=1
+882 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x6e8 create=1
+882 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x85ab57a8
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x114 create=0
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x114 create=0
+885 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84aa8d48
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x328 create=0
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x328 create=0
+885 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a67990
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x7cc create=0
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x7cc create=0
+885 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x8603fbc0
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6b90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x320 create=0
+885 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80f6b90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x320 create=0
+885 [Node 1/1 - State 0] WindowsMonitor: destroying thread 0x84a955a8
+892 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab104): s2e.sys: caught thread creation pid=0x39c tid=0x750 create=1
+892 [Node 1/1 - State 0] BaseInstructions: Message from guest (0x80fab104): s2e.sys: caught thread creation pid=0x39c tid=0x750 create=1
+892 [Node 1/1 - State 0] WindowsMonitor: creating thread 0x860436f8

@@ -1,0 +1,12 @@
+91 [Node 7/7 - State 851] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769C30, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+91 [Node 7/7 - State 851] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+91 [Node 7/7 - State 851] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+91 [Node 7/7 - State 851] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+94 [Node 7/7 - State 883] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769C30, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+94 [Node 7/7 - State 883] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+94 [Node 7/7 - State 883] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+94 [Node 7/7 - State 883] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+100 [Node 7/7 - State 884] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769C30, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+100 [Node 7/7 - State 884] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+100 [Node 7/7 - State 884] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+100 [Node 7/7 - State 884] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)

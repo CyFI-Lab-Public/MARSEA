@@ -1,0 +1,98 @@
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.socket
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.connect
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.closesocket
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.recv
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.accept
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.select
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.send
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Ws2_32.sendto
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked msvcrt.fopen
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked msvcrt.fwrite
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked msvcrt.fread
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked msvcrt.fclose
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked msvcrt.fseek
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked kernel32.Sleep
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winmm.timeGetTime
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked shlwapi.StrStrA
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked shlwapi.StrStrW
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpOpen
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpCrackUrl
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpSendRequest
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpReceiveResponse
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpQueryDataAvailable
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpReadData
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpWriteData
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpConnect
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpAddRequestHeaders
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpCloseHandle
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpGetProxyForUrl
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpOpenRequest
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpQueryHeaders
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpQueryOption
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6f8): [0x7a0|malware-hook] Failed to hook winhttp.WinHttpResetAutoProxy: Invalid entry point.
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpSetCredentials
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpSetOption
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked winhttp.WinHttpSetTimeouts
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetConnectA
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetConnectW
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpOpenRequestA
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpOpenRequestW
+59 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpSendRequestA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpSendRequestW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetReadFile
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetOpenUrlA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetOpenUrlW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetOpenA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetOpenW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetCloseHandle
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpAddRequestHeadersA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpAddRequestHeadersW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpEndRequestA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.HttpQueryInfoA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetQueryDataAvailable
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetQueryOptionA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetSetOptionA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked wininet.InternetWriteFile
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6f8): [0x7a0|malware-hook] Failed to hook Urlmon.URLDownloadToFile: Invalid entry point.
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Urlmon.URLDownloadToFileW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6f8): [0x7a0|malware-hook] Failed to hook Urlmon.URLDownloadToCacheFile: Invalid entry point.
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked shell32.ShellExecuteW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked shell32.ShellExecuteA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Kernel32.CreateFileA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Kernel32.DeleteFileA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Kernel32.DeleteFileW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Kernel32.CreateFileW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked kernel32.ReadFile
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked kernel32.WriteFile
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked kernel32.CloseHandle
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Kernel32.CreateProcessA
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x62f6fc): [0x7a0|malware-hook] Successfully hooked Kernel32.CreateProcessW
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f228): [0x7a0|malware-hook] [W] InternetOpenA (A"tiny-dl/nix", 0, A"(null)", A"(null)", 0), Ret: 00CC0004
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f234): [0x7a0|malware-hook] [W] InternetSetOptionA(00CC0004, 2, 3000, 4)
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f234): [0x7a0|malware-hook] [W] InternetSetOptionA(00CC0004, 5, 3000, 4)
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f234): [0x7a0|malware-hook] [W] InternetSetOptionA(00CC0004, 6, 3000, 4)
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f234): [0x7a0|malware-hook] [W] InternetSetOptionA(00CC0004, 3, 3, 4)
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f194): [0x7a0|malware-hook] [W] InternetConnectA (00CC0004, A"takeinfo.ru", 80, A"", A"", 0x3, 0x0, 00000000), Ret: 00762BB0
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f1d4): [0x7a0|malware-hook] [W] HttpOpenRequestA (00762BB0, A"GET", A"/get_xml?file_id=11029177", A"(null)", A"(null)", 0022FA60, 0x0, 00000000), Ret: 00762BC0
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f1ac): [0x7a0|malware-hook] [W] HttpSendRequestA (00762BC0, A"(null)", 0x0, 00000000, 0x0)
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f194): [0x7a0|malware-hook] [W] HttpQueryInfoA(00762BC0, 21, 0077D970, 0022FA40, 0022FA44) -> tag_out: CyFi_HttpQueryInfoA0
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769618, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+60 [Node 0/0 - State 0] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+83 [Node 0/0 - State 578] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769A28, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+83 [Node 0/0 - State 578] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+83 [Node 0/0 - State 578] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+83 [Node 0/0 - State 578] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+85 [Node 0/0 - State 858] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769A28, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+85 [Node 0/0 - State 858] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+85 [Node 0/0 - State 858] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+85 [Node 0/0 - State 858] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+94 [Node 0/0 - State 859] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769A28, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+94 [Node 0/0 - State 859] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+94 [Node 0/0 - State 859] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+94 [Node 0/0 - State 859] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+99 [Node 0/0 - State 896] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769A28, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+99 [Node 0/0 - State 896] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+99 [Node 0/0 - State 896] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+99 [Node 0/0 - State 896] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)

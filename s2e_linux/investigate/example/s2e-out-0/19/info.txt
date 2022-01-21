@@ -1,0 +1,631 @@
+100 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+100 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+100 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+100 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+102 [Node 19/19 - State 862] Switching from state 862 to state 578
+107 [Node 19/19 - State 578] Switching from state 578 to state 862
+117 [Node 19/19 - State 862] Switching from state 862 to state 578
+120 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+120 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+122 [Node 19/19 - State 578] Switching from state 578 to state 862
+130 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+130 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+132 [Node 19/19 - State 862] Switching from state 862 to state 578
+137 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+137 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+138 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+148 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+148 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+151 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+151 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+151 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+151 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+153 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+153 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+160 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+160 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+162 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+162 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+162 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+162 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+162 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+162 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+162 [Node 19/19 - State 578] Switching from state 578 to state 862
+168 [Node 19/19 - State 862] Switching from state 862 to state 578
+173 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+173 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+173 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+173 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+173 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+173 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+176 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+180 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+180 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+181 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+181 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+182 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+182 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+182 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+182 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+188 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+188 [Node 19/19 - State 578] Switching from state 578 to state 862
+193 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+193 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+194 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+198 [Node 19/19 - State 862] Switching from state 862 to state 578
+200 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+200 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+200 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+200 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+200 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+200 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+200 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+200 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+204 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+204 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+209 [Node 19/19 - State 578] Switching from state 578 to state 862
+216 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+216 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+218 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+218 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+218 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+218 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+221 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+221 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+227 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+227 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+229 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x3e4 create=1
+229 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x3e4 create=1
+230 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+230 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+230 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+230 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+230 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+230 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+233 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+233 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+233 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+233 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+233 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+233 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+234 [Node 19/19 - State 862] Switching from state 862 to state 578
+255 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x5e4 create=1
+255 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x5e4 create=1
+255 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x1e0 tid=0x4dc create=1
+255 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x1e0 tid=0x4dc create=1
+256 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+256 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+263 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x760 create=1
+263 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x760 create=1
+263 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x424 create=1
+263 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x424 create=1
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=000007B4 parent=000001E0
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=000007B4 parent=000001E0
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x7b4 tid=0x2c4 create=1
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x7b4 tid=0x2c4 create=1
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+265 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2958): s2e.sys: detected image load pid=000007B4 addr=00C50000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2958): s2e.sys: detected image load pid=000007B4 addr=00C50000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2958): s2e.sys: detected image load pid=000007B4 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2958): s2e.sys: detected image load pid=000007B4 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x168 create=1
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x168 create=1
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2750): s2e.sys: detected image load pid=000007B4 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb292c): s2e.sys: caught thread termination pid=0x7b4 tid=0x2c4 create=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb292c): s2e.sys: caught thread termination pid=0x7b4 tid=0x2c4 create=0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2a28): s2e.sys: caught process termination pid=000007B4 parent=000001E0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2a28): s2e.sys: caught process termination pid=000007B4 parent=000001E0
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+266 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eb2a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+269 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+269 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+269 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x7a8 create=1
+269 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x7a8 create=1
+270 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x234 create=1
+270 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x234 create=1
+271 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+271 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+271 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+271 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+271 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+271 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+276 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+276 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+279 [Node 19/19 - State 578] Switching from state 578 to state 862
+282 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x7d8 create=1
+282 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x7d8 create=1
+282 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+282 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+283 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+283 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+287 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+287 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+288 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+288 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+288 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+288 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+289 [Node 19/19 - State 862] Switching from state 862 to state 578
+294 [Node 19/19 - State 578] Switching from state 578 to state 862
+299 [Node 19/19 - State 862] Switching from state 862 to state 578
+302 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+302 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+302 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+302 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+312 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+312 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+314 [Node 19/19 - State 578] Switching from state 578 to state 862
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+317 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+318 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+318 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+318 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+318 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+318 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+318 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+318 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+318 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+319 [Node 19/19 - State 862] Switching from state 862 to state 578
+324 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+324 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+330 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+330 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+330 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+330 [Node 19/19 - State 578] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+330 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+330 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+330 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+330 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+334 [Node 19/19 - State 578] Switching from state 578 to state 862
+339 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+339 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+345 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+345 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+349 [Node 19/19 - State 862] Switching from state 862 to state 578
+354 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+354 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+354 [Node 19/19 - State 578] Switching from state 578 to state 862
+359 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+359 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+359 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+359 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000760 parent=000001E0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000760 parent=000001E0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x760 tid=0x424 create=1
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x760 tid=0x424 create=1
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=00250000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=00250000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x7b4 create=1
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x7b4 create=1
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+362 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+363 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20592c): s2e.sys: caught thread termination pid=0x760 tid=0x424 create=0
+363 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20592c): s2e.sys: caught thread termination pid=0x760 tid=0x424 create=0
+363 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205a28): s2e.sys: caught process termination pid=00000760 parent=000001E0
+363 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205a28): s2e.sys: caught process termination pid=00000760 parent=000001E0
+363 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+363 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c205a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+365 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+365 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+365 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x2c4 create=1
+365 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x2c4 create=1
+366 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x168 create=1
+366 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x168 create=1
+367 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+367 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+367 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+367 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+367 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+367 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+369 [Node 19/19 - State 862] Switching from state 862 to state 578
+372 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+372 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+374 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+374 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+379 [Node 19/19 - State 578] Switching from state 578 to state 862
+384 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+384 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+392 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+392 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+393 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+393 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+394 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x7a8 create=1
+394 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x7a8 create=1
+394 [Node 19/19 - State 862] Switching from state 862 to state 578
+396 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x5e4 create=0
+396 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x5e4 create=0
+400 [Node 19/19 - State 578] Switching from state 578 to state 862
+408 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+408 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+409 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+409 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+415 [Node 19/19 - State 862] Switching from state 862 to state 578
+420 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+420 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+420 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+420 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+422 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+422 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+425 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x7a8 create=0
+425 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x7a8 create=0
+426 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9690c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+426 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9690c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+427 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eaa104): s2e.sys: caught thread creation pid=0x2b4 tid=0x230 create=1
+427 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eaa104): s2e.sys: caught thread creation pid=0x2b4 tid=0x230 create=1
+428 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+428 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+428 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x59c create=1
+428 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x59c create=1
+430 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x39c tid=0x7b0 create=1
+430 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x39c tid=0x7b0 create=1
+435 [Node 19/19 - State 578] Switching from state 578 to state 862
+437 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+437 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+442 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+442 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+442 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+442 [Node 19/19 - State 862] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+442 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+442 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+445 [Node 19/19 - State 862] Switching from state 862 to state 578
+455 [Node 19/19 - State 578] Switching from state 578 to state 862
+461 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+461 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+465 [Node 19/19 - State 862] Switching from state 862 to state 578
+470 [Node 19/19 - State 578] Switching from state 578 to state 862
+472 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+472 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+486 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+486 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+486 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+486 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+488 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+488 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+490 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x2c4 create=0
+490 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x2c4 create=0
+490 [Node 19/19 - State 862] Switching from state 862 to state 578
+495 [Node 19/19 - State 578] Switching from state 578 to state 862
+497 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9690c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+497 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9690c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+498 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x2b4 tid=0x234 create=1
+498 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x2b4 tid=0x234 create=1
+499 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+499 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+499 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x2e0 tid=0x230 create=1
+499 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x2e0 tid=0x230 create=1
+500 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+500 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+500 [Node 19/19 - State 862] Switching from state 862 to state 578
+505 [Node 19/19 - State 578] Switching from state 578 to state 862
+508 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x39c tid=0x59c create=1
+508 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x39c tid=0x59c create=1
+521 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+521 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+535 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x7b0 create=1
+535 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x7b0 create=1
+541 [Node 19/19 - State 862] Switching from state 862 to state 578
+551 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x118 create=1
+551 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c18d104): s2e.sys: caught thread creation pid=0x498 tid=0x118 create=1
+557 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x22c tid=0x438 create=0
+557 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x22c tid=0x438 create=0
+567 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x4dc create=0
+567 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x4dc create=0
+567 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x2e0 tid=0x7d8 create=0
+567 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x2e0 tid=0x7d8 create=0
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x778 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x778 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x160 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x160 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x500 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x500 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c205104): s2e.sys: caught thread creation pid=0x1e0 tid=0x774 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c205104): s2e.sys: caught thread creation pid=0x1e0 tid=0x774 create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x1f8 tid=0x42c create=1
+568 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c171104): s2e.sys: caught thread creation pid=0x1f8 tid=0x42c create=1
+572 [Node 19/19 - State 578] Switching from state 578 to state 862
+600 [Node 19/19 - State 862] Switching from state 862 to state 578
+604 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c24d104): s2e.sys: caught thread creation pid=0x2e0 tid=0x568 create=1
+604 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c24d104): s2e.sys: caught thread creation pid=0x2e0 tid=0x568 create=1
+604 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x3e8 create=1
+604 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x3e8 create=1
+609 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x524 create=1
+609 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x524 create=1
+609 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x398 create=1
+609 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x398 create=1
+609 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f0b104): s2e.sys: caught thread creation pid=0x3f8 tid=0x414 create=1
+609 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f0b104): s2e.sys: caught thread creation pid=0x3f8 tid=0x414 create=1
+610 [Node 19/19 - State 578] Switching from state 578 to state 862
+637 [Node 19/19 - State 862] Switching from state 862 to state 578
+647 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eaa90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x424 create=0
+647 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eaa90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x424 create=0
+647 [Node 19/19 - State 578] Switching from state 578 to state 862
+649 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x22c tid=0x438 create=0
+649 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x22c tid=0x438 create=0
+652 [Node 19/19 - State 862] Switching from state 862 to state 578
+655 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c08b104): s2e.sys: caught thread creation pid=0x58c tid=0x2a8 create=1
+655 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c08b104): s2e.sys: caught thread creation pid=0x58c tid=0x2a8 create=1
+657 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x39c tid=0x5dc create=0
+657 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x39c tid=0x5dc create=0
+658 [Node 19/19 - State 578] Switching from state 578 to state 862
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x118 create=1
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x118 create=1
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x778 create=1
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x778 create=1
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x160 create=1
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c36b104): s2e.sys: caught thread creation pid=0x1e0 tid=0x160 create=1
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0fd104): s2e.sys: caught thread creation pid=0x1f8 tid=0x500 create=1
+666 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0fd104): s2e.sys: caught thread creation pid=0x1f8 tid=0x500 create=1
+673 [Node 19/19 - State 862] Switching from state 862 to state 578
+688 [Node 19/19 - State 578] Switching from state 578 to state 862
+693 [Node 19/19 - State 862] Switching from state 862 to state 578
+702 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9a104): s2e.sys: caught thread creation pid=0x39c tid=0x3f0 create=1
+702 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9a104): s2e.sys: caught thread creation pid=0x39c tid=0x3f0 create=1
+706 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x498 tid=0x118 create=0
+706 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x498 tid=0x118 create=0
+708 [Node 19/19 - State 578] Switching from state 578 to state 862
+711 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x774 create=1
+711 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x774 create=1
+711 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x42c create=1
+711 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c22d104): s2e.sys: caught thread creation pid=0x3f8 tid=0x42c create=1
+711 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80efb104): s2e.sys: caught thread creation pid=0x3f8 tid=0x568 create=1
+711 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80efb104): s2e.sys: caught thread creation pid=0x3f8 tid=0x568 create=1
+718 [Node 19/19 - State 862] Switching from state 862 to state 578
+728 [Node 19/19 - State 578] Switching from state 578 to state 862
+732 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x2b4 tid=0x4dc create=0
+732 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x2b4 tid=0x4dc create=0
+733 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x2e0 tid=0x3e4 create=0
+733 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x2e0 tid=0x3e4 create=0
+733 [Node 19/19 - State 862] Switching from state 862 to state 578
+741 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ece90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x774 create=0
+741 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ece90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x774 create=0
+741 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x500 create=0
+741 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c36b90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x500 create=0
+741 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x1f8 tid=0x3e4 create=0
+741 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x1f8 tid=0x3e4 create=0
+743 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x54c create=1
+743 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x54c create=1
+743 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x2e0 tid=0x59c create=0
+743 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x2e0 tid=0x59c create=0
+749 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eff90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x3e8 create=0
+749 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eff90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x3e8 create=0
+749 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c28090c): s2e.sys: caught thread termination pid=0x1e0 tid=0x428 create=0
+749 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c28090c): s2e.sys: caught thread termination pid=0x1e0 tid=0x428 create=0
+749 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x400 create=0
+749 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x400 create=0
+753 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c15d90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x224 create=0
+753 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c15d90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x224 create=0
+754 [Node 19/19 - State 578] Switching from state 578 to state 862
+756 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c08b104): s2e.sys: caught thread creation pid=0x58c tid=0x3e8 create=1
+756 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c08b104): s2e.sys: caught thread creation pid=0x58c tid=0x3e8 create=1
+757 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x39c tid=0x5dc create=0
+757 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x39c tid=0x5dc create=0
+759 [Node 19/19 - State 862] Switching from state 862 to state 578
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e2fc): s2e.sys: caught thread creation pid=0x39c tid=0x378 create=1
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e6e2fc): s2e.sys: caught thread creation pid=0x39c tid=0x378 create=1
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9a104): s2e.sys: caught thread creation pid=0x39c tid=0x3bc create=1
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80e9a104): s2e.sys: caught thread creation pid=0x39c tid=0x3bc create=1
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c225104): s2e.sys: caught thread creation pid=0x22c tid=0x434 create=1
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c225104): s2e.sys: caught thread creation pid=0x22c tid=0x434 create=1
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x22c tid=0x3b4 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x22c tid=0x3b4 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x22c tid=0x2c8 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x22c tid=0x2c8 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f778e4): s2e.sys: caught thread termination pid=0x22c tid=0x27c create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f778e4): s2e.sys: caught thread termination pid=0x22c tid=0x27c create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2258e4): s2e.sys: caught thread termination pid=0x22c tid=0x760 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c2258e4): s2e.sys: caught thread termination pid=0x22c tid=0x760 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ece8e4): s2e.sys: caught thread termination pid=0x22c tid=0x434 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ece8e4): s2e.sys: caught thread termination pid=0x22c tid=0x434 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f6792c): s2e.sys: caught thread termination pid=0x22c tid=0x138 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f6792c): s2e.sys: caught thread termination pid=0x22c tid=0x138 create=0
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f67a28): s2e.sys: caught process termination pid=0000022C parent=0000026C
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f67a28): s2e.sys: caught process termination pid=0000022C parent=0000026C
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f67a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wbem\WmiPrvSE.exe
+760 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f67a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wbem\WmiPrvSE.exe
+762 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x12c create=0
+762 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x12c create=0
+763 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x1e0 tid=0x440 create=1
+763 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x1e0 tid=0x440 create=1
+763 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80efb104): s2e.sys: caught thread creation pid=0x2e0 tid=0x450 create=1
+763 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80efb104): s2e.sys: caught thread creation pid=0x2e0 tid=0x450 create=1
+763 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f77104): s2e.sys: caught thread creation pid=0x1e0 tid=0x4ec create=1
+763 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80f77104): s2e.sys: caught thread creation pid=0x1e0 tid=0x4ec create=1
+764 [Node 19/19 - State 578] Switching from state 578 to state 862
+769 [Node 19/19 - State 862] Switching from state 862 to state 578
+776 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x1f8 tid=0x334 create=1
+776 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80ef7104): s2e.sys: caught thread creation pid=0x1f8 tid=0x334 create=1
+776 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eaa90c): s2e.sys: caught thread termination pid=0x58c tid=0x2a8 create=0
+776 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x80eaa90c): s2e.sys: caught thread termination pid=0x58c tid=0x2a8 create=0
+784 [Node 19/19 - State 578] Switching from state 578 to state 862
+786 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x7a8 create=0
+786 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x7a8 create=0
+794 [Node 19/19 - State 862] Switching from state 862 to state 578
+799 [Node 19/19 - State 578] Switching from state 578 to state 862
+801 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x524 create=1
+801 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x524 create=1
+801 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ea6104): s2e.sys: caught thread creation pid=0x2e0 tid=0x398 create=1
+801 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ea6104): s2e.sys: caught thread creation pid=0x2e0 tid=0x398 create=1
+801 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c24d104): s2e.sys: caught thread creation pid=0x1e0 tid=0x414 create=1
+801 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c24d104): s2e.sys: caught thread creation pid=0x1e0 tid=0x414 create=1
+810 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eb2104): s2e.sys: caught thread creation pid=0x39c tid=0x2a8 create=1
+810 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eb2104): s2e.sys: caught thread creation pid=0x39c tid=0x2a8 create=1
+814 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x498 tid=0x7b0 create=0
+814 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x498 tid=0x7b0 create=0
+814 [Node 19/19 - State 862] Switching from state 862 to state 578
+819 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22190c): s2e.sys: caught thread termination pid=0x498 tid=0x4f0 create=0
+819 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c22190c): s2e.sys: caught thread termination pid=0x498 tid=0x4f0 create=0
+829 [Node 19/19 - State 578] Switching from state 578 to state 862
+840 [Node 19/19 - State 862] Switching from state 862 to state 578
+845 [Node 19/19 - State 578] Switching from state 578 to state 862
+854 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x160 create=0
+854 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eca90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x160 create=0
+854 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ec690c): s2e.sys: caught thread termination pid=0x1f0 tid=0x778 create=0
+854 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ec690c): s2e.sys: caught thread termination pid=0x1f0 tid=0x778 create=0
+854 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x7d8 create=0
+854 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x7d8 create=0
+857 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x3f0 create=1
+857 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x3f0 create=1
+857 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x12c create=0
+857 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x12c create=0
+860 [Node 19/19 - State 862] Switching from state 862 to state 578
+865 [Node 19/19 - State 578] Switching from state 578 to state 862
+873 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c15d90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x224 create=0
+873 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c15d90c): s2e.sys: caught thread termination pid=0x3f8 tid=0x224 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f072fc): s2e.sys: caught thread creation pid=0x39c tid=0x54c create=1
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f072fc): s2e.sys: caught thread creation pid=0x39c tid=0x54c create=1
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eb2104): s2e.sys: caught thread creation pid=0x39c tid=0x378 create=1
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80eb2104): s2e.sys: caught thread creation pid=0x39c tid=0x378 create=1
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c225104): s2e.sys: caught thread creation pid=0x22c tid=0x3bc create=1
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c225104): s2e.sys: caught thread creation pid=0x22c tid=0x3bc create=1
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x22c tid=0x3b4 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fdf90c): s2e.sys: caught thread termination pid=0x22c tid=0x3b4 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x22c tid=0x2c8 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80fab90c): s2e.sys: caught thread termination pid=0x22c tid=0x2c8 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f778e4): s2e.sys: caught thread termination pid=0x22c tid=0x27c create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f778e4): s2e.sys: caught thread termination pid=0x22c tid=0x27c create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2258e4): s2e.sys: caught thread termination pid=0x22c tid=0x5e4 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x8c2258e4): s2e.sys: caught thread termination pid=0x22c tid=0x5e4 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ec68e4): s2e.sys: caught thread termination pid=0x22c tid=0x3bc create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80ec68e4): s2e.sys: caught thread termination pid=0x22c tid=0x3bc create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f6792c): s2e.sys: caught thread termination pid=0x22c tid=0x138 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f6792c): s2e.sys: caught thread termination pid=0x22c tid=0x138 create=0
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f67a28): s2e.sys: caught process termination pid=0000022C parent=0000026C
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f67a28): s2e.sys: caught process termination pid=0000022C parent=0000026C
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f67a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wbem\WmiPrvSE.exe
+874 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80f67a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wbem\WmiPrvSE.exe
+875 [Node 19/19 - State 862] Switching from state 862 to state 578
+880 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x1f4 create=0
+880 [Node 19/19 - State 578] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x1f4 create=0
+880 [Node 19/19 - State 578] Switching from state 578 to state 862
+882 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x400 create=0
+882 [Node 19/19 - State 862] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x2e0 tid=0x400 create=0
+885 [Node 19/19 - State 862] Switching from state 862 to state 578
+890 [Node 19/19 - State 578] Switching from state 578 to state 862
+895 [Node 19/19 - State 862] Switching from state 862 to state 578

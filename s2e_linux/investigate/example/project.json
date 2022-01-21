@@ -1,0 +1,47 @@
+{
+    "creation_time": "2021-10-29 11:36:21.551988",
+    "custom_lua_string": "",
+    "dynamically_linked": false,
+    "enable_cfi": false,
+    "enable_pov_generation": false,
+    "enable_tickler": false,
+    "guestfs_paths": [
+        "/home/cyfi/s2e/images/windows-7sp1pro-i386/guestfs"
+    ],
+    "has_guestfs": true,
+    "image": "/home/cyfi/s2e/images/windows-7sp1pro-i386",
+    "modelled_functions": false,
+    "modules": [
+        [
+            "fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99",
+            false
+        ]
+    ],
+    "processes": [
+        "fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99"
+    ],
+    "project_dir": "/home/cyfi/s2e/projects/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99",
+    "project_name": "fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99",
+    "project_type": "windows",
+    "recipes_dir": "/home/cyfi/s2e/projects/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99/recipes",
+    "seeds_dir": "/home/cyfi/s2e/projects/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99/seeds",
+    "single_path": false,
+    "sym_args": [],
+    "target": {
+        "arch": "i386",
+        "aux_files": [],
+        "files": [
+            "/home/cyfi/fangs/proj_ddr/pipeline/../ddr_samples_ls/second_batch/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99"
+        ],
+        "name": "fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99",
+        "os": "windows",
+        "path": "/home/cyfi/fangs/proj_ddr/pipeline/../ddr_samples_ls/second_batch/fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99"
+    },
+    "use_cupa": true,
+    "use_fault_injection": false,
+    "use_recipes": false,
+    "use_seeds": false,
+    "use_test_case_generator": true,
+    "warn_input_file": true,
+    "warn_seeds": true
+}

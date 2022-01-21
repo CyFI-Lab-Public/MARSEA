@@ -1,4 +1,5 @@
 from pathlib import Path
+import os
 import json
 import sys
 import subprocess
@@ -136,7 +137,13 @@ def analyze_fork_record(trace):
         module = trace['module']['name']
         pc = trace['pc']
         sid = trace['state_id']
-        call_addr, top_module, func, line, isJump = lookup_debug(sid, pc)
+        debug_result = lookup_debug(sid, pc)
+
+        # Case: ProgArgs
+        if debug_result is None:
+            return
+
+        call_addr, top_module, func, line, isJump = debug_result
 
         rec.top_module = top_module
         rec.bottom_module = module
@@ -192,28 +199,28 @@ def analyze_execution_trace(proj_fd):
 
     return RECORD
 
-def main():
-    if len(sys.argv) != 2:
-        print("Plase pass the path to s2e-last as argument")
-        exit()
+# def main():
+#     if len(sys.argv) != 2:
+#         print("Plase pass the path to s2e-last as argument")
+#         exit()
 
-    global PROJ
-    global DEBUG
+#     global PROJ
+#     global DEBUG
 
-    opath = Path(sys.argv[1])
-    dfile = opath/"debug.txt"
-    etrace = opath/"execution_trace.json"
+#     opath = Path(sys.argv[1])
+#     dfile = opath/"debug.txt"
+#     etrace = opath/"execution_trace.json"
     
-    PROJ = opath.parent.stem
-    DEBUG = [x.strip() for x in Path(dfile).open().readlines()]
+#     PROJ = opath.parent.stem
+#     DEBUG = [x.strip() for x in Path(dfile).open().readlines()]
 
-    load_execution_trace(etrace)
+#     load_execution_trace(etrace)
 
-    import ipdb
-    ipdb.set_trace()
+#     import ipdb
+#     ipdb.set_trace()
 
-    # s2e_fork_profiler_output = run_fork(opath.parent.stem)
-    # fork_profiler_outputs = analyze_fork(s2e_fork_profiler_output)
+#     # s2e_fork_profiler_output = run_fork(opath.parent.stem)
+#     # fork_profiler_outputs = analyze_fork(s2e_fork_profiler_output)
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()

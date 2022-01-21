@@ -1,0 +1,903 @@
+98 [Node 15/15 - State 1] Switching from state 1 to state 706
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1109 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f1 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1113 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f1 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f2 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1116 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f2 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f3 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1120 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f3 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f4 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1124 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f4 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f5 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1128 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f5 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f6 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1130 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f6 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f7 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1135 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f7 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f8 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1137 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f8 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f9 v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1139 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f9 v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fa v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1142 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fa v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+103 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fb v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1145 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fb v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fc v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1147 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fc v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fd v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1150 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fd v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fe v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1153 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1fe v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x75c77392 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1ff v0_CyFi_HttpQueryInfoA0_0))
+                                        0xff)
+                               0x758700))))
+    state 1155 with condition (Not (Eq false
+          (Eq 0x0
+              (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1ff v0_CyFi_HttpQueryInfoA0_0))
+                                             0xff)
+                                    0x758700)))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x10005c33 at pagedir = 0x110d1000
+    state 1163 with condition (Slt 0x43
+      (SExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                        0xff)
+                                                                               0x22f900)))
+                                               0xff)
+                                      0x75c77300))))
+    state 706 with condition (Not (Slt 0x43
+           (SExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                             0xff)
+                                                                                    0x22f900)))
+                                                    0xff)
+                                           0x75c77300)))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x10005c35 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (And w32 (Xor w32 (LShr w32 N0:(Or w32 (Or w32 (Or w32 (Or w32 (Or w32 (And w32 N1:(Add w32 0xefff89bd
+                                                                                                     N2:(Or w32 N3:(And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                                                                                                     0xff)
+                                                                                                                                                            0x22f900)))
+                                                                                                                            0xff)
+                                                                                                                0x75c77300))
+                                                                                         0x80)
+                                                                                (ZExt w32 (Read w8 N4:(And w32 N1 0xff) [0xff=0x4, 0xfe=0x0, 0xfd=0x0, 0xfc=0x4, 0xfb=0x0, 0xfa=0x4, 0xf9=0x4, 0xf8=0x0, 0xf7=0x0, 0xf6=0x4, 0xf5=0x4, 0xf4=0x0, 0xf3=0x4, 0xf2=0x0, 0xf1=0x0, 0xf0=0x4, 0xef=0x0, 0xee=0x4, 0xed=0x4, 0xec=0x0, 0xeb=0x4, 0xea=0x0, 0xe9=0x0, 0xe8=0x4, 0xe7=0x4, 0xe6=0x0, 0xe5=0x0, 0xe4=0x4, 0xe3=0x0, 0xe2=0x4, 0xe1=0x4, 0xe0=0x0, 0xdf=0x0, 0xde=0x4, 0xdd=0x4, 0xdc=0x0, 0xdb=0x4, 0xda=0x0, 0xd9=0x0, 0xd8=0x4, 0xd7=0x4, 0xd6=0x0, 0xd5=0x0, 0xd4=0x4, 0xd3=0x0, 0xd2=0x4, 0xd1=0x4, 0xd0=0x0, 0xcf=0x4, 0xce=0x0, 0xcd=0x0, 0xcc=0x4, 0xcb=0x0, 0xca=0x4, 0xc9=0x4, 0xc8=0x0, 0xc7=0x0, 0xc6=0x4, 0xc5=0x4, 0xc4=0x0, 0xc3=0x4, 0xc2=0x0, 0xc1=0x0, 0xc0=0x4, 0xbf=0x0, 0xbe=0x4, 0xbd=0x4, 0xbc=0x0, 0xbb=0x4, 0xba=0x0, 0xb9=0x0, 0xb8=0x4, 0xb7=0x4, 0xb6=0x0, 0xb5=0x0, 0xb4=0x4, 0xb3=0x0, 0xb2=0x4, 0xb1=0x4, 0xb0=0x0, 0xaf=0x4, 0xae=0x0, 0xad=0x0, 0xac=0x4, 0xab=0x0, 0xaa=0x4, 0xa9=0x4, 0xa8=0x0, 0xa7=0x0, 0xa6=0x4, 0xa5=0x4, 0xa4=0x0, 0xa3=0x4, 0xa2=0x0, 0xa1=0x0, 0xa0=0x4, 0x9f=0x4, 0x9e=0x0, 0x9d=0x0, 0x9c=0x4, 0x9b=0x0, 0x9a=0x4, 0x99=0x4, 0x98=0x0, 0x97=0x0, 0x96=0x4, 0x95=0x4, 0x94=0x0, 0x93=0x4, 0x92=0x0, 0x91=0x0, 0x90=0x4, 0x8f=0x0, 0x8e=0x4, 0x8d=0x4, 0x8c=0x0, 0x8b=0x4, 0x8a=0x0, 0x89=0x0, 0x88=0x4, 0x87=0x4, 0x86=0x0, 0x85=0x0, 0x84=0x4, 0x83=0x0, 0x82=0x4, 0x81=0x4, 0x80=0x0, 0x7f=0x0, 0x7e=0x4, 0x7d=0x4, 0x7c=0x0, 0x7b=0x4, 0x7a=0x0, 0x79=0x0, 0x78=0x4, 0x77=0x4, 0x76=0x0, 0x75=0x0, 0x74=0x4, 0x73=0x0, 0x72=0x4, 0x71=0x4, 0x70=0x0, 0x6f=0x4, 0x6e=0x0, 0x6d=0x0, 0x6c=0x4, 0x6b=0x0, 0x6a=0x4, 0x69=0x4, 0x68=0x0, 0x67=0x0, 0x66=0x4, 0x65=0x4, 0x64=0x0, 0x63=0x4, 0x62=0x0, 0x61=0x0, 0x60=0x4, 0x5f=0x4, 0x5e=0x0, 0x5d=0x0, 0x5c=0x4, 0x5b=0x0, 0x5a=0x4, 0x59=0x4, 0x58=0x0, 0x57=0x0, 0x56=0x4, 0x55=0x4, 0x54=0x0, 0x53=0x4, 0x52=0x0, 0x51=0x0, 0x50=0x4, 0x4f=0x0, 0x4e=0x4, 0x4d=0x4, 0x4c=0x0, 0x4b=0x4, 0x4a=0x0, 0x49=0x0, 0x48=0x4, 0x47=0x4, 0x46=0x0, 0x45=0x0, 0x44=0x4, 0x43=0x0, 0x42=0x4, 0x41=0x4, 0x40=0x0, 0x3f=0x4, 0x3e=0x0, 0x3d=0x0, 0x3c=0x4, 0x3b=0x0, 0x3a=0x4, 0x39=0x4, 0x38=0x0, 0x37=0x0, 0x36=0x4, 0x35=0x4, 0x34=0x0, 0x33=0x4, 0x32=0x0, 0x31=0x0, 0x30=0x4, 0x2f=0x0, 0x2e=0x4, 0x2d=0x4, 0x2c=0x0, 0x2b=0x4, 0x2a=0x0, 0x29=0x0, 0x28=0x4, 0x27=0x4, 0x26=0x0, 0x25=0x0, 0x24=0x4, 0x23=0x0, 0x22=0x4, 0x21=0x4, 0x20=0x0, 0x1f=0x0, 0x1e=0x4, 0x1d=0x4, 0x1c=0x0, 0x1b=0x4, 0x1a=0x0, 0x19=0x0, 0x18=0x4, 0x17=0x4, 0x16=0x0, 0x15=0x0, 0x14=0x4, 0x13=0x0, 0x12=0x4, 0x11=0x4, 0x10=0x0, 0xf=0x4, 0xe=0x0, 0xd=0x0, 0xc=0x4, 0xb=0x0, 0xa=0x4, 0x9=0x4, 0x8=0x0, 0x7=0x0, 0x6=0x4, 0x5=0x4, 0x4=0x0, 0x3=0x4, 0x2=0x0, 0x1=0x0, 0x0=0x4] @ const_arr1)))
+                                                                        (Select w32 (Eq 0x0 N4) 0x40 0x0))
+                                                                (ZExt w32 (Ult N3 0x43)))
+                                                        (And w32 (Xor w32 0x10007643 N5:(Xor w32 N2 N1))
+                                                                 0x10))
+                                                (And w32 (Shl w32 (And w32 (Xor w32 0x10007643 N2) N5)
+                                                                  0x4)
+                                                         0x800))
+                                     0xb)
+                           (LShr w32 N0 0x7))
+                  0x1)))
+    state 1168 with condition (Not (Eq false
+          (Eq 0x0
+              (And w32 (Xor w32 (LShr w32 N0:(Or w32 (Or w32 (Or w32 (Or w32 (Or w32 (And w32 N1:(Add w32 0xefff89bd
+                                                                                                          N2:(Or w32 N3:(And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                                                                                                          0xff)
+                                                                                                                                                                 0x22f900)))
+                                                                                                                                 0xff)
+                                                                                                                     0x75c77300))
+                                                                                              0x80)
+                                                                                     (ZExt w32 (Read w8 N4:(And w32 N1 0xff) [0xff=0x4, 0xfe=0x0, 0xfd=0x0, 0xfc=0x4, 0xfb=0x0, 0xfa=0x4, 0xf9=0x4, 0xf8=0x0, 0xf7=0x0, 0xf6=0x4, 0xf5=0x4, 0xf4=0x0, 0xf3=0x4, 0xf2=0x0, 0xf1=0x0, 0xf0=0x4, 0xef=0x0, 0xee=0x4, 0xed=0x4, 0xec=0x0, 0xeb=0x4, 0xea=0x0, 0xe9=0x0, 0xe8=0x4, 0xe7=0x4, 0xe6=0x0, 0xe5=0x0, 0xe4=0x4, 0xe3=0x0, 0xe2=0x4, 0xe1=0x4, 0xe0=0x0, 0xdf=0x0, 0xde=0x4, 0xdd=0x4, 0xdc=0x0, 0xdb=0x4, 0xda=0x0, 0xd9=0x0, 0xd8=0x4, 0xd7=0x4, 0xd6=0x0, 0xd5=0x0, 0xd4=0x4, 0xd3=0x0, 0xd2=0x4, 0xd1=0x4, 0xd0=0x0, 0xcf=0x4, 0xce=0x0, 0xcd=0x0, 0xcc=0x4, 0xcb=0x0, 0xca=0x4, 0xc9=0x4, 0xc8=0x0, 0xc7=0x0, 0xc6=0x4, 0xc5=0x4, 0xc4=0x0, 0xc3=0x4, 0xc2=0x0, 0xc1=0x0, 0xc0=0x4, 0xbf=0x0, 0xbe=0x4, 0xbd=0x4, 0xbc=0x0, 0xbb=0x4, 0xba=0x0, 0xb9=0x0, 0xb8=0x4, 0xb7=0x4, 0xb6=0x0, 0xb5=0x0, 0xb4=0x4, 0xb3=0x0, 0xb2=0x4, 0xb1=0x4, 0xb0=0x0, 0xaf=0x4, 0xae=0x0, 0xad=0x0, 0xac=0x4, 0xab=0x0, 0xaa=0x4, 0xa9=0x4, 0xa8=0x0, 0xa7=0x0, 0xa6=0x4, 0xa5=0x4, 0xa4=0x0, 0xa3=0x4, 0xa2=0x0, 0xa1=0x0, 0xa0=0x4, 0x9f=0x4, 0x9e=0x0, 0x9d=0x0, 0x9c=0x4, 0x9b=0x0, 0x9a=0x4, 0x99=0x4, 0x98=0x0, 0x97=0x0, 0x96=0x4, 0x95=0x4, 0x94=0x0, 0x93=0x4, 0x92=0x0, 0x91=0x0, 0x90=0x4, 0x8f=0x0, 0x8e=0x4, 0x8d=0x4, 0x8c=0x0, 0x8b=0x4, 0x8a=0x0, 0x89=0x0, 0x88=0x4, 0x87=0x4, 0x86=0x0, 0x85=0x0, 0x84=0x4, 0x83=0x0, 0x82=0x4, 0x81=0x4, 0x80=0x0, 0x7f=0x0, 0x7e=0x4, 0x7d=0x4, 0x7c=0x0, 0x7b=0x4, 0x7a=0x0, 0x79=0x0, 0x78=0x4, 0x77=0x4, 0x76=0x0, 0x75=0x0, 0x74=0x4, 0x73=0x0, 0x72=0x4, 0x71=0x4, 0x70=0x0, 0x6f=0x4, 0x6e=0x0, 0x6d=0x0, 0x6c=0x4, 0x6b=0x0, 0x6a=0x4, 0x69=0x4, 0x68=0x0, 0x67=0x0, 0x66=0x4, 0x65=0x4, 0x64=0x0, 0x63=0x4, 0x62=0x0, 0x61=0x0, 0x60=0x4, 0x5f=0x4, 0x5e=0x0, 0x5d=0x0, 0x5c=0x4, 0x5b=0x0, 0x5a=0x4, 0x59=0x4, 0x58=0x0, 0x57=0x0, 0x56=0x4, 0x55=0x4, 0x54=0x0, 0x53=0x4, 0x52=0x0, 0x51=0x0, 0x50=0x4, 0x4f=0x0, 0x4e=0x4, 0x4d=0x4, 0x4c=0x0, 0x4b=0x4, 0x4a=0x0, 0x49=0x0, 0x48=0x4, 0x47=0x4, 0x46=0x0, 0x45=0x0, 0x44=0x4, 0x43=0x0, 0x42=0x4, 0x41=0x4, 0x40=0x0, 0x3f=0x4, 0x3e=0x0, 0x3d=0x0, 0x3c=0x4, 0x3b=0x0, 0x3a=0x4, 0x39=0x4, 0x38=0x0, 0x37=0x0, 0x36=0x4, 0x35=0x4, 0x34=0x0, 0x33=0x4, 0x32=0x0, 0x31=0x0, 0x30=0x4, 0x2f=0x0, 0x2e=0x4, 0x2d=0x4, 0x2c=0x0, 0x2b=0x4, 0x2a=0x0, 0x29=0x0, 0x28=0x4, 0x27=0x4, 0x26=0x0, 0x25=0x0, 0x24=0x4, 0x23=0x0, 0x22=0x4, 0x21=0x4, 0x20=0x0, 0x1f=0x0, 0x1e=0x4, 0x1d=0x4, 0x1c=0x0, 0x1b=0x4, 0x1a=0x0, 0x19=0x0, 0x18=0x4, 0x17=0x4, 0x16=0x0, 0x15=0x0, 0x14=0x4, 0x13=0x0, 0x12=0x4, 0x11=0x4, 0x10=0x0, 0xf=0x4, 0xe=0x0, 0xd=0x0, 0xc=0x4, 0xb=0x0, 0xa=0x4, 0x9=0x4, 0x8=0x0, 0x7=0x0, 0x6=0x4, 0x5=0x4, 0x4=0x0, 0x3=0x4, 0x2=0x0, 0x1=0x0, 0x0=0x4] @ const_arr1)))
+                                                                             (Select w32 (Eq 0x0 N4) 0x40 0x0))
+                                                                     (ZExt w32 (Ult N3 0x43)))
+                                                             (And w32 (Xor w32 0x10007643 N5:(Xor w32 N2 N1))
+                                                                      0x10))
+                                                     (And w32 (Shl w32 (And w32 (Xor w32 0x10007643 N2) N5)
+                                                                       0x4)
+                                                              0x800))
+                                          0xb)
+                                (LShr w32 N0 0x7))
+                       0x1))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x10005c33 at pagedir = 0x110d1000
+    state 1175 with condition (Slt 0x43
+      (SExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                        0xff)
+                                                                               0x22f900)))
+                                               0xff)
+                                      0x75c77300))))
+    state 706 with condition (Not (Slt 0x43
+           (SExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                             0xff)
+                                                                                    0x22f900)))
+                                                    0xff)
+                                           0x75c77300)))))
+104 [Node 15/15 - State 706] Forking state 706 at pc = 0x10005c35 at pagedir = 0x110d1000
+    state 706 with condition (Eq false
+     (Eq 0x0
+         (And w32 (Xor w32 (LShr w32 N0:(Or w32 (Or w32 (Or w32 (Or w32 (Or w32 (And w32 N1:(Add w32 0xefff89bd
+                                                                                                     N2:(Or w32 N3:(And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                                                                                                     0xff)
+                                                                                                                                                            0x22f900)))
+                                                                                                                            0xff)
+                                                                                                                0x75c77300))
+                                                                                         0x80)
+                                                                                (ZExt w32 (Read w8 N4:(And w32 N1 0xff) [0xff=0x4, 0xfe=0x0, 0xfd=0x0, 0xfc=0x4, 0xfb=0x0, 0xfa=0x4, 0xf9=0x4, 0xf8=0x0, 0xf7=0x0, 0xf6=0x4, 0xf5=0x4, 0xf4=0x0, 0xf3=0x4, 0xf2=0x0, 0xf1=0x0, 0xf0=0x4, 0xef=0x0, 0xee=0x4, 0xed=0x4, 0xec=0x0, 0xeb=0x4, 0xea=0x0, 0xe9=0x0, 0xe8=0x4, 0xe7=0x4, 0xe6=0x0, 0xe5=0x0, 0xe4=0x4, 0xe3=0x0, 0xe2=0x4, 0xe1=0x4, 0xe0=0x0, 0xdf=0x0, 0xde=0x4, 0xdd=0x4, 0xdc=0x0, 0xdb=0x4, 0xda=0x0, 0xd9=0x0, 0xd8=0x4, 0xd7=0x4, 0xd6=0x0, 0xd5=0x0, 0xd4=0x4, 0xd3=0x0, 0xd2=0x4, 0xd1=0x4, 0xd0=0x0, 0xcf=0x4, 0xce=0x0, 0xcd=0x0, 0xcc=0x4, 0xcb=0x0, 0xca=0x4, 0xc9=0x4, 0xc8=0x0, 0xc7=0x0, 0xc6=0x4, 0xc5=0x4, 0xc4=0x0, 0xc3=0x4, 0xc2=0x0, 0xc1=0x0, 0xc0=0x4, 0xbf=0x0, 0xbe=0x4, 0xbd=0x4, 0xbc=0x0, 0xbb=0x4, 0xba=0x0, 0xb9=0x0, 0xb8=0x4, 0xb7=0x4, 0xb6=0x0, 0xb5=0x0, 0xb4=0x4, 0xb3=0x0, 0xb2=0x4, 0xb1=0x4, 0xb0=0x0, 0xaf=0x4, 0xae=0x0, 0xad=0x0, 0xac=0x4, 0xab=0x0, 0xaa=0x4, 0xa9=0x4, 0xa8=0x0, 0xa7=0x0, 0xa6=0x4, 0xa5=0x4, 0xa4=0x0, 0xa3=0x4, 0xa2=0x0, 0xa1=0x0, 0xa0=0x4, 0x9f=0x4, 0x9e=0x0, 0x9d=0x0, 0x9c=0x4, 0x9b=0x0, 0x9a=0x4, 0x99=0x4, 0x98=0x0, 0x97=0x0, 0x96=0x4, 0x95=0x4, 0x94=0x0, 0x93=0x4, 0x92=0x0, 0x91=0x0, 0x90=0x4, 0x8f=0x0, 0x8e=0x4, 0x8d=0x4, 0x8c=0x0, 0x8b=0x4, 0x8a=0x0, 0x89=0x0, 0x88=0x4, 0x87=0x4, 0x86=0x0, 0x85=0x0, 0x84=0x4, 0x83=0x0, 0x82=0x4, 0x81=0x4, 0x80=0x0, 0x7f=0x0, 0x7e=0x4, 0x7d=0x4, 0x7c=0x0, 0x7b=0x4, 0x7a=0x0, 0x79=0x0, 0x78=0x4, 0x77=0x4, 0x76=0x0, 0x75=0x0, 0x74=0x4, 0x73=0x0, 0x72=0x4, 0x71=0x4, 0x70=0x0, 0x6f=0x4, 0x6e=0x0, 0x6d=0x0, 0x6c=0x4, 0x6b=0x0, 0x6a=0x4, 0x69=0x4, 0x68=0x0, 0x67=0x0, 0x66=0x4, 0x65=0x4, 0x64=0x0, 0x63=0x4, 0x62=0x0, 0x61=0x0, 0x60=0x4, 0x5f=0x4, 0x5e=0x0, 0x5d=0x0, 0x5c=0x4, 0x5b=0x0, 0x5a=0x4, 0x59=0x4, 0x58=0x0, 0x57=0x0, 0x56=0x4, 0x55=0x4, 0x54=0x0, 0x53=0x4, 0x52=0x0, 0x51=0x0, 0x50=0x4, 0x4f=0x0, 0x4e=0x4, 0x4d=0x4, 0x4c=0x0, 0x4b=0x4, 0x4a=0x0, 0x49=0x0, 0x48=0x4, 0x47=0x4, 0x46=0x0, 0x45=0x0, 0x44=0x4, 0x43=0x0, 0x42=0x4, 0x41=0x4, 0x40=0x0, 0x3f=0x4, 0x3e=0x0, 0x3d=0x0, 0x3c=0x4, 0x3b=0x0, 0x3a=0x4, 0x39=0x4, 0x38=0x0, 0x37=0x0, 0x36=0x4, 0x35=0x4, 0x34=0x0, 0x33=0x4, 0x32=0x0, 0x31=0x0, 0x30=0x4, 0x2f=0x0, 0x2e=0x4, 0x2d=0x4, 0x2c=0x0, 0x2b=0x4, 0x2a=0x0, 0x29=0x0, 0x28=0x4, 0x27=0x4, 0x26=0x0, 0x25=0x0, 0x24=0x4, 0x23=0x0, 0x22=0x4, 0x21=0x4, 0x20=0x0, 0x1f=0x0, 0x1e=0x4, 0x1d=0x4, 0x1c=0x0, 0x1b=0x4, 0x1a=0x0, 0x19=0x0, 0x18=0x4, 0x17=0x4, 0x16=0x0, 0x15=0x0, 0x14=0x4, 0x13=0x0, 0x12=0x4, 0x11=0x4, 0x10=0x0, 0xf=0x4, 0xe=0x0, 0xd=0x0, 0xc=0x4, 0xb=0x0, 0xa=0x4, 0x9=0x4, 0x8=0x0, 0x7=0x0, 0x6=0x4, 0x5=0x4, 0x4=0x0, 0x3=0x4, 0x2=0x0, 0x1=0x0, 0x0=0x4] @ const_arr1)))
+                                                                        (Select w32 (Eq 0x0 N4) 0x40 0x0))
+                                                                (ZExt w32 (Ult N3 0x43)))
+                                                        (And w32 (Xor w32 0x10007643 N5:(Xor w32 N2 N1))
+                                                                 0x10))
+                                                (And w32 (Shl w32 (And w32 (Xor w32 0x10007643 N2) N5)
+                                                                  0x4)
+                                                         0x800))
+                                     0xb)
+                           (LShr w32 N0 0x7))
+                  0x1)))
+    state 1181 with condition (Not (Eq false
+          (Eq 0x0
+              (And w32 (Xor w32 (LShr w32 N0:(Or w32 (Or w32 (Or w32 (Or w32 (Or w32 (And w32 N1:(Add w32 0xefff89bd
+                                                                                                          N2:(Or w32 N3:(And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                                                                                                          0xff)
+                                                                                                                                                                 0x22f900)))
+                                                                                                                                 0xff)
+                                                                                                                     0x75c77300))
+                                                                                              0x80)
+                                                                                     (ZExt w32 (Read w8 N4:(And w32 N1 0xff) [0xff=0x4, 0xfe=0x0, 0xfd=0x0, 0xfc=0x4, 0xfb=0x0, 0xfa=0x4, 0xf9=0x4, 0xf8=0x0, 0xf7=0x0, 0xf6=0x4, 0xf5=0x4, 0xf4=0x0, 0xf3=0x4, 0xf2=0x0, 0xf1=0x0, 0xf0=0x4, 0xef=0x0, 0xee=0x4, 0xed=0x4, 0xec=0x0, 0xeb=0x4, 0xea=0x0, 0xe9=0x0, 0xe8=0x4, 0xe7=0x4, 0xe6=0x0, 0xe5=0x0, 0xe4=0x4, 0xe3=0x0, 0xe2=0x4, 0xe1=0x4, 0xe0=0x0, 0xdf=0x0, 0xde=0x4, 0xdd=0x4, 0xdc=0x0, 0xdb=0x4, 0xda=0x0, 0xd9=0x0, 0xd8=0x4, 0xd7=0x4, 0xd6=0x0, 0xd5=0x0, 0xd4=0x4, 0xd3=0x0, 0xd2=0x4, 0xd1=0x4, 0xd0=0x0, 0xcf=0x4, 0xce=0x0, 0xcd=0x0, 0xcc=0x4, 0xcb=0x0, 0xca=0x4, 0xc9=0x4, 0xc8=0x0, 0xc7=0x0, 0xc6=0x4, 0xc5=0x4, 0xc4=0x0, 0xc3=0x4, 0xc2=0x0, 0xc1=0x0, 0xc0=0x4, 0xbf=0x0, 0xbe=0x4, 0xbd=0x4, 0xbc=0x0, 0xbb=0x4, 0xba=0x0, 0xb9=0x0, 0xb8=0x4, 0xb7=0x4, 0xb6=0x0, 0xb5=0x0, 0xb4=0x4, 0xb3=0x0, 0xb2=0x4, 0xb1=0x4, 0xb0=0x0, 0xaf=0x4, 0xae=0x0, 0xad=0x0, 0xac=0x4, 0xab=0x0, 0xaa=0x4, 0xa9=0x4, 0xa8=0x0, 0xa7=0x0, 0xa6=0x4, 0xa5=0x4, 0xa4=0x0, 0xa3=0x4, 0xa2=0x0, 0xa1=0x0, 0xa0=0x4, 0x9f=0x4, 0x9e=0x0, 0x9d=0x0, 0x9c=0x4, 0x9b=0x0, 0x9a=0x4, 0x99=0x4, 0x98=0x0, 0x97=0x0, 0x96=0x4, 0x95=0x4, 0x94=0x0, 0x93=0x4, 0x92=0x0, 0x91=0x0, 0x90=0x4, 0x8f=0x0, 0x8e=0x4, 0x8d=0x4, 0x8c=0x0, 0x8b=0x4, 0x8a=0x0, 0x89=0x0, 0x88=0x4, 0x87=0x4, 0x86=0x0, 0x85=0x0, 0x84=0x4, 0x83=0x0, 0x82=0x4, 0x81=0x4, 0x80=0x0, 0x7f=0x0, 0x7e=0x4, 0x7d=0x4, 0x7c=0x0, 0x7b=0x4, 0x7a=0x0, 0x79=0x0, 0x78=0x4, 0x77=0x4, 0x76=0x0, 0x75=0x0, 0x74=0x4, 0x73=0x0, 0x72=0x4, 0x71=0x4, 0x70=0x0, 0x6f=0x4, 0x6e=0x0, 0x6d=0x0, 0x6c=0x4, 0x6b=0x0, 0x6a=0x4, 0x69=0x4, 0x68=0x0, 0x67=0x0, 0x66=0x4, 0x65=0x4, 0x64=0x0, 0x63=0x4, 0x62=0x0, 0x61=0x0, 0x60=0x4, 0x5f=0x4, 0x5e=0x0, 0x5d=0x0, 0x5c=0x4, 0x5b=0x0, 0x5a=0x4, 0x59=0x4, 0x58=0x0, 0x57=0x0, 0x56=0x4, 0x55=0x4, 0x54=0x0, 0x53=0x4, 0x52=0x0, 0x51=0x0, 0x50=0x4, 0x4f=0x0, 0x4e=0x4, 0x4d=0x4, 0x4c=0x0, 0x4b=0x4, 0x4a=0x0, 0x49=0x0, 0x48=0x4, 0x47=0x4, 0x46=0x0, 0x45=0x0, 0x44=0x4, 0x43=0x0, 0x42=0x4, 0x41=0x4, 0x40=0x0, 0x3f=0x4, 0x3e=0x0, 0x3d=0x0, 0x3c=0x4, 0x3b=0x0, 0x3a=0x4, 0x39=0x4, 0x38=0x0, 0x37=0x0, 0x36=0x4, 0x35=0x4, 0x34=0x0, 0x33=0x4, 0x32=0x0, 0x31=0x0, 0x30=0x4, 0x2f=0x0, 0x2e=0x4, 0x2d=0x4, 0x2c=0x0, 0x2b=0x4, 0x2a=0x0, 0x29=0x0, 0x28=0x4, 0x27=0x4, 0x26=0x0, 0x25=0x0, 0x24=0x4, 0x23=0x0, 0x22=0x4, 0x21=0x4, 0x20=0x0, 0x1f=0x0, 0x1e=0x4, 0x1d=0x4, 0x1c=0x0, 0x1b=0x4, 0x1a=0x0, 0x19=0x0, 0x18=0x4, 0x17=0x4, 0x16=0x0, 0x15=0x0, 0x14=0x4, 0x13=0x0, 0x12=0x4, 0x11=0x4, 0x10=0x0, 0xf=0x4, 0xe=0x0, 0xd=0x0, 0xc=0x4, 0xb=0x0, 0xa=0x4, 0x9=0x4, 0x8=0x0, 0x7=0x0, 0x6=0x4, 0x5=0x4, 0x4=0x0, 0x3=0x4, 0x2=0x0, 0x1=0x0, 0x0=0x4] @ const_arr1)))
+                                                                             (Select w32 (Eq 0x0 N4) 0x40 0x0))
+                                                                     (ZExt w32 (Ult N3 0x43)))
+                                                             (And w32 (Xor w32 0x10007643 N5:(Xor w32 N2 N1))
+                                                                      0x10))
+                                                     (And w32 (Shl w32 (And w32 (Xor w32 0x10007643 N2) N5)
+                                                                       0x4)
+                                                              0x800))
+                                          0xb)
+                                (LShr w32 N0 0x7))
+                       0x1))))
+104 [Node 15/15 - State 706] BaseInstructions: Inserted symbolic data @0x769a28 of size 0x0: CyFi_InternetReadFile1='' pc=0x706eaa8f
+104 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769A28, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+104 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+104 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+104 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+105 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=74720000 size=0x40000 \Windows\System32\uxtheme.dll kernel=0 allpids=0
+105 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=74720000 size=0x40000 \Windows\System32\uxtheme.dll kernel=0 allpids=0
+105 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72890000 size=0xd000 \Windows\System32\dhcpcsvc6.dll kernel=0 allpids=0
+105 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72890000 size=0xd000 \Windows\System32\dhcpcsvc6.dll kernel=0 allpids=0
+105 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72870000 size=0x12000 \Windows\System32\dhcpcsvc.dll kernel=0 allpids=0
+105 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72870000 size=0x12000 \Windows\System32\dhcpcsvc.dll kernel=0 allpids=0
+105 [Node 15/15 - State 706] Switching from state 706 to state 1163
+106 [Node 15/15 - State 1163] Forking state 1163 at pc = 0x10005c33 at pagedir = 0x110d1000
+    state 1250 with condition (Slt 0x43
+      (SExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                        0xff)
+                                                                               0x22f900)))
+                                               0xff)
+                                      0x75c77300))))
+    state 1163 with condition (Not (Slt 0x43
+           (SExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                             0xff)
+                                                                                    0x22f900)))
+                                                    0xff)
+                                           0x75c77300)))))
+106 [Node 15/15 - State 1163] Forking state 1163 at pc = 0x10005c35 at pagedir = 0x110d1000
+    state 1163 with condition (Eq false
+     (Eq 0x0
+         (And w32 (Xor w32 (LShr w32 N0:(Or w32 (Or w32 (Or w32 (Or w32 (Or w32 (And w32 N1:(Add w32 0xefff89bd
+                                                                                                     N2:(Or w32 N3:(And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                                                                                                     0xff)
+                                                                                                                                                            0x22f900)))
+                                                                                                                            0xff)
+                                                                                                                0x75c77300))
+                                                                                         0x80)
+                                                                                (ZExt w32 (Read w8 N4:(And w32 N1 0xff) [0xff=0x4, 0xfe=0x0, 0xfd=0x0, 0xfc=0x4, 0xfb=0x0, 0xfa=0x4, 0xf9=0x4, 0xf8=0x0, 0xf7=0x0, 0xf6=0x4, 0xf5=0x4, 0xf4=0x0, 0xf3=0x4, 0xf2=0x0, 0xf1=0x0, 0xf0=0x4, 0xef=0x0, 0xee=0x4, 0xed=0x4, 0xec=0x0, 0xeb=0x4, 0xea=0x0, 0xe9=0x0, 0xe8=0x4, 0xe7=0x4, 0xe6=0x0, 0xe5=0x0, 0xe4=0x4, 0xe3=0x0, 0xe2=0x4, 0xe1=0x4, 0xe0=0x0, 0xdf=0x0, 0xde=0x4, 0xdd=0x4, 0xdc=0x0, 0xdb=0x4, 0xda=0x0, 0xd9=0x0, 0xd8=0x4, 0xd7=0x4, 0xd6=0x0, 0xd5=0x0, 0xd4=0x4, 0xd3=0x0, 0xd2=0x4, 0xd1=0x4, 0xd0=0x0, 0xcf=0x4, 0xce=0x0, 0xcd=0x0, 0xcc=0x4, 0xcb=0x0, 0xca=0x4, 0xc9=0x4, 0xc8=0x0, 0xc7=0x0, 0xc6=0x4, 0xc5=0x4, 0xc4=0x0, 0xc3=0x4, 0xc2=0x0, 0xc1=0x0, 0xc0=0x4, 0xbf=0x0, 0xbe=0x4, 0xbd=0x4, 0xbc=0x0, 0xbb=0x4, 0xba=0x0, 0xb9=0x0, 0xb8=0x4, 0xb7=0x4, 0xb6=0x0, 0xb5=0x0, 0xb4=0x4, 0xb3=0x0, 0xb2=0x4, 0xb1=0x4, 0xb0=0x0, 0xaf=0x4, 0xae=0x0, 0xad=0x0, 0xac=0x4, 0xab=0x0, 0xaa=0x4, 0xa9=0x4, 0xa8=0x0, 0xa7=0x0, 0xa6=0x4, 0xa5=0x4, 0xa4=0x0, 0xa3=0x4, 0xa2=0x0, 0xa1=0x0, 0xa0=0x4, 0x9f=0x4, 0x9e=0x0, 0x9d=0x0, 0x9c=0x4, 0x9b=0x0, 0x9a=0x4, 0x99=0x4, 0x98=0x0, 0x97=0x0, 0x96=0x4, 0x95=0x4, 0x94=0x0, 0x93=0x4, 0x92=0x0, 0x91=0x0, 0x90=0x4, 0x8f=0x0, 0x8e=0x4, 0x8d=0x4, 0x8c=0x0, 0x8b=0x4, 0x8a=0x0, 0x89=0x0, 0x88=0x4, 0x87=0x4, 0x86=0x0, 0x85=0x0, 0x84=0x4, 0x83=0x0, 0x82=0x4, 0x81=0x4, 0x80=0x0, 0x7f=0x0, 0x7e=0x4, 0x7d=0x4, 0x7c=0x0, 0x7b=0x4, 0x7a=0x0, 0x79=0x0, 0x78=0x4, 0x77=0x4, 0x76=0x0, 0x75=0x0, 0x74=0x4, 0x73=0x0, 0x72=0x4, 0x71=0x4, 0x70=0x0, 0x6f=0x4, 0x6e=0x0, 0x6d=0x0, 0x6c=0x4, 0x6b=0x0, 0x6a=0x4, 0x69=0x4, 0x68=0x0, 0x67=0x0, 0x66=0x4, 0x65=0x4, 0x64=0x0, 0x63=0x4, 0x62=0x0, 0x61=0x0, 0x60=0x4, 0x5f=0x4, 0x5e=0x0, 0x5d=0x0, 0x5c=0x4, 0x5b=0x0, 0x5a=0x4, 0x59=0x4, 0x58=0x0, 0x57=0x0, 0x56=0x4, 0x55=0x4, 0x54=0x0, 0x53=0x4, 0x52=0x0, 0x51=0x0, 0x50=0x4, 0x4f=0x0, 0x4e=0x4, 0x4d=0x4, 0x4c=0x0, 0x4b=0x4, 0x4a=0x0, 0x49=0x0, 0x48=0x4, 0x47=0x4, 0x46=0x0, 0x45=0x0, 0x44=0x4, 0x43=0x0, 0x42=0x4, 0x41=0x4, 0x40=0x0, 0x3f=0x4, 0x3e=0x0, 0x3d=0x0, 0x3c=0x4, 0x3b=0x0, 0x3a=0x4, 0x39=0x4, 0x38=0x0, 0x37=0x0, 0x36=0x4, 0x35=0x4, 0x34=0x0, 0x33=0x4, 0x32=0x0, 0x31=0x0, 0x30=0x4, 0x2f=0x0, 0x2e=0x4, 0x2d=0x4, 0x2c=0x0, 0x2b=0x4, 0x2a=0x0, 0x29=0x0, 0x28=0x4, 0x27=0x4, 0x26=0x0, 0x25=0x0, 0x24=0x4, 0x23=0x0, 0x22=0x4, 0x21=0x4, 0x20=0x0, 0x1f=0x0, 0x1e=0x4, 0x1d=0x4, 0x1c=0x0, 0x1b=0x4, 0x1a=0x0, 0x19=0x0, 0x18=0x4, 0x17=0x4, 0x16=0x0, 0x15=0x0, 0x14=0x4, 0x13=0x0, 0x12=0x4, 0x11=0x4, 0x10=0x0, 0xf=0x4, 0xe=0x0, 0xd=0x0, 0xc=0x4, 0xb=0x0, 0xa=0x4, 0x9=0x4, 0x8=0x0, 0x7=0x0, 0x6=0x4, 0x5=0x4, 0x4=0x0, 0x3=0x4, 0x2=0x0, 0x1=0x0, 0x0=0x4] @ const_arr1)))
+                                                                        (Select w32 (Eq 0x0 N4) 0x40 0x0))
+                                                                (ZExt w32 (Ult N3 0x43)))
+                                                        (And w32 (Xor w32 0x10007643 N5:(Xor w32 N2 N1))
+                                                                 0x10))
+                                                (And w32 (Shl w32 (And w32 (Xor w32 0x10007643 N2) N5)
+                                                                  0x4)
+                                                         0x800))
+                                     0xb)
+                           (LShr w32 N0 0x7))
+                  0x1)))
+    state 1254 with condition (Not (Eq false
+          (Eq 0x0
+              (And w32 (Xor w32 (LShr w32 N0:(Or w32 (Or w32 (Or w32 (Or w32 (Or w32 (And w32 N1:(Add w32 0xefff89bd
+                                                                                                          N2:(Or w32 N3:(And w32 (ZExt w32 (Extract w8 0 (Or w32 (And w32 (ZExt w32 (Read w8 0x1f0 v0_CyFi_HttpQueryInfoA0_0))
+                                                                                                                                                                          0xff)
+                                                                                                                                                                 0x22f900)))
+                                                                                                                                 0xff)
+                                                                                                                     0x75c77300))
+                                                                                              0x80)
+                                                                                     (ZExt w32 (Read w8 N4:(And w32 N1 0xff) [0xff=0x4, 0xfe=0x0, 0xfd=0x0, 0xfc=0x4, 0xfb=0x0, 0xfa=0x4, 0xf9=0x4, 0xf8=0x0, 0xf7=0x0, 0xf6=0x4, 0xf5=0x4, 0xf4=0x0, 0xf3=0x4, 0xf2=0x0, 0xf1=0x0, 0xf0=0x4, 0xef=0x0, 0xee=0x4, 0xed=0x4, 0xec=0x0, 0xeb=0x4, 0xea=0x0, 0xe9=0x0, 0xe8=0x4, 0xe7=0x4, 0xe6=0x0, 0xe5=0x0, 0xe4=0x4, 0xe3=0x0, 0xe2=0x4, 0xe1=0x4, 0xe0=0x0, 0xdf=0x0, 0xde=0x4, 0xdd=0x4, 0xdc=0x0, 0xdb=0x4, 0xda=0x0, 0xd9=0x0, 0xd8=0x4, 0xd7=0x4, 0xd6=0x0, 0xd5=0x0, 0xd4=0x4, 0xd3=0x0, 0xd2=0x4, 0xd1=0x4, 0xd0=0x0, 0xcf=0x4, 0xce=0x0, 0xcd=0x0, 0xcc=0x4, 0xcb=0x0, 0xca=0x4, 0xc9=0x4, 0xc8=0x0, 0xc7=0x0, 0xc6=0x4, 0xc5=0x4, 0xc4=0x0, 0xc3=0x4, 0xc2=0x0, 0xc1=0x0, 0xc0=0x4, 0xbf=0x0, 0xbe=0x4, 0xbd=0x4, 0xbc=0x0, 0xbb=0x4, 0xba=0x0, 0xb9=0x0, 0xb8=0x4, 0xb7=0x4, 0xb6=0x0, 0xb5=0x0, 0xb4=0x4, 0xb3=0x0, 0xb2=0x4, 0xb1=0x4, 0xb0=0x0, 0xaf=0x4, 0xae=0x0, 0xad=0x0, 0xac=0x4, 0xab=0x0, 0xaa=0x4, 0xa9=0x4, 0xa8=0x0, 0xa7=0x0, 0xa6=0x4, 0xa5=0x4, 0xa4=0x0, 0xa3=0x4, 0xa2=0x0, 0xa1=0x0, 0xa0=0x4, 0x9f=0x4, 0x9e=0x0, 0x9d=0x0, 0x9c=0x4, 0x9b=0x0, 0x9a=0x4, 0x99=0x4, 0x98=0x0, 0x97=0x0, 0x96=0x4, 0x95=0x4, 0x94=0x0, 0x93=0x4, 0x92=0x0, 0x91=0x0, 0x90=0x4, 0x8f=0x0, 0x8e=0x4, 0x8d=0x4, 0x8c=0x0, 0x8b=0x4, 0x8a=0x0, 0x89=0x0, 0x88=0x4, 0x87=0x4, 0x86=0x0, 0x85=0x0, 0x84=0x4, 0x83=0x0, 0x82=0x4, 0x81=0x4, 0x80=0x0, 0x7f=0x0, 0x7e=0x4, 0x7d=0x4, 0x7c=0x0, 0x7b=0x4, 0x7a=0x0, 0x79=0x0, 0x78=0x4, 0x77=0x4, 0x76=0x0, 0x75=0x0, 0x74=0x4, 0x73=0x0, 0x72=0x4, 0x71=0x4, 0x70=0x0, 0x6f=0x4, 0x6e=0x0, 0x6d=0x0, 0x6c=0x4, 0x6b=0x0, 0x6a=0x4, 0x69=0x4, 0x68=0x0, 0x67=0x0, 0x66=0x4, 0x65=0x4, 0x64=0x0, 0x63=0x4, 0x62=0x0, 0x61=0x0, 0x60=0x4, 0x5f=0x4, 0x5e=0x0, 0x5d=0x0, 0x5c=0x4, 0x5b=0x0, 0x5a=0x4, 0x59=0x4, 0x58=0x0, 0x57=0x0, 0x56=0x4, 0x55=0x4, 0x54=0x0, 0x53=0x4, 0x52=0x0, 0x51=0x0, 0x50=0x4, 0x4f=0x0, 0x4e=0x4, 0x4d=0x4, 0x4c=0x0, 0x4b=0x4, 0x4a=0x0, 0x49=0x0, 0x48=0x4, 0x47=0x4, 0x46=0x0, 0x45=0x0, 0x44=0x4, 0x43=0x0, 0x42=0x4, 0x41=0x4, 0x40=0x0, 0x3f=0x4, 0x3e=0x0, 0x3d=0x0, 0x3c=0x4, 0x3b=0x0, 0x3a=0x4, 0x39=0x4, 0x38=0x0, 0x37=0x0, 0x36=0x4, 0x35=0x4, 0x34=0x0, 0x33=0x4, 0x32=0x0, 0x31=0x0, 0x30=0x4, 0x2f=0x0, 0x2e=0x4, 0x2d=0x4, 0x2c=0x0, 0x2b=0x4, 0x2a=0x0, 0x29=0x0, 0x28=0x4, 0x27=0x4, 0x26=0x0, 0x25=0x0, 0x24=0x4, 0x23=0x0, 0x22=0x4, 0x21=0x4, 0x20=0x0, 0x1f=0x0, 0x1e=0x4, 0x1d=0x4, 0x1c=0x0, 0x1b=0x4, 0x1a=0x0, 0x19=0x0, 0x18=0x4, 0x17=0x4, 0x16=0x0, 0x15=0x0, 0x14=0x4, 0x13=0x0, 0x12=0x4, 0x11=0x4, 0x10=0x0, 0xf=0x4, 0xe=0x0, 0xd=0x0, 0xc=0x4, 0xb=0x0, 0xa=0x4, 0x9=0x4, 0x8=0x0, 0x7=0x0, 0x6=0x4, 0x5=0x4, 0x4=0x0, 0x3=0x4, 0x2=0x0, 0x1=0x0, 0x0=0x4] @ const_arr1)))
+                                                                             (Select w32 (Eq 0x0 N4) 0x40 0x0))
+                                                                     (ZExt w32 (Ult N3 0x43)))
+                                                             (And w32 (Xor w32 0x10007643 N5:(Xor w32 N2 N1))
+                                                                      0x10))
+                                                     (And w32 (Shl w32 (And w32 (Xor w32 0x10007643 N2) N5)
+                                                                       0x4)
+                                                              0x800))
+                                          0xb)
+                                (LShr w32 N0 0x7))
+                       0x1))))
+106 [Node 15/15 - State 1163] BaseInstructions: Inserted symbolic data @0x769a28 of size 0x0: CyFi_InternetReadFile1='' pc=0x706eaa8f
+106 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x22f1b0): [0x7a0|malware-hook] [W] InternetReadFile  (00762BC0, 00769A28, 0x0, 0022FA90=0x0) -> tag_out: CyFi_InternetReadFile1
+106 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BC0)
+106 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x22f20c): [0x7a0|malware-hook] [W] InternetCloseHandle (00762BB0)
+106 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x22f250): [0x7a0|malware-hook] [W] InternetCloseHandle (00CC0004)
+106 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=74720000 size=0x40000 \Windows\System32\uxtheme.dll kernel=0 allpids=0
+106 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=74720000 size=0x40000 \Windows\System32\uxtheme.dll kernel=0 allpids=0
+107 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72890000 size=0xd000 \Windows\System32\dhcpcsvc6.dll kernel=0 allpids=0
+107 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72890000 size=0xd000 \Windows\System32\dhcpcsvc6.dll kernel=0 allpids=0
+107 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72870000 size=0x12000 \Windows\System32\dhcpcsvc.dll kernel=0 allpids=0
+107 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c34f750): s2e.sys: detected image load pid=000007A0 addr=72870000 size=0x12000 \Windows\System32\dhcpcsvc.dll kernel=0 allpids=0
+107 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=75830000 size=0xc000 \Windows\System32\cryptbase.dll kernel=0 allpids=0
+107 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=75830000 size=0xc000 \Windows\System32\cryptbase.dll kernel=0 allpids=0
+108 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c08f750): s2e.sys: detected image load pid=00000498 addr=02DA0000 size=0x29000 \s2e\fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 kernel=0 allpids=0
+108 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c08f750): s2e.sys: detected image load pid=00000498 addr=02DA0000 size=0x29000 \s2e\fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 kernel=0 allpids=0
+108 [Node 15/15 - State 1163] ModuleExecutionDetector: loading id mod_0
+108 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+108 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+108 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+108 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+110 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+115 [Node 15/15 - State 852] Switching from state 852 to state 1163
+126 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+131 [Node 15/15 - State 852] Switching from state 852 to state 1163
+138 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+138 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+141 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+146 [Node 15/15 - State 852] Switching from state 852 to state 706
+146 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=75830000 size=0xc000 \Windows\System32\cryptbase.dll kernel=0 allpids=0
+146 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9a750): s2e.sys: detected image load pid=000007A0 addr=75830000 size=0xc000 \Windows\System32\cryptbase.dll kernel=0 allpids=0
+147 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c08f750): s2e.sys: detected image load pid=00000498 addr=02DA0000 size=0x29000 \s2e\fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 kernel=0 allpids=0
+147 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c08f750): s2e.sys: detected image load pid=00000498 addr=02DA0000 size=0x29000 \s2e\fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99 kernel=0 allpids=0
+147 [Node 15/15 - State 706] ModuleExecutionDetector: loading id mod_0
+147 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+147 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74400000 size=0x39000 \Windows\System32\MMDevAPI.dll kernel=0 allpids=0
+147 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+147 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f9f750): s2e.sys: detected image load pid=000004B8 addr=74760000 size=0xf5000 \Windows\System32\propsys.dll kernel=0 allpids=0
+171 [Node 15/15 - State 706] Switching from state 706 to state 1163
+177 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+182 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+182 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+187 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+187 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+188 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+188 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+189 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+189 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+189 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+189 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+189 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+189 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+198 [Node 15/15 - State 706] Switching from state 706 to state 1163
+201 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+201 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+202 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+202 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+203 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+203 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+203 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+203 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+203 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+203 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+203 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+207 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+207 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+208 [Node 15/15 - State 852] Switching from state 852 to state 706
+210 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+210 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+213 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+213 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+213 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+213 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+215 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+215 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+218 [Node 15/15 - State 706] Switching from state 706 to state 1163
+229 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+229 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+232 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+232 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+232 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+232 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+233 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+292 [Node 15/15 - State 852] Switching from state 852 to state 1163
+295 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+295 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+297 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+302 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+302 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+302 [Node 15/15 - State 706] Switching from state 706 to state 852
+403 [Node 15/15 - State 852] Switching from state 852 to state 706
+406 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+406 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+406 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+406 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+406 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+406 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+410 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+410 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+410 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+410 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+410 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+410 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+413 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+417 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+417 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+418 [Node 15/15 - State 706] Switching from state 706 to state 852
+423 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+423 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+424 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+424 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+425 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+425 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+425 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+425 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+425 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+425 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+428 [Node 15/15 - State 852] Switching from state 852 to state 706
+430 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+430 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+431 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+431 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+431 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+431 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+433 [Node 15/15 - State 706] Switching from state 706 to state 1163
+475 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+480 [Node 15/15 - State 852] Switching from state 852 to state 706
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+484 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+485 [Node 15/15 - State 706] Switching from state 706 to state 1163
+557 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+559 [Node 15/15 - State 706] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+559 [Node 15/15 - State 706] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+559 [Node 15/15 - State 706] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+559 [Node 15/15 - State 706] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+559 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+559 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+559 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+559 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+563 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+563 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+569 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+569 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+572 [Node 15/15 - State 706] Switching from state 706 to state 852
+576 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+576 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+577 [Node 15/15 - State 852] Switching from state 852 to state 706
+583 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+583 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+583 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+583 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+585 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00800000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00800000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+586 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+589 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+589 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+589 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+589 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+590 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+591 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+591 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+593 [Node 15/15 - State 706] Switching from state 706 to state 852
+595 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+595 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+595 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+595 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+597 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+597 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+604 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+604 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+606 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+606 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+606 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+606 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+606 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+606 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+610 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+610 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+610 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+610 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+610 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+610 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+613 [Node 15/15 - State 852] Switching from state 852 to state 1163
+618 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+618 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x3e4 create=1
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x3e4 create=1
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+620 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+624 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+624 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+624 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+624 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+624 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+624 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+627 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x7d8 create=1
+627 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x7d8 create=1
+627 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+627 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+628 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+628 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+628 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+638 [Node 15/15 - State 706] Switching from state 706 to state 1163
+643 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+643 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+645 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+645 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+645 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+645 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+650 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+652 [Node 15/15 - State 1163] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+652 [Node 15/15 - State 1163] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+652 [Node 15/15 - State 1163] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+652 [Node 15/15 - State 1163] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+652 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+652 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+652 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+652 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+653 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+657 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+657 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+658 [Node 15/15 - State 706] Switching from state 706 to state 1163
+662 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+662 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+668 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+668 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+673 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+682 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+682 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+682 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+682 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+692 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+692 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+694 [Node 15/15 - State 706] Switching from state 706 to state 1163
+697 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+697 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+697 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+697 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000760 parent=000001E0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000760 parent=000001E0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x760 tid=0x424 create=1
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x760 tid=0x424 create=1
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=00870000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=00870000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=00870000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=00870000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205958): s2e.sys: detected image load pid=00000760 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+700 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x7b4 create=1
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x7b4 create=1
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205750): s2e.sys: detected image load pid=00000760 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20592c): s2e.sys: caught thread termination pid=0x760 tid=0x424 create=0
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c20592c): s2e.sys: caught thread termination pid=0x760 tid=0x424 create=0
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205a28): s2e.sys: caught process termination pid=00000760 parent=000001E0
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205a28): s2e.sys: caught process termination pid=00000760 parent=000001E0
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+701 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c205a30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+703 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+703 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+703 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x2c4 create=1
+703 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x2c4 create=1
+704 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+709 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+709 [Node 15/15 - State 706] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+714 [Node 15/15 - State 706] Switching from state 706 to state 852
+714 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+714 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+715 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+715 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+715 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+715 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+715 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+715 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+719 [Node 15/15 - State 852] Switching from state 852 to state 1163
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x168 create=1
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x168 create=1
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+721 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+724 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+726 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+726 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+727 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+727 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+728 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+728 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+728 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+728 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+733 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+734 [Node 15/15 - State 852] Switching from state 852 to state 1163
+738 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+738 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+739 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+741 [Node 15/15 - State 852] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+741 [Node 15/15 - State 852] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+741 [Node 15/15 - State 852] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+741 [Node 15/15 - State 852] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+741 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+741 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+741 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+741 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+744 [Node 15/15 - State 852] Switching from state 852 to state 1163
+749 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+766 [Node 15/15 - State 706] Switching from state 706 to state 1163
+771 [Node 15/15 - State 1163] Switching from state 1163 to state 706
+814 [Node 15/15 - State 706] Switching from state 706 to state 1163
+815 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+815 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+815 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+815 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+817 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x7a8 create=1
+817 [Node 15/15 - State 1163] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x7a8 create=1
+824 [Node 15/15 - State 1163] Switching from state 1163 to state 852
+826 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+826 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+832 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+832 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+840 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+840 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+840 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+840 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+842 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=000E0000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=000E0000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+843 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+846 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+846 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+846 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+846 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+847 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+847 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+848 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+848 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+848 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+848 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+848 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+848 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+849 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+849 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+853 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+853 [Node 15/15 - State 852] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+854 [Node 15/15 - State 852] Switching from state 852 to state 706
