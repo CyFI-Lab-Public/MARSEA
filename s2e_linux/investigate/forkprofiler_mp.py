@@ -6,6 +6,7 @@ import subprocess
 from tqdm import tqdm
 import re
 import networkx as nx
+import pickle
 
 MISSINGMODULE = 0
 MISSINGTOP = 0
@@ -121,7 +122,7 @@ def analyze_execution_trace(proj_fd, remote_path=None):
     if remote_path:
         remote_proj_path = Path(remote_path)/proj
         remote_proj_path.mkdir(parents=True, exist_ok=True)
-        with (remote_proj_path/"fp_result") as fp:
+        with (remote_proj_path/"fp_result").open("wb") as fp:
             pickle.dump(res, fp)
 
     return res
@@ -274,8 +275,8 @@ def identify_top_call(pid, line_number, dbgcontent, state_id, proj, dbgGraph, et
     if not res:
 
         if pid == 0:
-            import ipdb
-            ipdb.set_trace()
+            # Can bc of ProgArgs
+            return res
 
         pre_pid = list(dbgGraph.predecessors(pid))
 
