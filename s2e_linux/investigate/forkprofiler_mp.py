@@ -7,6 +7,9 @@ from tqdm import tqdm
 import re
 import networkx as nx
 
+MISSINGMODULE = 0
+MISSINGTOP = 0
+
 class Record():
     def __init__(self):
         self.top_module = ""
@@ -27,7 +30,8 @@ def find_parent_id(dbgfile):
         if "Started new node" in line:
             result = re.search("parent_id=(\d+)", line)
             if result is not None:
-                return resul.group(1)
+                return int(result.group(1))
+        line = hdbgfile.readline()
 
     return None
 
@@ -47,7 +51,11 @@ def build_debug_tree(proj_fd):
         graph.add_node(0, path=str(last_fd/"0"/"debug.txt"))
 
     # Each process folder
-    for each_proc in Path(proj_fd).iterdir():
+    for each_proc in (Path(proj_fd)/"s2e-last").iterdir():
+
+        # if it is not a folder
+        if not each_proc.is_dir():
+            continue
 
         # 0 was already in the graph
         if each_proc.stem == "0":
@@ -56,7 +64,7 @@ def build_debug_tree(proj_fd):
         dbgfile = each_proc/"debug.txt"
 
         # continue if not existed
-        it not dbgfile.exists():
+        if not dbgfile.exists():
             continue
 
         parent_id = find_parent_id(dbgfile)
@@ -66,13 +74,16 @@ def build_debug_tree(proj_fd):
             continue
 
         if not each_proc.stem in graph:
-            graph.add_node(each_proc.steam, path=str(dbgfile))
+            graph.add_node(int(each_proc.stem), path=str(dbgfile))
 
-        graph.add_edge(parent_id, each_proc.stem)
+        graph.add_edge(parent_id, int(each_proc.stem))
 
     return graph
 
 def analyze_execution_trace(proj_fd):
+
+    res = []
+
     found_line = []
 
     opath = Path(proj_fd)
@@ -81,7 +92,7 @@ def analyze_execution_trace(proj_fd):
     dbgGraph = build_debug_tree(proj_fd)
 
     if dbgGraph.order() == 0:
-        return {}
+        return []
 
     # Generate the execution_trace.json
     os.system("s2e execution_trace -pp " + proj)
@@ -89,55 +100,91 @@ def analyze_execution_trace(proj_fd):
     etrace = opath/"s2e-last"/"execution_trace.json"
 
     if not etrace.exists():
-        return {}
+        return []
 
     etrace = json.load(etrace.open())
 
     for trace in tqdm(etrace):
-        if trace["type"] = "TRACE_FORK":
-            analyze_fork_record(trace, proj, dbgGraph, found_line, etrace)
+        if trace["type"] == "TRACE_FORK":
+            record_result = analyze_fork_record(trace, proj, dbgGraph, found_line, etrace)
 
-def analyze_fork_record(trace, proj, dbgGraph, etrace):
-    if not "module" in trace:
-        print("unfound module " + str(trace))
-        return
+            if record_result:
+                res.extend(record_result)
 
-    rec = Record()
+    return res
 
-    # Consider the condition that the module is malware itself
-    if trace["module"]["name"] == "/s2e/"+proj:
-        rec.top_module = proj
-        rec.bottom_module = proj
+def get_max_state_id(etrace):
+    max_id = 0
+
+    for trace in etrace:
+        if trace["type"] == "TRACE_FORK":
+            state_id = trace["state_id"]
+            if state_id > max_id:
+                max_id = state_id
+
+        if "children" in trace:
+            key = list(trace["children"].keys())[0]
+            traces = trace["children"][key]
+            child_max_id = get_max_state_id(traces)
+
+            if child_max_id > max_id:
+                max_id = child_max_id
+
+    return max_id
+
+def analyze_fork_record(trace, proj, dbgGraph, found_line, etrace):
+
+    global MISSINGTOP
+    global MISSINGMODULE
+
+    res = []
+
+    if "module" in trace:
+
+        rec = Record()
+
+        # Consider the condition that the module is malware itself
+        if trace["module"]["name"] == "/s2e/"+proj:
+            rec.top_module = proj
+            rec.bottom_module = proj
+
+        else:
+            module = trace["module"]["name"]
+            pc = trace["pc"]
+            sid = trace["state_id"]
+            debug_result = lookup_debug(sid, pc, dbgGraph, found_line, proj, etrace)
+
+            if debug_result is not None:
+
+                call_addr, top_module, func, line, isJump = debug_result
+
+                rec.top_module = top_module
+                rec.bottom_module = module
+                rec.funcName = func
+                rec.lineNumber = line
+                rec.state_id = sid
+                rec.call_addr = call_addr
+                rec.isJump = isJump
+
+            else:
+                MISSINGTOP += 1
+
+        res.append(rec)
+
     else:
-        module = trace["module"]["name"]
-        pc = trace["pc"]
-        sid = trace["state_id"]
-        debug_result = lookup_debug(sid, pc, dbgGraph, found_line, proj, etrace)
-
-        if debug_result is None:
-            return
-
-
-        call_addr, top_module, func, line, isJump = debug_result
-
-        rec.top_module = top_module
-        rec.bottom_module = module
-        rec.funcName = func
-        rec.lineNumber = line
-        rec.state_id = sid
-        rec.call_addr = call_addr
-        rec.isJump = isJump
-
-    RECORD.append(rec)
+        MISSINGMODULE += 1
 
     if 'children' in trace:
         key = list(trace['children'].keys())[0]
         traces = trace['children'][key]
-        for child_trace in  traces:
+        for child_trace in  tqdm(traces):
             if child_trace['type'] == "TRACE_FORK":
-               analyze_fork_record(child_trace, proj, dbgGraph, etrace)
+                child_res = analyze_fork_record(child_trace, proj, dbgGraph, found_line, etrace)
 
-    return
+                if child_res:
+                    res.extend(child_res)
+
+    return res
 
 def lookup_debug(state_id, pc, dbgGraph, found_line, proj, etrace):
 
@@ -165,8 +212,6 @@ def lookup_debug(state_id, pc, dbgGraph, found_line, proj, etrace):
 
                 return top_call
 
-
-                
 def identify_top_call(pid, line_number, dbgcontent, state_id, proj, dbgGraph, etrace):
     
     res = None
@@ -182,15 +227,25 @@ def identify_top_call(pid, line_number, dbgcontent, state_id, proj, dbgGraph, et
                 temp_line = temp_line.replace("jumped to", "jumpedto")
                 jump = True
 
-            proj_addr = temp_line.split()[4]
-            call_addr = proj_addr.split(':')[1]
-            dll_func_addr = temp_line.split()[7]
-            module = dll_func_addr.split('!')[0]
-            func = dll_func_addr.split('!')[1].split(':')[0]
-            res = [call_addr, module, func, i+1, jump]
+            # if it is s2e mp
+            if temp_line.split()[1] == "[Node":
+                proj_addr = temp_line.split()[7]
+                call_addr = proj_addr.split(':')[1]
+                dll_func_addr = temp_line.split()[10]
+                module = dll_func_addr.split('!')[0]
+                func = dll_func_addr.split('!')[1].split(':')[0]
+
+            else:
+                proj_addr = temp_line.split()[4]
+                call_addr = proj_addr.split(':')[1]
+                dll_func_addr = temp_line.split()[7]
+                module = dll_func_addr.split('!')[0]
+                func = dll_func_addr.split('!')[1].split(':')[0]
+
+            res = [call_addr, module, func, line_number+1, jump]
 
         if 'state ' + str(state_id) + ' with condition' in temp_line:
-            new_state_id = find_parent_state_id(state_id, etrace)
+            new_state_id = find_parent_state_id(state_id, dbgcontent, check)
 
             if new_state_id is not None:
                 state_id = new_state_id
@@ -204,44 +259,61 @@ def identify_top_call(pid, line_number, dbgcontent, state_id, proj, dbgGraph, et
 
     # If cant find the function call in this pid, check the parent pid
     if not res:
+
+        if pid == 0:
+            import ipdb
+            ipdb.set_trace()
+
         pre_pid = list(dbgGraph.predecessors(pid))
 
-        if pre_pid > 1:
+        if len(pre_pid) > 1:
             import ipdb
             ipdb.set_trace()
 
         # No predecessor but it is not the first process, weird
-        if pre_pid == 0 and pid != 0:
+        if len(pre_pid) == 0 and pid != 0:
             import ipdb
             ipdb.set_trace()
 
         pre_pid = pre_pid[0]
 
-        pre_dbgcontent = Path(dbgGraph.nodes[pre_pid]['path']).open().readlins()
+        pre_dbgcontent = Path(dbgGraph.nodes[pre_pid]['path']).open().readlines()
         pre_line_number = len(pre_dbgcontent)-1
 
-        pre_res = identify_top_call(pre_pid, pre_line_number, pre_dbgcontent, state_id, proj, dbgGraph)
+        pre_res = identify_top_call(pre_pid, pre_line_number, pre_dbgcontent, state_id, proj, dbgGraph, etrace)
 
         if pre_res:
             return pre_res
 
     return res
 
-def find_parent_state_id(state_id, etrace, parent=None):
+def find_parent_state_id(state_id, dbgcontent, line_number):
+    for check in list(range(line_number))[::-1]:
+        temp_line = dbgcontent[check]
 
-    for trace in etrace:
+        result = re.search("Forking state (\d+) at pc", temp_line)
 
-        if trace['state_id'] == state_id:
-            return parent
-
-        if trace['type'] == "TRACE_FORK" and "children" in trace:
-            key = list(trace['children'].keys())[0]
-            traces = trace['children'][key]
-
-            sub_parent = find_parent_state_id(state_id, traces, trace['state_id'])
-
-            if sub_parent:
-                return sub_parent
+        if result is not None:
+            new_state_id = result.group(1)
+            return int(new_state_id)
 
     return None
+
+# def find_parent_state_id(state_id, etrace, parent=None):
+# 
+#     for trace in etrace:
+# 
+#         if trace['state_id'] == state_id:
+#             return parent
+# 
+#         if trace['type'] == "TRACE_FORK" and "children" in trace:
+#             key = list(trace['children'].keys())[0]
+#             traces = trace['children'][key]
+# 
+#             sub_parent = find_parent_state_id(state_id, traces, trace['state_id'])
+# 
+#             if sub_parent:
+#                 return sub_parent
+# 
+#     return None
 
