@@ -80,7 +80,7 @@ def build_debug_tree(proj_fd):
 
     return graph
 
-def analyze_execution_trace(proj_fd):
+def analyze_execution_trace(proj_fd, remote_path=None):
 
     res = []
 
@@ -88,6 +88,13 @@ def analyze_execution_trace(proj_fd):
 
     opath = Path(proj_fd)
     proj = opath.stem
+
+    # Check if remote_path exists
+    if remote_path:
+        remote_proj_path = Path(remote_path)/proj/"fp_result"
+        if remote_proj_path.exists():
+            print("Existed at ", str(remote_proj_path))
+            return res
     
     dbgGraph = build_debug_tree(proj_fd)
 
@@ -110,6 +117,12 @@ def analyze_execution_trace(proj_fd):
 
             if record_result:
                 res.extend(record_result)
+
+    if remote_path:
+        remote_proj_path = Path(remote_path)/proj
+        remote_proj_path.mkdir(parents=True, exist_ok=True)
+        with (remote_proj_path/"fp_result") as fp:
+            pickle.dump(res, fp)
 
     return res
 
