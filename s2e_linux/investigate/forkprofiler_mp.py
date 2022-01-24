@@ -42,6 +42,9 @@ def build_debug_tree(proj_fd):
     # s2e-last folder
     last_fd = Path(proj_fd)/"s2e-last"
 
+    if not last_fd.is_dir():
+        return graph
+
     # debug file
     dbgfile = last_fd/"debug.txt"
 
@@ -110,7 +113,12 @@ def analyze_execution_trace(proj_fd, remote_path=None):
     if not etrace.exists():
         return []
 
-    etrace = json.load(etrace.open())
+    try:
+
+        etrace = json.load(etrace.open())
+
+    except:
+        return []
 
     for trace in tqdm(etrace):
         if trace["type"] == "TRACE_FORK":
