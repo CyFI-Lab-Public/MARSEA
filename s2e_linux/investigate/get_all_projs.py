@@ -13,16 +13,19 @@ def get_all_projs():
 
     while to_check:
         go_to = Path(to_check.pop())
+        
+        print("Checking ", str(go_to))
 
         if go_to.is_dir():
             # Check the existence of launch-s2e.sh
             if (go_to/"launch-s2e.sh").exists():
                 res.append(go_to)
 
-            # Otherwise iterating that folder
-            for each_item in go_to.iterdir():
-                if each_item.is_dir():
-                    to_check.append(each_item)
+            else:
+                # Otherwise iterating that folder
+                for each_item in go_to.iterdir():
+                    if each_item.is_dir():
+                        to_check.append(each_item)
 
     return res
 
