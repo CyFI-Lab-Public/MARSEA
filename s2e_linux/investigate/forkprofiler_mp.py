@@ -22,6 +22,16 @@ class Record():
         self.call_addr = 0
         self.isJump = False
 
+def analyze_record(records):
+    res = {}
+
+    for rec in records:
+        if not rec.funcName in res:
+            res[rec.funcName] = 0
+        res[rec.funcName] += 1
+
+    return res
+
 def find_parent_id(dbgfile):
     hdbgfile = dbgfile.open()
     line = hdbgfile.readline()
