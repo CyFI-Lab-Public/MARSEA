@@ -13,7 +13,7 @@ def combine_proj_results(fp_res):
         for func, count in funcs.items():
             if not func in res:
                 res[func] = 0
-            res[func] += count/all_count
+            res[func] += count
 
     return dict(sorted(res.items(), key=lambda item: item[1], reverse=True))
 
