@@ -49,12 +49,11 @@ HINTERNET WINAPI InternetConnectAHook(
     DWORD         dwFlags,
     DWORD_PTR     dwContext
 ) {
-    Message("[W] InternetConnectA \n");
 
     HINTERNET connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(connectionHandle);
 
-    std::string tag = ReadTag((PVOID)lpszServerName);
+    std::string tag = ReadTag((PVOID)lpszServerName);        
     if (tag != "") {
         CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
         Command.Command = DUMP_EXPRESSION;

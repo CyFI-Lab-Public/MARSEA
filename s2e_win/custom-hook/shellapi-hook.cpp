@@ -33,8 +33,7 @@ HINSTANCE WINAPI ShellExecuteWHook(
 	INT     nShowCmd
 ) {
 	if (checkCaller("ShellExecuteW")) {
-		HINSTANCE ret = (HINSTANCE)malloc(sizeof(HINSTANCE));
-
+		HINSTANCE ret = ShellExecuteW(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
 		std::string file_tag = getFileTag(lpFile);
 		if (file_tag.length() > 1) {
 			Message("[W] ShellExecuteW(%p, %ls, %p=%ls, %ls, %ls, %i) ret: %p tag_in: %s\n", hwnd, lpOperation, lpFile, lpFile, lpParameters, lpDirectory, nShowCmd, ret, file_tag.c_str());
@@ -43,9 +42,7 @@ HINSTANCE WINAPI ShellExecuteWHook(
 			Message("[W] ShellExecuteW(%p, %ls, %ls, %ls, %ls, %i) ret: %p\n", hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd, ret);
 		}
 		return ret;
-		return ShellExecuteW(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
 	}
-
 	return ShellExecuteW(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
 }
 

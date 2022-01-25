@@ -63,7 +63,7 @@ namespace winhttp {
 #include "handleapi-hook.h"
 #include "shellapi-hook.h"
 #include "winbase-hook.h"
-
+#include "stringapiset-hook.h"
 #include <synchapi.h>
 
 INT s2eVersion = 0;
@@ -484,6 +484,8 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
     CyFIFuncType("kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),
+
+    CyFIFuncType("kernel32", "WideCharToMultiByte", WideCharToMultiByteHook, { NULL }),
 
     /* Evasion Techniques*/
     //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
