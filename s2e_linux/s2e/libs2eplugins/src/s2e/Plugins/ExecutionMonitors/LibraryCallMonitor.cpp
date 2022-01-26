@@ -238,7 +238,7 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
         } else {
             // Did not find any export
             if(!m_aggressiveOff) {
-                getWarningsStream(state) << "Could not get export name for address " << hexval(targetAddr) << "\n";
+                getWarningsStream(state) << currentMod.get()->Name << " Could not get export name for address " << hexval(targetAddr) << "\n";
             }
             // Entry with an empty name is a blacklist, so we don't incur lookup costs all the time
             plgState->add(mod->Pid, targetAddr, "");
