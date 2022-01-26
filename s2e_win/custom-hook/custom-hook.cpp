@@ -100,12 +100,6 @@ static HANDLE CreateThreadHook(
     dummyThreadHandles.insert(rHandle);
     Message("[W] CreateThread(%p)\n", rHandle);
     return rHandle;
-    //}
-    //else {
-        // Explore the program where CreateThread "fails"
-    //    Message("[W] CreateThread Failed\n");
-    //    return NULL;
-    //}
 }
 
 static VOID ExitThreadHook(
@@ -131,42 +125,28 @@ static LPVOID WINAPI VirtualAllocHook(
     DWORD flProtect
 ) {
     if (lpAddress != 0 && S2EIsSymbolic(&lpAddress, 4)) {
-        Message("[W] VirtualAlloc Pointer Symbolic!\n");
+        Message("VirtualAlloc Pointer Symbolic!\n");
         std::string tag = ReadTag(&lpAddress);
         if (tag != "") {
-            Message("[W] VA Pointer constraints %s\n", tag.c_str());
+            Message("VA Pointer constraints %s\n", tag.c_str());
         }
     }
 
     if (S2EIsSymbolic(&dwSize, 4)) {
-        Message("[W] VirtualAlloc Size Symbolic!\n");
+        Message("VirtualAlloc Size Symbolic!\n");
         std::string tag = ReadTag(&dwSize);
         if (tag != "") {
-            Message("[W] VA Size constraints %s\n", tag.c_str());
+            Message("VA Size constraints %s\n", tag.c_str());
         }
     }
 
     if (lpAddress != 0 && S2EIsSymbolic(lpAddress, dwSize)) {
-        Message("[W] VirtualAlloc Symbolic!\n");
+        Message("VirtualAlloc Symbolic!\n");
     }
 
-    Message("[W] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect);
+    Message("[W] VirtualAlloc (%p [|] %i [|] %ld [|] %ld)\n", lpAddress, dwSize, flAllocationType, flProtect);
 
     return VirtualAlloc(lpAddress, dwSize, flAllocationType, flProtect);
-    /*
-    UINT8 branch = S2ESymbolicChar("lpvResult", 1);
-    if (branch) {
-        LPVOID lpvResult;
-        lpvResult = VirtualAlloc(lpAddress, 1000, flAllocationType, flProtect);
-        Message("[W] VirtualAlloc (%p, %i, %i, %i, %p)\n", lpAddress, dwSize, flAllocationType, flProtect, lpvResult);
-        //dummyBaseAddrs.insert(lpvResult);
-        S2EMakeSymbolic(lpvResult, 18, "CyFi_VirtualAlloc");
-        return lpvResult;
-    }
-    else {
-        Message("[W] VirtualAlloc (%p, %i, %i, %i, %p): FAILED\n", lpAddress, dwSize, flAllocationType, flProtect);
-        return NULL;
-    }*/
 }
 
 
@@ -179,27 +159,27 @@ static BOOL WINAPI VirtualFreeHook(
 
     if (S2EIsSymbolic(&lpAddress, 4)) {
         ignore_vf = true;
-        Message("[W] VirtualFree symbolic pointer\n");
+        Message("VirtualFree symbolic pointer\n");
         std::string tag = ReadTag(&lpAddress);
         if (tag != "") {
-            Message("[W] VF Pointer constraints %s\n", tag.c_str());
+            Message("VF Pointer constraints %s\n", tag.c_str());
         }
     }
 
     if (S2EIsSymbolic(lpAddress, dwSize)) {
-        Message("[W] VirtualFree symbolic buffer\n");
+        Message("VirtualFree symbolic buffer\n");
     }
 
     if (S2EIsSymbolic(&dwSize, 4)) {
         ignore_vf = true;
-        Message("[W] VirtualFree symbolic size\n");
+        Message("VirtualFree symbolic size\n");
         std::string tag = ReadTag(&dwSize);
         if (tag != "") {
-            Message("[W] VF dwSize constraints %s\n", tag.c_str());
+            Message("VF dwSize constraints %s\n", tag.c_str());
         }
     }
 
-    Message("[W] VirtualFree (%p, %i, %i)\n", lpAddress, dwSize, dwFreeType);
+    Message("[W] VirtualFree (%p [|] %i [|] %ld)\n", lpAddress, dwSize, dwFreeType);
 
     if (ignore_vf) {
         return true;
@@ -208,18 +188,6 @@ static BOOL WINAPI VirtualFreeHook(
         return VirtualFree(lpAddress, dwSize, dwFreeType);
     }
     
-    //return TRUE;
-    /*
-    std::set<LPVOID>::iterator it = dummyBaseAddrs.find(lpAddress);
-    if (it == dummyBaseAddrs.end()) {
-        return VirtualFree(lpAddress, nSize, dwFreeType);
-    }
-    else {
-        VirtualFree(lpAddress, nSize, dwFreeType);
-        free(*it);
-        dummyBaseAddrs.erase(it);
-        return TRUE;
-    }*/
 }
 
 static HRESULT CreateStreamOnHGlobalHook(
@@ -233,11 +201,11 @@ static HRESULT CreateStreamOnHGlobalHook(
     //dummyStreams.insert(stream);
     try {
         HRESULT hr = CreateStreamOnHGlobal(hGlobal, fDeleteOnRelease, ppstm);//  0x00000000;
-        Message("[W] CreateStreamOnHGlobal (%p, %s, %p) Ret:%p\n", hGlobal, fDeleteOnRelease, ppstm, hr);
+        Message("[W] CreateStreamOnHGlobal (%p [|] %i [|] %p) ret:%p\n", hGlobal, fDeleteOnRelease, ppstm, hr);
 
     }
     catch (int e) {
-        Message("[W] CreateStreamOnHGlobal Failed %i\n!", e);
+        Message("CreateStreamOnHGlobal Failed %i!\n", e);
 
     }
     return hr;
@@ -260,7 +228,7 @@ public:
 
 static BOOL WINAPI SetProcessDEPPolicyHook(DWORD dwFlags)
 {
-    Message("[W] SetProcessDepPolicy (%d)\n", dwFlags);
+    Message("[W] SetProcessDepPolicy (%ld)\n", dwFlags);
     return SetProcessDEPPolicy(dwFlags);
 }
 
@@ -283,25 +251,25 @@ static UINT WINAPI GetSystemDirectoryAHook(
     LPSTR lpBuffer,
     UINT  uSize
 ) {
-    Message("[W] GetSystemDirectoryA (%s, %i)\n", lpBuffer, uSize);
+    Message("[W] GetSystemDirectoryA (%s [|] %i)\n", lpBuffer, uSize);
     return GetSystemDirectoryA(lpBuffer, uSize);
 
 }
 
 static DWORD WINAPI GetCurrentProcessIdHook() {
     DWORD ret = GetCurrentProcessId();
-    Message("[W] ProcID %d\n", ret);
+    Message("ProcID %d\n", ret);
     return ret;
 }
 static DWORD WINAPI GetCurrentThreadIdHook() {
     DWORD ret = GetCurrentThreadId();
-    Message("[W] ThreadID %d\n", ret);
+    Message("ThreadID %d\n", ret);
     return ret;
 }
 static HMODULE WINAPI GetModuleHandleWHook(
     LPCWSTR lpModuleName
 ) {
-    Message("[W] GetModuleHandleW tid=%d\n", GetCurrentThreadId());
+    Message("GetModuleHandleW tid=%d\n", GetCurrentThreadId());
     return GetModuleHandleW(lpModuleName);
 
 }
@@ -311,7 +279,7 @@ static FARPROC WINAPI GetProcAddressHook(
     LPCSTR  lpProcName
 ) {
     FARPROC ret = GetProcAddress(hModule, lpProcName);
-    Message("[W] GetProcAddress (%p, %s) ret=%d\n", hModule, lpProcName, ret);
+    Message("[W] GetProcAddress (%p [|] %s) ret:%d\n", hModule, lpProcName, ret);
     return ret;
 }
 
@@ -320,7 +288,7 @@ static HWND WINAPI GetCaptureHook() {
     if (ret == 0) {
         ret = (HWND)malloc(sizeof(HWND));
     }
-    Message("[W] GetCaptureHook() %p\n", ret);
+    Message("[W] GetCaptureHook() res:%p\n", ret);
     return ret;
 }
 
@@ -337,7 +305,6 @@ static int MultiByteToWideCharHook(
     Command.Command = WINWRAPPER_INTERNETCONNECTA;
     Command.InternetConnectA.lpszServerName = (uint64_t)lpMultiByteStr;
     S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    Message("[W] 5\n");
     killAnalysis("MultiByteToWideChar");
     return 0;
 
@@ -347,7 +314,7 @@ DWORD WINAPI WaitForSingleObjectHook(
     HANDLE hHandle,
     DWORD  dwMilliseconds
 ) {
-    Message("[W] WaitForSingleObject(%p, %d)\n", hHandle, dwMilliseconds);
+    Message("[W] WaitForSingleObject(%p [|] %ld)\n", hHandle, dwMilliseconds);
     return WAIT_TIMEOUT;
 }
 
@@ -361,7 +328,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("kernel32", "GetProcAddress", GetProcAddressHook, {NULL}),
     //CyFIFuncType("User32", "GetCapture", GetCaptureHook, {NULL}),
 
-    CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
+    //CyFIFuncType("kernel32", "VirtualAlloc", VirtualAllocHook, {NULL}),
     CyFIFuncType("Kernel32", "VirtualFree", VirtualFreeHook, {NULL}),
     //CyFIFuncType("Kernel32", "lstrlenA", lstrlenAHook, {NULL}),
 
@@ -381,6 +348,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Ws2_32", "select", selecthook, {NULL}),
     CyFIFuncType("Ws2_32", "send", sendhook, {NULL}),
     CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
+
+
     CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
     CyFIFuncType("msvcrt", "fwrite", fwritehook, {NULL}),
     CyFIFuncType("msvcrt", "fread", freadhook, {NULL}),
@@ -438,12 +407,16 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "HttpAddRequestHeadersW", HttpAddRequestHeadersWHook, {NULL}),
     CyFIFuncType("wininet", "HttpEndRequestA", HttpEndRequestAHook, {NULL}),
     CyFIFuncType("wininet", "HttpQueryInfoA", HttpQueryInfoAHook, {NULL}),
+    CyFIFuncType("wininet", "HttpQueryInfoW", HttpQueryInfoWHook, {NULL}),
     CyFIFuncType("wininet", "InternetQueryDataAvailable", InternetQueryDataAvailableHook, {NULL}),
     CyFIFuncType("wininet", "InternetQueryOptionA", InternetQueryOptionAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetQueryOptionW", InternetQueryOptionWHook, {NULL}),
     CyFIFuncType("wininet", "InternetSetOptionA", InternetSetOptionAHook, {NULL}),
+    CyFIFuncType("wininet", "InternetSetOptionW", InternetSetOptionWHook, {NULL}),
     CyFIFuncType("wininet", "InternetWriteFile", InternetWriteFileHook, {NULL}),
     CyFIFuncType("wininet", "InternetGetConnectedState", InternetGetConnectedStateHook, {NULL}),
     CyFIFuncType("wininet", "InternetCheckConnectionA", InternetCheckConnectionAHook, { NULL }),
+    CyFIFuncType("wininet", "InternetCheckConnectionW", InternetCheckConnectionWHook, { NULL }),
 
     CyFIFuncType("Kernel32", "LocalAlloc", LocalAllocHook, {NULL}),
     CyFIFuncType("Urlmon", "URLDownloadToFileA", URLDownloadToFileHook, {NULL}),

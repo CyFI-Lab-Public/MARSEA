@@ -11,8 +11,9 @@ HRESULT WINAPI URLDownloadToFileHook(
     LPBINDSTATUSCALLBACK lpfnCB
 ) {
     if (checkCaller("URLDownloadToFile")) {
-        Message("[W] URLDownloadToFile (%p, A\"%s\", A\"%s\", %ld, %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
-        Message("[W] URLDownloadToFile - Not implemented yet\n");
+        Message("[W] URLDownloadToFile (%p [|] %s [|] %s [|] %ld [|] %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
+        Message("URLDownloadToFile - Not implemented yet\n");
+        return S_OK;
     }
     return URLDownloadToFile(pCaller, szURL, szFileName, dwReserved, lpfnCB);
 }
@@ -27,12 +28,12 @@ HRESULT WINAPI URLDownloadToFileWHook(
 ) {
     std::string tag_in = ReadTag((PVOID)szURL);
     if (tag_in.length() > 0) {
-        Message("[W] URLDownloadToFileW (%p, A\"%s\", A\"%s\", %ld, %p) tag_in: %s \n", pCaller, szURL, szFileName, dwReserved, lpfnCB, tag_in.c_str());
+        Message("[W] URLDownloadToFileW (%p [|] %ls [|] %ls [|] %ld [|] %p) tag_in:%s \n", pCaller, szURL, szFileName, dwReserved, lpfnCB, tag_in.c_str());
     }
     else {
-        Message("[W] URLDownloadToFileW (%p, A\"%s\", A\"%s\", %ld, %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
+        Message("[W] URLDownloadToFileW (%p [|] %ls [|] %ls [|] %ld [|] %p)\n", pCaller, szURL, szFileName, dwReserved, lpfnCB);
     }
-    Message("[W] URLDownloadToFileW - Not implemented yet\n");
+    Message("URLDownloadToFileW - Not implemented yet\n");
     return S_OK;
 }
 
@@ -46,10 +47,10 @@ HRESULT WINAPI URLDownloadToCacheFileHook(
 ) {
     std::string tag_in = ReadTag((PVOID)szURL);
     if (tag_in.length() > 0) {
-        Message("[W] URLDownloadToCacheFileHook (%p, A\"%s\", A\"%s\", %ld, %ld, %p) tag_in: %s \n", lpUnkcaller, szURL, szFileName, cchFileName, dwReserved, pBSC, tag_in.c_str());
+        Message("[W] URLDownloadToCacheFileHook (%p [|] %s [|] %s [|] %ld [|] %ld [|] %p) tag_in:%s \n", lpUnkcaller, szURL, szFileName, cchFileName, dwReserved, pBSC, tag_in.c_str());
     }
     else {
-        Message("[W] URLDownloadToCacheFileHook (%p, A\"%s\", A\"%s\", %ld, %ld, %p)\n", lpUnkcaller, szURL, szFileName, cchFileName, dwReserved, pBSC);
+        Message("[W] URLDownloadToCacheFileHook (%p [|] %s [|] %s [|] %ld [|] %ld [|] %p)\n", lpUnkcaller, szURL, szFileName, cchFileName, dwReserved, pBSC);
     }
     return S_OK;
 }

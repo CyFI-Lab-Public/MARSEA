@@ -28,7 +28,7 @@ FILE* __cdecl fopenhook(
 
 		// Check try to open it
 		if (FILE* fhandle = fopen(filename, mode)) {
-			Message("[W] fopen (%s, %s), Ret: %p\n", filename, mode, fhandle);
+			Message("[W] fopen (%s [|] %s) ret:%p\n", filename, mode, fhandle);
 			fileMap[fhandle] = filename;
 			return fhandle;
 		}
@@ -38,14 +38,14 @@ FILE* __cdecl fopenhook(
 				fclose(fwhandle);
 				FILE* fhandle = fopen(filename, mode);
 			}
-			Message("[W] fopen (%s, %s), Ret: %p\n", filename, mode, fhandle);
+			Message("[W] fopen (%s [|] %s) ret:%p\n", filename, mode, fhandle);
 			fileMap[fhandle] = filename;
 			return fhandle;
 		}
 		else {
 			FILE* fhandle = (FILE*)malloc(sizeof(FILE*));
 			dummyHandles.insert(fhandle);
-			Message("[W] fopen (%s, %s), Ret: %p\n", filename, mode, fhandle);
+			Message("[W] fopen (%s [|] %s) ret:%p\n", filename, mode, fhandle);
 			fileMap[fhandle] = filename;
 			return fhandle;
 		}
@@ -92,10 +92,10 @@ size_t __cdecl freadhook(
 		taintFile[fileMap[stream]] = tag;
 
 		if (tagIn.length() > 0) {
-			Message("[W] fread (%p, %i, %i, %p) -> tag_in: %s tag_out: %s\n", ptr, size, count, stream, tagIn.c_str(), tag.c_str());
+			Message("[W] fread (%p [|] %i [|] %i [|] %p) tag_in:%s tag_out:%s\n", ptr, size, count, stream, tagIn.c_str(), tag.c_str());
 		}
 		else {
-			Message("[W] fread (%p, %i, %i, %p) -> tag_out: %s\n", ptr, size, count, stream, tag.c_str());
+			Message("[W] fread (%p [|] %i [|] %i [|] %p) tag_out:%s\n", ptr, size, count, stream, tag.c_str());
 		}
 
 		std::set<FILE*>::iterator it = dummyHandles.find(stream);
@@ -123,7 +123,7 @@ int __cdecl fseekhook(
 ) {
 	perHandleBytesToRead.erase(stream);
 
-	Message("[W] fseek (%p, %i, %i)\n", stream, offset, origin);
+	Message("[W] fseek (%p [|] %ld [|] %i)\n", stream, offset, origin);
 	int ret = fseek(stream, offset, origin);
 	return 0; //successful
 }
@@ -149,10 +149,10 @@ size_t __cdecl fwritehook(
 				std::string fileName = fileMap[stream];
 				taintFile[fileName] = tag;
 			}
-			Message("[W] fwrite (%p, %i, %i,  %p) -> tag_in: %s\n", buffer, size, count, stream, tag.c_str());
+			Message("[W] fwrite (%p [|] %i [|] %i [|] %p) tag_in:%s\n", buffer, size, count, stream, tag.c_str());
 		}
 		else {
-			Message("[W] fwrite (%p, %i, %i,  %p)\n", buffer, size, count, stream);
+			Message("[W] fwrite (%p [|] %i [|] %i [|] %p)\n", buffer, size, count, stream);
 		}
 		return count;
 	}
@@ -186,7 +186,5 @@ int randhook(void) {
 		int ran = rand();
 		return S2ESymbolicInt(tag_out.c_str(), ran);
 	}
-	else {
-		return rand();
-	}
+	return rand();
 }

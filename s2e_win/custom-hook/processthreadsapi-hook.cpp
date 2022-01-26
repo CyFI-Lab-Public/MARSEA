@@ -27,19 +27,19 @@ BOOL WINAPI CreateProcessAHook(
     //LPSTR lpCommandLine = "C:\\s2e\\rundll32-ng.exe C:\\Users\\s2e\\AppData\\Roaming\\nx00615.ttf DisPlay 64";
 
     if (app_tag.length() > 1) {
-        Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p) tag_in: %s",
+        Message("[W] CreateProcessA (%s [|] %s [|] %p [|] %p [|] %i [|] %ld [|] %p [|] %s [|] %p [|] %p) tag_in:%s",
             lpApplicationName, lpCommandLine, lpProcessAttributes,
             lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation, app_tag.c_str());
     }
     else if (cmd_tag.length() > 1) {
-        Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p) tag_in: %s",
+        Message("[W] CreateProcessA (%s [|] %s [|] %p [|] %p [|] %i [|] %ld [|] %p [|] %s [|] %p [|] %p) tag_in:%s",
             lpApplicationName, lpCommandLine, lpProcessAttributes,
             lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation, cmd_tag.c_str());
     }
     else {
-        Message("[W] CreateProcessA (%s, %s, %p, %p, %d, %d, %p, %s, %p, %p)",
+        Message("[W] CreateProcessA (%s [|] %s [|] %p [|] %p [|] %i [|] %ld [|] %p [|] %s [|] %p [|] %p)",
             lpApplicationName, lpCommandLine, lpProcessAttributes,
             lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
@@ -118,19 +118,19 @@ BOOL WINAPI CreateProcessWHook(
     std::string cmd_tag = getFileTag(lpCommandLine);
 
     if (app_tag.length() > 1) {
-        Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
+        Message("[W] CreateProcessW (%ls [|] %ls [|] %p [|] %p [|] %i [|] %ld [|] %p [|] %ls [|] %p [|] %p) tag_in:%s\n",
             lpApplicationName, lpCommandLine, lpProcessAttributes,
             lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation, app_tag.c_str());
     }
     else if (cmd_tag.length() > 1) {
-        Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
+        Message("[W] CreateProcessW (%ls [|] %ls [|] %p [|] %p [|] %i [|] %ld [|] %p [|] %ls [|] %p [|] %p) tag_in:%s\n",
             lpApplicationName, lpCommandLine, lpProcessAttributes,
             lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation, cmd_tag.c_str());
     }
     else {
-        Message("[W] CreateProcessW (%ls, %ls, %p, %p, %ld, %ld, %p, %ls, %p, %p)",
+        Message("[W] CreateProcessW (%ls [|] %ls [|] %p [|] %p [|] %i [|] %ld [|] %p [|] %ls [|] %p [|] %p)",
             lpApplicationName, lpCommandLine, lpProcessAttributes,
             lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation);

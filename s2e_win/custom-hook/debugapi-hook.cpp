@@ -6,7 +6,7 @@ BOOL WINAPI CheckRemoteDebuggerPresentHook(
 	PBOOL  pbDebuggerPresent
 ) {
 	if (checkCaller("CheckRemoteDebuggerPresent")) {
-		Message("[W] CheckRemoteDebuggerPresent (%p, %p)\n", hProcess, pbDebuggerPresent);
+		Message("[W] CheckRemoteDebuggerPresent (%p [|] %p)\n", hProcess, pbDebuggerPresent);
 		*pbDebuggerPresent = FALSE;
 		return TRUE;
 	}
@@ -16,7 +16,7 @@ BOOL WINAPI CheckRemoteDebuggerPresentHook(
 BOOL WINAPI IsDebuggerPresentHook() {
 	if (checkCaller("IsDebuggerPresent")) {
 
-		Message("[W] IsDebuggerPresent\n");
+		Message("IsDebuggerPresent\n");
 		return FALSE;
 	}
 	return IsDebuggerPresent();

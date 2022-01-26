@@ -14,7 +14,7 @@ LSTATUS APIENTRY RegOpenKeyExAHook(
 	if (checkCaller("RegOpenKeyExA")) {
 		std::string tag = GetTag("RegOpenKeyExA");
 		LSTATUS lResult = RegOpenKeyExA(hKey, lpSubKey, ulOptions, samDesired, phkResult);
-		Message("[W] RegOpenKeyExA (%p, %s, %ld, %ld, %p) Ret: %d tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, lResult, tag.c_str());
+		Message("[W] RegOpenKeyExA (%p [|] %s [|] %ld [|] %ld [|] %p) ret:%d tag_out:%s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, lResult, tag.c_str());
 		if (lResult == ERROR_SUCCESS) {
 			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
 			return fakeResult;
@@ -40,7 +40,7 @@ LSTATUS APIENTRY RegOpenKeyExWHook(
 	if (checkCaller("RegOpenKeyExW")) {
 		std::string tag = GetTag("RegOpenKeyExW");
 		LSTATUS lResult = RegOpenKeyExW(hKey, lpSubKey, ulOptions, samDesired, phkResult);
-		Message("[W] RegOpenKeyExW (%p, %s, %ld, %ld, %p) -> tag_out: %s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, lResult, tag.c_str());
+		Message("[W] RegOpenKeyExW (%p [|] %s [|] %ld [|] %ld [|] %p) tag_out:%s\n", hKey, lpSubKey, ulOptions, samDesired, phkResult, lResult, tag.c_str());
 		if (lResult == ERROR_SUCCESS) {
 			LSTATUS fakeResult = S2ESymbolicInt(tag.c_str(), ERROR_SUCCESS);
 			return fakeResult;
@@ -91,7 +91,7 @@ LSTATUS APIENTRY RegGetValueAHook(
 			pdwType, pvData, pcbData);
 
 		std::string tag = GetTag("RegGetValueA");
-		Message("[W] RegGetValueA (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
+		Message("[W] RegGetValueA (%p [|] %s [|] %s [|] %ld [|] %p [|] %p [|] %p) tag_out:%s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
 
 		// If it is not a dummy handle, call concretely
 		std::set<HKEY>::iterator it = dummyHandles.find(hkey);
@@ -133,7 +133,7 @@ LSTATUS APIENTRY RegGetValueWHook(
 			pdwType, pvData, pcbData);
 
 		std::string tag = GetTag("RegGetValueW");
-		Message("[W] RegGetValueW (%p, %s, %s, %ld, %p, %p, %p) -> tag_out: %s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
+		Message("[W] RegGetValueW (%p [|] %s [|] %s [|] %ld [|] %p [|] %p [|] %p) tag_out:%s\n", hkey, lpSubKey, lpValue, dwFlags, pdwType, pvData, pcbData, tag.c_str());
 		// If it is not a dummy handle, call concretely
 		std::set<HKEY>::iterator it = dummyHandles.find(hkey);
 
@@ -173,7 +173,7 @@ LSTATUS APIENTRY RegQueryValueExAHook(
 			lpReserved, lpType, lpData, lpcbData);
 
 		std::string tag = GetTag("RegQueryValueExA");
-		Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
+		Message("[W] RegQueryValueExA (%p [|] %s [|] %p [|] %p [|] %p [|] %p) tag_out:%s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
 		// If it is not a dummy handle, call concretely
 		std::set<HKEY>::iterator it = dummyHandles.find(hKey);
 
@@ -213,7 +213,7 @@ LSTATUS APIENTRY RegQueryValueExWHook(
 			lpReserved, lpType, lpData, lpcbData);
 
 		std::string tag = GetTag("RegQueryValueExW");
-		Message("[W] RegQueryValueExA (%p, %s, %p, %p, %p, %p) -> tag_out: %s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
+		Message("[W] RegQueryValueExW (%p [|] %s [|] %p [|] %p [|] %p [|] %p) tag_out:%s\n", hKey, lpValueName, lpReserved, lpType, lpData, lpcbData, tag.c_str());
 		// If it is not a dummy handle, call concretely
 		std::set<HKEY>::iterator it = dummyHandles.find(hKey);
 

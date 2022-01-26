@@ -23,19 +23,19 @@ HANDLE WINAPI CreateFileAHook(
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			fileMap[fileHandle] = fileName;
 			dummyHandles.insert(fileHandle);
-			Message("[W] CreateFileA (A\"%s\", %d, %d, %p, %d, %d, %p), Ret: %p tag_in: %s\n",
+			Message("[W] CreateFileA (%s [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p tag_in:%s\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle, file_name_tag.c_str());
 			return fileHandle;
 		}
 		else {
 			HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 			if (fileHandle == INVALID_HANDLE_VALUE) {
-				Message("[W] CreateFileA Invalid Handle. Need to fake it.\n");
+				Message("CreateFileA Invalid Handle. Need to fake it.\n");
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
 			}
 			
-			Message("[W] CreateFileA (A\"%s\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+			Message("[W] CreateFileA (%s [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
 			fileMap[fileHandle] = fileName;
 			return fileHandle;
@@ -62,7 +62,7 @@ HANDLE WINAPI CreateFileWHook(
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			dummyHandles.insert(fileHandle);
 			fileMap[fileHandle] = fileName;
-			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p tag_in: %s\n",
+			Message("[W] CreateFileW (%ls [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p tag_in:%s\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle, file_name_tag.c_str());
 			return fileHandle;
 		}
@@ -72,7 +72,7 @@ HANDLE WINAPI CreateFileWHook(
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
 			}
-			Message("[W] CreateFileW (A\"%ls\", %ld, %ld, %p, %ld, %ld, %p), Ret: %p\n",
+			Message("[W] CreateFileW (%ls [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
 			fileMap[fileHandle] = fileName;
 			return fileHandle;
@@ -85,7 +85,7 @@ BOOL WINAPI DeleteFileAHook(
 	LPCSTR lpFileName
 ) {
 	if (checkCaller("DeleteFileA")) {
-		Message("[W] DeleteFileA (A\"%s\")\n", lpFileName);
+		Message("[W] DeleteFileA (%s)\n", lpFileName);
 		return TRUE;
 	}
 	return DeleteFileA(lpFileName);
@@ -95,7 +95,7 @@ BOOL WINAPI DeleteFileWHook(
 	LPCWSTR lpFileName
 ) {
 	if (checkCaller("DeleteFileW")) {
-		Message("[W] DeleteFileW (A\"%ls\")\n", lpFileName);
+		Message("[W] DeleteFileW (%ls)\n", lpFileName);
 		return TRUE;
 	}
 	return DeleteFileW(lpFileName);
@@ -109,7 +109,7 @@ HANDLE WINAPI FindFirstFileAHook(
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			dummyHandles.insert(fileHandle);
-			Message("[W] FindFirstFileA (A\"%s\", %p), Ret: %p\n",
+			Message("[W] FindFirstFileA (%s [|] %p) ret:%p\n",
 				lpFileName, lpFindFileData, fileHandle);
 			return fileHandle;
 		}
@@ -118,7 +118,7 @@ HANDLE WINAPI FindFirstFileAHook(
 			if (fileHandle == INVALID_HANDLE_VALUE) {
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
-				Message("[W] FindFirstFileA (A\"%s\", %p), Ret: %p\n",
+				Message("[W] FindFirstFileA (%s [|] %p) ret:%p\n",
 					lpFileName, lpFindFileData, fileHandle);
 			}
 			return fileHandle;
@@ -136,7 +136,7 @@ HANDLE WINAPI FindFirstFileWHook(
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
 			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 			dummyHandles.insert(fileHandle);
-			Message("[W] FindFirstFileW (A\"%ls\", %p), Ret: %p\n",
+			Message("[W] FindFirstFileW (%ls [|] %p) ret:%p\n",
 				lpFileName, lpFindFileData, fileHandle);
 			return fileHandle;
 		}
@@ -145,7 +145,7 @@ HANDLE WINAPI FindFirstFileWHook(
 			if (fileHandle == INVALID_HANDLE_VALUE) {
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
-				Message("[W] FindFirstFileW (A\"%ls\", %p), Ret: %p\n",
+				Message("[W] FindFirstFileW (%ls [|] %p) ret:%p\n",
 					lpFileName, lpFindFileData, fileHandle);
 			}
 			return fileHandle;
@@ -168,7 +168,7 @@ DWORD WINAPI GetFileTypeHook(
 		}
 		else {
 			std::string tag = GetTag("GetFileType");
-			Message("[W] GetFileType (%p) -> tag_out: %s\n", hFile, tag.c_str());
+			Message("[W] GetFileType (%p) tag_out:%s\n", hFile, tag.c_str());
 			return S2ESymbolicInt(tag.c_str(), 0x4);
 		}
 	}
@@ -200,10 +200,10 @@ BOOL WINAPI ReadFileHook(
 
 		std::string tag = GetTag("ReadFile");
 		if (tagIn.length() > 0) {
-			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_in: %s tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tagIn.c_str(), tag.c_str());
+			Message("[W] ReadFile (%p [|] %p [|] %ld [|] %p [|] %p) tag_in:%s tag_out:%s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tagIn.c_str(), tag.c_str());
 		}
 		else {
-			Message("[W] ReadFile (%p, %p, %ld, %p, %p) -> tag_out: %s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
+			Message("[W] ReadFile (%p [|] %p [|] %ld [|] %p [|] %p) tag_out:%s\n", hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped, tag.c_str());
 		}
 
 		std::set<HANDLE>::iterator it_2 = dummyHandles.find(hFile);
@@ -233,7 +233,7 @@ DWORD WINAPI GetFileSizeHook(
 		}
 		else {
 			std::string tag = GetTag("GetFileSize");
-			Message("[W] GetFileSize(%p, %p) -> tag_out: %s\n", hFile, lpFileSizeHigh, tag.c_str());
+			Message("[W] GetFileSize(%p [|] %p) tag_out:%s\n", hFile, lpFileSizeHigh, tag.c_str());
 			DWORD res = S2ESymbolicInt(tag.c_str(), DEFAULT_MEM_LEN);
 
 			if (lpFileSizeHigh != NULL) {
@@ -251,7 +251,7 @@ DWORD WINAPI GetFileAttributesAHook(
 	if (checkCaller("GetFileAttributesA")) {
 		std::string tag = GetTag("GetFileAttributesA");
 		DWORD ret = GetFileAttributesA(lpFileName);
-		Message("[W] GetFileAttributesA (%s) Ret: %ld -> tag_out: %s\n", lpFileName, ret, tag.c_str());
+		Message("[W] GetFileAttributesA (%s) ret:%ld tag_out:%s\n", lpFileName, ret, tag.c_str());
 		S2EMakeSymbolic(&ret, sizeof(ret), tag.c_str());
 		return ret;
 	}
@@ -263,7 +263,7 @@ DWORD WINAPI GetFileAttributesWHook(
 ) {
 	std::string tag = GetTag("GetFileAttributesW");
 	DWORD ret = GetFileAttributesW(lpFileName);
-	Message("[W] GetFileAttributesW (%ls) Ret: %ld -> tag_out: %s\n", lpFileName, ret, tag.c_str());
+	Message("[W] GetFileAttributesW (%ls) ret:%ld tag_out:%s\n", lpFileName, ret, tag.c_str());
 	S2EMakeSymbolic(&ret, sizeof(ret), tag.c_str());
 	return ret;
 }
@@ -277,7 +277,7 @@ DWORD WINAPI GetFullPathNameAHook(
 	if (checkCaller("GetFullPathNameA")) {
 		std::string tag = GetTag("GetFullPathNameA");
 		DWORD ret = GetFullPathNameA(lpFileName, nBufferLength, lpBuffer, lpFilePart);
-		Message("[W] GetFullPathNameA (%s, %ld, %p, %p) Ret: %ld -> tag_out: %s\n", lpFileName, nBufferLength, lpBuffer, lpFilePart, ret, tag.c_str());
+		Message("[W] GetFullPathNameA (%s [|] %ld [|] %p [|] %p) ret:%ld tag_out:%s\n", lpFileName, nBufferLength, lpBuffer, lpFilePart, ret, tag.c_str());
 		if (ret == 0) {
 			// If the function faield, symbolize the buffer and the return
 			S2EMakeSymbolic(lpBuffer, min(DEFAULT_MEM_LEN, nBufferLength), tag.c_str());
@@ -324,7 +324,7 @@ BOOL WINAPI GetFileTimeHook(
 				lpLastAccessTime, lpLastWriteTime);
 		}
 		std::string tag = GetTag("GetFileTime");
-		Message("[W] GetFileTimeHook (%p, %p, %p, %p) -> tag_out: %s\n", hFile, lpCreationTime, lpLastAccessTime, lpLastWriteTime, tag.c_str());
+		Message("[W] GetFileTimeHook (%p [|] %p [|] %p [|] %p) tag_out:%s\n", hFile, lpCreationTime, lpLastAccessTime, lpLastWriteTime, tag.c_str());
 		S2EMakeSymbolic(&lpCreationTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
 		S2EMakeSymbolic(&lpCreationTime->dwLowDateTime, sizeof(DWORD), tag.c_str());
 		S2EMakeSymbolic(&lpLastAccessTime->dwHighDateTime, sizeof(DWORD), tag.c_str());
@@ -351,7 +351,7 @@ BOOL WINAPI WriteFileHook(
 		std::string buffer_tag = ReadTag((LPVOID)lpBuffer);
 
 		if (buffer_tag.length() > 0) {
-			Message("[W] WriteFile (%p, %p, %ld, %ld, %p) tag_in: %s", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, buffer_tag.c_str());
+			Message("[W] WriteFile (%p [|] %s [|] %ld [|] %ld [|] %p) tag_in:%s\n", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, buffer_tag.c_str());
 			//Update the taintFile map
 			if (fileMap.find(hFile) != fileMap.end()) {
 				std::string fileName = fileMap[hFile];
@@ -359,7 +359,7 @@ BOOL WINAPI WriteFileHook(
 			}
 		}
 		else {
-			Message("[W] WriteFile (%p, %p=%s, %ld, %ld, %p)", hFile, lpBuffer, (LPCTSTR)lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped);
+			Message("[W] WriteFile (%p [|] %s [|] %ld [|] %ld [|] %p)", hFile, (LPCTSTR)lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped);
 		}
 
 		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
@@ -383,7 +383,7 @@ DWORD WINAPI SetFilePointerHook(
 	DWORD  dwMoveMethod
 )
 {
-	Message("[W] SetFilePointer (%p, %ld, %p, %d)", hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod);
+	Message("[W] SetFilePointer (%p [|] %ld [|] %p [|] %ld)", hFile, lDistanceToMove, lpDistanceToMoveHigh, dwMoveMethod);
 	return -1;
 
 }

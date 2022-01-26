@@ -41,12 +41,12 @@ SOCKET WSAAPI sockethook(
             SOCKET rSocket = (SOCKET)malloc(sizeof(SOCKET));
             dummySockets.insert(rSocket);
            
-            Message("[W] socket(%s, %i, %i), Ret: 0x%x\n",
+            Message("[W] socket(%s [|] %i [|] %i) ret:%p\n",
                 prot, type, protocol, rSocket);
 
             return rSocket;
         }
-        Message("[W] socket(%s, %i, %i), Ret: 0x%x\n",
+        Message("[W] socket(%s [|] %i [|] %i) ret:%p\n",
             prot, type, protocol, retSocket);
         return retSocket;
     }
@@ -69,15 +69,15 @@ INT WSAAPI connecthook(
                 inet_ntop(AF_INET, &sin->sin_addr, ip, INET6_ADDRSTRLEN);
                 std::string tag_in = ReadTag((PVOID)ip);
                 if (tag_in.length() > 0) {
-                    Message("[W] connect (%p, A\"%s\") tag_in: %s \n", s, ip, tag_in.c_str());
+                    Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
                 }
                 else {
                     tag_in = ReadTag((PVOID) & (((struct sockaddr_in*)name)->sin_addr));
                     if (tag_in.length() > 0) {
-                        Message("[W] connect (%p, A\"%s\") tag_in: %s, DDR\n", s, ip, tag_in.c_str());
+                        Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
                     }
                     else {
-                        Message("[W] connect (%p, A\"%s\")\n", s, ip);
+                        Message("[W] connect (%p [|] %s)\n", s, ip);
                     }
                 }
                 break;
@@ -87,26 +87,25 @@ INT WSAAPI connecthook(
                 inet_ntop(AF_INET6, &sin->sin6_addr, ip, INET6_ADDRSTRLEN);
                 std::string tag_in = ReadTag((PVOID)ip);
                 if (tag_in.length() > 0) {
-                    Message("[W] connect (%p, A\"%s\") tag_in: %s \n", s, ip, tag_in.c_str());
+                    Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
                 }
                 else {
                     tag_in = ReadTag((PVOID) & (((struct sockaddr_in6*)name)->sin6_addr));
                     if (tag_in.length() > 0) {
-                        Message("[W] connect (%p, A\"%s\") tag_in: %s\n", s, ip, tag_in.c_str());
+                        Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
                     }
                     else {
-                        Message("[W] connect (%p, A\"%s\")\n", s, ip);
+                        Message("[W] connect (%p [|] %s)\n", s, ip);
                     }
                 }
                 break;
             }
             default: {
-                Message("[W] connect - Family=%i\n", name->sa_family);
+                Message("connect - Family=%i\n", name->sa_family);
             }
         }
         return 0;
     }
-    Message("[W] connect - elsewhere\n");
     return connect(s, name, namelen);
 }
 
@@ -129,7 +128,7 @@ INT WSAAPI closesockethook(
             //free(*it);
             dummySockets.erase(it);
 
-            return TRUE;
+            return 0;
         }
     }
     return closesocket(s);
@@ -145,22 +144,24 @@ INT WSAAPI recvhook(
 
         std::string tag = GetTag("recv");
 
-        std::string data_read = "(url)f237769666e6f636f2336313e28393e2039313e2838313f2f2a307474786(/ url)";
+        std::string data_read = "(url)f237769666e6f636f2336313e28393e2039313e2838313f2f2a307474786(/url)";
         memcpy(buf, data_read.c_str(), data_read.size());
         
-        Message("[W] recv (%p, %p, %i, %i), ret: %i, -> tag_out: %s\n", s, buf, len, flags, data_read.size(), tag.c_str());
+        Message("[W] recv (%p [|] %p [|] %i [|] %i) ret:%i tag_out:%s\n", s, buf, len, flags, data_read.size(), tag.c_str());
 
         int ret = data_read.size();//S2ESymbolicInt(tag.c_str(), data_read.size());
         S2EMakeSymbolic(buf, data_read.size(), tag.c_str());
         return ret;
 
         /*UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
-        Message("[W] recv (%p, %p, %i, %i), ret: %i, -> tag_out: %s\n", s, buf, len, flags, bytesToRead, tag.c_str());
+        Message("[W] recv (%p, %p, %i [|] %i), ret:%i [|] -> tag_out:%s\n", s, buf, len, flags, bytesToRead, tag.c_str());
         S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
         // Symbolic return
         //INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
         return bytesToRead;//bytesRead;*/
     }
+
+    return recv(s, buf, len, flags);
 }
 
 INT WSAAPI accepthook(
@@ -201,7 +202,7 @@ INT WSAAPI selecthook(
                     socketCount--;
                 }
             }
-            Message("[W] select(%i, %p, %i, %i, %i) ret: %i\n", nfds, readfds->fd_count, writefds->fd_count, exceptfds, timeout, socketCount);
+            Message("[W] select(%i [|] %i [|] %i [|] %p [|] %p) ret:%i\n", nfds, readfds->fd_count, writefds->fd_count, exceptfds, timeout, socketCount);
             return socketCount;
         }
         return 0;
@@ -227,11 +228,7 @@ INT WSAAPI sendhook(
 ) {
     if (checkCaller("send")) {
         std::string tag = GetTag("send");
-        //INT ret = S2ESymbolicInt(tag.c_str(), len);
-        //Message("[W] send (%p, A\"%s\", %i, %i) -> tag_out: %s\n",
-        //    s, buf, len, flags, tag.c_str());
-        //return ret;
-        Message("[W] send (%p, A\"%s\", %i, %i)\n",
+        Message("[W] send (%p [|] %s [|] %i [|] %i)\n",
                 s, buf, len, flags);
         return len;
     }
@@ -252,7 +249,7 @@ INT WSAAPI sendtohook(
 
         std::string tag = GetTag("sendto");
         INT ret = S2ESymbolicInt(tag.c_str(), len);
-        Message("[W] sendto(%p, A\"%ls\", %i, %i, A\"%ls\", %i) -> tag_out: %s\n",
+        Message("[W] sendto(%p [|] %s [|] %i [|] %i [|] %p [|] %i) tag_out:%s\n",
             s, buf, len, flags, to, tolen, tag.c_str());
         return ret;
     }
@@ -264,7 +261,7 @@ u_short WSAAPI ntohshook(
     u_short netshort
 ) {
     u_short ret = ntohs(netshort);
-    Message("[W] ntohs (%u), ret: %u\n", netshort, ret);
+    Message("[W] ntohs (%u) ret:%u\n", netshort, ret);
     return ret;
 }
 
@@ -274,7 +271,7 @@ int WSAAPI getsocknamehook(
     int* namelen
 ) {
     int ret = getsockname(s, name, namelen);
-    Message("[W] getsockname (%p, %p, %i), ret: %i\n", s, name, namelen, ret);
+    Message("[W] getsockname (%p [|] %p [|] %p) ret:%i\n", s, name, namelen, ret);
     return ret;
 }
 
@@ -284,16 +281,20 @@ int WSAAPI getpeernamehook(
     int* namelen
 )
 {
-    char addr[11] = "8.8.8.8";
-    sockaddr_in *fake = new sockaddr_in();
-    fake->sin_family = AF_INET;
-    fake->sin_port = htons(80);
-    inet_pton(AF_INET, addr, &fake->sin_addr);
-    name = (sockaddr*)&fake;
-    *namelen = sizeof(name);
+    if (checkCaller("getpeername")) {
+        char addr[11] = "8.8.8.8";
+        sockaddr_in* fake = new sockaddr_in();
+        fake->sin_family = AF_INET;
+        fake->sin_port = htons(80);
+        inet_pton(AF_INET, addr, &fake->sin_addr);
+        name = (sockaddr*)&fake;
+        *namelen = sizeof(name);
 
-    Message("[W] getpeername (%p, %p, %i), Ip:%s, port=%d\n", s, name, namelen, inet_ntoa(fake->sin_addr), (int)ntohs(fake->sin_port));
-    return 0;
+        Message("[W] getpeername (%p [|] %p [|] %p [|] %s [|] %d)\n", s, name, namelen, inet_ntoa(fake->sin_addr), (int)ntohs(fake->sin_port));
+        return 0;
+    }
+
+    return getpeername(s, name, namelen);
 }
 
 INT WSAAPI getaddrinfohook(
@@ -302,12 +303,13 @@ INT WSAAPI getaddrinfohook(
     const ADDRINFOA* pHints,
     PADDRINFOA* ppResult
 ) {
-    char addr[11] = "8.8.8.8";
-    char addr6[21] = "2001:4860:4860::8888";
-    addrinfo* res = new addrinfo();
-    char ip[INET6_ADDRSTRLEN] = { 0 };
+    if (checkCaller("getaddrinfo")) {
+        char addr[11] = "8.8.8.8";
+        char addr6[21] = "2001:4860:4860::8888";
+        addrinfo* res = new addrinfo();
+        char ip[INET6_ADDRSTRLEN] = { 0 };
 
-    switch (pHints->ai_family) {
+        switch (pHints->ai_family) {
         case AF_INET: {
             sockaddr_in* ipv4 = new sockaddr_in();
             ipv4->sin_family = AF_INET;
@@ -328,9 +330,12 @@ INT WSAAPI getaddrinfohook(
             res->ai_next = NULL;
             break;
         }
+        }
+        *ppResult = res;
+        Message("[W] getaddrinfo (%s [|] %s [|] %p [|] %p) ret:%s\n", pNodeName, pServiceName, pHints, ppResult, ip);
+        return 0;
     }
-    *ppResult = res;
-    Message("[W] getaddrinfo (%s, %s, %p %p) Ip: %p=%s\n", pNodeName, pServiceName, pHints, ppResult, ip, ip);
-    return 0;
+
+    return getaddrinfo(pNodeName, pServiceName, pHints, ppResult);
 }
 

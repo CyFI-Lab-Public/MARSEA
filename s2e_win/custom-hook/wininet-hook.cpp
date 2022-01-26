@@ -18,7 +18,7 @@ HINTERNET WINAPI InternetOpenAHook(
     if (sessionHandle == NULL) {
         sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     }
-    Message("[W] InternetOpenA (A\"%s\", %ld, A\"%s\", A\"%s\", %ld), Ret: %p\n",
+    Message("[W] InternetOpenA (%s [|] %ld [|] %s [|] %s [|] %ld) ret:%p\n",
         lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags, sessionHandle);
     return sessionHandle;
 }
@@ -34,7 +34,7 @@ HINTERNET WINAPI InternetOpenWHook(
     if (sessionHandle == 0) {
         sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     }
-    Message("[W] InternetOpenW (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
+    Message("[W] InternetOpenW (%ls [|] %ld [|] %ls [|] %ls [|] %ld) ret:%p\n",
         lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags, sessionHandle);
     return sessionHandle;
 }
@@ -60,12 +60,12 @@ HINTERNET WINAPI InternetConnectAHook(
         Command.dumpExpression.buffer = (uint64_t)lpszServerName;
         S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-        Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p tag_in: %s\n",
+        Message("[W] InternetConnectA (%p [|] %s [|] %i [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
             hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
         return connectionHandle;
     }
     else {
-        Message("[W] InternetConnectA (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
+        Message("[W] InternetConnectA (%p [|] %s [|] %i [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p\n",
             hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
         return connectionHandle;
     }
@@ -90,12 +90,12 @@ HINTERNET WINAPI InternetConnectWHook(
         Command.dumpExpression.buffer = (uint64_t)lpszServerName;
         S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-        Message("[W] InternetConnectW (%p, A\"%s\", %i, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
+        Message("[W] InternetConnectW (%p [|] %ls [|] %i [|] %ls [|] %ls [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
             hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
         return connectionHandle;
     }
     else {
-        Message("[W] InternetConnectW (%p, A\"%ls\", %i, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
+        Message("[W] InternetConnectW (%p [|] %ls [|] %i [|] %ls [|] %ls [|] 0x%x [|] 0x%x [|] %p) ret:%p\n",
             hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
         return connectionHandle;
     }
@@ -119,13 +119,13 @@ BOOL WINAPI InternetCrackUrlAHook(
             std::string tag = GetTag("InternetCrackUrlA");
             S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
             InternetCrackUrlA(pwszUrl, 52, dwFlags, lpUrlComponents);
-            Message("[W] InternetCrackUrlA (%s, %ld, %ld, %p) -> tag_in: %p, tag_out: %s\n", 
+            Message("[W] InternetCrackUrlA (%s [|] %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n", 
                 pwszUrl, 52, dwFlags, lpUrlComponents, tagIn.c_str(), tag.c_str());
             return TRUE;
         }
     }
 
-    Message("[W] InternetCrackUrlA (%p, %ld, %ld, %p)\n", pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
+    Message("[W] InternetCrackUrlA (%s [|] %ld [|] %ld [|] %p)\n", pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
     return InternetCrackUrlA(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
 }
 
@@ -147,13 +147,13 @@ BOOL WINAPI InternetCrackUrlWHook(
             std::string tag = GetTag("InternetCrackUrlW");
             S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
             InternetCrackUrlW(lpszUrl, 52, dwFlags, lpUrlComponents);
-            Message("[W] InternetCrackUrlW (%s, %ld, %ld, %p) -> tag_in: %p, tag_out: %s\n",
+            Message("[W] InternetCrackUrlW (%ls, %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n",
                 lpszUrl, 52, dwFlags, lpUrlComponents, tagIn.c_str(), tag.c_str());
             return TRUE;
         }
     }
 
-    Message("[W] InternetCrackUrlW (%p, %ld, %ld, %p)\n", lpszUrl, dwUrlLength, dwFlags, lpUrlComponents);
+    Message("[W] InternetCrackUrlW (%ls [|] %ld [|] %ld [|] %p)\n", lpszUrl, dwUrlLength, dwFlags, lpUrlComponents);
     return InternetCrackUrlW(lpszUrl, dwUrlLength, dwFlags, lpUrlComponents);
 }
 
@@ -170,7 +170,7 @@ HINTERNET WINAPI HttpOpenRequestAHook(
     HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(resourceHandle);
 
-    Message("[W] HttpOpenRequestA (%p, A\"%s\", A\"%s\", A\"%s\", A\"%s\", %p, 0x%x, %p), Ret: %p\n",
+    Message("[W] HttpOpenRequestA (%p [|] %s [|] %s [|] %s [|] %s [|] %p [|] 0x%x [|] %p) ret:%p\n",
         hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext, resourceHandle);
 
     return resourceHandle;
@@ -189,7 +189,7 @@ HINTERNET WINAPI HttpOpenRequestWHook(
     HINTERNET resourceHandle = (HINTERNET)malloc(sizeof(HINTERNET));
     dummyHandles.insert(resourceHandle);
 
-    Message("[W] HttpOpenRequestW (%p, A\"%ls\", A\"%ls\", A\"%ls\", A\"%ls\", %p, 0x%x, %p), Ret: %p\n",
+    Message("[W] HttpOpenRequestW (%p [|] %ls [|] %ls [|] %ls [|] %ls [|] %p [|] 0x%x [|] %p) ret:%p\n",
         hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext, resourceHandle);
 
     return resourceHandle;
@@ -206,15 +206,15 @@ BOOL WINAPI HttpSendRequestAHook(
     std::string option_tag = ReadTag((PVOID)lpOptional);
 
     if (header_tag.length() > 0) {
-        Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x) tag_in: %s\n",
+        Message("[W] HttpSendRequestA (%p [|] %s [|] 0x%x [|] %p [|] 0x%x) tag_in:%s\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, header_tag.c_str());
     }
     else if (option_tag.length() > 0) {
-        Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x) tag_in: %s\n",
+        Message("[W] HttpSendRequestA (%p [|] %s [|] 0x%x [|] %p [|] 0x%x) tag_in:%s\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, option_tag.c_str());
     }
     else {
-        Message("[W] HttpSendRequestA (%p, A\"%s\", 0x%x, %p, 0x%x)\n",
+        Message("[W] HttpSendRequestA (%p [|] %s [|] 0x%x [|] %p [|] 0x%x)\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
     }
 
@@ -231,15 +231,15 @@ BOOL WINAPI HttpSendRequestWHook(
     std::string header_tag = ReadTag((PVOID)lpszHeaders);
     std::string option_tag = ReadTag((PVOID)lpOptional);
     if (header_tag.length() > 0) {
-        Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x) tag_in: %s\n",
+        Message("[W] HttpSendRequestW (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x) tag_in:%s\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, header_tag.c_str());
     }
     else if (option_tag.length() > 0) {
-        Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x) tag_in: %s\n",
+        Message("[W] HttpSendRequestW (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x) tag_in:%s\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, option_tag.c_str());
     }
     else {
-        Message("[W] HttpSendRequestW (%p, A\"%ls\", 0x%x, %p, 0x%x)\n",
+        Message("[W] HttpSendRequestW (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x)\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
     }
 
@@ -274,7 +274,7 @@ BOOL WINAPI InternetReadFileHook(
     
 
     std::string tag = GetTag("InternetReadFile");
-    Message("[W] InternetReadFile  (%p, %p, 0x%x, %p=0x%x) -> tag_out: %s\n",
+    Message("[W] InternetReadFile  (%p [|] %p [|] 0x%x [|] %p) tag_out:%s\n",
         hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, bytes_read, tag.c_str());
 
     S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
@@ -294,7 +294,7 @@ HINTERNET WINAPI InternetOpenUrlAHook(
     std::string tag = ReadTag((PVOID)lpszUrl);
 
     if (tag == "" && lstrlenA(lpszUrl) == 0) {
-        Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: NULL\n",
+        Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:NULL\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
         return NULL;
     }
@@ -303,12 +303,12 @@ HINTERNET WINAPI InternetOpenUrlAHook(
     dummyHandles.insert(resourceHandle);
     
     if(tag != ""){
-        Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %s, tag_in: %s\n",
+        Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%s tag_in:%s\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, tag.c_str());
         return resourceHandle;
     }
     else {
-        Message("[W] InternetOpenUrlA (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: %p\n",
+        Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
         return resourceHandle;
     }
@@ -327,7 +327,7 @@ HINTERNET WINAPI InternetOpenUrlWHook(
     std::string tag = ReadTag((PVOID)lpszUrl);
 
     if (tag == "" && lstrlenW(lpszUrl) == 0) {
-        Message("[W] InternetOpenUrlW (%p, A\"%s\", A\"%s\", 0x%x, 0x%x, %p), Ret: NULL\n",
+        Message("[W] InternetOpenUrlW (%p [|] %ls [|] %ls [|] 0x%x [|] 0x%x [|] %p) ret:NULL\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
         return NULL;
     }
@@ -337,12 +337,12 @@ HINTERNET WINAPI InternetOpenUrlWHook(
     
     if (tag != "") {
 
-        Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p, tag_in: %s\n",
+        Message("[W] InternetOpenUrlW (%p [|] %ls [|] %ls [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, tag.c_str());
         return resourceHandle;
     }
     else {
-        Message("[W] InternetOpenUrlW (%p, A\"%ls\", A\"%ls\", 0x%x, 0x%x, %p), Ret: %p\n",
+        Message("[W] InternetOpenUrlW (%p [|] %ls [|] %ls [|] 0x%x [|] 0x%x [|] %p) ret:%p\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle);
         return resourceHandle;
     }
@@ -356,10 +356,10 @@ BOOL WINAPI HttpAddRequestHeadersAHook(
 ) {
     std::string header_tag = ReadTag((PVOID)lpszHeaders);
     if (header_tag.length() > 0) {
-        Message("[W] HttpAddRequestHeadersA (%p, A\"%s\", %d, %d) tag_in: %s\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
+        Message("[W] HttpAddRequestHeadersA (%p [|] %s [|] %d [|] %d) tag_in:%s\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
     }
     else {
-        Message("[W] HttpAddRequestHeadersA (%p, A\"%s\", %d, %d)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+        Message("[W] HttpAddRequestHeadersA (%p [|] %s [|] %d [|] %d)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
     }
     return TRUE;
 }
@@ -372,10 +372,10 @@ BOOL WINAPI HttpAddRequestHeadersWHook(
 ) {
     std::string header_tag = ReadTag((PVOID)lpszHeaders);
     if (header_tag.length() > 0) {
-        Message("[W] HttpAddRequestHeadersW (%p, A\"%ls\", %ld, %ld) tag_in: %s\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
+        Message("[W] HttpAddRequestHeadersW (%p [|] %ls [|] %ld [|] %ld) tag_in:%s\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
     }
     else {
-        Message("[W] HttpAddRequestHeadersW (%p, A\"%ls\", %ld, %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+        Message("[W] HttpAddRequestHeadersW (%p [|] %ls [|] %ld [|] %ld)\n", hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
     }
     return TRUE;
 }
@@ -409,13 +409,45 @@ BOOL WINAPI HttpQueryInfoAHook(
             S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
         }
         S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
-        Message("[W] HttpQueryInfoA(%p, %ld, %p, %p, %p) -> tag_out: %s\n",
+        Message("[W] HttpQueryInfoA (%p [|] %ld [|] %p [|] %p [|] %p) tag_out:%s\n",
             hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex, tag.c_str());
 
     }
     else
     {
-        Message("[W] HttpQueryInfoA(%p, %ld, %p, %p, %p)\n", hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex);
+        Message("[W] HttpQueryInfoA (%p [|] %ld [|] %p [|] %p [|] %p)\n", hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex);
+    }
+
+    return TRUE;
+}
+
+BOOL WINAPI HttpQueryInfoWHook(
+    HINTERNET hRequest,
+    DWORD     dwInfoLevel,
+    LPVOID    lpBuffer,
+    LPDWORD   lpdwBufferLength,
+    LPDWORD   lpdwIndex
+) {
+
+    if (lpBuffer) {
+        std::string tag = GetTag("HttpQueryInfoW");
+        // If the info level is 19 - Status Code
+        if (dwInfoLevel == 19) {
+            // Patch the lpBuffer as HTTP_STATUS_OK then mark it as symbolic
+            *(DWORD*)lpBuffer = HTTP_STATUS_OK;
+            S2EMakeSymbolic(lpBuffer, 4, tag.c_str());
+        }
+        else {
+            S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
+        }
+        S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
+        Message("[W] HttpQueryInfoW (%p [|] %ld [|] %p [|] %p [|] %p) tag_out:%s\n",
+            hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex, tag.c_str());
+
+    }
+    else
+    {
+        Message("[W] HttpQueryInfoW (%p [|] %ld [|] %p [|] %p [|] %p)\n", hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex);
     }
 
     return TRUE;
@@ -440,10 +472,27 @@ BOOL WINAPI InternetQueryOptionAHook(
     LPVOID    lpBuffer,
     LPDWORD   lpdwBufferLength
 ) {
-    Message("[W] WinHttpQueryOption (%p, %ld, %p, %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
+    Message("[W] InternetQueryOptionA (%p [|] %ld [|] %p [|] %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
 
     if (lpBuffer) {
         std::string tag = GetTag("InternetQueryOptionA");
+        S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
+        S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
+    }
+
+    return TRUE;
+}
+
+BOOL WINAPI InternetQueryOptionWHook(
+    HINTERNET hInternet,
+    DWORD     dwOption,
+    LPVOID    lpBuffer,
+    LPDWORD   lpdwBufferLength
+) {
+    Message("[W] InternetQueryOptionW (%p [|] %ld [|] %p [|] %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
+
+    if (lpBuffer) {
+        std::string tag = GetTag("InternetQueryOptionW");
         S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
         S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
     }
@@ -459,10 +508,27 @@ BOOL WINAPI InternetSetOptionAHook(
 ) {
     // lpBuffer can point to a DWROD, it can also point to a char array
     if (dwBufferLength == 4) {
-        Message("[W] InternetSetOptionA(%p, %ld, %ld, %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
+        Message("[W] InternetSetOptionA (%p [|] %ld [|] %ld [|] %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
     }
     else {
-        Message("[W] InternetSetOptionA(%p, %ld, %ls, %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
+        Message("[W] InternetSetOptionA (%p [|] %ld [|] %ls [|] %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
+    }
+
+    return TRUE;
+}
+
+BOOL WINAPI InternetSetOptionWHook(
+    HINTERNET hInternet,
+    DWORD     dwOption,
+    LPVOID    lpBuffer,
+    DWORD     dwBufferLength
+) {
+    // lpBuffer can point to a DWROD, it can also point to a char array
+    if (dwBufferLength == 4) {
+        Message("[W] InternetSetOptionW (%p [|] %ld [|] %ld [|] %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
+    }
+    else {
+        Message("[W] InternetSetOptionW (%p [|] %ld [|] %ls [|] %ld)\n", hInternet, dwOption, lpBuffer, dwBufferLength);
     }
 
     return TRUE;
@@ -480,11 +546,11 @@ BOOL WINAPI InternetWriteFileHook(
     std::string read_tag = ReadTag((PVOID)lpBuffer);
 
     if (read_tag.length() > 0) {
-        Message("[W] InternetWriteFile(%p, A\"%ls\", 0x%x, %p) -> tag_in: %s tag_out: %s\n",
+        Message("[W] InternetWriteFile(%p [|] %s [|] 0x%x [|] %p) tag_in:%s tag_out:%s\n",
             hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, read_tag.c_str(), tag.c_str());
     }
     else {
-        Message("[W] InternetWriteFile(%p, A\"%ls\", 0x%x, %p) -> tag_out: %s\n",
+        Message("[W] InternetWriteFile(%p [|] %s [|] 0x%x [|] %p) tag_out:%s\n",
             hFile, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
     }
 
@@ -497,7 +563,7 @@ BOOL WINAPI InternetGetConnectedStateHook(
 ) {
     if(checkCaller("InternetGetConnectedState")) {
         BOOL res = InternetGetConnectedState(lpdwFlags, dwReserved);
-        Message("[W] InternetGetConnectedState (%ld, %ld) Ret: %i\n", *lpdwFlags, dwReserved, res);
+        Message("[W] InternetGetConnectedState (%ld [|] %ld) ret:%i\n", *lpdwFlags, dwReserved, res);
         return TRUE;
     }
     return InternetGetConnectedState(lpdwFlags, dwReserved);
@@ -508,7 +574,7 @@ BOOL WINAPI InternetCheckConnectionAHook(
     DWORD  dwFlags,
     DWORD  dwReserved
 ) {
-    Message("[W] InternetCheckConnectionA (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
+    Message("[W] InternetCheckConnectionA (%s [|] %ld [|] %ld)\n", lpszUrl, dwFlags, dwReserved);
     return TRUE;
 }
 
@@ -517,7 +583,7 @@ BOOL WINAPI InternetCheckConnectionWHook(
     DWORD   dwFlags,
     DWORD   dwReserved
 ) {
-    Message("[W] InternetCheckConnectionW (%s, %ld, %ld)\n", lpszUrl, dwFlags, dwReserved);
+    Message("[W] InternetCheckConnectionW (%ls [|] %ld [|] %ld)\n", lpszUrl, dwFlags, dwReserved);
     return TRUE;
 }
 

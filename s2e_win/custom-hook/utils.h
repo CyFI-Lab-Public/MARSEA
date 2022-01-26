@@ -21,7 +21,7 @@ extern "C" {
 #define MAX_PATH_LEN 256
 
 /// Default mem length
-#define DEFAULT_MEM_LEN 512
+#define DEFAULT_MEM_LEN 128
 
 /// S2E version number, or 0 if not running in S2E mode
 extern INT s2eVersion;

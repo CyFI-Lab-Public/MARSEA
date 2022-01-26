@@ -18,13 +18,13 @@ int WINAPI WideCharToMultiByteHook(
             if (cchWideChar == -1) {
                 cchWideChar = DEFAULT_MEM_LEN;
             }
-            Message("[W] WideCharToMultiByte (%i, %d, %ls, %i, %p, %i, %p, %p) ret: %i, tag_out: %s\n", CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar, cchWideChar, tag.c_str());
+            Message("[W] WideCharToMultiByte (%i [|] %ld [|] %ls [|] %i [|] %p [|] %i [|] %p [|] %p) ret:%i tag_out:%s\n", CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar, cchWideChar, tag.c_str());
             S2EMakeSymbolic((PVOID)lpMultiByteStr, cchWideChar, tag.c_str());
             int ret = S2ESymbolicInt(tag.c_str(), cchWideChar);
             return ret;
         }
         int ret = WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);
-        Message("[W] WideCharToMultiByte (%i, %d, %ls, %i, %p, %i, %p, %p) ret: %i\n", CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar, cchWideChar);
+        Message("[W] WideCharToMultiByte (%i [|] %ld [|] %ls [|] %i [|] %p [|] %i [|] %p [|] %p) ret:%i\n", CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar, cchWideChar);
         return ret;
     }
     return WideCharToMultiByte(CodePage, dwFlags, lpWideCharStr, cchWideChar, lpMultiByteStr, cbMultiByte, lpDefaultChar, lpUsedDefaultChar);

@@ -20,7 +20,7 @@ int WINAPI lstrlenAHook(
 
 		if (tagin != "") {
 			std::string tag = GetTag("lstrlenA");
-			Message("[W] lstrlenA(%p) tag_in: %s, tag_out: %s", lpString, tagin.c_str(), tag.c_str());
+			Message("[W] lstrlenA(%s) tag_in:%s tag_out:%s", lpString, tagin.c_str(), tag.c_str());
 			return S2ESymbolicInt(tag.c_str(), con_len);
 		}
 		else {
@@ -41,7 +41,7 @@ int WINAPI lstrlenWHook(
 		std::string tagin = ReadTag((PVOID)lpString);
 		if (tagin != "") {
 			std::string tag = GetTag("lstrlenW");
-			Message("[W] lstrlenW(%p) tag_in: %s, tag_out: %s", lpString, tagin.c_str(), tag.c_str());
+			Message("[W] lstrlenW(%ls) tag_in:%s tag_out:%s", lpString, tagin.c_str(), tag.c_str());
 			return S2ESymbolicInt(tag.c_str(), con_len);
 		}
 		else {
@@ -62,7 +62,7 @@ HLOCAL WINAPI LocalAllocHook(
 			S2EConcretize(&uBytes, sizeof(SIZE_T));
 		}
 
-		Message("[W] LocalAlloc(%d, %d)\n", uFlags, uBytes);
+		Message("[W] LocalAlloc(%d [|] %d)\n", uFlags, uBytes);
 
 		return LocalAlloc(uFlags, uBytes);
 	}

@@ -12,7 +12,7 @@ HWND WINAPI GetConsoleWindowHook(void) {
         if (consoleHandle == 0) {
             consoleHandle = (HWND)malloc(sizeof(HWND));
         }
-        Message("[W] GetConsoleWindow (), Ret: %p\n",
+        Message("[W] GetConsoleWindow () ret:%p\n",
             consoleHandle);
     }
     return consoleHandle;

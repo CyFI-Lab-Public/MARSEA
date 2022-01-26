@@ -120,7 +120,7 @@ static HINTERNET WINAPI InternetOpenUrlAHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
-    Message("Intercepted InternetOpenUrlA(%p, %s, %s, 0x%x, 0x%x, %p)\n",
+    Message("Intercepted InternetOpenUrlA(%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p)\n",
         hInternet,lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
 
     // Force a fork via a symbolic variable. Since both branches are feasible,
@@ -174,7 +174,7 @@ static BOOL WINAPI CreateProcessAHook(
     LPSTARTUPINFOA        lpStartupInfo,
     LPPROCESS_INFORMATION lpProcessInformation
 ) {
-    Message("Intercepted CreateProcessA(%s, %s, %p, %p, %d, %d, %p, %s, %p, %p)",
+    Message("Intercepted CreateProcessA(%s [|] %s [|] %p [|] %p [|] %d [|] %d [|] %p [|] %s [|] %p [|] %p)",
         lpApplicationName, lpCommandLine, lpProcessAttributes,
         lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
         lpCurrentDirectory, lpStartupInfo, lpProcessInformation);

@@ -14,10 +14,10 @@ HINSTANCE WINAPI ShellExecuteAHook(
 		HINSTANCE ret = ShellExecuteA(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
 		std::string file_tag = getFileTag(lpFile);
 		if (file_tag.length() > 1) {
-			Message("[W] ShellExecuteA(%p, %s, %s, %s, %s, %i) ret: %p tag_in: %s\n", hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd, ret, file_tag.c_str());
+			Message("[W] ShellExecuteA(%p [|] %s [|] %s [|] %s [|] %s [|] %i) ret:%p tag_in:%s\n", hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd, ret, file_tag.c_str());
 		}
 		else {
-			Message("[W] ShellExecuteA(%p, %s, %p=%s, %s, %s, %i) ret: %p\n", hwnd, lpOperation, lpFile, lpFile, lpParameters, lpDirectory, nShowCmd, ret);
+			Message("[W] ShellExecuteA(%p [|] %s [|] %s [|] %s [|] %s [|] %i) ret:%p\n", hwnd, lpOperation, lpFile, lpFile, lpParameters, lpDirectory, nShowCmd, ret);
 		}
 		return ret;
 	}
@@ -36,10 +36,10 @@ HINSTANCE WINAPI ShellExecuteWHook(
 		HINSTANCE ret = ShellExecuteW(hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd);
 		std::string file_tag = getFileTag(lpFile);
 		if (file_tag.length() > 1) {
-			Message("[W] ShellExecuteW(%p, %ls, %p=%ls, %ls, %ls, %i) ret: %p tag_in: %s\n", hwnd, lpOperation, lpFile, lpFile, lpParameters, lpDirectory, nShowCmd, ret, file_tag.c_str());
+			Message("[W] ShellExecuteW(%p [|] %ls [|] %ls [|] %ls [|] %ls [|] %i) ret:%p tag_in:%s\n", hwnd, lpOperation, lpFile, lpFile, lpParameters, lpDirectory, nShowCmd, ret, file_tag.c_str());
 		}
 		else {
-			Message("[W] ShellExecuteW(%p, %ls, %ls, %ls, %ls, %i) ret: %p\n", hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd, ret);
+			Message("[W] ShellExecuteW(%p [|] %ls [|] %ls [|] %ls [|] %ls [|] %i) ret:%p\n", hwnd, lpOperation, lpFile, lpParameters, lpDirectory, nShowCmd, ret);
 		}
 		return ret;
 	}
@@ -50,7 +50,7 @@ int WINAPI SHFileOperationAHook(
 	LPSHFILEOPSTRUCTA lpFileOp
 ) {
 	int ret = SHFileOperationA(lpFileOp);
-	Message("[W] SHFileOperationA(%i, %s, %p) ret: %i\n", lpFileOp->wFunc, lpFileOp->pFrom, lpFileOp->pTo, ret);
+	Message("[W] SHFileOperationA(%i [|] %s [|] %s) ret:%i\n", lpFileOp->wFunc, lpFileOp->pFrom, lpFileOp->pTo, ret);
 	if (ret == 0 || ret == 183) {
 		return ret;
 	}

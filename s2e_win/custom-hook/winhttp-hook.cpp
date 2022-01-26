@@ -21,7 +21,7 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
     if (sessionHandle == 0) {
         sessionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
     }
-    Message("[W] WinHttpOpen (A\"%ls\", %ld, A\"%ls\", A\"%ls\", %ld), Ret: %p\n",
+    Message("[W] WinHttpOpen (%ls [|] %ld [|] %ls [|] %ls [|] %ld) ret:%p\n",
         pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
     return sessionHandle;
 }
@@ -43,7 +43,7 @@ BOOL WINAPI WinHttpCrackUrlHook(
         winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
         std::string tag = GetTag("WinHttpCrackUrl");
         S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
-        Message("[W] WinHttpCrackUrl (%p, %ld, %ld, %p) -> tag_in: %s tag_out: %s\n",
+        Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n",
             pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tagin.c_str(), tag.c_str());
         return TRUE;
     }
@@ -65,14 +65,14 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
         Command.dumpExpression.buffer = (uint64_t)pswzServerName;
         S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
-        Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld),Ret: %p, tag_in: %s\n",
+        Message("[W] WinHttpConnect (%p [|] %ls [|] %i [|] %ld) ret:%p tag_in:%s\n",
             hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, tagin.c_str());
 
         // killAnalysis("WinHttpConnect");
         return connectionHandle;
     }
     else {
-        Message("[W] WinHttpConnect (%p, A\"%ls\", %i, %ld), Ret: %p\n",
+        Message("[W] WinHttpConnect (%p [|] %ls [|] %i [|] %ld) ret:%p\n",
             hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
         return connectionHandle;
     }
@@ -95,15 +95,15 @@ BOOL WINAPI WinHttpSendRequestHook(
     }
 
     if (read_header_tag.length() > 0) {
-        Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p) tag_in: %s\n",
+        Message("[W] WinHttpSendRequest (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x [|] 0x%x [|] %p) tag_in:%s\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_header_tag.c_str());
     }
     else if (read_option_tag.length() > 0) {
-        Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p) tag_in: %s\n",
+        Message("[W] WinHttpSendRequest (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x [|] 0x%x [|] %p) tag_in:%s\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_option_tag.c_str());
     }
     else {
-        Message("[W] WinHttpSendRequest (%p, A\"%ls\", 0x%x, A\"%s\", 0x%x, 0x%x, %p)\n",
+        Message("[W] WinHttpSendRequest (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x [|] 0x%x [|] %p)\n",
             hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
     }
 
@@ -150,7 +150,7 @@ BOOL WINAPI WinHttpReadDataHook(
     std::string tag = GetTag("WinHttpReadData");
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
-    Message("[W] WinHttpReadData (%p, %p, %ld, %p=0x%x)-> tag_out: %s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
+    Message("[W] WinHttpReadData (%p [|] %p [|] %ld [|] 0x%x) tag_out:%s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, *lpdwNumberOfBytesRead, tag.c_str());
     return TRUE;
 
 }
@@ -161,26 +161,28 @@ BOOL WINAPI WinHttpWriteDataHook(
     DWORD     dwNumberOfBytesToWrite,
     LPDWORD   lpdwNumberOfBytesWritten
 ) {
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_WINHTTPWRITEDATA;
-    Command.WinHttpWriteData.hRequest = (uint64_t)hRequest;
-    Command.WinHttpWriteData.lpBuffer = (uint64_t)lpBuffer;
-    Command.WinHttpWriteData.dwNumberOfBytesToWrite = dwNumberOfBytesToWrite;
-    Command.WinHttpWriteData.lpdwNumberOfBytesWritten = (uint64_t)lpdwNumberOfBytesWritten;
+    //CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    //Command.Command = WINWRAPPER_WINHTTPWRITEDATA;
+    //Command.WinHttpWriteData.hRequest = (uint64_t)hRequest;
+    //Command.WinHttpWriteData.lpBuffer = (uint64_t)lpBuffer;
+    //Command.WinHttpWriteData.dwNumberOfBytesToWrite = dwNumberOfBytesToWrite;
+    //Command.WinHttpWriteData.lpdwNumberOfBytesWritten = (uint64_t)lpdwNumberOfBytesWritten;
 
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+    //S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+    *lpdwNumberOfBytesWritten = dwNumberOfBytesToWrite;
 
     std::string tag = GetTag("WinHttpWriteData");
-    S2EMakeSymbolic(lpdwNumberOfBytesWritten, 4, tag.c_str());
+    S2EMakeSymbolic(lpdwNumberOfBytesWritten, sizeof(DWORD), tag.c_str());
 
     std::string read_tag = ReadTag((PVOID)lpBuffer);
 
     if (read_tag.length() > 0) {
-        Message("[W] WinHttpWriteData (%p, A\"%ls\", 0x%x, %p) -> tag_in: %s tag_out: %s\n",
+        Message("[W] WinHttpWriteData (%p [|] %ls [|] 0x%x [|] %p) tag_in:%s tag_out:%s\n",
             hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, read_tag.c_str(), tag.c_str());
     }
     else {
-        Message("[W] WinHttpWriteData (%p, A\"%ls\", 0x%x, %p) -> tag_out: %s\n",
+        Message("[W] WinHttpWriteData (%p [|] %ls [|] 0x%x [|] %p) tag_out:%s\n",
             hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
     }
     return TRUE;
@@ -194,11 +196,11 @@ BOOL WINAPI WinHttpAddRequestHeadersHook(
 ) {
     std::string header_tag = ReadTag((PVOID)lpszHeaders);
     if (header_tag.length() > 0) {
-        Message("[W] WinHttpAddRequestHeaders (%p, A\"%ls\", 0x%x,  0x%x) tag_in: %s\n",
+        Message("[W] WinHttpAddRequestHeaders (%p [|] %ls [|] 0x%x [|] 0x%x) tag_in:%s\n",
             hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag);
     }
     else {
-        Message("[W] WinHttpAddRequestHeaders (%p, A\"%ls\", 0x%x,  0x%x)\n",
+        Message("[W] WinHttpAddRequestHeaders (%p [|] %ls [|] 0x%x [|] 0x%x)\n",
             hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
     }
 
@@ -231,7 +233,7 @@ BOOL WINAPI WinHttpGetProxyForUrlHook(
     winhttp::WINHTTP_AUTOPROXY_OPTIONS* pAutoProxyOptions,
     winhttp::WINHTTP_PROXY_INFO* pProxyInfo
 ) {
-    Message("[W] WinHttpGetProxyForUrl (%p, A\"%ls\", %p, %p)\n", hSession, lpcwszUrl, pAutoProxyOptions, pProxyInfo);
+    Message("[W] WinHttpGetProxyForUrl (%p [|] %ls [|] %p [|] %p)\n", hSession, lpcwszUrl, pAutoProxyOptions, pProxyInfo);
     return TRUE;
 }
 
@@ -248,7 +250,7 @@ winhttp::HINTERNET WINAPI WinHttpOpenRequestHook(
     winhttp::HINTERNET requestHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
     dummyHandles.insert(requestHandle);
 
-    Message("[W] WinHttpOpenRequest (%p, A\"%ls\", A\"%ls\", A\"%ls\", A\"%ls\", %p, %ld), Ret: %p\n",
+    Message("[W] WinHttpOpenRequest (%p [|] %ls [|] %ls [|] %ls [|] %ls [|] %p [|] %ld) ret:%p\n",
         hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags, requestHandle);
 
     return requestHandle;
@@ -263,17 +265,16 @@ BOOL WINAPI WinHttpQueryHeadersHook(
     LPDWORD   lpdwBufferLength,
     LPDWORD   lpdwIndex
 ) {
-    Message("[W] WinHttpQueryHeaders (%p, %ld, A\"%ls\", %p, %p, %p)\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
     // If the buffer exists, symbolize
     if (lpBuffer) {
         std::string tag = GetTag("WinHttpQueryHeaders");
         S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str()); 
-        S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
-        Message("[W] WinHttpQueryHeaders (%p, %ld, A\"%ls\", %p, %p, %p) -> tag_out: %s\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex, tag.c_str());
+        S2EMakeSymbolic(lpdwBufferLength, sizeof(DWORD), tag.c_str());
+        Message("[W] WinHttpQueryHeaders (%p [|] %ld [|] %ls [|] %p [|] %p [|] %p) tag_out:%s\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex, tag.c_str());
 
     }
     else {
-        Message("[W] WinHttpQueryHeaders (%p, %ld, A\"%ls\", %p, %p, %p)\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
+        Message("[W] WinHttpQueryHeaders (%p [|] %ld [|] %ls [|] %p [|] %p [|] %p)\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
     }
 
     return TRUE;
@@ -288,12 +289,12 @@ BOOL WINAPI WinHttpQueryOptionHook(
 ) {
     if (lpBuffer) {
         std::string tag = GetTag("WinHttpQueryOption");
-        Message("[W] WinHttpQueryOption (%p, %ld, %p, %p) -> tag out:\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
+        Message("[W] WinHttpQueryOption (%p [|] %ld [|] %p [|] %p) tag out:\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
         S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
-        S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
+        S2EMakeSymbolic(lpdwBufferLength, sizeof(DWORD), tag.c_str());
     }
     else {
-        Message("[W] WinHttpQueryOption (%p, %ld, %p, %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
+        Message("[W] WinHttpQueryOption (%p [|] %ld [|] %p [|] %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
     }
 
     return TRUE;
@@ -303,7 +304,7 @@ DWORD WINAPI WinHttpResetAutoProxyHook(
     winhttp::HINTERNET hSession,
     DWORD     dwFlags
 ) {
-    return 0;
+    return ERROR_SUCCESS;
 }
 
 BOOL WINAPI WinHttpSetCredentialsHook(
@@ -314,7 +315,7 @@ BOOL WINAPI WinHttpSetCredentialsHook(
     LPCWSTR   pwszPassword,
     LPVOID    pAuthParams
 ) {
-    Message("[W] WinHttpSetCredentials(%p, %ld, %ld, %s, %s)\n", hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword);
+    Message("[W] WinHttpSetCredentials(%p [|] %ld [|] %ld [|] %ls [|] %ls [|] %p)\n", hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword);
 
     return TRUE;
 }
@@ -327,10 +328,10 @@ BOOL WINAPI WinHttpSetOptionHook(
 ) {
     // lpBuffer can point to a DWROD, it can also point to a char array
     if (dwBufferLength == 4) {
-        Message("[W] WinHttpSetOption(%p, %ld, %ld, %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
+        Message("[W] WinHttpSetOption(%p [|] %ld [|] %ld [|] %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
     }
     else {
-        Message("[W] WinHttpSetOption(%p, %ld, %ls, %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
+        Message("[W] WinHttpSetOption(%p [|] %ld [|] %s [|] %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
     }
     
     return TRUE;
@@ -343,7 +344,7 @@ BOOL WINAPI WinHttpSetTimeoutsHook(
     int       nSendTimeout,
     int       nReceiveTimeout
 ) {
-    Message("[W] WinHttpSetTimeouts (%p, %i, %i, %i, %i)\n", hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
+    Message("[W] WinHttpSetTimeouts (%p [|] %i [|] %i [|] %i [|] %i)\n", hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
 
     //Call the original function just in case that we will run some functions in the future
     //If it is a valid handle
@@ -360,7 +361,7 @@ BOOL WINAPI WinHttpReceiveResponseHook(
     winhttp::HINTERNET hRequest,
     LPVOID    lpReserved
 ) {
-    Message("[W] WinHttpReceiveResponse (%p, %p)\n",
+    Message("[W] WinHttpReceiveResponse (%p [|] %p)\n",
         hRequest, lpReserved);
 
     return TRUE; //Only consider successful winhttp responses for now
@@ -376,7 +377,7 @@ BOOL WINAPI WinHttpGetIEProxyConfigForCurrentUserHook(
     S2EMakeSymbolic(pProxyConfig->lpszAutoConfigUrl, DEFAULT_MEM_LEN, tag.c_str());
     S2EMakeSymbolic(pProxyConfig->lpszProxy, DEFAULT_MEM_LEN, tag.c_str());
     S2EMakeSymbolic(pProxyConfig->lpszProxyBypass, DEFAULT_MEM_LEN, tag.c_str());
-    Message("[W] WinHttpGetIEProxyConfigForCurrentUser (%p) -> tag_out: %s\n", pProxyConfig, tag.c_str());
+    Message("[W] WinHttpGetIEProxyConfigForCurrentUser (%p) tag_out:%s\n", pProxyConfig, tag.c_str());
     return TRUE;
 }
 

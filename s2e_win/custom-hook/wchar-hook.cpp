@@ -6,7 +6,7 @@ wchar_t* wcschrHook(
 	wchar_t* str,
 	wchar_t c)
 {
-	Message("[W] wcschr (A\"%s\", A\"%s\")\n", str, c);
+	Message("[W] wcschr (%ls [|] %ls)\n", str, c);
 
 	return wcschr(str, c);
 }
@@ -15,7 +15,7 @@ wchar_t* wcsrchrHook(
 	wchar_t* str,
 	wchar_t c
 ) {
-	Message("[W] wcsrchr (A\"%s\", A\"%s\")\n", str, c);
+	Message("[W] wcsrchr (%ls [|] %ls)\n", str, c);
 
 	return wcsrchr(str, c);
 }
@@ -25,7 +25,7 @@ int wcscmpHook(
 	const wchar_t* string1,
 	const wchar_t* string2
 ) {
-	Message("[W] wcscmp (A\"%s\", A\"%s\")\n", string1, string2);
+	Message("[W] wcscmp (%ls [|] %ls)\n", string1, string2);
 
 	return wcscmp(string1, string2);
 }
@@ -37,8 +37,8 @@ char* strstrhook(
 
 	if (checkCaller("strstr")) {
 
-		if (S2EIsSymbolic(&str, sizeof(&str))) {
-			S2EConcretize(&str, sizeof(&str));
+		if (S2EIsSymbolic(&str, 4)) {
+			S2EConcretize(&str, 4);
 		}
 
 		std::string tagin = ReadTag((PVOID)str);
@@ -66,7 +66,7 @@ char* strstrhook(
 			S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
 			std::string tag = GetTag("strstr");
-			Message("[W] strstr (%p, %p) -> tag_in: %s tag_out: %s\n", str, strSearch, tagin.c_str(), tag.c_str());
+			Message("[W] strstr (%p [|] %p) tag_in:%s tag_out:%s\n", str, strSearch, tagin.c_str(), tag.c_str());
 			S2EMakeSymbolic((PVOID)str, strlen(str), tag.c_str());
 
 			return temp;
@@ -86,32 +86,24 @@ char* _strlwrhook(
 	if (checkCaller("_strlwr")) {
 		std::string tag_in = "";
 		if (S2EIsSymbolic(str, 4)) {
-			Message("[W] Read tag");
 			tag_in = ReadTag(str);
 			// If the str points to a symbolic buffer, concretize it first and then mark it symbolic again
-			Message("[W] Concretize");
 			concretizeAll(str);
 			// S2EConcretize(str, strlen(str));
 		}
 
-		Message("[W] Nativa call strlwr");
-
-
 		char* res = _strlwr(str);
 
 		if (tag_in != "") {
-			Message("[W] Get Tag");
 			std::string tag_out = GetTag("_strlwr");
-			Message("[W] _strlwr(%p) tag_in: %s, tag_out: %s", str, tag_in.c_str(), tag_out.c_str());
+			Message("[W] _strlwr(%p) tag_in:%s tag_out:%s", str, tag_in.c_str(), tag_out.c_str());
 			S2EMakeSymbolic(str, strlen(str)-1, tag_out.c_str());
 		}
 
 		return res;
 	}
 
-	else {
-		return _strlwr(str);
-	}
+	return _strlwr(str);
 	
 }
 
@@ -122,7 +114,7 @@ char* strrchrhook(
 	if (checkCaller("strrchr")) {
 
 		if (S2EIsSymbolic(&str, 4)) {
-			concretizeAll(&str);
+			S2EConcretize(&str, 4);
 		}
 
 		std::string tagin = ReadTag(str);
@@ -152,7 +144,7 @@ char* strrchrhook(
 			S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
 			std::string tag = GetTag("strrchr");
-			Message("[W] strrchr (%p, %c) -> tag_in: %s tag_out: %s\n", str, c, tagin.c_str(), tag.c_str());
+			Message("[W] strrchr (%p [|] %c) tag_in:%s tag_out:%s\n", str, c, tagin.c_str(), tag.c_str());
 			S2EMakeSymbolic((PVOID)str, strlen(str), tag.c_str());
 
 			return temp;

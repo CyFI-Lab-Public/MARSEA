@@ -85,3 +85,25 @@ BOOL WINAPI HttpAddRequestHeadersWHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 );
+
+BOOL WINAPI HttpQueryInfoWHook(
+    HINTERNET hRequest,
+    DWORD     dwInfoLevel,
+    LPVOID    lpBuffer,
+    LPDWORD   lpdwBufferLength,
+    LPDWORD   lpdwIndex
+);
+
+BOOL WINAPI InternetQueryOptionWHook(
+    HINTERNET hInternet,
+    DWORD     dwOption,
+    LPVOID    lpBuffer,
+    LPDWORD   lpdwBufferLength
+);
+
+BOOL WINAPI InternetSetOptionWHook(
+    HINTERNET hInternet,
+    DWORD     dwOption,
+    LPVOID    lpBuffer,
+    DWORD     dwBufferLength
+);
