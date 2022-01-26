@@ -948,6 +948,11 @@ S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
 
     if (newState != state) {
         doStateSwitch(state, newState);
+        if (newState->inTargetModule && klee::tbTrace.find(newState->startPC) == klee::tbTrace.end()) {
+            m_s2e->getDebugStream(state) << "[PLOT] Choose Valid State\n";
+        } else {
+            m_s2e->getDebugStream(state) << "[PLOT] Choose Invalid State\n";
+        }
         g_s2e->getCorePlugin()->onStateSwitch.emit(state, newState);
     }
 
