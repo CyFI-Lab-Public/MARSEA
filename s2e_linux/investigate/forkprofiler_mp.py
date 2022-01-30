@@ -252,6 +252,12 @@ def identify_top_call(pid, line_number, dbgcontent, state_id, proj, dbgGraph, et
         temp_line = dbgcontent[check]
 
         if 'State ' + str(state_id) + ']' in temp_line and "LibraryCallMonitor: "+proj in temp_line:
+
+            # If could not get export name
+            if "Could not get export name for address" in temp_line:
+
+                return res
+
             jump = False
 
             # Hack jumped to
