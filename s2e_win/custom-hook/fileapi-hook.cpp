@@ -185,7 +185,7 @@ BOOL WINAPI ReadFileHook(
 	if (checkCaller("ReadFile")) {
 		auto it = perHandleBytesToRead.find(hFile);
 		if (it == perHandleBytesToRead.end()) {
-			perHandleBytesToRead[hFile] = 256;
+			perHandleBytesToRead[hFile] = 128;
 			it = perHandleBytesToRead.find(hFile);
 		}
 		DWORD bytes_left = it->second;
