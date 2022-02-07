@@ -7,12 +7,12 @@ import shutil
 import tqdm
 
 PROJS_JSON = "/home/cyfi/lab/s2e_pwa_post/investigate/forkprofiler/all_proj.json"
-REMOTE_PATH = "/mnt/cacee-netskope/dga_ls_run_fp"
+REMOTE_PATH = "/mnt/cacee-netskope/forkprofiler/02-03-2022"
 LOCAL_S2E_PROJ_FOLDER = "/home/cyfi/s2e/projects/"
 
 def du(proj_fd):
     import subprocess
-    return float(subprocess.check_output(['du','-sh', proj_fd]).split()[0].decode('utf-8')[:-1])
+    return float(subprocess.check_output(['du','-sm', proj_fd]).split()[0].decode('utf-8'))
 
 def handle_proj(remote_proj_path):
 
@@ -22,7 +22,7 @@ def handle_proj(remote_proj_path):
 
     try:
         proj_size = du(remote_proj_path)
-        if proj_size > 8:
+        if proj_size > 600:
             return []
     except Exception as e:
         print(str(e))
@@ -48,19 +48,32 @@ def handle_proj(remote_proj_path):
 
 def main():
 
+    final_result = {}
+
     with open(PROJS_JSON) as f:
         projs = json.load(f)
 
-#     for proj in projs:
-#         res = handle_proj(proj)
+    for proj in projs:
+        res = handle_proj(proj)
 
-    pool = mp.Pool(processes=mp.cpu_count(), maxtasksperchild=1000)
-    results = list(
-            tqdm.tqdm(
-                pool.imap_unordered(
-                    handle_proj, projs), total=len(projs)))
-    pool.close()
-    pool.join()
+    proj_res = fp.analyze_record(res)
+
+    for funcName, count in proj_res.items():
+        if not funcName in final_result:
+            final_result[funcName] = 0
+        final_result[funcName] += count
+
+
+#    pool = mp.Pool(processes=mp.cpu_count(), maxtasksperchild=1000)
+#    results = list(
+#            tqdm.tqdm(
+#                pool.imap_unordered(
+#                    handle_proj, projs), total=len(projs)))
+#    pool.close()
+#    pool.join()
+
+    import ipdb
+    ipdb.set_trace()
 
     return
 

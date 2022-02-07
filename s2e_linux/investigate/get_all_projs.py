@@ -3,7 +3,7 @@
 from pathlib import Path
 import json
 
-TOP_FOLDER = ["/mnt/cacee-netskope/dga_ls_run"]
+TOP_FOLDER = ["/mnt/cacee-netskope/curial_result/result/forkprofiler"]
 
 def get_all_projs():
     res = []

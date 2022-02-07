@@ -280,6 +280,10 @@ def identify_top_call(pid, line_number, dbgcontent, state_id, proj, dbgGraph, et
                 module = dll_func_addr.split('!')[0]
                 func = dll_func_addr.split('!')[1].split(':')[0]
 
+            if func == "RtlLeaveCriticalSection":
+                import ipdb
+                ipdb.set_trace()
+
             res = [call_addr, module, func, line_number+1, jump]
 
         if 'state ' + str(state_id) + ' with condition' in temp_line:
