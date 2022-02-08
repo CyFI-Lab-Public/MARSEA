@@ -6,7 +6,7 @@ import forkprofiler_mp as fp
 import shutil
 import tqdm
 
-PROJS_JSON = "/home/cyfi/lab/s2e_pwa_post/investigate/forkprofiler/all_proj.json"
+PROJS_JSON = "all_proj.json"
 REMOTE_PATH = "/mnt/cacee-netskope/forkprofiler/02-03-2022"
 LOCAL_S2E_PROJ_FOLDER = "/home/cyfi/s2e/projects/"
 
@@ -52,6 +52,9 @@ def main():
 
     with open(PROJS_JSON) as f:
         projs = json.load(f)
+
+    import ipdb
+    ipdb.set_trace()
 
     for proj in projs:
         res = handle_proj(proj)
