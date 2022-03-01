@@ -109,6 +109,19 @@ INT WSAAPI connecthook(
     return connect(s, name, namelen);
 }
 
+INT WSAAPI bindhook(
+    SOCKET s,
+    const sockaddr* addr,
+    int namelen
+) {
+    if (checkCaller("bind")) {
+        Message("bind \n");
+        return 0;
+    }
+
+    return bind(s, addr, namelen);
+}
+
 INT WSAAPI closesockethook(
     SOCKET s
 ) {

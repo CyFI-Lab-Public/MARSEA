@@ -2,6 +2,7 @@
 #include "utils.h"
 #include <set>
 #include <vector>
+#include <Shlwapi.h>
 
 /// Keep track of child processes
 static std::set<DWORD> childPids;
@@ -19,6 +20,15 @@ BOOL WINAPI CreateProcessAHook(
     LPSTARTUPINFOA        lpStartupInfo,
     LPPROCESS_INFORMATION lpProcessInformation
 ) {
+
+    if (StrStrA(lpApplicationName, "WerFault")) {
+        return CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    }
+
+    if (StrStrA(lpCommandLine, "drvctl")) {
+        return CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    }
+
     std::string app_tag = getFileTag(lpApplicationName);
     std::string cmd_tag = getFileTag(lpCommandLine);
 
@@ -113,6 +123,14 @@ BOOL WINAPI CreateProcessWHook(
     LPSTARTUPINFOW        lpStartupInfo,
     LPPROCESS_INFORMATION lpProcessInformation
 ) {
+
+    if (StrStrW(lpApplicationName, L"WerFault")) {
+        return CreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    }
+
+    if (StrStrW(lpCommandLine, L"drvctl")) {
+        return CreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    }
 
     std::string app_tag = getFileTag(lpApplicationName);
     std::string cmd_tag = getFileTag(lpCommandLine);

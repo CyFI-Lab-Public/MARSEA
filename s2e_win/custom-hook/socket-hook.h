@@ -28,3 +28,8 @@ int WSAAPI getpeernamehook(
     sockaddr* name,
     int* namelen
 );
+INT WSAAPI bindhook(
+    SOCKET s,
+    const sockaddr* addr,
+    int namelen
+);

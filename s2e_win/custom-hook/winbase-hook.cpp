@@ -62,7 +62,9 @@ HLOCAL WINAPI LocalAllocHook(
 			S2EConcretize(&uBytes, sizeof(SIZE_T));
 		}
 
-		Message("[W] LocalAlloc(%d [|] %d)\n", uFlags, uBytes);
+		HLOCAL ret = LocalAlloc(uFlags, uBytes);
+
+		Message("[W] LocalAlloc(%d [|] %d) ret:%p\n", uFlags, uBytes, ret);
 
 		return LocalAlloc(uFlags, uBytes);
 	}

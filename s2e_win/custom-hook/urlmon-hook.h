@@ -1,6 +1,6 @@
 #pragma once
 #include <Urlmon.h> 
-#pragma comment(lib, "urlmon.lib")
+//#pragma comment(lib, "urlmon.lib")
 
 HRESULT WINAPI URLDownloadToFileWHook(
     LPUNKNOWN            pCaller,
@@ -26,10 +26,19 @@ HRESULT WINAPI URLDownloadToFileHook(
     LPBINDSTATUSCALLBACK lpfnCB
 );
 
-HRESULT WINAPI URLDownloadToCacheFileHook(
+HRESULT WINAPI URLDownloadToCacheFileAHook(
     LPUNKNOWN           lpUnkcaller,
     LPCSTR              szURL,
     LPTSTR              szFileName,
+    DWORD               cchFileName,
+    DWORD               dwReserved,
+    IBindStatusCallback* pBSC
+);
+
+HRESULT WINAPI URLDownloadToCacheFileWHook(
+    LPUNKNOWN           lpUnkcaller,
+    LPCWSTR              szURL,
+    LPWSTR              szFileName,
     DWORD               cchFileName,
     DWORD               dwReserved,
     IBindStatusCallback* pBSC

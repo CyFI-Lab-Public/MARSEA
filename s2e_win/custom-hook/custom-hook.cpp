@@ -79,6 +79,8 @@ static std::set<HGLOBAL> dummyStreams;
 /// Keep track of base addrs
 static std::set<LPVOID> dummyBaseAddrs;
 
+char moduleName[MAX_PATH];
+
 
 ////////////////////////////////////////////////////////////////////
 /// KERNEL32
@@ -348,6 +350,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("Ws2_32", "select", selecthook, {NULL}),
     CyFIFuncType("Ws2_32", "send", sendhook, {NULL}),
     CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
+    CyFIFuncType("Ws2_32", "bind", bindhook, {NULL}),
 
 
     CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
@@ -419,9 +422,12 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("wininet", "InternetCheckConnectionW", InternetCheckConnectionWHook, { NULL }),
 
     CyFIFuncType("Kernel32", "LocalAlloc", LocalAllocHook, {NULL}),
-    CyFIFuncType("Urlmon", "URLDownloadToFileA", URLDownloadToFileHook, {NULL}),
-    CyFIFuncType("Urlmon", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
-    CyFIFuncType("Urlmon", "URLDownloadToCacheFile", URLDownloadToCacheFileHook, {NULL}),
+    CyFIFuncType("urlmon.dll", "URLDownloadToFile", URLDownloadToFileHook, {NULL}),
+    CyFIFuncType("urlmon.dll", "URLDownloadToFileA", URLDownloadToFileHook, { NULL }),
+    CyFIFuncType("urlmon.dll", "URLDownloadToFileW", URLDownloadToFileWHook, {NULL}),
+    CyFIFuncType("urlmon.dll", "URLDownloadToCacheFile", URLDownloadToCacheFileAHook, { NULL }),
+    CyFIFuncType("urlmon.dll", "URLDownloadToCacheFileA", URLDownloadToCacheFileAHook, {NULL}),
+    CyFIFuncType("urlmon.dll", "URLDownloadToCacheFileW", URLDownloadToCacheFileWHook, { NULL }),
 
     //CyFIFuncType("kernel32", "SetFilePointer", SetFilePointerHook, {NULL}),
 
@@ -523,9 +529,24 @@ void __stdcall NativeInjectionEntryPoint(REMOTE_ENTRY_INFO* inRemoteInfo) {
     // Used by the Message function to decide where to write output to
     s2eVersion = S2EGetVersion();
 
+    HINSTANCE hurlmon = LoadLibrary(L"urlmon");
+
+    GetModuleFileNameA(GetModuleHandle(NULL), moduleName, sizeof(moduleName));
+
+    PathStripPathA(moduleName);
+
+    Message("Current module is %s\n", moduleName);
+
+    if (hurlmon == NULL) {
+        Message("Failed to load %ld\n",
+            GetLastError());
+    }
+
     for (unsigned i = 0; i < sizeof(functionToHook) / sizeof(CyFIFuncType); i++) {
         LPCSTR moduleName = functionToHook[i].lib;
         LPCSTR functionName = functionToHook[i].funcName;
+
+        HMODULE hmodule = GetModuleHandleA(moduleName);
 
         //Install the hook
         NTSTATUS result = LhInstallHook(GetProcAddress(GetModuleHandleA(moduleName), functionName),

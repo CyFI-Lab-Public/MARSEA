@@ -194,6 +194,14 @@ BOOL WINAPI ReadFileHook(
 
 		std::string tagIn = "";
 		//Try to get the fileName
+		if (fileMap.find(hFile) != fileMap.end()) {
+			std::string file_name = fileMap[hFile];
+			//If the file is reading the file itself
+			if (file_name.find(moduleName) != std::string::npos) {
+				return ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
+			}
+
+		}
 		if (fileMap.find(hFile) != fileMap.end() && taintFile.find(fileMap[hFile]) != taintFile.end()) {
 			std::string tagIn = taintFile[fileMap[hFile]];
 		}
@@ -348,10 +356,11 @@ BOOL WINAPI WriteFileHook(
 ) {
 	if (checkCaller("WriteFile")) {
 
+		//Check the tag of the buffer
 		std::string buffer_tag = ReadTag((LPVOID)lpBuffer);
 
 		if (buffer_tag.length() > 0) {
-			Message("[W] WriteFile (%p [|] %s [|] %ld [|] %ld [|] %p) tag_in:%s\n", hFile, lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped, buffer_tag.c_str());
+			Message("[W] WriteFile (%p [|] %p [|] %ld [|] %p [|] %p) tag_in:%s\n", hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped, buffer_tag.c_str());
 			//Update the taintFile map
 			if (fileMap.find(hFile) != fileMap.end()) {
 				std::string fileName = fileMap[hFile];
@@ -359,13 +368,13 @@ BOOL WINAPI WriteFileHook(
 			}
 		}
 		else {
-			Message("[W] WriteFile (%p [|] %s [|] %ld [|] %ld [|] %p)", hFile, (LPCTSTR)lpBuffer, nNumberOfBytesToWrite, *lpNumberOfBytesWritten, lpOverlapped);
+			Message("[W] WriteFile (%p [|] %p [|] %ld [|] %p [|] %p)", hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
 		}
 
 		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
 		if (it == dummyHandles.end()) {
 			bool ret = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
-			return ret;
+			return TRUE;
 		}
 		else {
 			return TRUE;

@@ -28,6 +28,8 @@ extern INT s2eVersion;
 
 extern std::map<std::string, std::string> taintFile;
 
+extern char moduleName[MAX_PATH];
+
 void Message(LPCSTR fmt, ...);
 
 std::string GetTag(PCSTR funcName);

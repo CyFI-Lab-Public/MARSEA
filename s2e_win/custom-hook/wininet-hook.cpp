@@ -274,8 +274,8 @@ BOOL WINAPI InternetReadFileHook(
     
 
     std::string tag = GetTag("InternetReadFile");
-    Message("[W] InternetReadFile  (%p [|] %p [|] 0x%x [|] %p) tag_out:%s\n",
-        hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead, bytes_read, tag.c_str());
+    Message("[W] InternetReadFile  (%p [|] %p [|] %ld [|] %ld) tag_out:%s\n",
+        hFile, lpBuffer, dwNumberOfBytesToRead, *lpdwNumberOfBytesRead, tag.c_str());
 
     S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
@@ -489,12 +489,15 @@ BOOL WINAPI InternetQueryOptionWHook(
     LPVOID    lpBuffer,
     LPDWORD   lpdwBufferLength
 ) {
-    Message("[W] InternetQueryOptionW (%p [|] %ld [|] %p [|] %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
 
     if (lpBuffer) {
         std::string tag = GetTag("InternetQueryOptionW");
         S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
         S2EMakeSymbolic(lpdwBufferLength, 4, tag.c_str());
+        Message("[W] InternetQueryOptionW (%p [|] %ld [|] %p [|] %p) tag_out:%s\n", hInternet, dwOption, lpBuffer, lpdwBufferLength, tag.c_str());
+    }
+    else {
+        Message("[W] InternetQueryOptionW (%p [|] %ld [|] %p [|] %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
     }
 
     return TRUE;
