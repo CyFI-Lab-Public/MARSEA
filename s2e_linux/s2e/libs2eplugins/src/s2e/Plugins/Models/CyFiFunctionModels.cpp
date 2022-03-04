@@ -7,6 +7,8 @@
 #include <s2e/Plugins/OSMonitors/Windows/WindowsMonitor.h>
 
 #include <klee/util/ExprTemplates.h>
+#include <klee/util/ExprUtil.h>
+
 #include <llvm/Support/CommandLine.h>
 #include <s2e/ConfigFile.h>
 #include <s2e/Plugins/Core/Vmi.h>
@@ -20,9 +22,13 @@
 #include <string>
 #include <unordered_map>
 #include <optional>
+#include <vector>
 #include <utility>
+#include <list>
+#include <queue>
 
 #include "CyFiFunctionModels.h"
+
 using namespace klee;
 
 namespace s2e {
@@ -31,7 +37,7 @@ namespace models {
 
 #define PRINT_DOT_GRAPH 1
 
-static constexpr size_t countExprNumBytes = 8;
+static constexpr size_t countExprNumBytes = 1;
 static bool export_to_s_expr = false;
 static std::string dot_graph_name;
 static std::string dot_graph_path;
@@ -127,6 +133,46 @@ static void exprToSexpr(const ref<Expr>& expr) {
     os << '\n'; 
 }
 
+struct depth_nodes {
+    int depth, nodes;
+};
+typedef struct depth_nodes Struct;
+static Struct exprData(const ref<Expr>& expr) {
+    
+    Struct data;
+    data.depth = 0;
+    data.nodes = 0;
+    if (expr.isNull()) {
+        return data;
+    }
+    
+    std::queue<ref<Expr>> q;
+     
+    q.push(expr);
+    q.push(NULL);
+    while (!q.empty())
+    {
+        ref<Expr> temp = q.front();
+        q.pop();
+ 
+        if (temp == NULL)
+            data.depth++;
+
+        if (temp != NULL) {
+            data.nodes++;
+            for (unsigned i = 0; i < temp->getNumKids(); ++i) {
+                auto child = temp->getKid(i);
+                q.push(child);
+            } 
+        }
+        else if(!q.empty())
+        {
+            q.push(NULL);
+        }
+    }
+    return data;
+}
+       
 // Extract a dot graph with the given name for the expression and write out to a path
 static void exprToDotGraph(const ref<Expr>& expr) {
     if (dot_graph_name.empty() || dot_graph_path.empty()) {
@@ -185,6 +231,7 @@ void CyFiFunctionModels::initialize() {
 
     instructionMonitor = s2e()->getConfig()->getBool(getConfigKey() + ".instructionMonitor");
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
+    
     m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
 	    bool ok;
     ConfigFile::string_list moduleNames = s2e()->getConfig()->getStringList(getConfigKey() + ".moduleNames", ConfigFile::string_list(), &ok); 
@@ -211,6 +258,10 @@ void CyFiFunctionModels::initialize() {
         "\n       exportToSExpr: " << (export_to_s_expr ? "true" : "false") <<
         "\n       sExprPath: " << s_expr_path << '\n';
 
+    decoderSearch = s2e()->getConfig()->getBool(getConfigKey() + ".decoderSearch");
+    if(decoderSearch)
+        getDebugStream() << "Decoding algorithm search is enabled.\n";
+
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
     m_vmi = s2e()->getPlugin<Vmi>();
     m_monitor = static_cast<OSMonitor *>(s2e()->getPlugin("OSMonitor"));
@@ -221,15 +272,163 @@ void CyFiFunctionModels::initialize() {
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
-    // Get an instance of the FunctionMonitor plugin
-    FunctionMonitor *monitor = s2e()->getPlugin<FunctionMonitor>();
-
-    // Get a notification when a function is called
-    monitor->onCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onCall));
-
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
 
+    s2e()->getCorePlugin()->onConcreteDataMemoryAccess.connect(
+        sigc::mem_fun(*this, &CyFiFunctionModels::onConcreteDataMemoryAccess));
+    
+    s2e()->getCorePlugin()->onAfterSymbolicDataMemoryAccess.connect(
+        sigc::mem_fun(*this, &CyFiFunctionModels::onAfterSymbolicDataMemoryAccess));
+
+
 }
+
+
+void CyFiFunctionModels::findBufferByte(ref<Expr> expr, ref<Expr> &index) {
+
+    std::function<void(const ref<Expr>)> recur = nullptr;
+    recur = [&recur, &index](const ref<Expr> expr) {
+        if (expr.isNull()) 
+            return;
+
+        if (expr->getKind() == Expr::Read)
+        {
+            const ReadExpr *re = cast<ReadExpr>(expr);
+            index = re->getIndex();
+            return;
+        }
+
+        for (unsigned i = 0; i < expr->getNumKids(); ++i) {
+            auto child = expr->getKid(i);
+            recur(child);
+        } 
+
+    };
+    recur(expr);
+}
+
+void CyFiFunctionModels::onConcreteDataMemoryAccess(S2EExecutionState *state, uint64_t address, uint64_t value, uint8_t size,
+                                              unsigned flags) {
+    if(false)
+        getDebugStream(state) << "Concrete Data Mem Access: " << hexval(address) << " - " << value << "\n";
+}
+
+void CyFiFunctionModels::onAfterSymbolicDataMemoryAccess(S2EExecutionState *state, klee::ref<klee::Expr> address,
+                                                   klee::ref<klee::Expr> hostAddress, klee::ref<klee::Expr> value,
+                                                   unsigned flags) 
+{
+    if(trackedTag.empty())
+        return;
+
+
+    std::stringstream os;
+    os << value;
+    if (os.str().find(trackedTag[state->getID()]) == std::string::npos)
+        return;
+
+    if(address->getKind() != Expr::Constant)
+        return;
+    
+    // Although /p value represents the symbolic expression contained in /p address,
+    // we use the /p address becuase we do not only want the symbolic expression for the 
+    // first byte of this memory region, but symbolic expressions from all symbolc bytes
+    if(!decoderSearch)
+        return;
+        
+    evalForDecoders(state, address);
+}
+
+void CyFiFunctionModels::evalForDecoders(S2EExecutionState *state, klee::ref<klee::Expr> address) {
+
+    //getDebugStream(state) << "DUMP: " << address  << "\n";
+
+    std::vector<uint8_t> all_constants;
+    uint64_t addr = dyn_cast<ConstantExpr>(address)->getZExtValue();
+    int i = 0;
+    while (1){
+        TranslationBlock *tb = state->getTb(); 
+        if(tb == 0x0)    
+            break;
+        ref<Expr> e = state->mem()->read(addr + i);
+        if(e.isNull() || isa<ConstantExpr>(e))
+            break;
+        ref<Expr> constant =  state->concolics->evaluate(e);   
+        uint8_t val = dyn_cast<ConstantExpr>(constant)->getZExtValue();
+        all_constants.push_back(val);
+        i++;            
+    }
+
+    std::string encoded_indiv = Decoders::indexedVal_V(all_constants);
+
+    // HACK:   buffer must be >= 4 ???
+    if(all_constants.size() < 4)
+        return;
+
+    /* --------------------- DECODING --------------------- */
+    decoderMap DM;
+    DM["base16"] = Decoders::extractBufferComparators("base16", all_constants);
+    DM["base32"] = Decoders::extractBufferComparators("base32", all_constants);
+    DM["base64"] = Decoders::extractBufferComparators("base64", all_constants);  
+    DM["base85"] = Decoders::extractBufferComparators("base85", all_constants);
+    DM["xor_23"] = Decoders::extractBufferComparators("xor_23", all_constants);
+    DM["rot_13"] = Decoders::extractBufferComparators("rot_13", all_constants);
+    DM["table_lookup"] = Decoders::extractBufferComparators("table_lookup", all_constants);
+    //DM["decode_str_to_le_int32"] = Decoders::extractBufferComparators("decode_str_to_le_int32", all_constants);
+    //DM["decode_le_int32_to_str"] = Decoders::extractBufferComparators("decode_le_int32_to_str", all_constants);
+
+    if(instructionMemData.find(state->getID()) == instructionMemData.end())
+    {
+        memDataVec input;
+        input.push_back(std::make_pair(trackedPc, DM));
+        instructionMemData[state->getID()] = input;
+    }
+    else        
+    {
+        memDataVec input;
+        input = instructionMemData[state->getID()];
+        input.push_back(std::make_pair(trackedPc, DM));
+        instructionMemData[state->getID()] = input;
+    }        
+
+    // try to match current encoded to previous decoded
+    if (instructionMemData.size() > 0)
+    {
+        const bool id_found = instructionMemData.find(state->getID()) != instructionMemData.end();
+        if(!id_found)
+            return;
+
+        memDataVec srchVec;
+        srchVec = instructionMemData[state->getID()];
+
+        int i = 0;
+        for (auto it: srchVec){
+            uint64_t prev_addr = it.first;
+            for (auto item: it.second) {
+                std::string decoder_name = item.first;   
+                std::string prev_encoded = item.second.first;
+                std::string prev_decoded = item.second.second;
+
+                if(encoded_indiv.compare(prev_decoded) == 0) {  
+
+                    // Compute distance...using a set b/c we want to account for loops
+                    std::set<uint64_t> unqInst;
+                    for(int x = i; x < srchVec.size(); ++ x)
+                        unqInst.insert(srchVec[x].first);
+
+                    if ((prev_addr != trackedPc) && prev_decoded.length() > 0)
+                    {
+                        getDebugStream(state) << "Match: " << decoder_name << ", Distance: " << unqInst.size() << ", Start: " << hexval(prev_addr) << ", End: " << hexval(trackedPc) << "\n"
+                                        << "Decoded Results: " << prev_decoded << " == " << encoded_indiv << "\n\n";
+                    }
+                }
+            }
+            i++;
+        }
+    }
+
+}  
+
+
 void CyFiFunctionModels::onProcessLoad(S2EExecutionState *state, uint64_t pageDir, uint64_t pid, const std::string &ImageFileName) {
     
     if (moduleId > 0) {
@@ -238,14 +437,13 @@ void CyFiFunctionModels::onProcessLoad(S2EExecutionState *state, uint64_t pageDi
         m_procDetector->trackModule(state, pid, ImageFileName);
         moduleId = pid;
     }
-    //if ((m_moduleName != "") && (m_moduleName == ImageFileName)) {
-    //    moduleId = pid;
-    //}
+
     if(!m_moduleNames.empty() && m_moduleNames.find(ImageFileName) != m_moduleNames.end()){
 	    moduleId = pid;
     }
 
 }
+
 void CyFiFunctionModels::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb,
                                              uint64_t pc, bool isStatic, uint64_t staticTarget) {
     // Library calls/jumps are always indirect
@@ -278,9 +476,6 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
     if(m_moduleNames.find(callerModule) == m_moduleNames.end()) {
 	    return;
     }
-    //if (callerModule != m_moduleName) {
-    //    return;
-    //}
 
     std::string exportName;
 
@@ -344,7 +539,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
             std::ostringstream ss;
             ss << data;
             uint32_t addr = std::stoull(ss.str(), nullptr, 16);
-
+             
             ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
             if (!level_one.isNull()) {
                 if (!isa<ConstantExpr>(level_one)) {
@@ -368,16 +563,24 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 S2EExecutionState *state,
                                                 TranslationBlock *tb,
                                                 uint64_t pc) {
+
+    auto currentMod = m_map->getModule(state, pc);
+    if (!currentMod) {
+        return;
+    }
+    
+    uint64_t relative_pc;
+    currentMod->ToNativeBase(pc, relative_pc);
+    const bool is_in = m_moduleNames.find(currentMod->Name) != m_moduleNames.end();
+    if (is_in)
+        trackedPc = relative_pc;
+
     // When we find an interesting address, ask S2E to invoke our callback when the address is
     // actually executed
     if (!instructionMonitor) {
         return;
     }
 
-    auto currentMod = m_map->getModule(state, pc);
-    if (!currentMod) {
-        return;
-    }
     // If we've defined ranges to dump within, then use those.
     if (m_traceRegions) {
         uint64_t relative_pc;
@@ -389,13 +592,6 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
     // Otherwise, check whether we've specified which module to trace, and if the current
     // module's name match. If the config contains "moduleName", then we can use that info
     // to check if the module that the PC is currently in is the one we're interested in.
-    /*if (!m_moduleName.empty()) {
-        // If the current module is the one we're looking for, connect to the
-        // onInstructionExecution signal.
-        if (currentMod->Name == m_moduleName) {
-            signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
-        }
-    }*/
     if(m_moduleNames.find(currentMod->Name) != m_moduleNames.end()) {
         signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
     }
@@ -406,237 +602,41 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64_t pc) {
 
     auto currentMod = m_map->getModule(state, pc);
-
+    
     if (currentMod) {
         bool ok = true;
         uint64_t relPc;
         ok &= currentMod->ToNativeBase(pc, relPc);
         if(ok){
             s2e()->getDebugStream(state) << "Executed instruction: " << hexval(relPc) <<  '\n';
-            std::ostringstream ss;
-            state->regs()->dump(ss);
-            s2e()->getDebugStream() << ss.str();
+             std::ostringstream ss;
+             state->regs()->dump(ss);
+             s2e()->getDebugStream() << ss.str();
 
-            cyfiDump(state, "eax");
-            cyfiDump(state, "ebx");
-            cyfiDump(state, "ecx");
-            cyfiDump(state, "edx");
-            cyfiDump(state, "esi");
-            cyfiDump(state, "edi");
-            cyfiDump(state, "ebp");
-            cyfiDump(state, "esp");
+             cyfiDump(state, "eax");
+             cyfiDump(state, "ebx");
+             cyfiDump(state, "ecx");
+             cyfiDump(state, "edx");
+             cyfiDump(state, "esi");
+             cyfiDump(state, "edi");
+             cyfiDump(state, "ebp");
+             cyfiDump(state, "esp");   
         }
-    }
+    }   
 }
 
-void CyFiFunctionModels::onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
-                     const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
-                     const FunctionMonitor::ReturnSignalPtr &returnSignal) {
+void CyFiFunctionModels::expressionData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
 
-    if (func_to_monitor == 0) {
-        return;
-    }
+    uint64_t exprAddr = (uint64_t) cmd.expressionData.expr;
+    ref<Expr> expr = state->mem()->read(exprAddr, state->getPointerWidth());
 
-    // Filter out functions we don't care about
-    if (state->regs()->getPc() != func_to_monitor) {
-        return;
-    }
+    auto expr_kind_counts = countExprKinds(expr, 4);
+    int count = expr_kind_counts.size();
+    cmd.expressionData.kinds =  count;
 
-    // If you do not want to track returns, do not connect a return signal.
-    // Here, we pass the program counter to the return handler to identify the function
-    // from which execution returns.
-    returnSignal->connect(
-        sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onRet), func_to_monitor));
-}
-
-void CyFiFunctionModels::onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
-                    const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
-                    uint64_t functionPc) {
-    getDebugStream(state) << "Execution returned from function " << hexval(functionPc) << "\n";
-}
-
-std::string CyFiFunctionModels::getTag(const std::string &sym)
-{
-	size_t pos_end = 0;
-	int cnt = 0;
-
-	// find the 3rd isntance of '_'
-	while (cnt != 3)
-	{
-		pos_end += 1;
-		pos_end = sym.find("_", pos_end);
-		if(pos_end == std::string::npos)
-			continue;
-		cnt++;
-	}
-	return std::string(&sym[sym.find("CyFi")], &sym[pos_end]);
-}
-
-
-void CyFiFunctionModels::handleStrlen(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-    // Read function arguments
-    uint64_t stringAddr = (uint64_t) cmd.Strlen.str;
-
-    // Assemble the string length expression
-    size_t len;
-    if (strlenHelper(state, stringAddr, len, retExpr)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
-}
-
-void CyFiFunctionModels::handleStrcmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.Strcmp.str1;
-    stringAddrs[1] = (uint64_t) cmd.Strcmp.str2;
-
-    // Assemble the string compare expression
-    if (strcmpHelper(state, stringAddrs, retExpr)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
-}
-
-void CyFiFunctionModels::handleStrncmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.Strncmp.str1;
-    stringAddrs[1] = (uint64_t) cmd.Strncmp.str2;
-    size_t nSize = cmd.Strncmp.n;
-
-    // Assemble the string compare expression
-    if (strncmpHelper(state, stringAddrs, nSize, retExpr)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
-}
-
-void CyFiFunctionModels::handleStrcpy(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.Strcpy.dst;
-    stringAddrs[1] = (uint64_t) cmd.Strcpy.src;
-
-    // Perform the string copy. We don't use the return expression here because it is just a concrete address
-    ref<Expr> retExpr;
-    if (strcpyHelper(state, stringAddrs, retExpr)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
-}
-
-void CyFiFunctionModels::handleStrncpy(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.Strncpy.dst;
-    stringAddrs[1] = (uint64_t) cmd.Strncpy.src;
-    uint64_t numBytes = cmd.Strncpy.n;
-
-    // Perform the string copy. We don't use the return expression here because it is just a concrete address
-    ref<Expr> retExpr;
-    if (strncpyHelper(state, stringAddrs, numBytes, retExpr)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
-}
-
-void CyFiFunctionModels::handleMemcpy(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t memAddrs[2];
-    memAddrs[0] = (uint64_t) cmd.Memcpy.dst;
-    memAddrs[1] = (uint64_t) cmd.Memcpy.src;
-    uint64_t numBytes = (int) cmd.Memcpy.n;
-
-    ref<Expr> data = state->mem()->read(memAddrs[1], state->getPointerWidth());
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            getDebugStream(state) << "Argument " << data << " at " << hexval(memAddrs[1]) << " is symbolic\n";
-        }
-    }
-
-    // Perform the memory copy. We don't use the return expression here because it is just a concrete address
-    ref<Expr> retExpr;
-    if (memcpyHelper(state, memAddrs, numBytes, retExpr)){
-        cmd.needOrigFunc = 0;
-    }
-    else {
-        cmd.needOrigFunc = 1;
-
-    }
-
-
-}
-
-void CyFiFunctionModels::handleMemcmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-    // Read function arguments
-    uint64_t memAddrs[2];
-    memAddrs[0] = (uint64_t) cmd.Memcmp.str1;
-    memAddrs[1] = (uint64_t) cmd.Memcmp.str2;
-    uint64_t numBytes = (int) cmd.Memcmp.n;
-
-    // Assemble the memory compare expression
-    if (memcmpHelper(state, memAddrs, numBytes, retExpr)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
-}
-
-void CyFiFunctionModels::handleMemset(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t memAddrs[2];
-    memAddrs[0] = (uint64_t) cmd.Memset.ptr;
-    memAddrs[1] = (uint64_t) cmd.Memset.value;
-    uint64_t numBytes = (int) cmd.Memset.num;
-
-    ref<Expr> retExpr;
-    if (memsetHelper(state, memAddrs, numBytes, retExpr)){
-        ref<Expr> data = state->mem()->read(memAddrs[0], state->getPointerWidth());
-        if(!data.isNull()) {
-            if (!isa<ConstantExpr>(data)) {
-                getDebugStream(state) << "Argument " << data << " at " << hexval(memAddrs[0]) << " is symbolic\n";
-            }
-        }
-    }
-}
-
-void CyFiFunctionModels::handleStrcat(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.Strcat.dst;
-    stringAddrs[1] = (uint64_t) cmd.Strcat.src;
-
-    // Assemble the string concatenation expression. We don't use the return expression here because it is just a
-    // concrete address
-    ref<Expr> retExpr;
-    if (strcatHelper(state, stringAddrs, retExpr)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
-}
-
-void CyFiFunctionModels::handleStrncat(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.Strncat.dst;
-    stringAddrs[1] = (uint64_t) cmd.Strncat.src;
-    uint64_t numBytes = (int) cmd.Strncat.n;
-
-    // Assemble the string concatenation expression. We don't use the return expression here because it is just a
-    // concrete address
-    ref<Expr> retExpr;
-    if (strcatHelper(state, stringAddrs, retExpr, true, numBytes)) {
-        cmd.needOrigFunc = 0;
-    } else {
-        cmd.needOrigFunc = 1;
-    }
+    Struct data = exprData(expr);
+    cmd.expressionData.depth = data.depth;
+    cmd.expressionData.nodes = data.nodes;
 }
 
 void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
@@ -645,7 +645,11 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
     stringAddrs[0] = (uint64_t) cmd.StrStrA.pszFirst;
     stringAddrs[1] = (uint64_t) cmd.StrStrA.pszSrch;
 
-    m_base->makeSymbolic(state, stringAddrs[1], state->getPointerSize(), "temp");
+    std::string tag;
+
+    state->mem()->readString(cmd.StrStrA.symbTag, tag);
+    
+    m_base->makeSymbolic(state, stringAddrs[1], state->getPointerSize(), tag);
 
     klee::ref<klee::Expr> data = state->mem()->read(stringAddrs[1], state->getPointerWidth());
 
@@ -665,295 +669,35 @@ void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER
         s2e()->getExecutor()->terminateState(*state, "Tried to add an invalid constraint");
     }
 
-    // ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
-    // if(!data.isNull()) {
-    //     if (!isa<ConstantExpr>(data)) {
-    //         std::ostringstream ss;
-    //         ss << data;
-    //         std::string sym = ss.str();
-	//     std::string symbTag = getTag(sym);
-    //         state->mem()->write(cmd.StrStrA.symbTag, symbTag.c_str(), symbTag.length()+1);
-    //     }
-    // }
-}
-
-void CyFiFunctionModels::handleStrStrW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.StrStrW.pszFirst;
-    stringAddrs[1] = (uint64_t) cmd.StrStrW.pszSrch;
-
-    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	    std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.StrStrW.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
-}
-
-void CyFiFunctionModels::handleStrStr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.strstr.str;
-    stringAddrs[1] = (uint64_t) cmd.strstr.strSearch;
-
-    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	    std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.strstr.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
-}
-
-void CyFiFunctionModels::handleStrtok(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.strtok.strToken;
-    stringAddrs[1] = (uint64_t) cmd.strtok.strDelimit;
-
-    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	    std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.strtok.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
-}
-
-void CyFiFunctionModels::handleWcsstr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t stringAddrs[2];
-    stringAddrs[0] = (uint64_t) cmd.wcsstr.str;
-    stringAddrs[1] = (uint64_t) cmd.wcsstr.strSearch;
-
-    ref<Expr> data = state->mem()->read(stringAddrs[0], state->getPointerWidth());
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-		std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.wcsstr.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
-}
-
-void CyFiFunctionModels::handleWinHttpReadData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-    // Read function arguments
-    uint64_t args[4];
-    args[0] = (uint64_t) cmd.WinHttpReadData.hRequest;
-    args[1] = (uint64_t) cmd.WinHttpReadData.lpBuffer;
-    args[2] = (uint64_t) cmd.WinHttpReadData.dwNumberOfBytesToRead;
-    args[3] = (uint64_t) cmd.WinHttpReadData.lpdwNumberOfBytesRead;
-
-    getDebugStream(state) << "Handling WinHttpReadData.\n";
-
-    ref<Expr> data = state->mem()->read(args[1], state->getPointerWidth());
-    //getDebugStream(state) << "testa " << data << " at " << hexval(args[0]) << " is symbolic\n";
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            getDebugStream(state) << "Argument " << data << " at " << hexval(args[1]) << " is symbolic\n";
-        } else {
-            getDebugStream(state) << "Argument " << data << " at " << hexval(args[1]) << " is concrete\n";
-        }
-    }
-
-    WinHttpReadDataHelper(state, args, retExpr);
-}
-
-void CyFiFunctionModels::handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    ref<Expr> data = state->mem()->read(cmd.WinHttpConnect.pswzServerName, countExprNumBytes * 8);
-    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
-    getDebugStream(state) << "WinHttpConnect: pswzServerName: " << expr_kind_counts;
-
-#if PRINT_DOT_GRAPH
-    dumpExpresisonToFile(data);
-#endif
-}
-
-void CyFiFunctionModels::handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-    ref<Expr> data = state->mem()->read(cmd.WinHttpCrackUrl.pwszUrl, countExprNumBytes * 8);
-    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
-    getDebugStream(state) << "WinHttpCrackUrl: pwszUrl: " << expr_kind_counts;
-
-#if PRINT_DOT_GRAPH
-    dumpExpresisonToFile(data);
-#endif
-}
-
-void CyFiFunctionModels::handleWriteFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    uint64_t lpBuffer = (uint64_t) cmd.WriteFile.lpBuffer;
-
-    ref<Expr> data = state->mem()->read(lpBuffer, state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.WriteFile.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
-}
-
-void CyFiFunctionModels::handleWinHttpWriteData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &retExpr) {
-  // Read function arguments
-  uint64_t args[4];
-  args[0] = (uint64_t) cmd.WinHttpWriteData.hRequest;
-  args[1] = (uint64_t) cmd.WinHttpWriteData.lpBuffer;
-  args[2] = (uint64_t) cmd.WinHttpWriteData.dwNumberOfBytesToWrite;
-  args[3] = (uint64_t) cmd.WinHttpWriteData.lpdwNumberOfBytesWritten;
-
-  WinHttpWriteDataHelper(state, args, retExpr);
 }
 
 void CyFiFunctionModels::dumpExpression(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+#if PRINT_DOT_GRAPH
+    // TODO: update countExprNumberBytes to be dynamic...read each byte until concrete and keep track of how many 
+    // to be used in countExprKinds()
     ref<Expr> data = state->mem()->read(cmd.dumpExpression.buffer, countExprNumBytes * 8);
-
-#if PRINT_DOT_GRAPH
-    dumpExpresisonToFile(data);
-#endif
-}
-
-void CyFiFunctionModels::handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    ref<Expr> data = state->mem()->read(cmd.InternetConnectA.lpszServerName, countExprNumBytes * 8);
+    getDebugStream(state) << "\nDump expr for " << hexval(cmd.dumpExpression.buffer) << ": " << data << "\n";
     auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
-    getDebugStream(state) << "InternetConnectA: lpszServerName: " << expr_kind_counts;
-
-#if PRINT_DOT_GRAPH
+    getDebugStream(state) << expr_kind_counts << "\n";
     dumpExpresisonToFile(data);
-#endif
+#endif    
 }
 
-void CyFiFunctionModels::handleInternetConnectW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    ref<Expr> data = state->mem()->read(cmd.InternetConnectW.lpszServerName, countExprNumBytes * 8);
-    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
-    getDebugStream(state) << "InternetConnectW: lpszServerName: " << expr_kind_counts;
+std::string CyFiFunctionModels::getTag(const std::string &sym)
+{
+	size_t pos_end = 0;
+	int cnt = 0;
 
-#if PRINT_DOT_GRAPH
-    dumpExpresisonToFile(data);
-#endif
-}
-
-void CyFiFunctionModels::handleInternetOpenUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    ref<Expr> data = state->mem()->read(cmd.InternetOpenUrlA.lpszUrl, countExprNumBytes * 8);
-    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
-    getDebugStream(state) << "InternetOpenUrlA: lpszUrl: " << expr_kind_counts;
-
-#if PRINT_DOT_GRAPH
-    dumpExpresisonToFile(data);
-#endif
-}
-
-void CyFiFunctionModels::handleInternetOpenUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    ref<Expr> data = state->mem()->read(cmd.InternetOpenUrlW.lpszUrl, countExprNumBytes * 8);
-    auto expr_kind_counts = countExprKinds(data, countExprNumBytes);
-    getDebugStream(state) << "InternetOpenUrlW: lpszUrl: " << expr_kind_counts;
-
-#if PRINT_DOT_GRAPH
-    dumpExpresisonToFile(data);
-#endif
-}
-
-void CyFiFunctionModels::handleInternetReadFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    ref<Expr> data = state->mem()->read(state->regs()->getSp(), state->getPointerWidth());
-    getCyfiStream(state) << "InternetreadFile " << data  << "\n";
-}
-
-void CyFiFunctionModels::handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[4];
-    args[0] = (uint64_t) cmd.InternetCrackUrlA.lpszUrl;
-    args[1] = (uint64_t) cmd.InternetCrackUrlA.dwUrlLength;
-    args[2] = (uint64_t) cmd.InternetCrackUrlA.dwFlags;
-    args[3] = (uint64_t) cmd.InternetCrackUrlA.lpUrlComponents;
-
-    ref<Expr> data = state->mem()->read(args[0], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.InternetCrackUrlA.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
-}
-
-void CyFiFunctionModels::handleInternetCrackUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-    // Read function arguments
-    uint64_t args[4];
-    args[0] = (uint64_t) cmd.InternetCrackUrlW.lpszUrl;
-    args[1] = (uint64_t) cmd.InternetCrackUrlW.dwUrlLength;
-    args[2] = (uint64_t) cmd.InternetCrackUrlW.dwFlags;
-    args[3] = (uint64_t) cmd.InternetCrackUrlW.lpUrlComponents;
-
-    ref<Expr> data = state->mem()->read(args[0], state->getPointerWidth());
-
-    if(!data.isNull()) {
-        if (!isa<ConstantExpr>(data)) {
-            std::ostringstream ss;
-            ss << data;
-            std::string sym = ss.str();
-	        std::string symbTag = getTag(sym);
-            state->mem()->write(cmd.InternetCrackUrlW.symbTag, symbTag.c_str(), symbTag.length()+1);
-        }
-    }
-}
-
-void CyFiFunctionModels::handleCrc(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &ret) {
-
-    std::vector<ref<Expr>> buffer;
-    cmd.needOrigFunc = 1;
-    if (!m_memutils->read(state, buffer, cmd.Crc.buffer, cmd.Crc.size)) {
-        return;
-    }
-
-    ref<Expr> initialCrc;
-
-    switch (cmd.Crc.type) {
-        case CYFI_WRAPPER_CRC16:
-            initialCrc = state->mem()->read(cmd.Crc.initial_value_ptr, Expr::Int16);
-            getDebugStream(state) << "Handling crc16(" << initialCrc << ", " << hexval(cmd.Crc.buffer) << ", "
-                                  << cmd.Crc.size << ")\n";
-            if (initialCrc.isNull()) {
-                return;
-            }
-
-            ret = crc16(initialCrc, buffer);
-            break;
-
-        case CYFI_WRAPPER_CRC32:
-            initialCrc = state->mem()->read(cmd.Crc.initial_value_ptr, Expr::Int32);
-            getDebugStream(state) << "Handling crc32(" << initialCrc << ", " << hexval(cmd.Crc.buffer) << ", "
-                                  << cmd.Crc.size << ")\n";
-            if (initialCrc.isNull()) {
-                return;
-            }
-
-            ret = crc32(initialCrc, buffer, cmd.Crc.xor_result);
-            break;
-
-        default:
-            s2e()->getWarningsStream(state) << "Invalid crc type " << hexval(cmd.Crc.type) << "\n";
-            return;
-    }
-
-    cmd.needOrigFunc = 0;
+	// find the 3rd isntance of '_'
+	while (cnt != 3)
+	{
+		pos_end += 1;
+		pos_end = sym.find("_", pos_end);
+		if(pos_end == std::string::npos)
+			continue;
+		cnt++;
+	}
+	return std::string(&sym[sym.find("CyFi")], &sym[pos_end]);
 }
 
 void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
@@ -975,7 +719,7 @@ void CyFiFunctionModels::checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_C
 
 void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     uint64_t buffer = cmd.ReadTag.buffer;
-
+    
     // Check if buffer is symbolic
     ref<Expr> data = state->mem()->read(buffer, state->getPointerWidth());
 
@@ -984,7 +728,6 @@ void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMA
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
-            getDebugStream(state) << "symbolic constraints: " << sym << "\n";
             std::string symbTag = getTag(sym);
             state->mem()->write(cmd.ReadTag.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
@@ -1012,7 +755,7 @@ void CyFiFunctionModels::killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_
     S2EExecutor *executor = s2e()->getExecutor();
     const klee::StateSet &states = s2e()->getExecutor()->getStates();
     size_t nrStatesToTerminate = (size_t)executor->getStatesCount();
-
+    
     if (nrStatesToTerminate < 1 && executor->getStatesCount() > 0) {
         nrStatesToTerminate = 1; // kill at least one state
     }
@@ -1062,6 +805,12 @@ void CyFiFunctionModels::concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER
     return;
 }
 
+void CyFiFunctionModels::tagTracker(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+
+    state->mem()->readString(cmd.tagTracker.tag, trackedTag);
+    getDebugStream(state) << "Tracking tag: " << trackedTag << "\n";
+}
+
 // TODO: use template
 #define UPDATE_RET_VAL(CmdType, cmd)                                         \
     do {                                                                     \
@@ -1092,215 +841,16 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
     switch (command.Command) {
 
-        case WINWRAPPER_STRCPY: {
-            handleStrcpy(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_STRNCPY: {
-            handleStrncpy(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_STRLEN: {
-            ref<Expr> retExpr;
-            handleStrlen(state, command, retExpr);
-            UPDATE_RET_VAL(Strlen, command);
-        } break;
-
-        case WINWRAPPER_STRCMP: {
-            ref<Expr> retExpr;
-            handleStrcmp(state, command, retExpr);
-            UPDATE_RET_VAL(Strcmp, command);
-        } break;
-
-        case WINWRAPPER_STRNCMP: {
-            ref<Expr> retExpr;
-            handleStrncmp(state, command, retExpr);
-            UPDATE_RET_VAL(Strncmp, command);
-        } break;
-
-        case WINWRAPPER_MEMCPY: {
-            handleMemcpy(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "MEMCPY: Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_MEMCMP: {
-            ref<Expr> retExpr;
-            handleMemcmp(state, command, retExpr);
-            UPDATE_RET_VAL(Memcmp, command);
-        } break;
-
-        case WINWRAPPER_STRCAT: {
-            handleStrcat(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "STRCAT: Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_STRNCAT: {
-            handleStrncat(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "STRNCAT: Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_MEMSET: {
-            handleMemset(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "MEMSET: Could not write to guest memory\n";
-            }
-        } break;
 
         case WINWRAPPER_STRSTRA: {
             ref<Expr> retExpr;
-            handleStrStrA(state, command);
+            handleStrStrA(state, command);     
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
-            }
+            }            
 
-        } break;
-
-        case WINWRAPPER_STRSTRW: {
-            handleStrStrW(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-
-        } break;
-
-
-        case WINWRAPPER_STRSTR: {
-            ref<Expr> retExpr;
-            handleStrStr(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-
-        } break;
-
-
-        case WINWRAPPER_STRTOK: {
-            ref<Expr> retExpr;
-            handleStrtok(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-
-        } break;
-
-
-        case WINWRAPPER_WINHTTPREADDATA: {
-            ref<Expr> retExpr;
-            handleWinHttpReadData(state, command, retExpr);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_WINHTTPCRACKURL: {
-            ref<Expr> retExpr;
-            handleWinHttpCrackUrl(state, command, retExpr);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "WinHttpCrackUrl: Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_WINHTTPCONNECT: {
-            handleWinHttpConnect(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_WINHTTPWRITEDATA: {
-            ref<Expr> retExpr;
-            handleWinHttpWriteData(state, command, retExpr);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-
-        case WINWRAPPER_INTERNETREADFILE: {
-            handleInternetReadFile(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_INTERNETCRACKURLA: {
-            ref<Expr> retExpr;
-            handleInternetCrackUrlA(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "InternetCrackUrlA: Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_INTERNETCRACKURLW: {
-            ref<Expr> retExpr;
-            handleInternetCrackUrlW(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "InternetCrackUrlA: Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_INTERNETCONNECTA: {
-            handleInternetConnectA(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_INTERNETCONNECTW: {
-            handleInternetConnectW(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_INTERNETOPENURLA: {
-            handleInternetOpenUrlA(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WINWRAPPER_INTERNETOPENURLW: {
-            handleInternetOpenUrlW(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-
-        case WINWRAPPER_WCSSTR: {
-            handleWcsstr(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-
-        } break;
-
-        case WINWRAPPER_WRITEFILE: {
-            handleWriteFile(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }
-        } break;
-
-        case WRAPPER_CRC: {
-            ref<Expr> retExpr;
-            handleCrc(state, command, retExpr);
-            UPDATE_RET_VAL(Crc, command);
-        } break;
-
+        } break;        
+    
         case CHECK_CALLER: {
             checkCaller(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
@@ -1315,12 +865,12 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             }
         } break;
 
-	case TAG_COUNTER: {
-	    tagCounter(state, command);
-	    if(!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-		getWarningsStream(state) << "Could not write to guest memory\n";
-	    }
-	} break;
+        case TAG_COUNTER: {
+            tagCounter(state, command);
+            if(!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+            getWarningsStream(state) << "Could not write to guest memory\n";
+            }
+        } break;
 
         case KILL_ANALYSIS: {
             killAnalysis(state, command);
@@ -1328,16 +878,34 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
                 getWarningsStream(state) << "Could not write to guest memory\n";
             }
         } break;
-	case DUMP_EXPRESSION: {
-	    dumpExpression(state, command);
-	} break;
-
-    case CONCRETIZE_ALL: {
-        concretizeAll(state, command);
-        if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+        
+        case DUMP_EXPRESSION: {
+            dumpExpression(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }        
+        } break;
+        
+        case TAG_TRACKER: {
+            tagTracker(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }        
+        } break;
+        
+        case CONCRETIZE_ALL: {
+            concretizeAll(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
             }
-    } break;
+        } break;
+
+        case EXPRESSION_DATA: {
+            expressionData(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            }        
+        } break;
 
         default: {
             getWarningsStream(state) << "Invalid command " << hexval(command.Command) << "\n";
@@ -1404,6 +972,405 @@ std::ostream& operator<<(std::ostream& os, const Ranges& ranges) {
     }
     os.flags(f);
     return os;
+}
+
+std::string Decoders::indexedVal_V(std::vector<uint8_t> data)
+{
+        std::stringstream os;
+        for (unsigned i = 0; i < data.size(); ++i) {
+            if (i !=0)
+                os << ", ";
+            os << std::setw(2) << std::setfill('0') << "0x" << std::hex << (unsigned) data[i] << std::dec;
+        }
+        std::string ret = os.str();
+        return ret;
+}
+
+std::string Decoders::indexedVal_S(std::string data)
+{
+        std::stringstream os;
+        for (unsigned i = 0; i < data.length(); ++i) {
+            if (i !=0)
+                os << ", ";
+            os << std::setw(2) << std::setfill('0') << "0x" << std::hex << (unsigned) data[i] << std::dec;
+        }
+        std::string ret = os.str();
+        return ret;
+}
+
+std::string Decoders::indexedVal_C(char * data)
+{
+        std::stringstream os;
+        for (unsigned i = 0; i < std::strlen(data); ++i) {
+            if (i !=0)
+                os << ", ";
+            os << std::setw(2) << std::setfill('0') << "0x" << std::hex << (unsigned) data[i] << std::dec;
+        }
+        std::string ret = os.str();
+        return ret;
+}
+
+std::string Decoders::indexedVal_UC(unsigned char ** data)
+{
+        std::stringstream os;
+        for (unsigned i = 0; i < std::strlen((char*)data); ++i) {
+            if (i !=0)
+                os << ", ";
+            os << std::setw(2) << std::setfill('0') << "0x" << std::hex << data[i] << std::dec;
+        }
+        std::string ret = os.str();
+        return ret;
+}
+
+std::string Decoders::base64(const char* in, size_t source_len) {
+
+    std::string out;
+
+    std::vector<int> T(256, -1);
+    for (int i = 0; i < 64; i++) T["ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"[i]] = i;
+
+    int val = 0, valb = -8;
+    const char* pSrc ;
+    size_t dwSrcSize = source_len;
+    pSrc = in;
+
+    while (dwSrcSize >= 1) {
+        unsigned char c = *pSrc++;
+        if (T[c] == -1) break;
+        val = (val << 6) + T[c];
+        valb += 6;
+        if (valb >= 0) {
+            out.push_back(char((val >> valb) & 0xFF));
+            valb -= 8;
+        }
+        dwSrcSize--;
+    }
+    
+    return out;
+}
+
+std::string Decoders::xor_23(std::string x) {
+    std::stringstream ss;
+    for (int i = 0; i < x.length(); i++)
+    {
+        ss << (x.at(i) ^ 0x23);
+    }
+    return ss.str();
+}
+
+size_t Decoders::rot_13(const char* source, size_t source_len, char* dest, size_t dest_capacity) {
+    assert(dest_capacity >= source_len);
+    size_t i;
+    for (i = 0; i < source_len && i < dest_capacity; ++i) {
+        if (source[i] >= 'A' && source[i] <= 'Z') {
+            dest[i] = 'A' + (source[i] - 'A' + 13) % 26;
+        }
+        else if (source[i] >= 'A' && source[i] <= 'Z') {
+            dest[i] = 'a' + (source[i] - 'a' + 13) % 26;
+        }
+        else {
+            // this should be dest[i] = source[i], but that will cause false posiive during comparison
+            dest[i] = '-';
+        }
+    }
+    return i;
+}
+
+size_t Decoders::table_lookup(const char* source, size_t source_len, char* dest, size_t dest_capacity, const char* table, size_t table_size) {
+	size_t j = 0;
+	for (size_t i = 0; i < source_len && i < dest_capacity; ++i) {
+		char c = source[i];
+		if (c >= 1 && c <= table_size) {
+			dest[j++] = table[c - 1];
+		}
+	}
+	return j;
+}
+
+size_t Decoders::decode_str_to_le_int32(const char* source, size_t source_len, char* dest, size_t dest_capacity) {
+	//assert(dest_capacity >= 4);
+	unsigned result = 0;
+	size_t len = 0;
+	if(source_len<4){
+	    len=source_len;
+	}
+	else{
+	    len=4;
+	}
+	for (size_t i = 0; i < len; ++i) {
+		result = (result * 10) + (unsigned)(source[i]);
+	}
+	dest[0] = (char)(result & 0xff);
+	dest[1] = (char)((result >> 8) & 0xff);
+	dest[2] = (char)((result >> 16) & 0xff);
+	dest[3] = (char)((result >> 24) & 0xff);
+	return 4;
+}
+
+size_t Decoders::decode_le_int32_to_str(const char* source, size_t source_len, char* dest, size_t dest_capacity) {
+	//assert(source_len >= 4);
+	unsigned result = *(unsigned*)source;
+	size_t tmplen = 0;
+	char tmp[16] = { 0 };
+	while (result > 0) {
+		tmp[tmplen++] = '0' + (result % 10);
+		result /= 10;
+	}
+	assert(dest_capacity >= tmplen);
+	size_t len;
+	for (len = 0; len < tmplen; ++len) {
+		dest[len] = tmp[tmplen - len - 1];
+	}
+	return len;
+
+}
+
+int Decoders::hexchr2bin(const char hex, char* out)
+{
+	if (out == NULL)
+		return 0;
+
+	if (hex >= '0' && hex <= '9') {
+		*out = hex - '0';
+	}
+	else if (hex >= 'A' && hex <= 'F') {
+		*out = hex - 'A' + 10;
+	}
+	else if (hex >= 'a' && hex <= 'f') {
+		*out = hex - 'a' + 10;
+	}
+	else {
+		return 0;
+	}
+
+	return 1;
+}
+
+size_t Decoders::base16(const char* hex, unsigned char** out)
+{
+	size_t len;
+	char   b1;
+	char   b2;
+	size_t i;
+
+	if (hex == NULL || *hex == '\0' || out == NULL)
+		return 0;
+
+	len = strlen(hex);
+	if (len % 2 != 0)
+		return 0;
+	len /= 2;
+
+	*out = (unsigned char*)malloc(len);
+	memset(*out, 'A', len);
+	for (i = 0; i < len; i++) {
+		if (!hexchr2bin(hex[i * 2], &b1) || !hexchr2bin(hex[i * 2 + 1], &b2)) {
+			return 0;
+		}
+		(*out)[i] = (b1 << 4) | b2;
+	}
+	return len;
+}
+
+const size_t BASE85_INPUT = 5;
+const size_t BASE85_OUTPUT = 4;
+#define FOLD_ZERO 1 
+const void* Decoders::cyoBase85NextByte(const void* input, unsigned char* byte, int* padding)
+{
+    unsigned char* curr = (unsigned char*)input;
+    if (*curr)
+    {
+        *byte = (*curr - '!');
+        return (curr + 1);
+    }
+
+    *byte = 84;
+    ++* padding;
+    return input;
+}
+
+unsigned int Decoders::cyoBase85Power(unsigned int mult, int count)
+{
+    unsigned int total = 1;
+    for (int i = 0; i < count; ++i)
+        total *= mult;
+    return total;
+}
+
+unsigned char* Decoders::cyoBase85OutputX4(unsigned char* output, char value)
+{
+    *output++ = value;
+    *output++ = value;
+    *output++ = value;
+    *output++ = value;
+    return output;
+}
+
+size_t Decoders::base85(const char* source, size_t source_len, char* dest, size_t dest_capacity) {
+    const char* pSrc;
+    unsigned char* pDest;
+    size_t dwSrcSize;
+    size_t dwDestSize;
+
+    if (!dest || !source)
+        return 0; /*ERROR - null pointer*/
+
+    pSrc = source;
+    pDest = (unsigned char*)dest;
+    dwSrcSize = source_len;
+    dwDestSize = 0;
+
+    while (dwSrcSize >= 1)
+    {
+        unsigned char in1, in2, in3, in4, in5;
+        int padding, shift;
+        unsigned int n;
+
+#if FOLD_ZERO
+        if (*pSrc == 'z')
+        {
+            ++pSrc;
+            pDest = cyoBase85OutputX4(pDest, 0);
+            dwDestSize += BASE85_OUTPUT;
+            continue;
+        }
+#endif
+#if FOLD_SPACES
+        if (*pSrc == 'y')
+        {
+            ++pSrc;
+            pDest = cyoBase85OutputX4(pDest, 0x20);
+            dwDestSize += BASE85_OUTPUT;
+            continue;
+        }
+#endif
+
+        /* 2-5 input chars */
+        padding = 0;
+        pSrc = (const char*)cyoBase85NextByte((const void*)pSrc, &in1, &padding);
+        if (padding != 0)
+            return 0; /*ERROR - insufficient data*/
+        pSrc = (const char*)cyoBase85NextByte((const void*)pSrc, &in2, &padding);
+        if (padding != 0)
+            return 0; /*ERROR - insufficient data*/
+        pSrc = (const char*)cyoBase85NextByte((const void*)pSrc, &in3, &padding);
+        pSrc = (const char*)cyoBase85NextByte((const void*)pSrc, &in4, &padding);
+        pSrc = (const char*)cyoBase85NextByte((const void*)pSrc, &in5, &padding);
+        dwSrcSize -= (BASE85_INPUT - padding);
+
+        /* Validate */
+        if (in1 >= 85 || in2 >= 85 || in3 >= 85 || in4 >= 85 || in5 >= 85)
+            return 0; /*ERROR - invalid base85 character*/
+
+        /* 1-4 output bytes */
+        n = (in1 * cyoBase85Power(85, 4))
+            + (in2 * cyoBase85Power(85, 3))
+            + (in3 * cyoBase85Power(85, 2))
+            + (in4 * cyoBase85Power(85, 1))
+            + in5;
+        shift = 24;
+        do
+        {
+            *pDest++ = (unsigned char)(n >> shift);
+            ++dwDestSize;
+            shift -= 8;
+            ++padding;
+        } while (padding <= 3);
+    }
+
+    return dwDestSize;
+}
+
+#define buf_len 64
+std::pair<std::string, std::string> Decoders::extractBufferComparators(std::string decoder_type, std::vector<uint8_t> all_constants)
+{
+    std::map <std::string, int> translate;
+    translate["base16"]=1;
+    translate["base32"]=2;
+    translate["base64"]=3;
+    translate["base85"]=4;
+    translate["xor_23"]=5;
+    translate["rot_13"]=6;
+    translate["table_lookup"]=7;
+    translate["decode_str_to_le_int32"]=8;
+    translate["decode_le_int32_to_str"]=9;
+
+    std::string encoded (all_constants.begin(), all_constants.end());
+    char * enc = &encoded[0];
+    std::string encoded_indiv = Decoders::indexedVal_V(all_constants);
+
+    std::string decoded_indiv;
+    int typ = translate[decoder_type];
+   
+    std::cerr << "TYPE: " << typ << "\n";
+    switch (typ)
+    {
+        case 1: {
+            decoded_indiv = "";
+            break;
+        }
+
+        case 2: {
+            decoded_indiv = "";
+            break;
+        }     
+
+        case 3: {
+            std::string  base64_decoded = Decoders::base64(enc, encoded.length());
+            decoded_indiv = Decoders::indexedVal_S(base64_decoded);
+            break;
+        }
+
+        case 4: {
+            char base85_decoded[buf_len] = {0};
+            Decoders::base85(enc, encoded.length(), base85_decoded, encoded.length());
+            decoded_indiv = Decoders::indexedVal_C(base85_decoded);
+            break;
+        }
+
+        case 5: {
+            std::string xor_decoded = Decoders::xor_23(encoded);
+            decoded_indiv = Decoders::indexedVal_S(xor_decoded);
+            break;
+        }
+
+        case 6: {
+            char rot_13_decoded[buf_len] = {0};
+            Decoders::rot_13(enc, encoded.length(), rot_13_decoded, encoded.length());
+            decoded_indiv = Decoders::indexedVal_C(rot_13_decoded);
+            break;
+        }
+
+        case 7: {
+            char table_lookup_decoded[buf_len] = {0};
+            Decoders::table_lookup(enc, encoded.length(), table_lookup_decoded, encoded.length(), "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", 62);
+            decoded_indiv = Decoders::indexedVal_C(table_lookup_decoded);
+            break;
+        }
+
+        /*case 8: {
+            std::cerr << "DECODE STR TO LE INT32\n";
+            char decode_str_to_le_int32_decoded[buf_len] = {0};
+            Decoders::decode_str_to_le_int32(enc, encoded.length(), decode_str_to_le_int32_decoded, encoded.length());
+            decoded_indiv = Decoders::indexedVal_C(decode_str_to_le_int32_decoded);
+            break;
+        }
+
+        case 9: {
+            char decode_le_int32_to_str_decoded[buf_len] = {0};
+            Decoders::decode_le_int32_to_str(enc, encoded.length(), decode_le_int32_to_str_decoded, encoded.length());
+            decoded_indiv = Decoders::indexedVal_C(decode_le_int32_to_str_decoded);
+            break;
+        }*/
+
+        default: {
+            decoded_indiv = "";
+            break;
+        }
+    }
+
+    return std::make_pair(encoded_indiv, decoded_indiv);
+
 }
 
 } // namespace models
