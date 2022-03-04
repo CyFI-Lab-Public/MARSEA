@@ -32,19 +32,13 @@ BOOL WINAPI WinHttpCrackUrlHook(
 	DWORD            dwFlags,
 	winhttp::LPURL_COMPONENTS lpUrlComponents
 ) {
-    std::string tagin = ReadTag((PVOID)pwszUrl);
-    if (tagin != "") {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = DUMP_EXPRESSION;
-        Command.dumpExpression.buffer = (uint64_t)pwszUrl;
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
+    std::string tag = ReadTag((PVOID)pwszUrl);
+    if (tag != "") {
         pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
         winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
-        std::string tag = GetTag("WinHttpCrackUrl");
         S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
         Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n",
-            pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tagin.c_str(), tag.c_str());
+            pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tag.c_str(), tag.c_str());
         return TRUE;
     }
     return WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
@@ -58,15 +52,10 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
 ) {
     winhttp::HINTERNET connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
     dummyHandles.insert(connectionHandle);
-    std::string tagin = ReadTag((PVOID)pswzServerName);
-    if (tagin != "") {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = DUMP_EXPRESSION;
-        Command.dumpExpression.buffer = (uint64_t)pswzServerName;
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-
+    std::string tag = ReadTag((PVOID)pswzServerName);
+    if (tag != "") {
         Message("[W] WinHttpConnect (%p [|] %ls [|] %i [|] %ld) ret:%p tag_in:%s\n",
-            hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, tagin.c_str());
+            hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, tag.c_str());
 
         // killAnalysis("WinHttpConnect");
         return connectionHandle;
@@ -153,7 +142,12 @@ BOOL WINAPI WinHttpReadDataHook(
 
     S2EMakeSymbolic(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
-    
+
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = TAG_TRACKER;
+    Command.tagTracker.tag = (uint64_t)tag.c_str();
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
     return TRUE;
 
 }

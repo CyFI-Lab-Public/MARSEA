@@ -55,10 +55,6 @@ HINTERNET WINAPI InternetConnectAHook(
 
     std::string tag = ReadTag((PVOID)lpszServerName);        
     if (tag != "") {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = DUMP_EXPRESSION;
-        Command.dumpExpression.buffer = (uint64_t)lpszServerName;
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
         Message("[W] InternetConnectA (%p [|] %s [|] %i [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
             hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
@@ -85,10 +81,6 @@ HINTERNET WINAPI InternetConnectWHook(
     dummyHandles.insert(connectionHandle);
     std::string tag = ReadTag((PVOID)lpszServerName);
     if (tag != "") {
-        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-        Command.Command = DUMP_EXPRESSION;
-        Command.dumpExpression.buffer = (uint64_t)lpszServerName;
-        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
         Message("[W] InternetConnectW (%p [|] %ls [|] %i [|] %ls [|] %ls [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
             hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
@@ -108,19 +100,18 @@ BOOL WINAPI InternetCrackUrlAHook(
     LPURL_COMPONENTSA lpUrlComponents
 ) {
     if (checkCaller("InternetCrackUrlA")) {
-        std::string tagIn = ReadTag((PVOID)pwszUrl);
-        if (tagIn != "") {
+        std::string tag = ReadTag((PVOID)pwszUrl);
+        if (tag != "") {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = DUMP_EXPRESSION;
             Command.dumpExpression.buffer = (uint64_t)pwszUrl;
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
             pwszUrl = "http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
-            std::string tag = GetTag("InternetCrackUrlA");
             S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
             InternetCrackUrlA(pwszUrl, 52, dwFlags, lpUrlComponents);
             Message("[W] InternetCrackUrlA (%s [|] %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n", 
-                pwszUrl, 52, dwFlags, lpUrlComponents, tagIn.c_str(), tag.c_str());
+                pwszUrl, 52, dwFlags, lpUrlComponents, tag.c_str(), tag.c_str());
             return TRUE;
         }
     }
@@ -136,19 +127,18 @@ BOOL WINAPI InternetCrackUrlWHook(
     LPURL_COMPONENTSW lpUrlComponents
 ) {
     if (checkCaller("InternetCrackUrlW")) {
-        std::string tagIn = ReadTag((PVOID)lpszUrl);
-        if (tagIn != "") {
+        std::string tag = ReadTag((PVOID)lpszUrl);
+        if (tag != "") {
             CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
             Command.Command = DUMP_EXPRESSION;
             Command.dumpExpression.buffer = (uint64_t)lpszUrl;
             S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
 
             lpszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
-            std::string tag = GetTag("InternetCrackUrlW");
             S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
             InternetCrackUrlW(lpszUrl, 52, dwFlags, lpUrlComponents);
             Message("[W] InternetCrackUrlW (%ls, %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n",
-                lpszUrl, 52, dwFlags, lpUrlComponents, tagIn.c_str(), tag.c_str());
+                lpszUrl, 52, dwFlags, lpUrlComponents, tag.c_str(), tag.c_str());
             return TRUE;
         }
     }
@@ -279,6 +269,10 @@ BOOL WINAPI InternetReadFileHook(
 
     S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
     S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
+    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+    Command.Command = TAG_TRACKER;
+    Command.tagTracker.tag = (uint64_t)tag.c_str();
+    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
     return TRUE;
 };
 
@@ -305,6 +299,10 @@ HINTERNET WINAPI InternetOpenUrlAHook(
     if(tag != ""){
         Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%s tag_in:%s\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, tag.c_str());
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = TAG_TRACKER;
+        Command.tagTracker.tag = (uint64_t)tag.c_str();
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
         return resourceHandle;
     }
     else {
@@ -339,6 +337,10 @@ HINTERNET WINAPI InternetOpenUrlWHook(
 
         Message("[W] InternetOpenUrlW (%p [|] %ls [|] %ls [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
             hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, tag.c_str());
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = TAG_TRACKER;
+        Command.tagTracker.tag = (uint64_t)tag.c_str();
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
         return resourceHandle;
     }
     else {

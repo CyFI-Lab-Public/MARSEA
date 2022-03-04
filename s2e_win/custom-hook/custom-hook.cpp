@@ -303,10 +303,6 @@ static int MultiByteToWideCharHook(
     LPWSTR                            lpWideCharStr,
     int                               cchWideChar
 ) {
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = WINWRAPPER_INTERNETCONNECTA;
-    Command.InternetConnectA.lpszServerName = (uint64_t)lpMultiByteStr;
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
     killAnalysis("MultiByteToWideChar");
     return 0;
 
@@ -435,7 +431,7 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
     //CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
-    CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
+    //CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
     //CyFIFuncType("shell32", "SHFileOperationA", SHFileOperationAHook, { NULL }),
     //CyFIFuncType("User32", "PeekMessageA", PeekMessageAHook, { NULL }),
     //CyFIFuncType("kernel32", "WaitForSingleObject", WaitForSingleObjectHook, { NULL }),
