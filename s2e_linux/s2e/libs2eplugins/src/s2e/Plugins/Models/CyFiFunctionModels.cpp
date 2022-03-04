@@ -567,8 +567,7 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
     auto currentMod = m_map->getModule(state, pc);
     if (!currentMod) {
         return;
-    }
-    
+
     uint64_t relative_pc;
     currentMod->ToNativeBase(pc, relative_pc);
     const bool is_in = m_moduleNames.find(currentMod->Name) != m_moduleNames.end();
@@ -1302,7 +1301,7 @@ std::pair<std::string, std::string> Decoders::extractBufferComparators(std::stri
     std::string decoded_indiv;
     int typ = translate[decoder_type];
    
-    std::cerr << "TYPE: " << typ << "\n";
+    //std::cerr << "TYPE: " << typ << "\n";
     switch (typ)
     {
         case 1: {
