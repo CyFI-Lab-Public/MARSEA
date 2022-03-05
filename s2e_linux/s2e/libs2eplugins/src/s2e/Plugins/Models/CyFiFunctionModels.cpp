@@ -374,8 +374,8 @@ void CyFiFunctionModels::evalForDecoders(S2EExecutionState *state, klee::ref<kle
     DM["xor_23"] = Decoders::extractBufferComparators("xor_23", all_constants);
     DM["rot_13"] = Decoders::extractBufferComparators("rot_13", all_constants);
     DM["table_lookup"] = Decoders::extractBufferComparators("table_lookup", all_constants);
-    //DM["decode_str_to_le_int32"] = Decoders::extractBufferComparators("decode_str_to_le_int32", all_constants);
-    //DM["decode_le_int32_to_str"] = Decoders::extractBufferComparators("decode_le_int32_to_str", all_constants);
+    DM["decode_str_to_le_int32"] = Decoders::extractBufferComparators("decode_str_to_le_int32", all_constants);
+    DM["decode_le_int32_to_str"] = Decoders::extractBufferComparators("decode_le_int32_to_str", all_constants);
 
     if(instructionMemData.find(state->getID()) == instructionMemData.end())
     {
@@ -566,7 +566,7 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
                                                 uint64_t pc) {
 
     auto currentMod = m_map->getModule(state, pc);
-    if (!currentMod) {
+    if (!currentMod) 
         return;
 
     uint64_t relative_pc;
@@ -577,9 +577,9 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 
     // When we find an interesting address, ask S2E to invoke our callback when the address is
     // actually executed
-    if (!instructionMonitor) {
+    if (!instructionMonitor) 
         return;
-    }
+    
 
     // If we've defined ranges to dump within, then use those.
     if (m_traceRegions) {
@@ -596,6 +596,7 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
         signal->connect(sigc::mem_fun(*this, &CyFiFunctionModels::onInstructionExecution));
     }
 }
+                                            
 
 // This callback is called only when the instruction at our address is executed.
 // The callback incurs zero overhead for all other instructions
@@ -1059,7 +1060,7 @@ std::string Decoders::xor_23(std::string x) {
 }
 
 size_t Decoders::rot_13(const char* source, size_t source_len, char* dest, size_t dest_capacity) {
-    assert(dest_capacity >= source_len);
+    //assert(dest_capacity >= source_len);
     size_t i;
     for (i = 0; i < source_len && i < dest_capacity; ++i) {
         if (source[i] >= 'A' && source[i] <= 'Z') {
@@ -1116,7 +1117,7 @@ size_t Decoders::decode_le_int32_to_str(const char* source, size_t source_len, c
 		tmp[tmplen++] = '0' + (result % 10);
 		result /= 10;
 	}
-	assert(dest_capacity >= tmplen);
+	//assert(dest_capacity >= tmplen);
 	size_t len;
 	for (len = 0; len < tmplen; ++len) {
 		dest[len] = tmp[tmplen - len - 1];
@@ -1348,8 +1349,7 @@ std::pair<std::string, std::string> Decoders::extractBufferComparators(std::stri
             break;
         }
 
-        /*case 8: {
-            std::cerr << "DECODE STR TO LE INT32\n";
+        case 8: {
             char decode_str_to_le_int32_decoded[buf_len] = {0};
             Decoders::decode_str_to_le_int32(enc, encoded.length(), decode_str_to_le_int32_decoded, encoded.length());
             decoded_indiv = Decoders::indexedVal_C(decode_str_to_le_int32_decoded);
@@ -1361,7 +1361,7 @@ std::pair<std::string, std::string> Decoders::extractBufferComparators(std::stri
             Decoders::decode_le_int32_to_str(enc, encoded.length(), decode_le_int32_to_str_decoded, encoded.length());
             decoded_indiv = Decoders::indexedVal_C(decode_le_int32_to_str_decoded);
             break;
-        }*/
+        }
 
         default: {
             decoded_indiv = "";
