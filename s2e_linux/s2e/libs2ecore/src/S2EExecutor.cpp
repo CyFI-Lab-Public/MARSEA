@@ -1430,15 +1430,23 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
     newConditions[1] = klee::NotExpr::create(condition);
 
     llvm::raw_ostream &out = m_s2e->getInfoStream(currentState);
+    llvm::raw_ostream &cyfiout = m_s2e->getCyfiStream(currentState);
     out << "Forking state " << currentState->getID() << " at pc = " << hexval(currentState->regs()->getPc())
         << " at pagedir = " << hexval(currentState->regs()->getPageDir()) << '\n';
+
+    cyfiout << "Forking state " << currentState->getID() << " at pc = " << hexval(currentState->regs()->getPc())
+    << " at pagedir = " << hexval(currentState->regs()->getPageDir()) << '\n';
 
     for (unsigned i = 0; i < 2; ++i) {
         if (VerboseFork) {
             out << "    state " << newStates[i]->getID();
             out << " with condition " << newConditions[i] << '\n';
+
+            cyfiout << "    state " << newStates[i]->getID();
+            cyfiout << " with condition " << newConditions[i] << '\n';
         } else {
             out << "    state " << newStates[i]->getID() << "\n";
+            cyfiout << "    state " << newStates[i]->getID() << "\n";
         }
 
         // Handled in ::branch
