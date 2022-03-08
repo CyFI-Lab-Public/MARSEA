@@ -117,6 +117,7 @@ private:
 
     bool instructionMonitor; 
     int func_to_monitor = 0;
+    int arg_dump = 0;
     ModuleMap *m_map;
     LibraryCallMonitor *m_libCallMonitor;
     ProcessExecutionDetector *m_procDetector;

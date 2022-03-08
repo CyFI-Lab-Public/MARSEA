@@ -950,8 +950,10 @@ S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
         doStateSwitch(state, newState);
         if (newState->inTargetModule && klee::tbTrace.find(newState->startPC) == klee::tbTrace.end()) {
             m_s2e->getDebugStream(state) << "[PLOT] Choose Valid State\n";
+            m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
         } else {
             m_s2e->getDebugStream(state) << "[PLOT] Choose Invalid State\n";
+            m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
         }
         g_s2e->getCorePlugin()->onStateSwitch.emit(state, newState);
     }

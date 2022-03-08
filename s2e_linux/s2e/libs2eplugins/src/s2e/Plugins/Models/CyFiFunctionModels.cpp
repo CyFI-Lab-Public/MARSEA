@@ -232,6 +232,8 @@ void CyFiFunctionModels::initialize() {
 
     instructionMonitor = s2e()->getConfig()->getBool(getConfigKey() + ".instructionMonitor");
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
+
+    arg_dump = s2e()->getConfig()->getInt(getConfigKey()+".dumpArgs", 0);
     
     m_moduleName = s2e()->getConfig()->getString(getConfigKey() + ".moduleName");
 	    bool ok;
@@ -512,6 +514,51 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
         return;
     }
 
+    if (arg_dump > 0) {
+
+        uint64_t stackAddr = state->regs()->getSp() + 4;
+        getDebugStream(state) << "PC Address: " << hexval(targetAddr) << "\n";
+        getDebugStream(state) << "Stack Address: " << hexval(stackAddr) << "\n";
+
+        uint64_t arguments[8];
+
+        klee::ref<klee::Expr> result;
+
+        for (int i = 0; i < arg_dump; i++) {
+            result = state->mem()->read(stackAddr+i*4, state->getPointerWidth());
+            if (!result.isNull()) {
+
+                if (isa<ConstantExpr>(result)) {
+                    ConstantExpr *CE = dyn_cast<ConstantExpr>(result);
+                    arguments[i] = CE->getZExtValue();
+                    getDebugStream(state) << "Get " << i << " argument at " << hexval(stackAddr+i*4) << " " <<  hexval(arguments[i]) << "\n";
+                    
+                    // Check if buffer is symbolic
+                    ref<Expr> data = state->mem()->read(arguments[i], state->getPointerWidth());
+
+                    if (!data.isNull()) {
+                        if (!isa<ConstantExpr>(data)) {
+                            std::ostringstream ss;
+                            ss << data;
+                            std::string sym = ss.str();
+                            //getDebugStream(state) << "symbolic constraints: " << sym << "\n";
+                            std::string symbTag = getTag(sym);
+                            getCyfiStream(state) << i << "Argument Tag: " << symbTag << "\n";
+                        }
+                    }
+                } else {
+                    getDebugStream(state) <<  i << " argument at " << hexval(stackAddr+i*4) << " is symbolic \n";
+                    // The stack space is symbolic, can be a symbolic int on stack?
+                    std::ostringstream ss;
+                    ss << result;
+                    std::string sym = ss.str();
+                    std::string symbTag = getTag(sym);
+                    getCyfiStream(state) << i << "Argument Tag: " << symbTag << "\n";
+                }
+            }
+        }
+    }
+
     recent_callee = exportName;
 
 }
@@ -577,9 +624,9 @@ void CyFiFunctionModels::onTranslateInstruction(ExecutionSignal *signal,
 
     // When we find an interesting address, ask S2E to invoke our callback when the address is
     // actually executed
-    if (!instructionMonitor) 
+    if (!instructionMonitor) {
         return;
-    
+    }
 
     // If we've defined ranges to dump within, then use those.
     if (m_traceRegions) {
@@ -729,6 +776,7 @@ void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMA
             std::ostringstream ss;
             ss << data;
             std::string sym = ss.str();
+            getDebugStream(state) << "symbolic constraints: " << sym << "\n";
             std::string symbTag = getTag(sym);
             state->mem()->write(cmd.ReadTag.symbTag, symbTag.c_str(), symbTag.length()+1);
         }
