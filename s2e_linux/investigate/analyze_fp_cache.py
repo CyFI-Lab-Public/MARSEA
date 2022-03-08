@@ -2,7 +2,7 @@ from pathlib import Path
 import pickle
 import forkprofiler_mp as fp
 
-CACHE_FOLDER = "/mnt/cacee-netskope/dga_ls_run_fp"
+CACHE_FOLDER = "/mnt/cacee-netskope/forkprofiler/02-03-2022"
 
 def combine_proj_results(fp_res):
 
