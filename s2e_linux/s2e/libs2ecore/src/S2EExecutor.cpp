@@ -765,6 +765,7 @@ void S2EExecutor::stateSwitchTimerCallback(void *opaque) {
             g_s2e_state = nextState;
         } else {
             // Do not reschedule the timer anymore
+            g_s2e->getDebugStream() << "g_s2e_state check failed\n";
             return;
         }
     }
@@ -886,6 +887,7 @@ void S2EExecutor::doStateSwitch(S2EExecutionState *oldState, S2EExecutionState *
 }
 
 ExecutionState *S2EExecutor::selectSearcherState(S2EExecutionState *state) {
+    m_s2e->getDebugStream(state) << "Select New State\n";
     ExecutionState *newState = nullptr;
 
     if (!searcher->empty()) {
@@ -919,6 +921,7 @@ S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
 
     /* Prevent state switching */
     if (state->isStateSwitchForbidden() && !state->isZombie()) {
+        m_s2e->getDebugStream(state) << "State Switch Forbidden\n";
         return state;
     }
 
@@ -956,6 +959,8 @@ S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
             m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
         }
         g_s2e->getCorePlugin()->onStateSwitch.emit(state, newState);
+    } else {
+        m_s2e->getDebugStream(state) << "New State == State\n";
     }
 
     // We can't free the state immediately if it is the current state.
