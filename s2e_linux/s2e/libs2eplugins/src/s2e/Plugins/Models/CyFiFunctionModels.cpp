@@ -543,7 +543,7 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
                             std::string sym = ss.str();
                             //getDebugStream(state) << "symbolic constraints: " << sym << "\n";
                             std::string symbTag = getTag(sym);
-                            getCyfiStream(state) << i << "Argument Tag: " << symbTag << "\n";
+                            getCyfiStream(state) << exportName << " " << i << " Argument Tag: " << symbTag << "\n";
                         }
                     }
                 } else {
@@ -553,7 +553,7 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
                     ss << result;
                     std::string sym = ss.str();
                     std::string symbTag = getTag(sym);
-                    getCyfiStream(state) << i << "Argument Tag: " << symbTag << "\n";
+                    getCyfiStream(state) << exportName << " " << i << " Argument Tag: " << symbTag << "\n";
                 }
             }
         }
