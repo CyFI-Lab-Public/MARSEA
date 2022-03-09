@@ -765,7 +765,7 @@ void S2EExecutor::stateSwitchTimerCallback(void *opaque) {
             g_s2e_state = nextState;
         } else {
             // Do not reschedule the timer anymore
-            g_s2e->getDebugStream() << "faileed to choose next state\n";
+            g_s2e->getDebugStream() << "failed to choose next state\n";
             return;
         }
     } else {
@@ -918,6 +918,8 @@ ExecutionState *S2EExecutor::selectSearcherState(S2EExecutionState *state) {
 }
 
 S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
+    m_s2e->getDebugStream(state) << "Select New State\n";
+
     assert(state->m_active);
     updateStates(state);
 
@@ -1441,8 +1443,7 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
     out << "Forking state " << currentState->getID() << " at pc = " << hexval(currentState->regs()->getPc())
         << " at pagedir = " << hexval(currentState->regs()->getPageDir()) << '\n';
 
-    cyfiout << "Forking state " << currentState->getID() << " at pc = " << hexval(currentState->regs()->getPc())
-    << " at pagedir = " << hexval(currentState->regs()->getPageDir()) << '\n';
+    cyfiout << "Forking state " << currentState->getID() << '\n';
 
     for (unsigned i = 0; i < 2; ++i) {
         if (VerboseFork) {
@@ -1450,7 +1451,7 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
             out << " with condition " << newConditions[i] << '\n';
 
             cyfiout << "    state " << newStates[i]->getID();
-            cyfiout << " with condition " << newConditions[i] << '\n';
+            cyfiout << " with condition " << '\n';
         } else {
             out << "    state " << newStates[i]->getID() << "\n";
             cyfiout << "    state " << newStates[i]->getID() << "\n";
