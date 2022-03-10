@@ -768,8 +768,6 @@ void S2EExecutor::stateSwitchTimerCallback(void *opaque) {
             g_s2e->getDebugStream() << "failed to choose next state\n";
             return;
         }
-    } else {
-        g_s2e->getDebugStream() << "g_s2e_state check failed, the size of states is " << c->states.size() << "\n";
     }
 
     libcpu_mod_timer(c->m_stateSwitchTimer, libcpu_get_clock_ms(host_clock) + 100);
