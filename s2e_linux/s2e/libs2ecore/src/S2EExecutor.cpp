@@ -916,8 +916,6 @@ ExecutionState *S2EExecutor::selectSearcherState(S2EExecutionState *state) {
 }
 
 S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
-    m_s2e->getDebugStream(state) << "Select New State\n";
-
     assert(state->m_active);
     updateStates(state);
 
