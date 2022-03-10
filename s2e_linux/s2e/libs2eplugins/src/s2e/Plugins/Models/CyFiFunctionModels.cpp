@@ -434,7 +434,7 @@ void CyFiFunctionModels::evalForDecoders(S2EExecutionState *state, klee::ref<kle
 
 void CyFiFunctionModels::onProcessLoad(S2EExecutionState *state, uint64_t pageDir, uint64_t pid, const std::string &ImageFileName) {
     
-    if (moduleId > 0) {
+    if (moduleId > 0 && (recent_callee.find("CreateProcess") == 0 || recent_callee.find("ShellExecute") == 0)) {
         getDebugStream(state) << "Tracking " << ImageFileName << " pid: " << hexval(pid) << " from ppid: " << hexval(moduleId) <<  "\n";
 	m_moduleNames.insert(ImageFileName);
         m_procDetector->trackModule(state, pid, ImageFileName);
