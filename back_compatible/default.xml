@@ -18,7 +18,7 @@
     We need to clone s2e-env a second time here so that it is possible to build the docker image.
     TODO: think about how to remove this.
   -->
-  <project name="s2e-env"/>
+  <project name="s2e-env" revision="97727c4ca8549ce02d8529692f673a86e4763607"/>
 
   <project name="s2e-linux-kernel" revision="2a62845de82979cb8e7240ca51503dd7ffbb5efb"/>
 </manifest>
