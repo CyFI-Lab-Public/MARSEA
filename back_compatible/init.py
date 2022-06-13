@@ -170,8 +170,6 @@ def _get_s2e_sources(env_path, manifest_branch):
         logger.info('Fetching %s from %s', git_s2e_repo, git_url)
         repo.init(u='%s/%s' % (git_url, git_s2e_repo), b=manifest_branch,
                   _out=sys.stdout, _err=sys.stderr)
-        import ipdb
-        ipdb.set_trace()
         # Hijack the manifest file
         manifest_path = os.path.join(source_path, '.repo', 'manifests')
         hacked_manifest = os.path.join(orig_dir, 'default.xml')
