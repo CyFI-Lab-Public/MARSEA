@@ -6,11 +6,11 @@ s2e_path=$(realpath $1)
 
 cd $s2e_path
 
-if [ ! -f "en_windows_7_professional_with_sp1_x86_dvd_u_677056.iso"]; then
+if [ ! -f "en_windows_7_professional_with_sp1_x86_dvd_u_677056.iso" ]; then
   curl -LOJR https://gatech.box.com/shared/static/etaefjaf7i6d5c0fh51dbg679dtdb1xb.iso
 fi
 
-if [! -f "win_apps.zip"]; then
+if [ ! -f "win_apps.zip" ]; then
   curl -LOJR https://gatech.box.com/shared/static/n7pvq7t8v9v1zwe0cm7clsz6a5e8e9h1.zip
 fi
 
