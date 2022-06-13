@@ -71,7 +71,7 @@ pluginsConfig.Vmi = {
         "cyfipath",
 
 
-            "/home/cyfiuser/s2e/images/windows-7sp1pro-i386/guestfs",
+            "s2eenv/images/windows-7sp1pro-i386/guestfs",
 
 
     },

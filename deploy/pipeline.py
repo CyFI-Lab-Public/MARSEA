@@ -5,12 +5,16 @@ import subprocess
 import shutil
 import pefile
 import psutil
+import getpass
 
-S2E_ENV_PATH = ""
+S2E_ENV_PATH = "/home/ubuntu/tmp/cyfi-s2e/s2e/deploy/s2e_template"
 
 S2EDIR = os.getenv('S2EDIR')
 
 TIMEOUT = 1200
+
+import ipdb
+ipdb.set_trace()
 
 SAMPLE_PATH = sys.argv[1]
 
@@ -49,6 +53,8 @@ def prepare_lua(proj_folder, target):
     os.system(cmd)
     cmd = "sed -i 's!cyfiuser!"+getpass.getuser()+"!g' "+str(lua_path)
     os.system(cmd)
+    cmd = "sed -i 's!s2eenv!"+str(S2EDIR)+"!g' "+str(lua_path)
+    os.system(cmd)
     return True
 
 def prepare_launch(proj_folder, target, cyfitime):
@@ -60,6 +66,8 @@ def prepare_launch(proj_folder, target, cyfitime):
     cmd = "sed -i 's!{cyfiuser}!"+getpass.getuser()+"!g' "+str(launch_path)
     os.system(cmd)
     cmd = "sed -i 's!{cyfimp}!"+str(os.cpu_count())+"!g' "+str(launch_path)
+    os.system(cmd)
+    cmd = "sed -i 's!{s2eenv}!"+str(S2EDIR)+"!g' "+str(launch_path)
     os.system(cmd)
     return True
 
@@ -95,7 +103,10 @@ def copy_env_files(proj_folder):
 
     return True
 
-if __name__ == '__main__':
+def main():
+    import ipdb
+    ipdb.set_trace()
+
     sample = SAMPLE_PATH
     sample = Path(sample)
     
@@ -137,6 +148,8 @@ if __name__ == '__main__':
 
         # Run the launch script
         run_script = proj_folder/'launch-s2e.sh'
+        import ipdb
+        ipdb.set_trace()
         p_s2e = subprocess.Popen([str(run_script)], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
 
         # Wait for timeout
@@ -173,4 +186,5 @@ if __name__ == '__main__':
         traceback.print_exc()
         pass
 
-
+if __name__ == "__main__":
+    main()
