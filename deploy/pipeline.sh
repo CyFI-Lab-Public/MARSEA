@@ -21,6 +21,11 @@ if [ ! -d "cyfi-s2e" ]; then
   cd ..
 fi
 
+if [ ! -d "radare2" ]; then
+   git clone https://github.com/radareorg/radare2
+   radare2/sys/install.sh
+fi
+
 if [ ! -d "s2e-env" ]; then
     git clone https://github.com/s2e/s2e-env.git
     cd s2e-env
@@ -38,6 +43,8 @@ source venv/bin/activate
 pip install --upgrade pip
 
 pip install .
+pip install ipdb
+pip install r2pipe
 
 cd ..
 if [ ! -d "s2e" ]; then
