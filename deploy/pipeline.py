@@ -7,7 +7,9 @@ import pefile
 import psutil
 import getpass
 
-S2E_ENV_PATH = "/home/ubuntu/tmp/cyfi-s2e/s2e/deploy/s2e_template"
+script_path = Path( __file__ ).parent.absolute()
+
+S2E_ENV_PATH = str(script_path/"s2e_template")
 
 S2EDIR = os.getenv('S2EDIR')
 
