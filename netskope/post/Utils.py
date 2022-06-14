@@ -1,6 +1,6 @@
 from pathlib import Path
 
-def find_all_files(proj, file_name=None, s2e_last=False):
+def find_all_files(top_folder, file_name=None, s2e_last=False):
     res = []
 
     excludes = ["guestfs"]

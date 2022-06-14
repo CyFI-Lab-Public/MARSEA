@@ -15,6 +15,9 @@ class Func():
 
         return hash(all_str)
 
+    def __eq__(self, other):
+        return self.name == other.name and self.args == other.args and self.ret == other.ret
+
 def analyze_line(line):
 
     if not '[W]' in line:
@@ -25,7 +28,7 @@ def analyze_line(line):
     func_info = line.split('[W]')[1].strip()
 
     param_info_left = func_info.find("(") + 1
-    param_info_right = func_info.find(")")
+    param_info_right = func_info.rfind(")")
     param_info = func_info[param_info_left:param_info_right]
     params = [x.strip() for x in param_info.split('[|]')]
 
@@ -53,7 +56,7 @@ def analyze_line(line):
             else:
                 print("Unsupported information in line: ", info_type)
 
-        return func
+    return func
 
 def analyze_libcall_line(line, proj=""):
 
@@ -78,7 +81,7 @@ def analyze_libcall_line(line, proj=""):
             else:
                 proj_addr = line.split()[4]
                 call_addr = proj_addr.split(':')[1]
-                dll_func_addr = temp_line.split()[7]
+                dll_func_addr = line.split()[7]
                 module = dll_func_addr.split('!')[0]
                 func_name = dll_func_addr.split('!')[1].split(':')[0]
         except:

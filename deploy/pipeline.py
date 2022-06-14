@@ -15,9 +15,6 @@ S2EDIR = os.getenv('S2EDIR')
 
 TIMEOUT = 1200
 
-import ipdb
-ipdb.set_trace()
-
 SAMPLE_PATH = sys.argv[1]
 
 def list_export(sample_path):
@@ -106,9 +103,6 @@ def copy_env_files(proj_folder):
     return True
 
 def main():
-    import ipdb
-    ipdb.set_trace()
-
     sample = SAMPLE_PATH
     sample = Path(sample)
     
@@ -150,8 +144,6 @@ def main():
 
         # Run the launch script
         run_script = proj_folder/'launch-s2e.sh'
-        import ipdb
-        ipdb.set_trace()
         p_s2e = subprocess.Popen([str(run_script)], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
 
         # Wait for timeout

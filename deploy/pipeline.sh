@@ -45,6 +45,8 @@ pip install --upgrade pip
 pip install .
 pip install ipdb
 pip install r2pipe
+pip install matplotlib
+pip install networkx
 
 cd ..
 if [ ! -d "s2e" ]; then
