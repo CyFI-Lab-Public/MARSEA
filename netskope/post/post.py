@@ -134,8 +134,8 @@ def generate_tag_graph(funcs):
 
     return tag_graph
 
-def dump_funcs_with_args(funcs):
-    with open('funcs_with_args', 'w') as f:
+def dump_funcs_with_args(proj, funcs):
+    with open(str(Path(proj)/'s2e-last'/'funcs_with_args'), 'w') as f:
         for func in funcs:
 
             if not func.args:
@@ -153,24 +153,25 @@ def dump_funcs_with_args(funcs):
 
             f.write("\n")
 
-def dump_all_funcs(funcs):
-    with open('all_funcs', 'w') as f:
+def dump_all_funcs(proj, funcs):
+    with open(str(Path(proj)/'s2e-last'/'all_funcs'), 'w') as f:
         for func in funcs:
             if not func.name:
                 continue
 
             f.write(func.module+": "+func.name+"\n")
 
-def dump_all_modules(modules):
-    with open('all_modules', 'w') as f:
+def dump_all_modules(proj, modules):
+    with open(str(Path(proj)/'s2e-last'/'all_modules'), 'w') as f:
         for module in modules:
             f.write(module+"\n")
 
-
-def dump_tag_graph(tag_graph):
-    nx.draw(tag_graph, with_labels=True)
-    plt.savefig('tag_graph', dpi=300, bbox_inches='tight')
+def dump_tag_graph(proj, tag_graph):
+    pos = graphviz_layout(tag_graph, prog="dot")
+    nx.draw_networkx(tag_graph, pos, width=0.1, node_size=1, font_size=4, arrowsize=1, with_labels=True)
+    plt.savefig(str(Path(proj)/'s2e-last'/'tag_graph.pdf'))
     plt.show()
+    plt.clf()
 
 def generate_block_coverage(proj):
     cmd = 's2e coverage basic_block --disassembler=r2 '+Path(proj).name
@@ -182,7 +183,7 @@ def generate_block_coverage(proj):
 
     print(output)
     
-    with open('basic_block_coverage.txt', 'w') as f:
+    with open(str(Path(proj)/'s2e-last'/'basic_block_coverage.txt'), 'w') as f:
         for line in output:
             if 'Total basic blocks' in line:
                 f.write(line+'\n')
@@ -458,8 +459,6 @@ def visualize_graph(func_graph):
 def proj_build_func_graph(proj):
     fproj = Path(proj)
 
-    func_graph_path = Path("func_graph")
-
     sample_name = Utils.get_sample_name(fproj)
 
     cyfi_txts = Utils.find_all_files(proj, "cyfi.txt", True)
@@ -482,32 +481,37 @@ def proj_build_func_graph(proj):
 
     new_visual_func_graph = visualize_graph(new_func_graph)
 
-    nx.write_gpickle(new_func_graph, fproj/"func_graph")
+    nx.write_gpickle(new_func_graph, fproj/"s2e-last"/"func_graph")
     
-#    pos = nx.spring_layout(new_visual_func_graph)
-#    nx.draw_networkx(new_visual_func_graph, pos, width=0.1, node_size=1, font_size=4, arrowsize=1, with_labels=True) 
     pos = graphviz_layout(new_visual_func_graph, prog="dot")
     nx.draw_networkx(new_visual_func_graph, pos, width=0.1, node_size=1, font_size=4, arrowsize=1, with_labels=True) 
-    plt.savefig('visual_func_graph.pdf')
+    plt.savefig(str(fproj/'s2e-last'/'visual_func_graph.pdf'))
     plt.show()
+    plt.clf()
 
     return new_func_graph
 
 if __name__ == "__main__":
     proj = sys.argv[1]
 
+    fproj = Path(proj)
+
+    sample_name = Utils.get_sample_name(proj)
+
+    (fproj/(sample_name+'.disas')).unlink(True)
+
     graph = proj_build_func_graph(proj)
 
     funcs_with_args_tags = collect_funcs_with_args_and_tags(proj)
-    dump_funcs_with_args(funcs_with_args_tags)
+    dump_funcs_with_args(proj, funcs_with_args_tags)
 
     all_funcs = collect_all_funcs(proj)
-    dump_all_funcs(all_funcs)
+    dump_all_funcs(proj, all_funcs)
 
     all_modules = collect_all_loaded_modules(proj)
-    dump_all_modules(all_modules)
+    dump_all_modules(proj, all_modules)
 
     tag_graph = generate_tag_graph(funcs_with_args_tags)
-    dump_tag_graph(tag_graph)
+    dump_tag_graph(proj, tag_graph)
 
     generate_block_coverage(proj)

@@ -13,7 +13,7 @@ S2E_ENV_PATH = str(script_path/"s2e_template")
 
 S2EDIR = os.getenv('S2EDIR')
 
-TIMEOUT = 150
+TIMEOUT = 400
 
 SAMPLE_PATH = sys.argv[1]
 
@@ -145,6 +145,7 @@ def main():
         # Run the launch script
         run_script = proj_folder/'launch-s2e.sh'
         p_s2e = subprocess.Popen([str(run_script)], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+        # p_s2e = subprocess.Popen([str(run_script)], shell=True)
 
         # Wait for timeout
         try:
