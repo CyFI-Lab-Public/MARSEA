@@ -17,7 +17,9 @@ win32 = []
 
 S2EDIR = os.getenv('S2EDIR')
 
-with open('win32.json') as f:
+script_path = Path( __file__ ).parent.absolute()
+
+with open(str(Path(script_path)/'win32.json')) as f:
     win32 = json.load(f)
 
 def check_func_arg_use(func_name, arg_index):
