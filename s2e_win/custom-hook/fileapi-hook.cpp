@@ -2,10 +2,13 @@
 #include "utils.h"
 #include "commands.h"
 #include <set>
+#include <shlwapi.h>
 
 static std::set<HANDLE> dummyHandles;
-static std::map<HANDLE, std::string> fileMap;
+std::map<HANDLE, std::string> fileMap;
 std::unordered_map<HANDLE, DWORD> perHandleBytesToRead;
+std::unordered_map<HANDLE, DWORD> perHandleBytesWritten;
+
 
 HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,
@@ -20,24 +23,31 @@ HANDLE WINAPI CreateFileAHook(
 	if (checkCaller("CreateFileA")) {
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
 			std::string file_name_tag = ReadTag((PVOID)lpFileName);
-			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-			fileMap[fileHandle] = fileName;
-			dummyHandles.insert(fileHandle);
-			Message("[W] CreateFileA (%s [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p tag_in:%s\n",
+			S2EDisableForking();
+			HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, 7, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+			if (fileHandle == INVALID_HANDLE_VALUE) {
+				Message("CreateFileA Invalid Handle. Need to fake it. %ld \n", GetLastError());
+				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+				dummyHandles.insert(fileHandle);
+			}
+			fileMap[fileHandle] = PathFindFileNameA(lpFileName);
+			
+			Message("[W] CreateFileA (%s [|] 0x%x [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p tag_in:%s\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle, file_name_tag.c_str());
+			S2EEnableForking();
 			return fileHandle;
 		}
 		else {
-			HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+			HANDLE fileHandle = CreateFileA(lpFileName, dwDesiredAccess, 7, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 			if (fileHandle == INVALID_HANDLE_VALUE) {
-				Message("CreateFileA Invalid Handle. Need to fake it.\n");
+				Message("CreateFileA Invalid Handle. Need to fake it. %ld \n", GetLastError());
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
 			}
 			
-			Message("[W] CreateFileA (%s [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p\n",
+			Message("[W] CreateFileA (%s [|] 0x%x [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-			fileMap[fileHandle] = fileName;
+			fileMap[fileHandle] = PathFindFileNameA(lpFileName);
 			return fileHandle;
 		}
 	}
@@ -58,23 +68,28 @@ HANDLE WINAPI CreateFileWHook(
 	if (checkCaller("CreateFileW")) {
 
 		if (S2EIsSymbolic((PVOID)lpFileName, 0x4)) {
+			S2EDisableForking();
 			std::string file_name_tag = ReadTag((PVOID)lpFileName);
-			HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
-			dummyHandles.insert(fileHandle);
-			fileMap[fileHandle] = fileName;
+			HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, 7, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+			if (fileHandle == INVALID_HANDLE_VALUE) {
+				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
+				dummyHandles.insert(fileHandle);
+			}
+			fileMap[fileHandle] = lpcwstrToString(PathFindFileNameW(lpFileName));
 			Message("[W] CreateFileW (%ls [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p tag_in:%s\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle, file_name_tag.c_str());
+			S2EEnableForking();
 			return fileHandle;
 		}
 		else {
-			HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
+			HANDLE fileHandle = CreateFileW(lpFileName, dwDesiredAccess, 7, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile);
 			if (fileHandle == INVALID_HANDLE_VALUE) {
 				HANDLE fileHandle = (HANDLE)malloc(sizeof(HANDLE));
 				dummyHandles.insert(fileHandle);
 			}
 			Message("[W] CreateFileW (%ls [|] %ld [|] %ld [|] %p [|] %ld [|] %ld [|] %p) ret:%p\n",
 				lpFileName, dwDesiredAccess, dwShareMode, lpSecurityAttributes, dwCreationDisposition, dwFlagsAndAttributes, hTemplateFile, fileHandle);
-			fileMap[fileHandle] = fileName;
+			fileMap[fileHandle] = lpcwstrToString(PathFindFileNameW(lpFileName));
 			return fileHandle;
 		}
 	}
@@ -225,6 +240,7 @@ BOOL WINAPI ReadFileHook(
 			S2EMakeSymbolic(lpBuffer, *lpNumberOfBytesRead, tag.c_str());
 			S2EMakeSymbolic(lpNumberOfBytesRead, sizeof(DWORD), tag.c_str());
 		}
+
 		return TRUE;
 	}
 	return ReadFile(hFile, lpBuffer, nNumberOfBytesToRead, lpNumberOfBytesRead, lpOverlapped);
@@ -374,6 +390,20 @@ BOOL WINAPI WriteFileHook(
 		std::set<HANDLE>::iterator it = dummyHandles.find(hFile);
 		if (it == dummyHandles.end()) {
 			bool ret = WriteFile(hFile, lpBuffer, nNumberOfBytesToWrite, lpNumberOfBytesWritten, lpOverlapped);
+			if (lpNumberOfBytesWritten) {
+				DWORD written = *lpNumberOfBytesWritten;
+
+				if (written == 0 && perHandleBytesWritten.find(hFile) != perHandleBytesWritten.end()) {
+					BOOL cyfi_copy = cyFiCopyFile(hFile);
+					Message("Dumping file in WriteFile result: %d", cyfi_copy);
+				}
+				else {
+					if (written > 0) {
+						perHandleBytesWritten[hFile] = 1;
+					}
+
+				}
+			}
 			return TRUE;
 		}
 		else {

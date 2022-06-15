@@ -20,6 +20,9 @@ HRESULT WINAPI URLDownloadToFileHook(
     else {
         Message("[W] URLDownloadToFileA (%p [|] %s [|] %s [|] %ld [|] %p) tag_out:%s\n", pCaller, szURL, szFileName, dwReserved, lpfnCB, tag_out.c_str());
     }
+
+    //Try it natively
+    HRESULT res = URLDownloadToFile(pCaller, szURL, szFileName, dwReserved, lpfnCB);
      
     PTSTR fileNamePointer = PathFindFileName(szFileName);
     std::string fileName = lpcstrToString((LPCSTR)fileNamePointer);
@@ -45,6 +48,9 @@ HRESULT WINAPI URLDownloadToFileWHook(
         Message("[W] URLDownloadToFileW (%p [|] %ls [|] %ls [|] %ld [|] %p) tag_out:%s\n", pCaller, szURL, szFileName, dwReserved, lpfnCB, tag_out.c_str());
     }
 
+    //Try it natively
+    HRESULT res = URLDownloadToFile(pCaller, szURL, szFileName, dwReserved, lpfnCB);
+
     PTSTR fileNamePointer = PathFindFileName(szFileName);
     std::string fileName = lpcstrToString((LPCSTR)fileNamePointer);
     taintFile[fileName] = tag_out;
@@ -66,6 +72,7 @@ HRESULT WINAPI URLDownloadToCacheFileAHook(
     else {
         Message("[W] URLDownloadToCacheFileA (%p [|] %s [|] %s [|] %ld [|] %ld [|] %p)\n", lpUnkcaller, szURL, szFileName, cchFileName, dwReserved, pBSC);
     }
+
     return S_OK;
 }
 
@@ -84,6 +91,9 @@ HRESULT WINAPI URLDownloadToCacheFileWHook(
     else {
         Message("[W] URLDownloadToCacheFileW (%p [|] %ls [|] %ls [|] %ld [|] %ld [|] %p)\n", lpUnkcaller, szURL, szFileName, cchFileName, dwReserved, pBSC);
     }
+
+    HRESULT res = URLDownloadToCacheFileW(lpUnkcaller, szURL, szFileName, cchFileName, dwReserved, pBSC);
+
     return S_OK;
 }
 

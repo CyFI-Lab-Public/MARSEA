@@ -6,6 +6,11 @@
 #include "utils.h"
 #include "commands.h"
 
+#include <time.h>
+#include<iostream>
+#include <sstream>
+#include <shlwapi.h>
+
 // Global tag number
 static uint64_t tag_number = 0;
 
@@ -148,4 +153,83 @@ std::string lpcwstrToString(LPCWSTR name) {
     CHAR message[S2E_MSG_LEN];
     sprintf_s(message, S2E_MSG_LEN, "%ls", name);
     return std::string(message);
+}
+
+bool cyFiCopyFile(HANDLE hFile) {
+    //Dump the file to the host
+    char Path[MAX_PATH];
+    char* lpStrFilePath;
+    lpStrFilePath = Path;
+    DWORD dwRet;
+    dwRet = GetFinalPathNameByHandleA(hFile, lpStrFilePath, MAX_PATH, VOLUME_NAME_DOS);
+
+    std::string tag = getFileTag(PathFindFileNameA(lpStrFilePath));
+
+    if (dwRet <= MAX_PATH && dwRet != 0) {
+
+        Message("Malware dumps file to %s", lpStrFilePath);
+
+        srand((unsigned)time(NULL));
+        Message("rand begin\n");
+        /*std::ostringstream s;
+        s << rand();*/
+        int random_number = rand();
+        Message("rand end\n");
+        std::string random_string = std::to_string(random_number);
+        Message("to string");
+
+        char buffer_1[MAX_PATH] = "";
+        char* lpStr1;
+        lpStr1 = buffer_1;
+
+        char buffer_3[] = "C:\\s2e\\";
+        char* lpStr3;
+        lpStr3 = buffer_3;
+
+        if (tag != "") {
+            Message("strcdat start\n");
+            strcat(lpStr3, tag.c_str());
+        }
+
+        Message("Combine begin\n");
+
+        LPSTR dest_path_res = PathCombineA(lpStr1, lpStr3, random_string.c_str());
+
+        Message("Copy begin\n");
+
+        BOOL res = CopyFileA(lpStrFilePath, dest_path_res, FALSE);
+
+        Message("Copy end\n");
+
+        if (!res) {
+            Message("Copy File Failed. Error Code: 0x%x\n", GetLastError());
+            return FALSE;
+        }
+        else {
+            Message("Copy File Succeed!\n");
+
+            HINSTANCE run_res = ShellExecuteA(NULL, "open", "C:\\s2e\\s2eput.exe", random_string.c_str(), NULL, NULL);
+            if (int(run_res) <= 32) {
+                Message("Failed run s2eput with code 0x%x", int(run_res));
+                return FALSE;
+            }
+            else {
+                Message("Write file %s to the host side\n", random_string.c_str());
+                return TRUE;
+            }
+        }
+
+    }
+    
+    if (dwRet == 0) {
+        Message("GetFinalPathNameByHandle failed: 0x%x", GetLastError());
+        return FALSE;
+    }
+
+    if (dwRet > MAX_PATH) {
+        Message("GetFinalPathNameByHandle failed becaue of small buffer\n");
+        return FALSE;
+    }
+
+    return FALSE;
 }

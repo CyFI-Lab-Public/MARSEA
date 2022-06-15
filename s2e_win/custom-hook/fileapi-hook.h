@@ -4,6 +4,7 @@
 #include <unordered_map>
 
 extern std::unordered_map<HANDLE, DWORD> perHandleBytesToRead;
+extern std::unordered_map<HANDLE, DWORD> perHandleBytesWritten;
 
 HANDLE WINAPI CreateFileAHook(
 	LPCSTR                lpFileName,

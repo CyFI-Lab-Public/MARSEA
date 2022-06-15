@@ -49,3 +49,5 @@ void concretizeAll(PVOID Buffer);
 std::string getFileTag(LPCSTR buffer);
 
 std::string getFileTag(LPCWSTR buffer);
+
+bool cyFiCopyFile(HANDLE hFile);

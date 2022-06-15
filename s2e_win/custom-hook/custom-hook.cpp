@@ -210,9 +210,14 @@ static HRESULT CreateStreamOnHGlobalHook(
         Message("CreateStreamOnHGlobal Failed %i!\n", e);
 
     }
-    return hr;
+    return E_OUTOFMEMORY;
 }
 
+void ExitProcessHook(
+    UINT uExitCode
+) {
+    return ExitThread(uExitCode);
+}
 
 class CyFIFuncType {
 public:
@@ -333,6 +338,7 @@ CyFIFuncType functionToHook[] = {
     /* Won't work...for testing razy only*/
     //CyFIFuncType("kernel32", "MultiByteToWideChar", MultiByteToWideCharHook, {NULL}),
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
+    //CyFIFuncType("kernel32", "ExitProcess", ExitProcessHook, {NULL}),
 
     CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
     CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
@@ -385,7 +391,7 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("winhttp", "WinHttpOpenRequest", WinHttpOpenRequestHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpQueryHeaders", WinHttpQueryHeadersHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpQueryOption", WinHttpQueryOptionHook, {NULL}),
-    CyFIFuncType("winhttp", "WinHttpResetAutoProxy", WinHttpResetAutoProxyHook, {NULL}),
+    //CyFIFuncType("winhttp", "WinHttpResetAutoProxy", WinHttpResetAutoProxyHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpSetCredentials", WinHttpSetCredentialsHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpSetOption", WinHttpSetOptionHook, {NULL}),
     CyFIFuncType("winhttp", "WinHttpSetTimeouts", WinHttpSetTimeoutsHook, {NULL}),

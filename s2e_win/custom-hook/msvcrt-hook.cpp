@@ -4,6 +4,7 @@
 #include <string>
 #include <set>
 #include <unordered_map>
+#include <shlwapi.h>
 
 /// Keep track of sockets 
 static std::set<FILE*> dummyHandles;
@@ -29,7 +30,7 @@ FILE* __cdecl fopenhook(
 		// Check try to open it
 		if (FILE* fhandle = fopen(filename, mode)) {
 			Message("[W] fopen (%s [|] %s) ret:%p\n", filename, mode, fhandle);
-			fileMap[fhandle] = filename;
+			fileMap[fhandle] = PathFindFileNameA(filename);
 			return fhandle;
 		}
 		// If open file failed with read mode, create the file first
@@ -39,14 +40,14 @@ FILE* __cdecl fopenhook(
 				FILE* fhandle = fopen(filename, mode);
 			}
 			Message("[W] fopen (%s [|] %s) ret:%p\n", filename, mode, fhandle);
-			fileMap[fhandle] = filename;
+			fileMap[fhandle] = PathFindFileNameA(filename);
 			return fhandle;
 		}
 		else {
 			FILE* fhandle = (FILE*)malloc(sizeof(FILE*));
 			dummyHandles.insert(fhandle);
 			Message("[W] fopen (%s [|] %s) ret:%p\n", filename, mode, fhandle);
-			fileMap[fhandle] = filename;
+			fileMap[fhandle] = PathFindFileNameA(filename);
 			return fhandle;
 		}
 	}

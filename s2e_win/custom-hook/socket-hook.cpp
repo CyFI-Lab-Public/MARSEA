@@ -157,21 +157,12 @@ INT WSAAPI recvhook(
 
         std::string tag = GetTag("recv");
 
-        std::string data_read = "(url)f237769666e6f636f2336313e28393e2039313e2838313f2f2a307474786(/url)";
-        memcpy(buf, data_read.c_str(), data_read.size());
-        
-        Message("[W] recv (%p [|] %p [|] %i [|] %i) ret:%i tag_out:%s\n", s, buf, len, flags, data_read.size(), tag.c_str());
-
-        int ret = data_read.size();//S2ESymbolicInt(tag.c_str(), data_read.size());
-        S2EMakeSymbolic(buf, data_read.size(), tag.c_str());
-        return ret;
-
-        /*UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
+        UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
         Message("[W] recv (%p, %p, %i [|] %i), ret:%i [|] -> tag_out:%s\n", s, buf, len, flags, bytesToRead, tag.c_str());
         S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
         // Symbolic return
         //INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
-        return bytesToRead;//bytesRead;*/
+        return bytesToRead;//bytesRead;
     }
 
     return recv(s, buf, len, flags);
@@ -273,9 +264,14 @@ INT WSAAPI sendtohook(
 u_short WSAAPI ntohshook(
     u_short netshort
 ) {
-    u_short ret = ntohs(netshort);
-    Message("[W] ntohs (%u) ret:%u\n", netshort, ret);
-    return ret;
+    if (checkCaller("ntohs")) {
+        u_short ret = ntohs(netshort);
+        Message("[W] ntohs (%u) ret:%u\n", netshort, ret);
+        return ret;
+    }
+    else {
+        return ntohs(netshort);
+    }
 }
 
 int WSAAPI getsocknamehook(
@@ -283,9 +279,14 @@ int WSAAPI getsocknamehook(
     sockaddr* name,
     int* namelen
 ) {
-    int ret = getsockname(s, name, namelen);
-    Message("[W] getsockname (%p [|] %p [|] %p) ret:%i\n", s, name, namelen, ret);
-    return ret;
+    if (checkCaller("getsockname")) {
+        int ret = getsockname(s, name, namelen);
+        Message("[W] getsockname (%p [|] %p [|] %p) ret:%i\n", s, name, namelen, ret);
+        return 0;
+    }
+
+    return getsockname(s, name, namelen);
+    
 }
 
 int WSAAPI getpeernamehook(
@@ -295,16 +296,24 @@ int WSAAPI getpeernamehook(
 )
 {
     if (checkCaller("getpeername")) {
-        char addr[11] = "8.8.8.8";
-        sockaddr_in* fake = new sockaddr_in();
-        fake->sin_family = AF_INET;
-        fake->sin_port = htons(80);
-        inet_pton(AF_INET, addr, &fake->sin_addr);
-        name = (sockaddr*)&fake;
-        *namelen = sizeof(name);
+        int concrete_res = getpeername(s, name, namelen);
 
-        Message("[W] getpeername (%p [|] %p [|] %p [|] %s [|] %d)\n", s, name, namelen, inet_ntoa(fake->sin_addr), (int)ntohs(fake->sin_port));
-        return 0;
+        if (concrete_res == 0) {
+            Message("[W] getpeername (%p [|] %p [|] %p)\n", s, name, namelen);
+            return 0;
+        }
+        else {
+            char addr[11] = "8.8.8.8";
+            sockaddr_in* fake = new sockaddr_in();
+            fake->sin_family = AF_INET;
+            fake->sin_port = htons(80);
+            inet_pton(AF_INET, addr, &fake->sin_addr);
+            name = (sockaddr*)&fake;
+            *namelen = sizeof(name);
+
+            Message("[W] getpeername (%p [|] %p [|] %p [|] %s [|] %d)\n", s, name, namelen, inet_ntoa(fake->sin_addr), (int)ntohs(fake->sin_port));
+            return 0;
+        }
     }
 
     return getpeername(s, name, namelen);

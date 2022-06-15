@@ -29,6 +29,10 @@ BOOL WINAPI CreateProcessAHook(
         return CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
     }
 
+    if (StrStrA(lpApplicationName, "s2eput") || StrStrA(lpCommandLine, "s2eput")) {
+        return CreateProcessA(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    }
+
     std::string app_tag = getFileTag(lpApplicationName);
     std::string cmd_tag = getFileTag(lpCommandLine);
 
@@ -129,6 +133,10 @@ BOOL WINAPI CreateProcessWHook(
     }
 
     if (StrStrW(lpCommandLine, L"drvctl")) {
+        return CreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
+    }
+
+    if (StrStrW(lpApplicationName, L"s2eput") || StrStrW(lpCommandLine, L"s2eput")) {
         return CreateProcessW(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
     }
 

@@ -8,6 +8,11 @@ BOOL WINAPI CloseHandleHook(
 	if (checkCaller("CloseHandle")) {
 
 		perHandleBytesToRead.erase(hObject);
+		perHandleBytesWritten.erase(hObject);
+
+		S2EBeginAtomic();
+		cyFiCopyFile(hObject);
+		S2EEndAtomic();
 
 		BOOL res = CloseHandle(hObject);
 		if (!res) {
