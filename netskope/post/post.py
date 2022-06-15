@@ -10,6 +10,8 @@ import os
 from subprocess import Popen, PIPE, STDOUT
 import shlex
 import networkx as nx
+import pydot
+from networkx.drawing.nx_pydot import graphviz_layout
 
 win32 = []
 
@@ -481,9 +483,12 @@ def proj_build_func_graph(proj):
     new_visual_func_graph = visualize_graph(new_func_graph)
 
     nx.write_gpickle(new_func_graph, fproj/"func_graph")
-
-    nx.draw(new_visual_func_graph, with_labels=True)
-    plt.savefig('visual_func_graph', dpi=300, bbox_inches='tight')
+    
+#    pos = nx.spring_layout(new_visual_func_graph)
+#    nx.draw_networkx(new_visual_func_graph, pos, width=0.1, node_size=1, font_size=4, arrowsize=1, with_labels=True) 
+    pos = graphviz_layout(new_visual_func_graph, prog="dot")
+    nx.draw_networkx(new_visual_func_graph, pos, width=0.1, node_size=1, font_size=4, arrowsize=1, with_labels=True) 
+    plt.savefig('visual_func_graph.pdf')
     plt.show()
 
     return new_func_graph

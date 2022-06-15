@@ -1,6 +1,6 @@
 #!/bin/bash
 set -x
-sudo apt-get -y install git gcc python3 python3-dev python3-venv wget curl unzip
+sudo apt-get -y install git gcc python3 python3-dev python3-venv wget curl unzip graphviz
 
 s2e_path=$(realpath $1)
 
