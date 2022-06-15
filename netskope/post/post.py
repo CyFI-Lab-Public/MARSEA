@@ -493,10 +493,23 @@ def proj_build_func_graph(proj):
 
     return new_func_graph
 
+def dump_avclass_info(proj, sig):
+
+    fam, fsd, lsd, packer = Utils.get_mal_family_date_packer(sig)
+
+    with open(str(proj/'s2e-last'/'avinfo'), 'w') as f:
+        f.write("Family: " + fam + "\n")
+        f.write("First Submission Date: " + fsd + "\n")
+        f.write("Last Submission Date: " + lsd + "\n")
+        f.write("Packer: " + packer + "\n")
+
+    return
+
 def post_analyze(proj):
     fproj = Path(proj)
 
     sample_name = Utils.get_sample_name(proj)
+    sample_hash = Utils.get_proj_sample_hash(proj)
 
     (fproj/(sample_name+'.disas')).unlink(True)
 
@@ -515,6 +528,8 @@ def post_analyze(proj):
     dump_tag_graph(proj, tag_graph)
 
     generate_block_coverage(proj)
+
+    dump_avclass_info(sample_hash)
 
 if __name__ == "__main__":
     proj = sys.argv[1]

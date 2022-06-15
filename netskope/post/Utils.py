@@ -1,9 +1,30 @@
 from pathlib import Path
 import MI
+import hashlib
 
 script_path = Path( __file__ ).parent.absolute()
 
 AVCLASS_PATH = str(script_path)+"/"
+
+def get_proj_sample_sha256(proj_fd):
+    sample_path = get_sample_file_path(proj_fd)
+
+    if sample_path:
+        with open(str(sample_path), 'rb') as f:
+            content = f.read()
+            result = hashlib.sha256(content)
+            return result.hexdigest()
+
+    return ""
+
+def get_sample_file_path(proj_fd):
+    proj_fd = Path(proj_fd)
+
+    for item in proj_fd.iterdir():
+        if item.name.startswith(proj_fd.name):
+            return str(item)
+
+    return None
 
 def find_all_files(top_folder, file_name=None, s2e_last=False):
     res = []
@@ -96,6 +117,6 @@ def get_func_name_from_tag(tag_name, trim=False):
 
         return funcName
 
-def get_mal_family_daet_packer(sig):
+def get_mal_family_date_packer(sig):
     malinfo = MI.MalwareInfo(sig, avclass_path=AVCLASS_PATH)
     return (malinfo.family, malinfo.first_seen, malinfo.last_seen, malinfo.packer)
