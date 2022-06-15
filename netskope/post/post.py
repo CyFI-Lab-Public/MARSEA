@@ -491,9 +491,7 @@ def proj_build_func_graph(proj):
 
     return new_func_graph
 
-if __name__ == "__main__":
-    proj = sys.argv[1]
-
+def post_analyze(proj):
     fproj = Path(proj)
 
     sample_name = Utils.get_sample_name(proj)
@@ -515,3 +513,8 @@ if __name__ == "__main__":
     dump_tag_graph(proj, tag_graph)
 
     generate_block_coverage(proj)
+
+if __name__ == "__main__":
+    proj = sys.argv[1]
+
+    post_analyze(proj)

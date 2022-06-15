@@ -6,6 +6,8 @@ import shutil
 import pefile
 import psutil
 import getpass
+sys.path.append('../netskope/post/')
+import post
 
 script_path = Path( __file__ ).parent.absolute()
 
@@ -175,6 +177,8 @@ def main():
 
         # Change the working directory back
         os.chdir(old_path)
+
+        post.post_analyze(str(proj_folder))
 
     except Exception as e:
         print(str(e))
