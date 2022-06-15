@@ -375,84 +375,6 @@ def get_rid_of_state_id(func_graph):
 
     return graph
 
-def visualize_graph(func_graph):
-    graph = nx.DiGraph()
-
-    func_name = {}
-
-    func_name_name = {}
-
-    for edge in func_graph.edges:
-        src = edge[0]
-        sink = edge[1]
-
-        for ind, func in enumerate(src):
-
-            if not func in func_name:
-
-                if not func.name in func_name_name:
-                    func_name_name[func.name] = 0
-                else:
-                    func_name_name[func.name] += 1
-
-                new_index = func_name_name[func.name]
-
-                func_name[func] = new_index
-
-            if ind == len(src) - 1:
-                graph.add_node(func.name+'_'+str(func_name[func]))
-            else:
-                next_func = src[ind+1]
-
-                if not next_func in func_name:
-
-                    if not next_func.name in func_name_name:
-                        func_name_name[next_func.name] = 0
-                    else:
-                        func_name_name[next_func.name] += 1
-
-                    next_new_index = func_name_name[next_func.name]
-
-                    func_name[next_func] = next_new_index
-
-                graph.add_edge(func.name+'_'+str(func_name[func]), next_func.name+'_'+str(func_name[next_func]))
-
-        for ind, func in enumerate(sink):
-
-            if not func in func_name:
-
-                if not func.name in func_name_name:
-                    func_name_name[func.name] = 0
-                else:
-                    func_name_name[func.name] += 1
-
-                new_index = func_name_name[func.name]
-
-                func_name[func] = new_index
-
-            if ind == len(sink) - 1:
-                graph.add_node(func.name+'_'+str(func_name[func]))
-            else:
-                next_func = sink[ind+1]
-
-                if not next_func in func_name:
-
-                    if not next_func.name in func_name_name:
-                        func_name_name[next_func.name] = 0
-                    else:
-                        func_name_name[next_func.name] += 1
-
-                    next_new_index = func_name_name[next_func.name]
-
-                    func_name[next_func] = next_new_index
-
-                graph.add_edge(func.name+'_'+str(func_name[func]), next_func.name+'_'+str(func_name[next_func]))
-
-        if src and sink:
-            graph.add_edge(src[-1].name+'_'+str(func_name[src[-1]]), sink[0].name+'_'+str(func_name[sink[0]]))
-
-    return graph
-
 def proj_build_func_graph(proj):
     fproj = Path(proj)
 
@@ -473,20 +395,23 @@ def proj_build_func_graph(proj):
 
             state_func_dict[state_id].extend(funclist)
 
+    import ipdb
+    ipdb.set_trace()
 
     func_graph = build_func_graph(state_func_dict)
 
     new_func_graph = get_rid_of_state_id(func_graph)
 
-    new_visual_func_graph = visualize_graph(new_func_graph)
 
-    nx.write_gpickle(new_func_graph, fproj/"func_graph")
+    root_nodes = [x for x in func_graph.nodes if func_graph.in_degree(x) == 0 and func_graph.out_degree(x) > 0]
 
-    nx.draw(new_visual_func_graph, with_labels=True)
-    plt.savefig('visual_func_graph', dpi=300, bbox_inches='tight')
-    plt.show()
+    leaf_nodes = [x for x in func_graph.nodes if func_graph.out_degree(x) == 0 and func_graph.in_degree(x) > 0]
 
-    return new_func_graph
+    orphans = [x for x in func_graph.nodes if func_graph.out_degree(x) == 0 and func_graph.in_degree(x) == 0]
+
+    nx.write_gpickle(func_graph, fproj/"func_graph")
+
+    return func_graph
 
 if __name__ == "__main__":
     proj = sys.argv[1]

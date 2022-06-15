@@ -1,2 +1,0 @@
-Total basic blocks: 124
-Covered basic blocks: 116 (93.5%)

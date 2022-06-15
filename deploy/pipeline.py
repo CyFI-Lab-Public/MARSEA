@@ -13,7 +13,7 @@ S2E_ENV_PATH = str(script_path/"s2e_template")
 
 S2EDIR = os.getenv('S2EDIR')
 
-TIMEOUT = 100
+TIMEOUT = 150
 
 SAMPLE_PATH = sys.argv[1]
 

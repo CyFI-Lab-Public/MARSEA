@@ -1,138 +1,208 @@
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877162, 0xffffffff, --------000000000877162Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877162Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005CAC58
-WinHttpCloseHandle (0058DFD0) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877505, 0xffffffff, --------000000000877505Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877505Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpAddRequestHeaders (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876788, 0x41, 0x20000000) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005D3FD8
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877521, 0xffffffff, --------000000000877521Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877521Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpSendRequest (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876881, 0xffffffff, --------000000000876881Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876881Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpSendRequest (0058F8B0, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
-WinHttpConnect (00592F70, cyfi.ece.gatech.edu, 80, 0) ret: 0058D440
-WinHttpCloseHandle (0058E740) 
-WinHttpQueryHeaders (0058F8B0, 5, (null), 0012F60C, 0012F608, 00000000) 
-StrStrA (start_</p>_end_end, </p>) 
-WinHttpConnect (00580278, cyfi.ece.gatech.edu, 80, 0) ret: 0058DFD0
-VirtualFree (003E0000, 0, 32768) 
-WinHttpQueryHeaders (0058DFD0, 5, (null), 0134F9E0, 0134F9DC, 00000000) 
-WinHttpQueryHeaders (0058D440, 5, (null), 0134F9E0, 0134F9DC, 00000000) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 00592F70
-WinHttpConnect (005A05B8, www.virustotal.com, 80, 0) ret: 005A4AE0
-WinHttpSendRequest (0057E238, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
-WinHttpConnect (00573198, www.virustotal.com, 80, 0) ret: 005BB708
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000878207, 0xffffffff, --------000000000878207Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000878207Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-VirtualFree (01A50000, 0, 32768) 
-WinHttpOpenRequest (005BAAE8, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0057E1E0
-WinHttpSendRequest (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876788, 0xffffffff, --------000000000876788Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876788Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpConnect (005A4AE0, www.virustotal.com, 80, 0) ret: 0059E0E8
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005CF218
-WinHttpOpenRequest (00598FB0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0058D440
-CreateFileW (c:\s2e\0933a85ab3fec609bef86496b9c5e0140ff7e9c75b1d9219fc6202b551f4283b, -2147483648, 1, 00000000, 3, 128, 00000000) ret: 000000A4
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877349, 0xffffffff, --------000000000877349Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877349Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpOpenRequest (005BB708, GET, /pidoras6, (null), (null), 00000000, 256) ret: 0059C768
-WinHttpCloseHandle (0057E1E0) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000878504, 0xffffffff, --------000000000878504Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000878504Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000878504, 0x41, 0x20000000) 
-WinHttpReceiveResponse (0058E608, 00000000) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877256, 0x41, 0x20000000) 
-WinHttpQueryHeaders (0057E1E0, 5, (null), 0134F9E0, 0134F9DC, 00000000) 
-WinHttpSendRequest (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876741, 0xffffffff, --------000000000876741Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876741Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005BAB30
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877287, 0x41, 0x20000000) 
-WinHttpConnect (00573198, twitter.com, 80, 0) ret: 005BB708
-WinHttpCloseHandle (0058F8B0) 
-WinHttpOpenRequest (0059E0E8, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0058D440
-WinHttpReadData (0058DFD0, 01A50000, 1000, 128) 
-WinHttpSendRequest (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876756, 0xffffffff, --------000000000876756Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876756Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877443, 0xffffffff, --------000000000877443Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877443Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpReadData (0058DFD0, 01A40000, 1000, 128) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877100, 0x41, 0x20000000) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877755, 0xffffffff, --------000000000877755Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877755Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpCloseHandle (00599F38) 
-WinHttpOpenRequest (00598FB0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0057E1E0
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005BB708
-Sleep (100) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877146, 0xffffffff, --------000000000877146Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877146Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877146, 0x41, 0x20000000) 
-WinHttpAddRequestHeaders (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876741, 0x41, 0x20000000) 
-WinHttpCloseHandle (005A05B8) 
-WinHttpOpenRequest (005A4AE0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0058DFD0
-WinHttpAddRequestHeaders (0058E608, Content-Type: multipart/form-data; boundary=------000000000876803, 0x41, 0x20000000) 
-WinHttpConnect (005C6738, cyfi.ece.gatech.edu, 80, 0) ret: 005C9AA0
-WinHttpConnect (005CAC58, cyfi.ece.gatech.edu, 80, 0) ret: 005CDFC0
-WinHttpSendRequest (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876850, 0xffffffff, --------000000000876850Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876850Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005A4AE0
-WinHttpCloseHandle (0059E0E8) 
-WinHttpReadData (0057E1E0, 01A40000, 1000, 128) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005AC4B8
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877521, 0x41, 0x20000000) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877100, 0xffffffff, --------000000000877100Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877100Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpOpenRequest (00599F38, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0058DFD0
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 00580278
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877505, 0x41, 0x20000000) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877755, 0x41, 0x20000000) 
-WinHttpOpenRequest (00580368, GET, /pidoras6, (null), (null), 00000000, 256) ret: 0057E238
-WinHttpCloseHandle (005BB708) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877271, 0x41, 0x20000000) 
-WinHttpAddRequestHeaders (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876881, 0x41, 0x20000000) 
-WinHttpCloseHandle (00573198) 
-WinHttpOpenRequest (005BAAE8, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0058D440
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005B4F60
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000878207, 0x41, 0x20000000) 
-WinHttpSendRequest (0058DFD0, Content-Type: multipart/form-data; boundary=------000000000876725, 0xffffffff, --------000000000876725Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876725Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpConnect (005A4AE0, www.virustotal.com, 80, 0) ret: 00598FB0
-WinHttpCloseHandle (005BAAE8) 
-VirtualFree (01A40000, 0, 32768) 
-WinHttpAddRequestHeaders (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876756, 0x41, 0x20000000) 
-WinHttpConnect (005CF218, cyfi.ece.gatech.edu, 80, 0) ret: 005D2580
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877942, 0x41, 0x20000000) 
-WinHttpOpenRequest (0058D440, GET, /assests/img/cyfi_bee.png, (null), (null), 00000000, 256) ret: 005A3B08
-WinHttpOpenRequest (0058E608, GET, /pidoras6, (null), (null), 00000000, 256) ret: 0058F8B0
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 00573198
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877193, 0xffffffff, --------000000000877193Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877193Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpQueryHeaders (0058E608, 5, (null), 0134F9E0, 0134F9DC, 00000000) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005C6738
-WinHttpReadData (0058F8B0, 022E0000, 5242880, 128) 
-WinHttpConnect (005D3FD8, cyfi.ece.gatech.edu, 80, 0) ret: 005D7358
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877271, 0xffffffff, --------000000000877271Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877271Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpSendRequest (0059C768, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
-WinHttpCloseHandle (0058D440) 
-WinHttpConnect (005AC4B8, cyfi.ece.gatech.edu, 80, 0) ret: 00584750
-WinHttpConnect (005A05B8, www.virustotal.com, 80, 0) ret: 00598FB0
-WinHttpOpenRequest (005BB708, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0058E608
-WinHttpConnect (005A05B8, www.virustotal.com, 80, 0) ret: 0058E740
-WinHttpReceiveResponse (0058F8B0, 00000000) 
-WinHttpOpenRequest (005A4AE0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0057E1E0
-WinHttpConnect (005BB708, www.virustotal.com, 80, 0) ret: 00599F38
-WinHttpSendRequest (0058E608, Content-Type: multipart/form-data; boundary=------000000000876803, 0xffffffff, --------000000000876803Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876803Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877193, 0x41, 0x20000000) 
-WinHttpReceiveResponse (0058DFD0, 00000000) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877287, 0xffffffff, --------000000000877287Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877287Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpReceiveResponse (0057E1E0, 00000000) 
-WinHttpReadData (0058D440, 01A40000, 1000, 128) 
-WinHttpConnect (005BAB30, www.virustotal.com, 80, 0) ret: 005A4AE0
-WinHttpCloseHandle (0058E608) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877349, 0x41, 0x20000000) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877162, 0x41, 0x20000000) 
-WinHttpAddRequestHeaders (0057E1E0, Content-Type: multipart/form-data; boundary=------000000000876850, 0x41, 0x20000000) 
-WinHttpCloseHandle (00598FB0) 
-WinHttpConnect (005A4AE0, www.virustotal.com, 80, 0) ret: 005BAAE8
-WinHttpSendRequest (0058E608, Content-Type: multipart/form-data; boundary=------000000000876725, 0xffffffff, --------000000000876725Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876725Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpConnect (00573198, twitter.com, 80, 0) ret: 00580368
-WinHttpReadData (0058F8B0, 01A40000, 1, 1) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877256, 0xffffffff, --------000000000877256Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877256Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877427, 0xffffffff, --------000000000877427Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877427Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpCloseHandle (0062CD70) 
+WinHttpReceiveResponse (005FFBA0, 00000000) 
+WinHttpConnect (005DDCD8, www.virustotal.com, 80, 0) ret: 0062A8F0
+WinHttpOpenRequest (005EE9D8, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 00629DC0
+WinHttpReadData (005F4A18, 00590000, 1000, 128) 
+WinHttpConnect (0062A440, www.virustotal.com, 80, 0) ret: 005EEA70
+WinHttpSendRequest (005F4A18, Content-Type: multipart/form-data; boundary=------000000000886974, 0xffffffff, --------000000000886974Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886974Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpConnect (005DDCD8, twitter.com, 80, 0) ret: 00605F90
+WinHttpConnect (005DDCD8, www.virustotal.com, 80, 0) ret: 0060CA58
+WinHttpOpenRequest (005EBAA0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005FF2A0
+WinHttpCloseHandle (005EBAA0) 
+WinHttpQueryHeaders (00615028, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpQueryHeaders (005FFBA0, 5, (null), 0012F60C, 0012F608, 00000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886538, 0xffffffff, --------000000000886538Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886538Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpConnect (005DDCD8, www.virustotal.com, 80, 0) ret: 005EBAA0
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005EBB88
+WinHttpReceiveResponse (0062CAB0, 00000000) 
+WinHttpOpenRequest (0060CA58, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005FF2A0
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886304, 0x41, 0x20000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005EBAA0
+WinHttpAddRequestHeaders (00615028, Content-Type: multipart/form-data; boundary=------000000000885820, 0x41, 0x20000000) 
+WinHttpQueryHeaders (005F4A18, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886850, 0xffffffff, --------000000000886850Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886850Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpenRequest (005FF370, GET, /pidoras6, (null), (null), 00000000, 256) ret: 005FFBA0
+WinHttpAddRequestHeaders (00629DC0, Content-Type: multipart/form-data; boundary=------000000000886304, 0x41, 0x20000000) 
+WinHttpReadData (005F4BF0, 00590000, 1000, 128) 
+WinHttpOpenRequest (00615208, GET, /pidoras6, (null), (null), 00000000, 256) ret: 0062CAB0
 WinHttpCrackUrl (http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png, 48, 0, 0012FF24) 
-WinHttpOpenRequest (0058E740, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0057E1E0
-WinHttpAddRequestHeaders (0058E608, Content-Type: multipart/form-data; boundary=------000000000876819, 0x41, 0x20000000) 
-WinHttpAddRequestHeaders (0058E608, Content-Type: multipart/form-data; boundary=------000000000876725, 0x41, 0x20000000) 
-WinHttpCloseHandle (005A4AE0) 
-WinHttpReceiveResponse (0058D440, 00000000) 
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877443, 0x41, 0x20000000) 
-WinHttpSendRequest (0058D440, Content-Type: multipart/form-data; boundary=------000000000877942, 0xffffffff, --------000000000877942Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000877942Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpCloseHandle (005BAB30) 
-WinHttpSendRequest (0058E608, Content-Type: multipart/form-data; boundary=------000000000876819, 0xffffffff, --------000000000876819Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000876819Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
-WinHttpAddRequestHeaders (0058DFD0, Content-Type: multipart/form-data; boundary=------000000000876725, 0x41, 0x20000000) 
-WinHttpConnect (00573198, twitter.com, 80, 0) ret: 0058E608
-WinHttpAddRequestHeaders (0058D440, Content-Type: multipart/form-data; boundary=------000000000877427, 0x41, 0x20000000) 
-WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005A05B8
+WinHttpConnect (005FDF48, cyfi.ece.gatech.edu, 80, 0) ret: 005F4AC0
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000887021, 0xffffffff, --------000000000887021Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000887021Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+Sleep (100) 
+WinHttpCloseHandle (005EE9D8) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886881, 0xffffffff, --------000000000886881Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886881Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpQueryHeaders (005EE780, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886444, 0xffffffff, --------000000000886444Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886444Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 00626000
+WinHttpSendRequest (0062CAB0, Content-Type: multipart/form-data; boundary=------000000000885820, 0xffffffff, --------000000000885820Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885820Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpReadData (005FF2A0, 00590000, 1000, 128) 
 StrStrA (start_)))))_end_end, )))))) 
+WinHttpOpenRequest (005EE980, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0062CAB0
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886912, 0xffffffff, --------000000000886912Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886912Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpCloseHandle (00629DC0) 
+WinHttpCloseHandle (005EE780) 
+WinHttpSendRequest (0062FBF8, Content-Type: multipart/form-data; boundary=------000000000885820, 0xffffffff, --------000000000885820Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885820Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpCloseHandle (005EBB90) 
+WinHttpSendRequest (005EE9D8, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 00605F90
+WinHttpOpenRequest (005EE980, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 00615028
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885851, 0x41, 0x20000000) 
+WinHttpSendRequest (005F4BA8, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpReadData (005FF2A0, 00590000, 1, 1) 
+WinHttpReadData (005FF2A0, 001F0000, 1000, 128) 
+WinHttpConnect (0063D2E0, cyfi.ece.gatech.edu, 80, 0) ret: 00640648
+WinHttpCloseHandle (005FF2A0) 
+WinHttpQueryHeaders (00629DC0, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886210, 0x41, 0x20000000) 
+WinHttpConnect (00605F90, www.virustotal.com, 80, 0) ret: 005EBB90
+WinHttpReceiveResponse (005F4BF0, 00000000) 
+WinHttpQueryHeaders (00625E30, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000887021, 0x41, 0x20000000) 
+WinHttpReceiveResponse (005F4A18, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885820, 0x41, 0x20000000) 
+WinHttpConnect (0062CD70, www.virustotal.com, 80, 0) ret: 0062A8F0
+WinHttpCloseHandle (00633BA0) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886990, 0xffffffff, --------000000000886990Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886990Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpenRequest (00647DB8, GET, /assests/img/cyfi_bee.png, (null), (null), 00000000, 256) ret: 00647EA0
+WinHttpSendRequest (00640730, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpReceiveResponse (0062FBF8, 00000000) 
+WinHttpSendRequest (005FFBA0, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpSendRequest (00629E68, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpCloseHandle (0062FBF8) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886943, 0xffffffff, --------000000000886943Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886943Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005FDF48
+WinHttpConnect (005EBAA0, twitter.com, 80, 0) ret: 0062A530
+WinHttpCloseHandle (0060AB58) 
+WinHttpReadData (00625E30, 00590000, 1000, 128) 
+WinHttpOpenRequest (00605F90, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005FF2A0
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 00644A50
+WinHttpSendRequest (005FF2A0, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpReadData (00633BA0, 00590000, 1000, 128) 
+WinHttpQueryHeaders (00633BA0, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886304, 0xffffffff, --------000000000886304Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886304Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885851, 0xffffffff, --------000000000885851Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885851Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpConnect (0062A440, www.virustotal.com, 80, 0) ret: 005EE980
+WinHttpSendRequest (00629DC0, Content-Type: multipart/form-data; boundary=------000000000886304, 0xffffffff, --------000000000886304Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886304Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000887068, 0xffffffff, --------000000000887068Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000887068Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpenRequest (005F4DE8, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005FF2A0
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886974, 0x41, 0x20000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886850, 0x41, 0x20000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885836, 0xffffffff, --------000000000885836Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885836Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000887052, 0xffffffff, --------000000000887052Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000887052Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpAddRequestHeaders (005F4A18, Content-Type: multipart/form-data; boundary=------000000000886974, 0x41, 0x20000000) 
+WinHttpCloseHandle (005F4BF0) 
+WinHttpOpenRequest (00615028, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0062FBF8
+WinHttpCloseHandle (005EEB90) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886896, 0xffffffff, --------000000000886896Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886896Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpReceiveResponse (005EE780, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886943, 0x41, 0x20000000) 
+CreateFileW (c:\s2e\0933a85ab3fec609bef86496b9c5e0140ff7e9c75b1d9219fc6202b551f4283b, -2147483648, 1, 00000000, 3, 128, 00000000) ret: 000000A4
+WinHttpOpenRequest (005EBB90, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 00633BA0
+WinHttpReceiveResponse (00629DC0, 00000000) 
+WinHttpSendRequest (00647EA0, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpQueryHeaders (005F4BF0, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpSendRequest (006388E8, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpOpenRequest (005EBB90, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005F4A18
+WinHttpConnect (005DDCD8, www.virustotal.com, 80, 0) ret: 005F4DE8
+WinHttpQueryHeaders (005FF2A0, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpConnect (005DDCD8, www.virustotal.com, 80, 0) ret: 00605F90
+WinHttpAddRequestHeaders (005F4A18, Content-Type: multipart/form-data; boundary=------000000000886896, 0x41, 0x20000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000887068, 0x41, 0x20000000) 
+WinHttpSendRequest (005F4BF0, Content-Type: multipart/form-data; boundary=------000000000885820, 0xffffffff, --------000000000885820Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885820Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpCloseHandle (00625E30) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886538, 0x41, 0x20000000) 
+VirtualFree (001F0000, 0, 32768) 
+WinHttpOpenRequest (005F4AC0, GET, /assests/img/cyfi_bee.png, (null), (null), 00000000, 256) ret: 005F4BA8
+WinHttpReceiveResponse (00633BA0, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885976, 0x41, 0x20000000) 
+WinHttpReceiveResponse (00625E30, 00000000) 
+WinHttpAddRequestHeaders (00633BA0, Content-Type: multipart/form-data; boundary=------000000000886990, 0x41, 0x20000000) 
+WinHttpReceiveResponse (005FF2A0, 00000000) 
+WinHttpSendRequest (00615028, Content-Type: multipart/form-data; boundary=------000000000885820, 0xffffffff, --------000000000885820Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885820Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 0062CD70
+WinHttpReadData (005FFBA0, 02320000, 5242880, 128) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885836, 0x41, 0x20000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886444, 0x41, 0x20000000) 
+WinHttpOpenRequest (0061EF70, GET, /assests/img/cyfi_bee.png, (null), (null), 00000000, 256) ret: 006388E8
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886865, 0x41, 0x20000000) 
+WinHttpCloseHandle (0062CAB0) 
+StrStrA (start_</p>_end_end, </p>) 
+WinHttpAddRequestHeaders (005F4A18, Content-Type: multipart/form-data; boundary=------000000000886990, 0x41, 0x20000000) 
+WinHttpReadData (00629DC0, 00590000, 1000, 128) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 005DDCD8
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885820, 0xffffffff, --------000000000885820Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885820Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpenRequest (0062A530, GET, /pidoras6, (null), (null), 00000000, 256) ret: 005EE9D8
+WinHttpSendRequest (00633BA0, Content-Type: multipart/form-data; boundary=------000000000886896, 0xffffffff, --------000000000886896Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886896Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 00626FD8
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886834, 0x41, 0x20000000) 
+WinHttpCloseHandle (005F4DE8) 
+WinHttpQueryHeaders (0062CAB0, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000887052, 0x41, 0x20000000) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886974, 0xffffffff, --------000000000886974Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886974Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpAddRequestHeaders (0062FBF8, Content-Type: multipart/form-data; boundary=------000000000885820, 0x41, 0x20000000) 
+WinHttpCloseHandle (00615028) 
+WinHttpConnect (0062A8F0, www.virustotal.com, 80, 0) ret: 00626000
+WinHttpCloseHandle (0062A8F0) 
+WinHttpAddRequestHeaders (0062CAB0, Content-Type: multipart/form-data; boundary=------000000000885820, 0x41, 0x20000000) 
+WinHttpCloseHandle (005F4A18) 
+WinHttpOpenRequest (00605F90, GET, /pidoras6, (null), (null), 00000000, 256) ret: 005FF2A0
+WinHttpReadData (0062FBF8, 00590000, 1000, 128) 
+WinHttpSendRequest (00633BA0, Content-Type: multipart/form-data; boundary=------000000000886990, 0xffffffff, --------000000000886990Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886990Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpConnect (005DDCD8, twitter.com, 80, 0) ret: 005FF370
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 0060AB58
+WinHttpOpenRequest (00625FB8, GET, /assests/img/cyfi_bee.png, (null), (null), 00000000, 256) ret: 00629E68
+WinHttpReadData (0062CAB0, 00590000, 1000, 128) 
+WinHttpAddRequestHeaders (00633BA0, Content-Type: multipart/form-data; boundary=------000000000886896, 0x41, 0x20000000) 
+WinHttpCloseHandle (00626000) 
+WinHttpAddRequestHeaders (00625E30, Content-Type: multipart/form-data; boundary=------000000000885820, 0x41, 0x20000000) 
+WinHttpOpenRequest (005EBB90, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005EE780
+WinHttpCloseHandle (005EEA70) 
+WinHttpConnect (0060AB58, www.virustotal.com, 80, 0) ret: 005EE9D8
+WinHttpSendRequest (0062CAB0, (null), 0x0, 00000000, 0x0, 0x0, 00000000) 
+WinHttpCloseHandle (0062A440) 
+WinHttpSendRequest (005F4A18, Content-Type: multipart/form-data; boundary=------000000000886896, 0xffffffff, --------000000000886896Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886896Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpSendRequest (005F4A18, Content-Type: multipart/form-data; boundary=------000000000886990, 0xffffffff, --------000000000886990Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886990Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpCloseHandle (0060CA58) 
+WinHttpOpenRequest (005EEA70, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 0062CAB0
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886896, 0x41, 0x20000000) 
+WinHttpConnect (0062A440, www.virustotal.com, 80, 0) ret: 00615028
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886912, 0x41, 0x20000000) 
+WinHttpConnect (005EBB88, cyfi.ece.gatech.edu, 80, 0) ret: 00625FB8
+WinHttpAddRequestHeaders (005F4BF0, Content-Type: multipart/form-data; boundary=------000000000885820, 0x41, 0x20000000) 
+WinHttpCloseHandle (00605F90) 
+WinHttpConnect (0062CD70, www.virustotal.com, 80, 0) ret: 005EEB90
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886865, 0xffffffff, --------000000000886865Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886865Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886990, 0x41, 0x20000000) 
+WinHttpOpenRequest (005EEB90, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 00625E30
+WinHttpCloseHandle (005EE980) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000885976, 0xffffffff, --------000000000885976Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885976Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpCloseHandle (005DDCD8) 
+WinHttpQueryHeaders (0062FBF8, 5, (null), 015BF9E0, 015BF9DC, 00000000) 
+WinHttpAddRequestHeaders (005EE780, Content-Type: multipart/form-data; boundary=------000000000886974, 0x41, 0x20000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 0062A8F0
+WinHttpOpenRequest (0062A8F0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 00625E30
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886834, 0xffffffff, --------000000000886834Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886834Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886070, 0x41, 0x20000000) 
+WinHttpOpenRequest (005EEA70, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 00615028
+WinHttpOpenRequest (0062A8F0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005FF2A0
+WinHttpAddRequestHeaders (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886881, 0x41, 0x20000000) 
+WinHttpConnect (00644A50, cyfi.ece.gatech.edu, 80, 0) ret: 00647DB8
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 0064C1C0
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886070, 0xffffffff, --------000000000886070Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886070Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpConnect (0062A440, twitter.com, 80, 0) ret: 00615208
+WinHttpReadData (005EE780, 00590000, 1000, 128) 
+WinHttpReceiveResponse (00615028, 00000000) 
+WinHttpConnect (00626FD8, cyfi.ece.gatech.edu, 80, 0) ret: 0061EF70
+WinHttpOpenRequest (00626000, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 005F4BF0
+VirtualFree (00590000, 0, 32768) 
+WinHttpSendRequest (005EE780, Content-Type: multipart/form-data; boundary=------000000000886974, 0xffffffff, --------000000000886974Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886974Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpCloseHandle (005FFBA0) 
+WinHttpSendRequest (005FF2A0, Content-Type: multipart/form-data; boundary=------000000000886210, 0xffffffff, --------000000000886210Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000886210Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpConnect (00626000, www.virustotal.com, 80, 0) ret: 005EBAA0
+WinHttpOpenRequest (00640648, GET, /assests/img/cyfi_bee.png, (null), (null), 00000000, 256) ret: 00640730
+WinHttpCloseHandle (005FF370) 
+WinHttpReadData (00615028, 00590000, 1000, 128) 
+WinHttpOpenRequest (005EBAA0, POST, /vtapi/v2/file/scan, (null), (null), 00000000, 256) ret: 00629DC0
+WinHttpSendRequest (00625E30, Content-Type: multipart/form-data; boundary=------000000000885820, 0xffffffff, --------000000000885820Content-Disposition: form-data; name="apikey"Content-Type: text/plaina0283a2c3d55728300d064874239b5346fb991317e8449fe43c902879d758088--------000000000885820Content-Disposition: form-data; name="file"; filename="1.exe"Content-Type: application/x-msdownloadContent-Transfer-Encoding: binaryMZ�, 0x2ff6, 0x2ff6, 00000000) 
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 0062A440
+WinHttpOpen (Opera/9.80 (Windows NT 6.0) Presto/2.12.388 Version/12.14, 0, (null), (null), 0) ret: 0063D2E0

@@ -1,4 +1,9 @@
 from pathlib import Path
+import MI
+
+script_path = Path( __file__ ).parent.absolute()
+
+AVCLASS_PATH = str(script_path)+"/"
 
 def find_all_files(top_folder, file_name=None, s2e_last=False):
     res = []
@@ -90,3 +95,7 @@ def get_func_name_from_tag(tag_name, trim=False):
         funcName = funcName.rstrip("W")
 
         return funcName
+
+def get_mal_family_daet_packer(sig):
+    malinfo = MI.MalwareInfo(sig, avclass_path=AVCLASS_PATH)
+    return (malinfo.family, malinfo.first_seen, malinfo.last_seen, malinfo.packer)
