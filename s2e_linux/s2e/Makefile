@@ -12,6 +12,9 @@
 #      Contains llvm-release, llvm-debug, and llvm source folders
 #      Can be used to avoid rebuilding clang/llvm for every branch of S2E
 #
+#  USE_Z3_BINARY=yes
+#      Whether to use the Z3 binary or to build Z3 from source
+#
 
 # Check the build directory
 ifeq ($(shell ls libs2e/src/libs2e.c 2>&1),libs2e/src/libs2e.c)
@@ -27,6 +30,9 @@ BUILD_SCRIPTS_SRC?=$(dir $(realpath $(lastword $(MAKEFILE_LIST))))/scripts
 S2E_SRC?=$(realpath $(BUILD_SCRIPTS_SRC)/../)
 S2E_PREFIX?=$(CURDIR)/opt
 S2E_BUILD:=$(CURDIR)
+
+# Build Z3 from binary (default, "yes") or source ("no")
+USE_Z3_BINARY?=yes
 
 # Either choose Release or RelWithDebInfo
 RELEASE_BUILD_TYPE=RelWithDebInfo
@@ -71,7 +77,8 @@ ifeq ($(LLVM_BUILD),$(S2E_BUILD))
 LLVM_DIRS=llvm-release llvm-debug
 endif
 
-LLVM_VERSION=10.0.0
+# More recent point releases don't have the Ubuntu binaries yet, so stick with 14.0.0.
+LLVM_VERSION=14.0.0
 LLVM_SRC=llvm-$(LLVM_VERSION).src.tar.xz
 LLVM_SRC_DIR=llvm-$(LLVM_VERSION).src
 LLVM_SRC_URL=https://github.com/llvm/llvm-project/releases/download/llvmorg-$(LLVM_VERSION)/
@@ -98,7 +105,7 @@ COMPILER_RT_SRC_DIR=compiler-rt-$(LLVM_VERSION).src
 COMPILER_RT_DEST_DIR=$(LLVM_SRC_DIR)/projects/compiler-rt
 
 # Capstone variables
-CAPSTONE_VERSION=3.0.5
+CAPSTONE_VERSION=4.0.2
 CAPSTONE_SRC=$(CAPSTONE_VERSION).tar.gz
 CAPSTONE_BUILD_DIR=capstone-$(CAPSTONE_VERSION)-build
 CAPSTONE_SRC_DIR=capstone-$(CAPSTONE_VERSION)
@@ -110,6 +117,9 @@ Z3_SRC=z3-$(Z3_VERSION).tar.gz
 Z3_SRC_DIR=z3-z3-$(Z3_VERSION)
 Z3_BUILD_DIR=z3
 Z3_URL=https://github.com/Z3Prover/z3
+Z3_BINARY_URL=https://github.com/Z3Prover/z3/releases/download/z3-$(Z3_VERSION)/
+Z3_BINARY=z3-$(Z3_VERSION)-x64-ubuntu-16.04.zip
+Z3_BINARY_DIR=z3-$(Z3_VERSION)-x64-ubuntu-16.04
 
 # Lua variables
 LUA_VERSION=5.3.4
@@ -119,11 +129,11 @@ LUA_DIR=lua-$(LUA_VERSION)
 # SOCI variables
 SOCI_SRC_DIR=soci-src
 SOCI_BUILD_DIR=soci
-SOCI_GIT_REV=334cc55
+SOCI_GIT_REV=438e354
 SOCI_GIT_URL=https://github.com/SOCI/soci.git
 
 # Google Test
-GTEST_VERSION=1.10.0
+GTEST_VERSION=1.11.0
 GTEST_SRC_DIR=$(S2E_BUILD)/gtest-src
 GTEST_BUILD_DIR=$(S2E_BUILD)/gtest-release
 GTEST_URL=https://github.com/google/googletest/archive/release-$(GTEST_VERSION).tar.gz
@@ -139,7 +149,7 @@ LIBDWARF_BUILD_DIR=libdwarf
 # We don't use the one that ships with the distro because we need
 # the latest features.
 RAPIDJSON_GIT_URL=https://github.com/Tencent/rapidjson.git
-RAPIDJSON_GIT_REV=e80257a924b701dcbf5f6e78a7ab47efff6073ac
+RAPIDJSON_GIT_REV=fd3dc29a5c2852df569e1ea81dbde2c412ac5051
 RAPIDJSON_SRC_DIR=rapidjson
 RAPIDJSON_BUILD_DIR=rapidjson-build
 
@@ -204,10 +214,15 @@ stamps/%-make:
 # Downloads #
 #############
 
+define DOWNLOAD
+curl -f -L "$1" -o "$2"
+endef
+
+
 ifeq ($(LLVM_BUILD),$(S2E_BUILD))
 # Download LLVM
 $(LLVM_SRC) $(CLANG_SRC) $(COMPILER_RT_SRC) $(CLANG_BINARY):
-	wget $(LLVM_SRC_URL)/$@
+	$(call DOWNLOAD,$(LLVM_SRC_URL)/$@,$@)
 
 
 .INTERMEDIATE: $(CLANG_SRC_DIR) $(COMPILER_RT_SRC_DIR) $(CLANG_BINARY_DIR)
@@ -229,7 +244,7 @@ endif
 
 # Download Lua
 $(LUA_SRC):
-	wget http://www.lua.org/ftp/$(LUA_SRC)
+	$(call DOWNLOAD,http://www.lua.org/ftp/$(LUA_SRC),$@)
 
 $(LUA_DIR): | $(LUA_SRC)
 	tar -zxf $(LUA_SRC)
@@ -237,7 +252,7 @@ $(LUA_DIR): | $(LUA_SRC)
 
 # Download Z3
 $(Z3_BUILD_DIR):
-	wget $(Z3_URL)/archive/$(Z3_SRC)
+	$(call DOWNLOAD,$(Z3_URL)/archive/$(Z3_SRC),$(Z3_SRC))
 	tar -zxf $(Z3_SRC)
 	mkdir -p $(S2E_BUILD)/$(Z3_BUILD_DIR)
 
@@ -250,18 +265,18 @@ $(SOCI_BUILD_DIR):
 # Download GTest
 $(GTEST_BUILD_DIR):
 	mkdir -p "$(GTEST_SRC_DIR)"
-	cd $(S2E_BUILD) && wget -O $(GTEST_SRC_DIR).tar.gz $(GTEST_URL)
+	cd $(S2E_BUILD) && wget -O $(GTEST_SRC_DIR).tar.gz $(GTEST_URL) || rm -f "$@"
 	cd $(S2E_BUILD) && tar xzvf $(GTEST_SRC_DIR).tar.gz -C $(GTEST_SRC_DIR) --strip-components=1
 	mkdir -p "$@"
 
 # Download Capstone
 $(CAPSTONE_BUILD_DIR):
-	wget -O $(CAPSTONE_SRC_DIR).tar.gz $(CAPSTONE_URL)
+	$(call DOWNLOAD,$(CAPSTONE_URL),$(CAPSTONE_SRC_DIR).tar.gz)
 	tar -zxf $(CAPSTONE_SRC_DIR).tar.gz
 	mkdir -p $(S2E_BUILD)/$(CAPSTONE_BUILD_DIR)
 
 $(LIBDWARF_BUILD_DIR):
-	wget -O $(S2E_BUILD)/$(LIBDWARF_BUILD_DIR).tar.gz $(LIBDWARF_URL)
+	$(call DOWNLOAD,$(LIBDWARF_URL),$(S2E_BUILD)/$(LIBDWARF_BUILD_DIR).tar.gz)
 	tar -zxf $(S2E_BUILD)/$(LIBDWARF_BUILD_DIR).tar.gz
 	mkdir -p $(S2E_BUILD)/$(LIBDWARF_BUILD_DIR)
 
@@ -271,7 +286,7 @@ $(RAPIDJSON_BUILD_DIR):
 	mkdir -p $(S2E_BUILD)/$(RAPIDJSON_BUILD_DIR)
 
 $(PROTOBUF_BUILD_DIR):
-	wget -O $(S2E_BUILD)/$(PROTOBUF_SRC_DIR).tar.gz $(PROTOBUF_URL)
+	$(call DOWNLOAD,$(PROTOBUF_URL),$(S2E_BUILD)/$(PROTOBUF_SRC_DIR).tar.gz)
 	tar -zxf $(S2E_BUILD)/$(PROTOBUF_SRC_DIR).tar.gz
 	mkdir -p $(S2E_BUILD)/$(PROTOBUF_BUILD_DIR)
 
@@ -300,6 +315,7 @@ LLVM_CONFIGURE_FLAGS = -DLLVM_TARGETS_TO_BUILD="X86"        \
                        -DLLVM_INCLUDE_TESTS=On              \
                        -DLLVM_ENABLE_RTTI=On                \
                        -DLLVM_ENABLE_EH=On                  \
+                       -DLLVM_INCLUDE_BENCHMARKS=Off        \
                        -DLLVM_BINUTILS_INCDIR=/usr/include  \
                        -DCOMPILER_RT_BUILD_SANITIZERS=Off   \
                        -DENABLE_ASSERTIONS=On               \
@@ -343,6 +359,7 @@ endif
 SOCI_CONFIGURE_FLAGS = -DCMAKE_INSTALL_PREFIX=$(S2E_PREFIX) \
                        -DCMAKE_C_COMPILER=$(CLANG_CC)       \
                        -DCMAKE_CXX_COMPILER=$(CLANG_CXX)    \
+                       -DSOCI_TESTS=Off                     \
                        -DCMAKE_C_FLAGS="-fPIC"              \
                        -G "Unix Makefiles"
 
@@ -379,6 +396,29 @@ stamps/z3-make: stamps/z3-configure
 	$(MAKE) -C $(Z3_BUILD_DIR)
 	$(MAKE) -C $(Z3_BUILD_DIR) install
 	touch $@
+
+$(Z3_BINARY):
+	$(call DOWNLOAD,$(Z3_BINARY_URL)/$@,$@)
+
+stamps/z3-binary: $(Z3_BINARY) | stamps
+	unzip -qqo $<
+	mkdir -p $(S2E_PREFIX)
+	mkdir -p $(S2E_PREFIX)/include
+	mkdir -p $(S2E_PREFIX)/lib
+	mkdir -p $(S2E_PREFIX)/bin
+	cp -r $(Z3_BINARY_DIR)/include/* $(S2E_PREFIX)/include/
+	cp $(Z3_BINARY_DIR)/bin/*.a $(S2E_PREFIX)/lib/
+	cp $(Z3_BINARY_DIR)/bin/z3 $(S2E_PREFIX)/bin/
+	rm -r $(Z3_BINARY_DIR)/*
+	touch $@
+
+ifeq ($(USE_Z3_BINARY),no)
+stamps/z3: stamps/z3-make
+	touch $@
+else
+stamps/z3: stamps/z3-binary
+	touch $@
+endif
 
 ############
 # Capstone #
@@ -423,6 +463,7 @@ RAPIDJSON_CONFIGURE_FLAGS = -DCMAKE_INSTALL_PREFIX=$(S2E_PREFIX)                
                             -DCMAKE_C_FLAGS="$(CFLAGS_ARCH) -fno-omit-frame-pointer -fPIC"       \
                             -DCMAKE_C_COMPILER=$(CLANG_CC)                                       \
                             -DCMAKE_CXX_COMPILER=$(CLANG_CXX)                                    \
+                            -DRAPIDJSON_BUILD_TESTS=OFF
 
 
 stamps/rapidjson-configure: stamps/clang-binary $(RAPIDJSON_BUILD_DIR)
@@ -492,14 +533,14 @@ KLEE_CONFIGURE_FLAGS = -DCMAKE_INSTALL_PREFIX=$(S2E_PREFIX)                     
                        -DZ3_INCLUDE_DIRS=$(S2E_PREFIX)/include                              \
                        -DZ3_LIBRARIES=$(S2E_PREFIX)/lib/libz3.a
 
-stamps/klee-debug-configure: stamps/llvm-debug-make stamps/z3-make stamps/gtest-release-make $(call FIND_CONFIG_SOURCE,$(S2E_SRC)/klee)
+stamps/klee-debug-configure: stamps/llvm-debug-make stamps/z3 stamps/gtest-release-make $(call FIND_CONFIG_SOURCE,$(S2E_SRC)/klee)
 stamps/klee-debug-configure: CONFIGURE_COMMAND = cmake $(KLEE_CONFIGURE_FLAGS)                      \
                                                  -DCMAKE_BUILD_TYPE=Debug                           \
                                                  -DLLVM_DIR=$(LLVM_BUILD)/llvm-debug/lib/cmake/llvm \
                                                  -DCMAKE_CXX_FLAGS="$(CXXFLAGS_DEBUG) -fno-omit-frame-pointer -fPIC" \
                                                  $(S2E_SRC)/klee
 
-stamps/klee-release-configure: stamps/llvm-release-make stamps/z3-make stamps/gtest-release-make $(call FIND_CONFIG_SOURCE,$(S2E_SRC)/klee)
+stamps/klee-release-configure: stamps/llvm-release-make stamps/z3 stamps/gtest-release-make $(call FIND_CONFIG_SOURCE,$(S2E_SRC)/klee)
 stamps/klee-release-configure: CONFIGURE_COMMAND = cmake $(KLEE_CONFIGURE_FLAGS)                        \
                                                    -DCMAKE_BUILD_TYPE=$(RELEASE_BUILD_TYPE)             \
                                                    -DLLVM_DIR=$(LLVM_BUILD)/llvm-release/lib/cmake/llvm \
@@ -836,39 +877,23 @@ stamps/guest-tools64-win-make: stamps/guest-tools64-win-configure
 $(S2E_PREFIX)/bin/guest-tools32 $(S2E_PREFIX)/bin/guest-tools64:
 	mkdir -p "$@"
 
-$(S2E_PREFIX)/bin/guest-tools32/s2e.sys: | $(S2E_PREFIX)/bin/guest-tools32
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/s2e32.sys
+define DOWNLOAD_S2E_TOOL
+  $(S2E_PREFIX)/bin/guest-tools$1/$2: | $(S2E_PREFIX)/bin/guest-tools$1
+	$(call DOWNLOAD,$(GUEST_TOOLS_BINARIES_URL)/$3,$$@)
+endef
 
-$(S2E_PREFIX)/bin/guest-tools32/s2e.inf: | $(S2E_PREFIX)/bin/guest-tools32
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/s2e.inf
+$(eval $(call DOWNLOAD_S2E_TOOL,32,s2e.sys,s2e32.sys))
+$(eval $(call DOWNLOAD_S2E_TOOL,32,s2e.inf,s2e.inf))
+$(eval $(call DOWNLOAD_S2E_TOOL,32,drvctl.exe,drvctl32.exe))
+$(eval $(call DOWNLOAD_S2E_TOOL,32,libs2e32.dll,libs2e32.dll))
+$(eval $(call DOWNLOAD_S2E_TOOL,32,tickler.exe,tickler32.exe))
 
-$(S2E_PREFIX)/bin/guest-tools32/drvctl.exe: | $(S2E_PREFIX)/bin/guest-tools32
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/drvctl32.exe
-
-$(S2E_PREFIX)/bin/guest-tools32/libs2e32.dll: | $(S2E_PREFIX)/bin/guest-tools32
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/libs2e32.dll
-
-$(S2E_PREFIX)/bin/guest-tools32/tickler.exe: | $(S2E_PREFIX)/bin/guest-tools32
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/tickler32.exe
-
-
-$(S2E_PREFIX)/bin/guest-tools64/s2e.sys: | $(S2E_PREFIX)/bin/guest-tools64
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/s2e.sys
-
-$(S2E_PREFIX)/bin/guest-tools64/s2e.inf: | $(S2E_PREFIX)/bin/guest-tools64
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/s2e.inf
-
-$(S2E_PREFIX)/bin/guest-tools64/drvctl.exe: | $(S2E_PREFIX)/bin/guest-tools64
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/drvctl.exe
-
-$(S2E_PREFIX)/bin/guest-tools64/libs2e32.dll: | $(S2E_PREFIX)/bin/guest-tools64
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/libs2e32.dll
-
-$(S2E_PREFIX)/bin/guest-tools64/libs2e64.dll: | $(S2E_PREFIX)/bin/guest-tools64
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/libs2e64.dll
-
-$(S2E_PREFIX)/bin/guest-tools64/tickler.exe: | $(S2E_PREFIX)/bin/guest-tools64
-	wget -O "$@" $(GUEST_TOOLS_BINARIES_URL)/tickler64.exe
+$(eval $(call DOWNLOAD_S2E_TOOL,64,s2e.sys,s2e.sys))
+$(eval $(call DOWNLOAD_S2E_TOOL,64,s2e.inf,s2e.inf))
+$(eval $(call DOWNLOAD_S2E_TOOL,64,drvctl.exe,drvctl.exe))
+$(eval $(call DOWNLOAD_S2E_TOOL,64,libs2e32.dll,libs2e32.dll))
+$(eval $(call DOWNLOAD_S2E_TOOL,64,libs2e64.dll,libs2e64.dll))
+$(eval $(call DOWNLOAD_S2E_TOOL,64,tickler.exe,tickler64.exe))
 
 guest-tools32-windrv: $(addprefix $(S2E_PREFIX)/bin/guest-tools32/,s2e.sys s2e.inf drvctl.exe libs2e32.dll tickler.exe)
 	echo $^

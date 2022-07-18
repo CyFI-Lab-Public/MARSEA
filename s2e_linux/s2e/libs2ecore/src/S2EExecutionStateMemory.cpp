@@ -23,18 +23,11 @@
 
 #include <s2e/cpu.h>
 
-#include <s2e/S2E.h>
-#include <s2e/Utils.h>
-
 #include <s2e/S2EExecutionStateMemory.h>
 
 // Undefine cat from "compiler.h"
 #undef cat
 #include <llvm/Support/CommandLine.h>
-
-
-
-
 
 extern llvm::cl::opt<bool> PrintModeSwitch;
 using namespace klee;
@@ -115,9 +108,8 @@ ref<Expr> S2EExecutionStateMemory::read(uint64_t address, Expr::Width width, Add
     for (unsigned i = 0; i != size; ++i) {
         unsigned idx = klee::Context::get().isLittleEndian() ? i : (size - i - 1);
         ref<Expr> byte = readMemory8(address + idx, addressType);
-        if (byte.isNull()) {
+        if (!byte)
             return ref<Expr>(0);
-        }
         res = idx ? ConcatExpr::create(byte, res) : byte;
     }
     return res;
@@ -125,7 +117,6 @@ ref<Expr> S2EExecutionStateMemory::read(uint64_t address, Expr::Width width, Add
 
 ref<Expr> S2EExecutionStateMemory::readMemory8(uint64_t address, AddressType addressType) {
     uint64_t hostAddress = getHostAddress(address, addressType);
-
     if (hostAddress == (uint64_t) -1)
         return ref<Expr>(0);
 

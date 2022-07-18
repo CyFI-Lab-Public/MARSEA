@@ -45,6 +45,10 @@ private:
             delete ptr;
     }
 
+    bool isNull() const {
+        return ptr == nullptr;
+    }
+
 public:
     template <class U> friend class ref;
 
@@ -94,8 +98,8 @@ public:
         return ptr;
     }
 
-    bool isNull() const {
-        return ptr == 0;
+    explicit operator bool() const noexcept {
+        return !isNull();
     }
 
     // assumes non-null arguments

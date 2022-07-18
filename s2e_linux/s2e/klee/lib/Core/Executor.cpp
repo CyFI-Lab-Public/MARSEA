@@ -41,7 +41,6 @@
 #include "llvm/ADT/StringExtras.h"
 #include "llvm/IR/Attributes.h"
 #include "llvm/IR/BasicBlock.h"
-#include "llvm/IR/CallSite.h"
 #include "llvm/IR/Constants.h"
 #include "llvm/IR/DataLayout.h"
 #include "llvm/IR/Function.h"
@@ -70,8 +69,6 @@
 #include <errno.h>
 #include <inttypes.h>
 
-#include <unistd.h>
-
 using namespace llvm;
 using namespace klee;
 
@@ -92,7 +89,7 @@ Executor::Executor(InterpreterHandler *ih, LLVMContext &context)
       specialFunctionHandler(0) {
 }
 
-const Module *Executor::setModule(llvm::Module *module, const ModuleOptions &opts, bool createStatsTracker) {
+const Module *Executor::setModule(llvm::Module *module, bool createStatsTracker) {
     assert(!kmodule && module && "can only register one module"); // XXX gross
 
     kmodule = KModule::create(module);
@@ -105,12 +102,7 @@ const Module *Executor::setModule(llvm::Module *module, const ModuleOptions &opt
 
     specialFunctionHandler->prepare();
 
-    if (opts.Snapshot) {
-        kmodule->linkLibraries(opts);
-        kmodule->buildShadowStructures();
-    } else {
-        kmodule->prepare(opts, interpreterHandler);
-    }
+    kmodule->prepare(interpreterHandler);
 
     specialFunctionHandler->bind();
 
@@ -134,29 +126,29 @@ Executor::~Executor() {
 
 void Executor::initializeGlobalObject(ExecutionState &state, const ObjectStatePtr &os, const Constant *c,
                                       unsigned offset) {
-    auto dataLayout = kmodule->getDataLayout();
-    if (auto *cp = dyn_cast<ConstantVector>(c)) {
-        unsigned elementSize = dataLayout->getTypeStoreSize(cp->getType()->getElementType());
+    auto targetData = kmodule->getDataLayout();
+    if (const ConstantVector *cp = dyn_cast<ConstantVector>(c)) {
+        unsigned elementSize = targetData->getTypeStoreSize(cp->getType()->getElementType());
         for (unsigned i = 0, e = cp->getNumOperands(); i != e; ++i)
             initializeGlobalObject(state, os, cp->getOperand(i), offset + i * elementSize);
     } else if (isa<ConstantAggregateZero>(c)) {
-        unsigned i, size = dataLayout->getTypeStoreSize(c->getType());
+        unsigned i, size = targetData->getTypeStoreSize(c->getType());
         for (i = 0; i < size; i++)
             os->write8(offset + i, (uint8_t) 0);
-    } else if (auto *ca = dyn_cast<ConstantArray>(c)) {
-        unsigned elementSize = dataLayout->getTypeStoreSize(ca->getType()->getElementType());
+    } else if (const ConstantArray *ca = dyn_cast<ConstantArray>(c)) {
+        unsigned elementSize = targetData->getTypeStoreSize(ca->getType()->getElementType());
         for (unsigned i = 0, e = ca->getNumOperands(); i != e; ++i)
             initializeGlobalObject(state, os, ca->getOperand(i), offset + i * elementSize);
-    } else if (auto *da = dyn_cast<ConstantDataArray>(c)) {
-        unsigned elementSize = dataLayout->getTypeStoreSize(da->getType()->getElementType());
-        for (unsigned i = 0, e = da->getNumElements(); i != e; ++i)
-            initializeGlobalObject(state, os, da->getElementAsConstant(i), offset + i * elementSize);
-    } else if (auto *cs = dyn_cast<ConstantStruct>(c)) {
-        const StructLayout *sl = dataLayout->getStructLayout(cast<StructType>(cs->getType()));
+    } else if (const ConstantStruct *cs = dyn_cast<ConstantStruct>(c)) {
+        const StructLayout *sl = targetData->getStructLayout(cast<StructType>(cs->getType()));
         for (unsigned i = 0, e = cs->getNumOperands(); i != e; ++i)
             initializeGlobalObject(state, os, cs->getOperand(i), offset + sl->getElementOffset(i));
-    } else {
-        unsigned StoreBits = dataLayout->getTypeStoreSizeInBits(c->getType());
+    } else if (const ConstantDataSequential *cds = dyn_cast<ConstantDataSequential>(c)) {
+        unsigned elementSize = targetData->getTypeStoreSize(cds->getElementType());
+        for (unsigned i = 0, e = cds->getNumElements(); i != e; ++i)
+            initializeGlobalObject(state, os, cds->getElementAsConstant(i), offset + i * elementSize);
+    } else if (!isa<UndefValue>(c) && !isa<MetadataAsValue>(c)) {
+        unsigned StoreBits = targetData->getTypeStoreSizeInBits(c->getType());
         ref<ConstantExpr> C = kmodule->evalConstant(globalAddresses, c);
 
         // Extend the constant if necessary;
@@ -199,10 +191,10 @@ void Executor::initializeGlobals(ExecutionState &state) {
         // If the symbol has external weak linkage then it is implicitly
         // not defined in this module; if it isn't resolvable then it
         // should be null.
-        if (f->hasExternalWeakLinkage() && !externalDispatcher->resolveSymbol(f->getName())) {
+        if (f->hasExternalWeakLinkage() && !externalDispatcher->resolveSymbol(f->getName().str())) {
             addr = Expr::createPointer(0);
         } else {
-            addr = Expr::createPointer((uintptr_t)(void *) f);
+            addr = Expr::createPointer((uintptr_t) (void *) f);
         }
 
         globalAddresses.insert(std::make_pair(f, addr));
@@ -240,7 +232,7 @@ void Executor::initializeGlobals(ExecutionState &state) {
 
     // allocate memory objects for all globals
     for (Module::const_global_iterator i = m->global_begin(), e = m->global_end(); i != e; ++i) {
-        std::map<std::string, void *>::iterator po = predefinedSymbols.find(i->getName());
+        std::map<std::string, void *>::iterator po = predefinedSymbols.find(i->getName().str());
         if (po != predefinedSymbols.end()) {
             // This object was externally defined
             globalAddresses.insert(
@@ -252,7 +244,7 @@ void Executor::initializeGlobals(ExecutionState &state) {
             // better we could support user definition, or use the EXE style
             // hack where we check the object file information.
 
-            Type *ty = i->getType()->getElementType();
+            Type *ty = i->getType()->getPointerElementType();
             uint64_t size = kmodule->getDataLayout()->getTypeStoreSize(ty);
 
 // XXX - DWD - hardcode some things until we decide how to fix.
@@ -280,7 +272,7 @@ void Executor::initializeGlobals(ExecutionState &state) {
             // concrete value and write it to our copy.
             if (size) {
                 void *addr;
-                addr = externalDispatcher->resolveSymbol(i->getName());
+                addr = externalDispatcher->resolveSymbol(i->getName().str());
 
                 if (!addr)
                     klee_error("unable to load symbol(%s) while initializing globals.", i->getName().data());
@@ -290,7 +282,7 @@ void Executor::initializeGlobals(ExecutionState &state) {
                 }
             }
         } else {
-            Type *ty = i->getType()->getElementType();
+            Type *ty = i->getType()->getPointerElementType();
             uint64_t size = kmodule->getDataLayout()->getTypeStoreSize(ty);
             auto mo = ObjectState::allocate(0, size, false);
 
@@ -310,7 +302,7 @@ void Executor::initializeGlobals(ExecutionState &state) {
 
     // once all objects are allocated, do the actual initialization
     for (auto i = m->global_begin(), e = m->global_end(); i != e; ++i) {
-        if (predefinedSymbols.find(i->getName()) != predefinedSymbols.end()) {
+        if (predefinedSymbols.find(i->getName().str()) != predefinedSymbols.end()) {
             continue;
         }
 
@@ -338,9 +330,9 @@ Executor::StatePair Executor::fork(ExecutionState &current, const ref<Expr> &con
     // If we are passed a constant, no need to do anything
     if (auto ce = dyn_cast<ConstantExpr>(condition)) {
         if (ce->isTrue()) {
-            return StatePair(&current, 0);
+            return StatePair(&current, nullptr);
         } else {
-            return StatePair(0, &current);
+            return StatePair(nullptr, &current);
         }
     }
 
@@ -355,17 +347,14 @@ Executor::StatePair Executor::fork(ExecutionState &current, const ref<Expr> &con
             if (!current.addConstraint(condition)) {
                 abort();
             }
-            return StatePair(&current, 0);
+            return StatePair(&current, nullptr);
         } else {
             if (!current.addConstraint(Expr::createIsZero(condition))) {
                 abort();
             }
-            return StatePair(0, &current);
+            return StatePair(nullptr, &current);
         }
     }
-
-    // Extract symbolic objects
-    ArrayVec symbObjects = current.symbolics;
 
     if (keepConditionTrueInCurrentState && !conditionIsTrue) {
         // Recompute concrete values to keep condition true in current state
@@ -374,18 +363,9 @@ Executor::StatePair Executor::fork(ExecutionState &current, const ref<Expr> &con
         ConstraintManager tmpConstraints = current.constraints();
         tmpConstraints.addConstraint(condition);
 
-        std::vector<std::vector<unsigned char>> concreteObjects;
-        auto solver = current.solver();
-        Query q(tmpConstraints, ConstantExpr::alloc(0, Expr::Bool));
-        if (!solver->getInitialValues(q, symbObjects, concreteObjects)) {
+        if (!current.solve(tmpConstraints, *(current.concolics))) {
             // Condition is always false in the current state
-            return StatePair(0, &current);
-        }
-
-        // Update concrete values
-        current.concolics->clear();
-        for (unsigned i = 0; i < symbObjects.size(); ++i) {
-            current.concolics->add(symbObjects[i], concreteObjects[i]);
+            return StatePair(nullptr, &current);
         }
 
         conditionIsTrue = true;
@@ -399,14 +379,12 @@ Executor::StatePair Executor::fork(ExecutionState &current, const ref<Expr> &con
         tmpConstraints.addConstraint(condition);
     }
 
-    std::vector<std::vector<unsigned char>> concreteObjects;
-    Query q(tmpConstraints, ConstantExpr::alloc(0, Expr::Bool));
-    auto solver = current.solver();
-    if (!solver->getInitialValues(q, symbObjects, concreteObjects)) {
+    AssignmentPtr concolics = Assignment::create(true);
+    if (!current.solve(tmpConstraints, *concolics)) {
         if (conditionIsTrue) {
-            return StatePair(&current, 0);
+            return StatePair(&current, nullptr);
         } else {
-            return StatePair(0, &current);
+            return StatePair(nullptr, &current);
         }
     }
 
@@ -417,10 +395,7 @@ Executor::StatePair Executor::fork(ExecutionState &current, const ref<Expr> &con
     addedStates.insert(branchedState);
 
     // Update concrete values for the branched state
-    branchedState->concolics->clear();
-    for (unsigned i = 0; i < symbObjects.size(); ++i) {
-        branchedState->concolics->add(symbObjects[i], concreteObjects[i]);
-    }
+    branchedState->concolics = concolics;
 
     // Add constraint to both states
     if (conditionIsTrue) {
@@ -452,6 +427,22 @@ Executor::StatePair Executor::fork(ExecutionState &current, const ref<Expr> &con
     return StatePair(trueState, falseState);
 }
 
+Executor::StatePair Executor::fork(ExecutionState &current) {
+    if (current.forkDisabled) {
+        return StatePair(&current, nullptr);
+    }
+
+    ExecutionState *clonedState;
+    notifyBranch(current);
+    clonedState = current.clone();
+    addedStates.insert(clonedState);
+
+    // Deep copy concolics.
+    clonedState->concolics = Assignment::create(current.concolics);
+
+    return StatePair(&current, clonedState);
+}
+
 void Executor::notifyFork(ExecutionState &originalState, ref<Expr> &condition, Executor::StatePair &targets) {
     // Should not get here
     pabort("Must go through S2E");
@@ -475,6 +466,17 @@ const Cell &Executor::eval(KInstruction *ki, unsigned index, ExecutionState &sta
     }
 }
 
+static inline const llvm::fltSemantics *fpWidthToSemantics(unsigned width) {
+    switch (width) {
+        case Expr::Int32:
+            return &llvm::APFloat::IEEEsingle();
+        case Expr::Int64:
+            return &llvm::APFloat::IEEEdouble();
+        default:
+            return 0;
+    }
+}
+
 void Executor::executeCall(ExecutionState &state, KInstruction *ki, Function *f, std::vector<ref<Expr>> &arguments) {
     Instruction *i = ki->inst;
 
@@ -488,6 +490,104 @@ void Executor::executeCall(ExecutionState &state, KInstruction *ki, Function *f,
                 // state may be destroyed by this call, cannot touch
                 callExternalFunction(state, ki, f, arguments);
                 break;
+
+            case Intrinsic::fabs: {
+                ref<ConstantExpr> arg = state.toConstant(arguments[0], "floating point");
+                if (!fpWidthToSemantics(arg->getWidth()))
+                    return terminateState(state, "Unsupported intrinsic llvm.fabs call");
+
+                llvm::APFloat Res(*fpWidthToSemantics(arg->getWidth()), arg->getAPValue());
+                Res = llvm::abs(Res);
+
+                state.bindLocal(ki, ConstantExpr::alloc(Res.bitcastToAPInt()));
+                break;
+            }
+
+            case Intrinsic::abs: {
+                if (isa<VectorType>(i->getOperand(0)->getType()))
+                    return terminateState(state, "llvm.abs with vectors is not supported");
+
+                ref<Expr> op = eval(ki, 1, state).value;
+                ref<Expr> poison = eval(ki, 2, state).value;
+
+                assert(poison->getWidth() == 1 && "Second argument is not an i1");
+                unsigned bw = op->getWidth();
+
+                uint64_t moneVal = APInt(bw, -1, true).getZExtValue();
+                uint64_t sminVal = APInt::getSignedMinValue(bw).getZExtValue();
+
+                ref<ConstantExpr> zero = ConstantExpr::create(0, bw);
+                ref<ConstantExpr> mone = ConstantExpr::create(moneVal, bw);
+                ref<ConstantExpr> smin = ConstantExpr::create(sminVal, bw);
+
+                if (poison->isTrue()) {
+                    ref<Expr> issmin = EqExpr::create(op, smin);
+                    if (issmin->isTrue())
+                        return terminateState(state, "llvm.abs called with poison and INT_MIN");
+                }
+
+                // conditions to flip the sign: INT_MIN < op < 0
+                ref<Expr> negative = SltExpr::create(op, zero);
+                ref<Expr> notsmin = NeExpr::create(op, smin);
+                ref<Expr> cond = AndExpr::create(negative, notsmin);
+
+                // flip and select the result
+                ref<Expr> flip = MulExpr::create(op, mone);
+                ref<Expr> result = SelectExpr::create(cond, flip, op);
+
+                state.bindLocal(ki, result);
+                break;
+            }
+
+            case Intrinsic::smax:
+            case Intrinsic::smin:
+            case Intrinsic::umax:
+            case Intrinsic::umin: {
+                if (isa<VectorType>(i->getOperand(0)->getType()) || isa<VectorType>(i->getOperand(1)->getType()))
+                    return terminateState(state, "llvm.{s,u}{max,min} with vectors is not supported");
+
+                ref<Expr> op1 = eval(ki, 1, state).value;
+                ref<Expr> op2 = eval(ki, 2, state).value;
+
+                ref<Expr> cond = nullptr;
+                if (f->getIntrinsicID() == Intrinsic::smax)
+                    cond = SgtExpr::create(op1, op2);
+                else if (f->getIntrinsicID() == Intrinsic::smin)
+                    cond = SltExpr::create(op1, op2);
+                else if (f->getIntrinsicID() == Intrinsic::umax)
+                    cond = UgtExpr::create(op1, op2);
+                else // (f->getIntrinsicID() == Intrinsic::umin)
+                    cond = UltExpr::create(op1, op2);
+
+                ref<Expr> result = SelectExpr::create(cond, op1, op2);
+                state.bindLocal(ki, result);
+                break;
+            }
+
+            case Intrinsic::fshr:
+            case Intrinsic::fshl: {
+                ref<Expr> op1 = eval(ki, 1, state).value;
+                ref<Expr> op2 = eval(ki, 2, state).value;
+                ref<Expr> op3 = eval(ki, 3, state).value;
+                unsigned w = op1->getWidth();
+                assert(w == op2->getWidth() && "type mismatch");
+                assert(w == op3->getWidth() && "type mismatch");
+                ref<Expr> c = ConcatExpr::create(op1, op2);
+                // op3 = zeroExtend(op3 % w)
+                op3 = URemExpr::create(op3, ConstantExpr::create(w, w));
+                op3 = ZExtExpr::create(op3, w + w);
+                if (f->getIntrinsicID() == Intrinsic::fshl) {
+                    // shift left and take top half
+                    ref<Expr> s = ShlExpr::create(c, op3);
+                    state.bindLocal(ki, ExtractExpr::create(s, w, w));
+                } else {
+                    // shift right and take bottom half
+                    // note that LShr and AShr will have same behaviour
+                    ref<Expr> s = LShrExpr::create(c, op3);
+                    state.bindLocal(ki, ExtractExpr::create(s, 0, w));
+                }
+                break;
+            }
 
             // va_arg is handled by caller and intrinsic lowering, see comment for
             // ExecutionState::varargs
@@ -629,17 +729,32 @@ void Executor::transferToBasicBlock(BasicBlock *dst, BasicBlock *src, ExecutionS
     }
 }
 
-Function *Executor::getCalledFunction(CallSite &cs, ExecutionState &state) {
-    return cs.getCalledFunction();
-}
+/// Compute the true target of a function call, resolving LLVM aliases
+/// and bitcasts.
+Function *Executor::getTargetFunction(Value *calledVal, ExecutionState &state) {
+    SmallPtrSet<const GlobalValue *, 3> Visited;
 
-static inline const llvm::fltSemantics *fpWidthToSemantics(unsigned width) {
-    switch (width) {
-        case Expr::Int32:
-            return &llvm::APFloat::IEEEsingle();
-        case Expr::Int64:
-            return &llvm::APFloat::IEEEdouble();
-        default:
+    Constant *c = dyn_cast<Constant>(calledVal);
+    if (!c)
+        return 0;
+
+    while (true) {
+        if (GlobalValue *gv = dyn_cast<GlobalValue>(c)) {
+            if (!Visited.insert(gv).second)
+                return 0;
+
+            if (Function *f = dyn_cast<Function>(gv))
+                return f;
+            else if (GlobalAlias *ga = dyn_cast<GlobalAlias>(gv))
+                c = ga->getAliasee();
+            else
+                return 0;
+        } else if (llvm::ConstantExpr *ce = dyn_cast<llvm::ConstantExpr>(c)) {
+            if (ce->getOpcode() == Instruction::BitCast)
+                c = ce->getOperand(0);
+            else
+                return 0;
+        } else
             return 0;
     }
 }
@@ -651,7 +766,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
         case Instruction::Ret: {
             ReturnInst *ri = cast<ReturnInst>(i);
             KInstIterator kcaller = state.stack.back().caller;
-            Instruction *caller = kcaller ? kcaller->inst : 0;
+            Instruction *caller = kcaller ? kcaller->inst : nullptr;
             bool isVoidReturn = (ri->getNumOperands() == 0);
             ref<Expr> result = ConstantExpr::alloc(0, Expr::Bool);
 
@@ -680,8 +795,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
                         Expr::Width to = kmodule->getWidthForLLVMType(t);
 
                         if (from != to) {
-                            CallSite cs = (isa<InvokeInst>(caller) ? CallSite(cast<InvokeInst>(caller))
-                                                                   : CallSite(cast<CallInst>(caller)));
+                            const CallBase &cs = cast<CallBase>(*caller);
 
                             // XXX need to check other param attrs ?
                             if (cs.paramHasAttr(0, llvm::Attribute::SExt)) {
@@ -762,38 +876,36 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
 
         case Instruction::Invoke:
         case Instruction::Call: {
-            CallSite cs;
-            unsigned argStart;
-            if (i->getOpcode() == Instruction::Call) {
-                cs = CallSite(cast<CallInst>(i));
-                argStart = 1;
-            } else {
-                cs = CallSite(cast<InvokeInst>(i));
-                argStart = 3;
+            // Ignore debug intrinsic calls
+            if (isa<DbgInfoIntrinsic>(i)) {
+                break;
             }
 
+            const CallBase &cs = cast<CallBase>(*i);
+            Value *fp = cs.getCalledOperand();
+
             unsigned numArgs = cs.arg_size();
-            Function *f = getCalledFunction(cs, state);
+            Function *f = getTargetFunction(fp, state);
 
             // evaluate arguments
             std::vector<ref<Expr>> arguments;
             arguments.reserve(numArgs);
 
-            for (unsigned j = 0; j < numArgs; ++j)
-                arguments.push_back(eval(ki, argStart + j, state).value);
+            for (unsigned j = 0; j < numArgs; ++j) {
+                arguments.push_back(eval(ki, j + 1, state).value);
+            }
 
             if (!f) {
                 // special case the call with a bitcast case
-                Value *fp = cs.getCalledValue();
                 llvm::ConstantExpr *ce = dyn_cast<llvm::ConstantExpr>(fp);
 
                 if (ce && ce->getOpcode() == Instruction::BitCast) {
                     f = dyn_cast<Function>(ce->getOperand(0));
                     assert(f && "XXX unrecognized constant expression in call");
                     const FunctionType *fType =
-                        dyn_cast<FunctionType>(cast<PointerType>(f->getType())->getElementType());
+                        dyn_cast<FunctionType>(cast<PointerType>(f->getType())->getPointerElementType());
                     const FunctionType *ceType =
-                        dyn_cast<FunctionType>(cast<PointerType>(ce->getType())->getElementType());
+                        dyn_cast<FunctionType>(cast<PointerType>(ce->getType())->getPointerElementType());
                     check(fType && ceType, "unable to get function type");
 
                     // XXX check result coercion
@@ -830,7 +942,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
             } else {
                 ref<Expr> v = eval(ki, 0, state).value;
                 ref<ConstantExpr> constantTarget = dyn_cast<ConstantExpr>(v);
-                if (constantTarget.isNull()) {
+                if (!constantTarget) {
                     terminateState(state, "the engine encountered a symbolic function pointer");
                     abort();
                 }
@@ -1386,11 +1498,11 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
                 r = ExtractExpr::create(agg, rOffset, agg->getWidth() - rOffset);
 
             ref<Expr> result;
-            if (!l.isNull() && !r.isNull())
+            if (l && r)
                 result = ConcatExpr::create(r, ConcatExpr::create(val, l));
-            else if (!l.isNull())
+            else if (l)
                 result = ConcatExpr::create(val, l);
-            else if (!r.isNull())
+            else if (r)
                 result = ConcatExpr::create(r, val);
             else
                 result = val;
@@ -1421,7 +1533,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
                 return;
             }
             uint64_t iIdx = cIdx->getZExtValue();
-            const llvm::VectorType *vt = iei->getType();
+            const auto *vt = cast<llvm::FixedVectorType>(iei->getType());
             unsigned EltBits = kmodule->getWidthForLLVMType(vt->getElementType());
 
             if (iIdx >= vt->getNumElements()) {
@@ -1455,7 +1567,7 @@ void Executor::executeInstruction(ExecutionState &state, KInstruction *ki) {
                 return;
             }
             uint64_t iIdx = cIdx->getZExtValue();
-            const llvm::VectorType *vt = eei->getVectorOperandType();
+            const auto *vt = cast<llvm::FixedVectorType>(eei->getVectorOperandType());
             unsigned EltBits = kmodule->getWidthForLLVMType(vt->getElementType());
 
             if (iIdx >= vt->getNumElements()) {
@@ -1544,7 +1656,7 @@ void Executor::callExternalFunction(ExecutionState &state, KInstruction *target,
     if (specialFunctionHandler->handle(state, function, target, arguments))
         return;
 
-    if (NoExternals && !okExternals.count(function->getName())) {
+    if (NoExternals && !okExternals.count(function->getName().str())) {
         llvm::errs() << "KLEE:ERROR: Calling not-OK external function : " << function->getName() << "\n";
         terminateState(state, "externals disallowed");
         return;
@@ -1601,7 +1713,7 @@ void Executor::callExternalFunction(ExecutionState &state, KInstruction *target,
     }
 
     uint64_t result;
-    external_fcn_t targetFunction = (external_fcn_t) externalDispatcher->resolveSymbol(function->getName());
+    external_fcn_t targetFunction = (external_fcn_t) externalDispatcher->resolveSymbol(function->getName().str());
     if (!targetFunction) {
         std::stringstream ss;
         ss << "Could not find address of external function " << function->getName().str();
@@ -1854,7 +1966,7 @@ void Executor::executeMemoryOperation(ExecutionState &state, bool isWrite, ref<E
             // Can only be a concrete address that spans multiple pages.
             // This can happen only if the page was split before.
             ref<ConstantExpr> concreteAddress = dyn_cast<ConstantExpr>(address);
-            assert(!concreteAddress.isNull());
+            assert(concreteAddress);
             result = executeMemoryOperationOverlapped(state, isWrite, concreteAddress->getZExtValue(), value, bytes);
         }
         if (!isWrite) {
@@ -1870,7 +1982,7 @@ void Executor::executeMemoryOperation(ExecutionState &state, bool isWrite, ref<E
     klee::ref<klee::ConstantExpr> concreteAddress;
 
     concreteAddress = dyn_cast<ConstantExpr>(state.concolics->evaluate(address));
-    assert(!concreteAddress.isNull() && "Could not evaluate address");
+    assert(concreteAddress && "Could not evaluate address");
 
     /////////////////////////////////////////////////////////////
     // Use the concrete address to determine which page

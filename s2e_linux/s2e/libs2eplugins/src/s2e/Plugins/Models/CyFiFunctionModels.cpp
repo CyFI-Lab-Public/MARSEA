@@ -48,7 +48,7 @@ static std::unordered_map<Expr::Kind, double> countExprKinds(const ref<Expr>& da
     std::unordered_map<Expr::Kind, double> expr_kind_counts;
     std::function<void(ref<Expr>)> recur = nullptr;
     recur = [&recur, &expr_kind_counts](ref<Expr> node) {
-        if (!node.isNull()) {
+        if (node) {
             expr_kind_counts[node->getKind()] += 1.0;
             for (int i = 0; i < node->getNumKids(); ++i) {
                 recur(node->getKid(i));
@@ -100,7 +100,7 @@ static void exprToSexpr(const ref<Expr>& expr) {
     }
     // Recurse into expression tree
     recur = [&recur, &os](const ref<Expr> node, std::optional<size_t> indent) {
-        if (node.isNull()) {
+        if (!node) {
             return;
         }
         if (indent.has_value()) {
@@ -143,7 +143,7 @@ static Struct exprData(const ref<Expr>& expr) {
     Struct data;
     data.depth = 0;
     data.nodes = 0;
-    if (expr.isNull()) {
+    if (!expr) {
         return data;
     }
     
@@ -194,7 +194,7 @@ static void exprToDotGraph(const ref<Expr>& expr) {
     os << "digraph " << dot_graph_name << " {\n";
     // Recurse into expression tree.
     recur = [&recur, &kind_counts, &os](ref<Expr> node, const std::optional<std::pair<Expr::Kind, size_t>>& parent) {
-        if (node.isNull()) {
+        if (!node) {
             return;
         }
         auto node_kind = node->getKind();
@@ -291,7 +291,7 @@ void CyFiFunctionModels::findBufferByte(ref<Expr> expr, ref<Expr> &index) {
 
     std::function<void(const ref<Expr>)> recur = nullptr;
     recur = [&recur, &index](const ref<Expr> expr) {
-        if (expr.isNull()) 
+        if (!expr) 
             return;
 
         if (expr->getKind() == Expr::Read)
@@ -353,7 +353,7 @@ void CyFiFunctionModels::evalForDecoders(S2EExecutionState *state, klee::ref<kle
         if(tb == 0x0)    
             break;
         ref<Expr> e = state->mem()->read(addr + i);
-        if(e.isNull() || isa<ConstantExpr>(e))
+        if(!e || isa<ConstantExpr>(e))
             break;
         ref<Expr> constant =  state->concolics->evaluate(e);   
         uint8_t val = dyn_cast<ConstantExpr>(constant)->getZExtValue();
@@ -526,7 +526,7 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
 
         for (int i = 0; i < arg_dump; i++) {
             result = state->mem()->read(stackAddr+i*4, state->getPointerWidth());
-            if (!result.isNull()) {
+            if (result) {
 
                 if (isa<ConstantExpr>(result)) {
                     ConstantExpr *CE = dyn_cast<ConstantExpr>(result);
@@ -536,7 +536,7 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
                     // Check if buffer is symbolic
                     ref<Expr> data = state->mem()->read(arguments[i], state->getPointerWidth());
 
-                    if (!data.isNull()) {
+                    if (data) {
                         if (!isa<ConstantExpr>(data)) {
                             std::ostringstream ss;
                             ss << data;
@@ -580,7 +580,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
 
     state->regs()->read(CPU_OFFSET(regs[m[reg]]), &temp, sizeof(temp), false);
     ref<Expr> data = state->mem()->read(temp, state->getPointerWidth());
-    if (!data.isNull()) {
+    if (data) {
         if (!isa<ConstantExpr>(data)) {
             getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " is symbolic\n";
         } else {
@@ -589,7 +589,7 @@ void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
             uint32_t addr = std::stoull(ss.str(), nullptr, 16);
              
             ref<Expr> level_one = state->mem()->read(addr, state->getPointerWidth());
-            if (!level_one.isNull()) {
+            if (level_one) {
                 if (!isa<ConstantExpr>(level_one)) {
                     getDebugStream(state) << reg << " " << data << " at " << hexval(temp) << " contains symbolic data: " << level_one << "\n";
                 } else {
@@ -687,6 +687,42 @@ void CyFiFunctionModels::expressionData(S2EExecutionState *state, CYFI_WINWRAPPE
     cmd.expressionData.nodes = data.nodes;
 }
 
+void CyFiFunctionModels::cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t address = (uint64_t) cmd.cyfiTaint.buffer;
+    uint64_t size = (uint64_t) cmd.cyfiTaint.size;
+
+    std::string tag;
+
+    state->mem()->readString(cmd.cyfiTaint.tag, tag);
+
+    std::vector<uint8_t> concreteData;
+
+    for (unsigned i = 0; i < size; ++i) {
+        uint8_t byte = 0;
+        if (!state->mem()->read<uint8_t>(address + i, &byte, VirtualAddress, false)) {
+            getWarningsStream(state) << "Can not concretize/read symbolic value at " << hexval(address + i)
+                                     << ". System state not modified\n";
+            return;
+        }
+        concreteData.push_back(byte);
+    }
+
+    m_base->makeSymbolic(state, address, size, tag);
+
+    for (unsigned i = 0; i < size; ++i) {
+        klee::ref<klee::Expr> symdata = state->mem()->read(address + i);
+        klee::ref<klee::Expr> condata = klee::ConstantExpr::create(concreteData[i], symdata.get()->getWidth());
+        klee::ref<klee::Expr> boolExpr = klee::EqExpr::create(symdata, condata);
+        if (!state->addConstraint(boolExpr, true)) {
+            s2e()->getExecutor()->terminateState(*state, "Tried to add an invalid constraint");
+            return;
+        }
+    }
+
+}
+
+
 void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t stringAddrs[2];
@@ -771,7 +807,7 @@ void CyFiFunctionModels::readTag(S2EExecutionState *state, CYFI_WINWRAPPER_COMMA
     // Check if buffer is symbolic
     ref<Expr> data = state->mem()->read(buffer, state->getPointerWidth());
 
-    if (!data.isNull()) {
+    if (data) {
         if (!isa<ConstantExpr>(data)) {
             std::ostringstream ss;
             ss << data;
@@ -831,7 +867,7 @@ void CyFiFunctionModels::concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER
 
     while (True) {
         klee::ref<klee::Expr> ret = state->mem()->read(address + i);
-        if (ret.isNull()) {
+        if (!ret) {
             getWarningsStream() << "Could not read address " << hexval(address + i) << "\n";
             break;
         }
@@ -954,6 +990,13 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
             }        
+        } break;
+
+        case TAINT: {
+            cyfiTaint(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            } 
         } break;
 
         default: {

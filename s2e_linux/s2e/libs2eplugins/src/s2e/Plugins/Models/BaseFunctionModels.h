@@ -71,7 +71,7 @@ protected:
     bool strcmpHelper(S2EExecutionState *state, const uint64_t strAddrs[2], ref<Expr> &retExpr);
     bool strncmpHelper(S2EExecutionState *state, const uint64_t strAddrs[2], size_t size, ref<Expr> &retExpr);
     bool strcmpHelperCommon(S2EExecutionState *state, const uint64_t strAddrs[2], uint64_t memSize, ref<Expr> &retExpr);
-    bool strcpyHelper(S2EExecutionState *state,  const uint64_t strAddrs[2], ref<Expr> &retExpr);
+    bool strcpyHelper(S2EExecutionState *state, const uint64_t strAddrs[2], ref<Expr> &retExpr);
     bool strncpyHelper(S2EExecutionState *state, const uint64_t strAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcmpHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcpyHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);

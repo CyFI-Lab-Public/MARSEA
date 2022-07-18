@@ -120,8 +120,8 @@ bool ExecutionState::merge(const ExecutionState &b) {
             m << "merge failed: different KLEE pc\n" << *(*pc).inst << "\n" << *(*b.pc).inst << "\n";
 
             std::stringstream ss;
-            this->printStack(nullptr, ss);
-            b.printStack(nullptr, ss);
+            this->printStack(ss);
+            b.printStack(ss);
             m << ss.str() << "\n";
         }
         return false;
@@ -266,7 +266,7 @@ bool ExecutionState::merge(const ExecutionState &b) {
         for (unsigned i = 0; i < af.kf->getNumRegisters(); i++) {
             ref<Expr> &av = af.locals[i].value;
             const ref<Expr> &bv = bf.locals[i].value;
-            if (av.isNull() || bv.isNull()) {
+            if (!av || !bv) {
                 // if one is null then by implication (we are at same pc)
                 // we cannot reuse this local, so just ignore
             } else {
@@ -320,7 +320,7 @@ bool ExecutionState::merge(const ExecutionState &b) {
     return true;
 }
 
-void ExecutionState::printStack(KInstruction *target, std::stringstream &msg) const {
+void ExecutionState::printStack(std::stringstream &msg) const {
     msg << "Stack: \n";
     unsigned idx = 0;
     for (ExecutionState::stack_ty::const_reverse_iterator it = stack.rbegin(), ie = stack.rend(); it != ie; ++it) {
@@ -343,8 +343,6 @@ void ExecutionState::printStack(KInstruction *target, std::stringstream &msg) co
         msg << ")";
 
         msg << "\n";
-
-        target = sf.caller;
     }
 }
 
@@ -484,19 +482,16 @@ ref<Expr> ExecutionState::toUnique(ref<Expr> &e) {
 }
 
 bool ExecutionState::solve(const ConstraintManager &mgr, Assignment &assignment) {
-    ArrayVec symbObjects;
-    for (unsigned i = 0; i < symbolics.size(); ++i) {
-        symbObjects.push_back(symbolics[i]);
-    }
-
     std::vector<std::vector<unsigned char>> concreteObjects;
-    if (!solver()->getInitialValues(Query(mgr, ConstantExpr::alloc(0, Expr::Bool)), symbObjects, concreteObjects)) {
+    Query q(mgr, ConstantExpr::alloc(0, Expr::Bool));
+
+    if (!solver()->getInitialValues(q, symbolics, concreteObjects)) {
         return false;
     }
 
     assignment.clear();
-    for (unsigned i = 0; i < symbObjects.size(); ++i) {
-        assignment.add(symbObjects[i], concreteObjects[i]);
+    for (unsigned i = 0; i < symbolics.size(); ++i) {
+        assignment.add(symbolics[i], concreteObjects[i]);
     }
 
     return true;

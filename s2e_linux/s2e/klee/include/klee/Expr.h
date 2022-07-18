@@ -372,7 +372,7 @@ private:
             if (width && width < CET_MAX_BITS && !v.isNegative()) {
                 const uint64_t value = v.getZExtValue();
                 if (value < CET_MAX_VALUE) {
-                    assert(!_const_table[width][value].isNull());
+                    assert(_const_table[width][value]);
                     return _const_table[width][value];
                 }
             }
@@ -442,7 +442,7 @@ public:
     }
 
     /// toString - Return the constant value as a decimal string.
-    void toString(std::string &Res, int Base = 10) const;
+    void toString(std::string &Res, unsigned radix = 10) const;
 
     int compareContents(const Expr &b) const {
         const ConstantExpr &cb = static_cast<const ConstantExpr &>(b);

@@ -21,6 +21,7 @@ extern "C" {
         CONCRETIZE_ALL,
         TAG_TRACKER,
         EXPRESSION_DATA,
+        TAINT,
     };
 
     struct CYFI_WINWRAPPER_COMMAND_STRSTRA {
@@ -67,6 +68,12 @@ extern "C" {
         int kinds;
     };
 
+    struct CYFI_TAINT {
+        uint64_t buffer;
+        uint64_t size;
+        uint64_t tag;
+    };
+
 
     struct CYFI_WINWRAPPER_COMMAND {
         enum CYFI_WINWRAPPER_COMMANDS Command;
@@ -88,6 +95,8 @@ extern "C" {
             struct TAG_TRACKER tagTracker;
 
             struct EXPRESSION_DATA expressionData;
+
+            struct CYFI_TAINT cyfiTaint;
         };
         uint64_t needOrigFunc;
     };

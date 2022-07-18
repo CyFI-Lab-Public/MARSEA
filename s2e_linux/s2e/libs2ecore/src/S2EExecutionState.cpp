@@ -311,12 +311,8 @@ ref<Expr> S2EExecutionState::createSymbolicValue(const std::string &name, Expr::
 }
 
 ref<Expr> S2EExecutionState::createSymbolicValue(const std::string &name, Expr::Width width) {
-    std::vector<unsigned char> concreteValues;
-
-    unsigned bytes = Expr::getMinBytesForWidth(width);
-    for (unsigned i = 0; i < bytes; ++i) {
-        concreteValues.push_back(0);
-    }
+    unsigned size = Expr::getMinBytesForWidth(width);
+    std::vector<unsigned char> concreteValues(size, 0);
 
     return createSymbolicValue(name, width, concreteValues);
 }
@@ -365,11 +361,7 @@ std::vector<ref<Expr>> S2EExecutionState::createSymbolicArray(const std::string 
 
 std::vector<ref<Expr>> S2EExecutionState::createSymbolicArray(const std::string &name, unsigned size,
                                                               std::string *varName) {
-    std::vector<unsigned char> concreteBuffer;
-
-    for (unsigned i = 0; i < size; ++i) {
-        concreteBuffer.push_back(0);
-    }
+    std::vector<unsigned char> concreteBuffer(size, 0);
 
     return createSymbolicArray(name, size, concreteBuffer, varName);
 }
@@ -587,7 +579,7 @@ void S2EExecutionState::addressSpaceObjectSplit(const ObjectStateConstPtr &oldOb
 uint64_t S2EExecutionState::readMemIoVaddr(bool masked) {
     klee::ref<klee::Expr> result;
 
-    if (m_memIoVaddr.isNull()) {
+    if (!m_memIoVaddr) {
         return env->mem_io_vaddr;
     }
 
@@ -714,7 +706,7 @@ bool S2EExecutionState::disassemble(llvm::raw_ostream &os, uint64_t pc, unsigned
 
 bool S2EExecutionState::disassemble(llvm::raw_ostream &os, uint64_t pc, unsigned size, unsigned pointerSize) {
     int flags = 0; // 32-bit code by default
-    switch (getPointerSize()) {
+    switch (pointerSize) {
         case 4:
             flags = 0;
             break;

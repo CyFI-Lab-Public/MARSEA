@@ -128,7 +128,6 @@ void LibraryCallMonitor::initialize() {
 
     m_monitor->onProcessUnload.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onProcessUnload));
     m_monitor->onModuleUnload.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onModuleUnload));
-
 }
 
 void LibraryCallMonitor::onProcessUnload(S2EExecutionState *state, uint64_t addressSpace, uint64_t pid,
