@@ -164,7 +164,8 @@ private:
     void findBufferByte(ref<Expr> expr, ref<Expr> &index);
     void evalForDecoders(S2EExecutionState *state, klee::ref<klee::Expr> address);    
     void concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
-    void cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);                                                 
+    void cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
+    void cyfiPrintMemory(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);                                                
 };
 
 } // namespace models

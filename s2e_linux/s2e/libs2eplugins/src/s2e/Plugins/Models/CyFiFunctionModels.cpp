@@ -722,6 +722,35 @@ void CyFiFunctionModels::cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COM
 
 }
 
+void CyFiFunctionModels::cyfiPrintMemory(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+    // Read function arguments
+    uint64_t address = (uint64_t) cmd.cyfiPrintMem.buffer;
+    uint64_t size = (uint64_t) cmd.cyfiPrintMem.size;
+
+    getCyfiStream(state) << "CyfiPrintMemory Expression Start\n";
+
+    for (uint32_t i = 0; i < size; ++i) {
+        klee::ref<Expr> res = state->mem()->read(address + i);
+        if (!res) {
+            getCyfiStream() << "Invalid pointer\n";
+        } else {
+            getCyfiStream(state) << hexval(address + i) << ": " << res << ", " << state->toConstantSilent(res)->getZExtValue() << "\n";
+        }
+    }
+
+    getCyfiStream(state) << "CyfiPrintMemory Expression End\n";
+
+    getCyfiStream(state) << "CyfiPrintMemory Constraints Start\n";
+
+    std::set<ref<Expr>> Constraints = state->constraints().getConstraintSet();
+
+    for (auto it = Constraints.begin(); it != Constraints.end(); it++) {
+        getCyfiStream(state) << *it << "\n";
+    }
+
+    getCyfiStream(state) << "CyfiPrintMemory Constraints End\n";
+}
+
 
 void CyFiFunctionModels::handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
@@ -994,6 +1023,13 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
 
         case TAINT: {
             cyfiTaint(state, command);
+            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
+                getWarningsStream(state) << "Could not write to guest memory\n";
+            } 
+        } break;
+
+        case PRINT_MEM: {
+            cyfiPrintMemory(state, command);
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
             } 
