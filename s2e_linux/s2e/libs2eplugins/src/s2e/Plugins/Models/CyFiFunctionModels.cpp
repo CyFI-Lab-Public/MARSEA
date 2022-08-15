@@ -714,6 +714,7 @@ void CyFiFunctionModels::cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COM
         klee::ref<klee::Expr> symdata = state->mem()->read(address + i);
         klee::ref<klee::Expr> condata = klee::ConstantExpr::create(concreteData[i], symdata.get()->getWidth());
         klee::ref<klee::Expr> boolExpr = klee::EqExpr::create(symdata, condata);
+        getCyfiStream(state) << "Add taint constraints: " << boolExpr << "\n";
         if (!state->addConstraint(boolExpr, true)) {
             s2e()->getExecutor()->terminateState(*state, "Tried to add an invalid constraint");
             return;
