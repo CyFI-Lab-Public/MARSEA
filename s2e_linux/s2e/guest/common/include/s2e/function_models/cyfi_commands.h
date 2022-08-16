@@ -78,6 +78,7 @@ extern "C" {
     struct CYFI_PRINT_MEM {
         uint64_t buffer;
         uint64_t size;
+        bool remove;
     };
 
 
