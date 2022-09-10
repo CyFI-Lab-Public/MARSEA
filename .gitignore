@@ -1,4 +1,3 @@
-
 *.log
 *.obj
 *.tlog
@@ -13,8 +12,5 @@
 s2e_win/Release/custom-hook.dll
 *.obj
 *.tlog
-*.log
-*.tlog
-*.tlog
-*.log
 *.sarif
+*.swp

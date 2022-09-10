@@ -1,4 +1,0 @@
-﻿  Building 'libcommon_driver' with toolset 'WindowsKernelModeDriver10.0' and the 'Desktop' target platform.
-  Assembling ..\libcommon\src\i386\s2e.asm...
-  s2e-c.c
-  libcommon_driver.vcxproj -> C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\libcommon_driver.lib
