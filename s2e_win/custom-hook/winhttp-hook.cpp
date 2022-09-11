@@ -71,6 +71,9 @@ BOOL WINAPI WinHttpCrackUrlHook(
         
         return TRUE;
     }
+
+    Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p)\n",
+                pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
     return WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
 }
 
@@ -620,6 +623,8 @@ BOOL WINAPI WinHttpSetCredentialsHook(
     winhttp::WinHttpSetCredentials(hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, pAuthParams);
 
     S2EEnableForking();
+
+    winhttp::WinHttpSetCredentials(hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, pAuthParams);
 
     return TRUE;
 }

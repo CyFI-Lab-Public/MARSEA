@@ -1,0 +1,414 @@
+98 [Node 14/14 - State 868] Switching from state 868 to state 246
+108 [Node 14/14 - State 246] Switching from state 246 to state 868
+113 [Node 14/14 - State 868] Switching from state 868 to state 246
+118 [Node 14/14 - State 246] Switching from state 246 to state 868
+128 [Node 14/14 - State 868] Switching from state 868 to state 246
+130 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+130 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+133 [Node 14/14 - State 246] Switching from state 246 to state 868
+136 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+136 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e9e90c): s2e.sys: caught thread termination pid=0x22c tid=0x530 create=0
+141 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+141 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+142 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+142 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+143 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+143 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+143 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+143 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+143 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+143 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+143 [Node 14/14 - State 868] Switching from state 868 to state 246
+147 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+147 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c251104): s2e.sys: caught thread creation pid=0x5f4 tid=0x528 create=1
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20990c): s2e.sys: caught thread termination pid=0x498 tid=0x720 create=0
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105104): s2e.sys: caught thread creation pid=0x1e0 tid=0x1f4 create=1
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f03104): s2e.sys: caught thread creation pid=0x1f0 tid=0x15c create=1
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+148 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c209104): s2e.sys: caught thread creation pid=0x1e0 tid=0x16c create=1
+158 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+158 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+161 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+161 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+161 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+161 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+163 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+163 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+170 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+170 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+172 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+172 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+172 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+172 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+172 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+172 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+173 [Node 14/14 - State 246] Switching from state 246 to state 868
+204 [Node 14/14 - State 868] Switching from state 868 to state 246
+207 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+207 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+207 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+207 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+207 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+207 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+210 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+210 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+210 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+210 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+210 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+210 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+211 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+211 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+215 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+215 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+216 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+216 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+217 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+217 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+217 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+217 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+222 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+224 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+224 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+224 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+224 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+224 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+224 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+224 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+224 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+224 [Node 14/14 - State 246] Switching from state 246 to state 868
+234 [Node 14/14 - State 868] Switching from state 868 to state 246
+239 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+239 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+244 [Node 14/14 - State 246] Switching from state 246 to state 868
+246 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+246 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x26c tid=0x644 create=0
+249 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+249 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c07790c): s2e.sys: caught thread termination pid=0x4b8 tid=0x148 create=0
+249 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+249 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c17190c): s2e.sys: caught thread termination pid=0x4b8 tid=0x62c create=0
+251 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+251 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eae90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x21c create=0
+258 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+258 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2d790c): s2e.sys: caught thread termination pid=0x2e0 tid=0x288 create=0
+260 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+260 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c0fd90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x80 create=0
+260 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+260 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c29890c): s2e.sys: caught thread termination pid=0x300 tid=0x598 create=0
+260 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+260 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c0a990c): s2e.sys: caught thread termination pid=0x300 tid=0x75c create=0
+264 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+264 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c14190c): s2e.sys: caught thread termination pid=0x2b4 tid=0x764 create=0
+264 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+264 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2d390c): s2e.sys: caught thread termination pid=0x39c tid=0x494 create=0
+264 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+264 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2df90c): s2e.sys: caught thread termination pid=0x39c tid=0x248 create=0
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c10d104): s2e.sys: caught thread creation pid=0x1f8 tid=0x3e4 create=1
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1c990c): s2e.sys: caught thread termination pid=0x1e0 tid=0x520 create=0
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c06790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x220 create=0
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+267 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c26190c): s2e.sys: caught thread termination pid=0x498 tid=0x708 create=0
+269 [Node 14/14 - State 868] Switching from state 868 to state 246
+500 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+500 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+507 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+507 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+508 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+508 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+509 [Node 14/14 - State 246] Switching from state 246 to state 868
+650 [Node 14/14 - State 868] Switching from state 868 to state 246
+652 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+652 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=00A30000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=00A30000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00A30000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00A30000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+653 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+654 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+655 [Node 14/14 - State 246] Switching from state 246 to state 868
+699 [Node 14/14 - State 868] Switching from state 868 to state 246
+701 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+701 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+701 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+701 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+702 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+702 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+703 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+703 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+703 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+703 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+703 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+703 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+704 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+704 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+709 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+709 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+714 [Node 14/14 - State 246] Switching from state 246 to state 868
+717 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+717 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c3f890c): s2e.sys: caught thread termination pid=0x498 tid=0x3c4 create=0
+718 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+718 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c235104): s2e.sys: caught thread creation pid=0x2e0 tid=0x7d8 create=1
+719 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+719 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e6e90c): s2e.sys: caught thread termination pid=0x498 tid=0x484 create=0
+719 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+719 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c0ad90c): s2e.sys: caught thread termination pid=0x498 tid=0x2bc create=0
+719 [Node 14/14 - State 868] Switching from state 868 to state 246
+723 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+723 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+724 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+724 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+733 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+733 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+735 [Node 14/14 - State 246] Switching from state 246 to state 868
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80fdb90c): s2e.sys: caught thread termination pid=0x1e0 tid=0x190 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c12990c): s2e.sys: caught thread termination pid=0x4b8 tid=0x258 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c12590c): s2e.sys: caught thread termination pid=0x39c tid=0x264 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c11d90c): s2e.sys: caught thread termination pid=0x58c tid=0x668 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c11590c): s2e.sys: caught thread termination pid=0x5f4 tid=0x630 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80fbf90c): s2e.sys: caught thread termination pid=0x498 tid=0x66c create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c26590c): s2e.sys: caught thread termination pid=0x3f8 tid=0x5e8 create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+741 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c12d90c): s2e.sys: caught thread termination pid=0x1b0 tid=0x25c create=0
+743 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+743 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+743 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+743 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+743 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+743 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e8290c): s2e.sys: caught thread termination pid=0x7a0 tid=0x184 create=0
+743 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+743 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80faf90c): s2e.sys: caught thread termination pid=0x354 tid=0x130 create=0
+747 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+747 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80feb104): s2e.sys: caught thread creation pid=0x39c tid=0x5dc create=1
+750 [Node 14/14 - State 868] Switching from state 868 to state 246
+755 [Node 14/14 - State 246] Switching from state 246 to state 868
+759 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+759 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c24d90c): s2e.sys: caught thread termination pid=0x498 tid=0x680 create=0
+767 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+767 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f2b104): s2e.sys: caught thread creation pid=0x22c tid=0x5e4 create=1
+767 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+767 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2ac104): s2e.sys: caught thread creation pid=0x2b4 tid=0x4dc create=1
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x760 create=1
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105310): s2e.sys: caught process creation pid=00000424 parent=000001E0
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105318): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1051ec): s2e.sys: caught thread creation pid=0x424 tid=0x7b4 create=1
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+769 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c105750): s2e.sys: detected image load pid=000001E0 addr=000A0000 size=0x10000 \Windows\System32\wermgr.exe kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00940000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=00940000 size=0x10000 \Device\HarddiskVolume1\Windows\System32\wermgr.exe kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa958): s2e.sys: detected image load pid=00000424 addr=77C10000 size=0x142000 \SystemRoot\System32\ntdll.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75CC0000 size=0xd5000 \Windows\System32\kernel32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=75C70000 size=0x4b000 \Windows\System32\KernelBase.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=772E0000 size=0xac000 \Windows\System32\msvcrt.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77080000 size=0xa1000 \Windows\System32\advapi32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77600000 size=0x19000 \Windows\System32\sechost.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=773A0000 size=0xa2000 \Windows\System32\rpcrt4.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76430000 size=0xc4c000 \Windows\System32\shell32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77E00000 size=0x57000 \Windows\System32\shlwapi.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77D60000 size=0x4e000 \Windows\System32\gdi32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76080000 size=0xc9000 \Windows\System32\user32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77390000 size=0xa000 \Windows\System32\lpk.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76360000 size=0x9d000 \Windows\System32\usp10.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=71E00000 size=0x61000 \Windows\System32\wer.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=761E0000 size=0x15f000 \Windows\System32\ole32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77450000 size=0x92000 \Windows\System32\oleaut32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=76340000 size=0x1f000 \Windows\System32\imm32.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=77530000 size=0xce000 \Windows\System32\msctf.dll kernel=0 allpids=0
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+770 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c20d104): s2e.sys: caught thread creation pid=0x4b8 tid=0x2c4 create=1
+770 [Node 14/14 - State 868] Switching from state 868 to state 246
+772 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+772 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+777 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+777 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+777 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+777 [Node 14/14 - State 246] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+777 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+777 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+777 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+777 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+780 [Node 14/14 - State 246] Switching from state 246 to state 868
+780 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+780 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa750): s2e.sys: detected image load pid=00000424 addr=759A0000 size=0xb000 \Windows\System32\profapi.dll kernel=0 allpids=0
+781 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+781 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaa92c): s2e.sys: caught thread termination pid=0x424 tid=0x7b4 create=0
+781 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+781 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaaa28): s2e.sys: caught process termination pid=00000424 parent=000001E0
+781 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+781 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80eaaa30): s2e.sys: Process image \Device\HarddiskVolume1\Windows\System32\wermgr.exe
+784 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+784 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x11c create=0
+784 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+784 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e9e104): s2e.sys: caught thread creation pid=0x5f4 tid=0x168 create=1
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e96104): s2e.sys: caught thread creation pid=0x354 tid=0x7a8 create=1
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80e9a90c): s2e.sys: caught thread termination pid=0x1f0 tid=0x15c create=0
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80ea690c): s2e.sys: caught thread termination pid=0x1e0 tid=0x16c create=0
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+785 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f1790c): s2e.sys: caught thread termination pid=0x1e0 tid=0x404 create=0
+786 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+786 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c280104): s2e.sys: caught thread creation pid=0x1e0 tid=0x234 create=1
+791 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+791 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c22590c): s2e.sys: caught thread termination pid=0x498 tid=0x4c8 create=0
+795 [Node 14/14 - State 868] Switching from state 868 to state 246
+800 [Node 14/14 - State 246] Switching from state 246 to state 868
+806 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+806 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1fd90c): s2e.sys: caught thread termination pid=0x498 tid=0x704 create=0
+806 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+806 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1b190c): s2e.sys: caught thread termination pid=0x498 tid=0x324 create=0
+815 [Node 14/14 - State 868] Switching from state 868 to state 246
+817 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+817 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+821 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+821 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+834 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+834 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+834 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+834 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+835 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+835 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+836 [Node 14/14 - State 246] Switching from state 246 to state 868
+838 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+838 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1f190c): s2e.sys: caught thread termination pid=0x498 tid=0x390 create=0
+844 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+844 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c10d90c): s2e.sys: caught thread termination pid=0x1f8 tid=0x580 create=0
+846 [Node 14/14 - State 868] Switching from state 868 to state 246
+848 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+848 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20d90c): s2e.sys: caught thread termination pid=0x4b8 tid=0x674 create=0
+850 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x168 create=0
+850 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c25190c): s2e.sys: caught thread termination pid=0x5f4 tid=0x168 create=0
+851 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9690c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+851 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e9690c): s2e.sys: caught thread termination pid=0x354 tid=0x124 create=0
+852 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x2b4 tid=0x230 create=1
+852 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c077104): s2e.sys: caught thread creation pid=0x2b4 tid=0x230 create=1
+853 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+853 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0972fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x12c create=1
+853 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x760 create=0
+853 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c20590c): s2e.sys: caught thread termination pid=0x1e0 tid=0x760 create=0
+853 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x59c create=1
+853 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x8c0872fc): s2e.sys: caught thread creation pid=0x2e0 tid=0x59c create=1
+855 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x39c tid=0x7b0 create=1
+855 [Node 14/14 - State 246] BaseInstructions: Message from guest (0x80e6e104): s2e.sys: caught thread creation pid=0x39c tid=0x7b0 create=1
+856 [Node 14/14 - State 246] Switching from state 246 to state 868
+861 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40745c (0x40745c)  jumped to ntdll.dll!RtlEnterCriticalSection:0x77f07240 (0x77c57240) (pid=0x7a0)
+861 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x40743c (0x40743c)  jumped to kernel32.dll!TlsGetValue:0x77e2f930 (0x75d0f930) (pid=0x7a0)
+861 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407444 (0x407444)  jumped to kernel32.dll!GetLastError:0x77e2cfb0 (0x75d0cfb0) (pid=0x7a0)
+861 [Node 14/14 - State 868] LibraryCallMonitor: fea7a448b1987dffd751b4b82623832719a534320406234fc8daf78a4c402f99:0x407464 (0x407464)  jumped to ntdll.dll!RtlLeaveCriticalSection:0x77f07200 (0x77c57200) (pid=0x7a0)
+861 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+861 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c34f90c): s2e.sys: caught thread termination pid=0x7a0 tid=0x198 create=0
+861 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+861 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c23590c): s2e.sys: caught thread termination pid=0x2e0 tid=0x274 create=0
+866 [Node 14/14 - State 868] Switching from state 868 to state 246
+871 [Node 14/14 - State 246] Switching from state 246 to state 868
+875 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+875 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c35390c): s2e.sys: caught thread termination pid=0x39c tid=0x690 create=0
+879 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+879 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80feb90c): s2e.sys: caught thread termination pid=0x39c tid=0x6b4 create=0
+891 [Node 14/14 - State 868] Switching from state 868 to state 246
+896 [Node 14/14 - State 246] Switching from state 246 to state 868
+899 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+899 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c2ac90c): s2e.sys: caught thread termination pid=0x2b4 tid=0x94 create=0
+899 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+899 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x80f2b90c): s2e.sys: caught thread termination pid=0x22c tid=0x758 create=0
+899 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1
+899 [Node 14/14 - State 868] BaseInstructions: Message from guest (0x8c1c9104): s2e.sys: caught thread creation pid=0x2e0 tid=0x400 create=1

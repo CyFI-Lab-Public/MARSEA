@@ -1,0 +1,3 @@
+[submodule "netskope/post/avclass"]
+	path = netskope/post/avclass
+	url = https://github.com/malicialab/avclass.git

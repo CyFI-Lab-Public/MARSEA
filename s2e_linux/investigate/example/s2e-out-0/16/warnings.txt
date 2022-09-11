@@ -1,0 +1,18 @@
+Started new node id=16 index=16 pid=36195 parent_id=5
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x7608fb88
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x7608fc1f
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x758310e1
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x762262d5
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x76343ae0
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x7608f31b
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x775341c5
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x7608aab2
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x7608808c
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x760b41be
+99 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x74935560
+100 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x76092243
+130 [Node 16/16 - State 713] LibraryCallMonitor: Could not get export name for address 0x773bdb6b
+Vmi: Could not find host path for easyhook32.dll
+Vmi: Could not find host path for easyhook32.dll
+Vmi: Could not find host path for easyhook32.dll
+Vmi: Could not find host path for easyhook32.dll

@@ -853,6 +853,25 @@ BOOL WINAPI InternetQueryDataAvailableHook(
 
     }
 
+    if (con_res) {
+        Message("InternetQueryDataAvailable 1\n");
+    }
+    else {
+        Message("InternetQueryDataAvailable 0\n");
+        auto it = perHandleBytesToRead.find(hFile);
+        if (it == perHandleBytesToRead.end() && lpdwNumberOfBytesAvailable) {
+            *lpdwNumberOfBytesAvailable = DEFAULT_MEM_LEN;
+        }
+
+        if (it != perHandleBytesToRead.end() && lpdwNumberOfBytesAvailable) {
+            *lpdwNumberOfBytesAvailable = 0;
+        }
+    }
+
+    //if (lpdwNumberOfBytesAvailable) {
+    //    S2EMakeSymbolic(lpdwNumberOfBytesAvailable, sizeof(*lpdwNumberOfBytesAvailable), GetTag("InternetQueryDataAvailable").c_str());
+    //}
+
     return TRUE;
 }
 

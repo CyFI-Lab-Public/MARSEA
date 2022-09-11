@@ -14,3 +14,7 @@ s2e_win/Release/custom-hook.dll
 *.tlog
 *.sarif
 *.swp
+s2e_win/custom-hook/Release/
+s2e_win/libcommon/Debug/
+s2e_win/libcommon/Release/
+s2e_win/Release/

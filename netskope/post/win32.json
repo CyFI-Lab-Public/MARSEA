@@ -1,0 +1,4749 @@
+[
+   {
+      "name":"AppPolicyGetProcessTerminationMethod",
+      "parameters":[
+         "processToken",
+         "policy"
+      ],
+      "param_types":[
+         "HANDLE",
+         "AppPolicyProcessTerminationMethod*"
+      ],
+      "param_meta":[
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ProgIDFromCLSID",
+      "parameters":[
+         "clsid",
+         "lplpszProgID"
+      ],
+      "param_types":[
+         "REFCLSID",
+         "LPOLESTR*"
+      ],
+      "param_meta":[
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CLSIDFromProgID",
+      "parameters":[
+         "lpszProgID",
+         "lpclsid"
+      ],
+      "param_types":[
+         "LPCOLESTR",
+         "LPCLSID"
+      ],
+      "param_meta":[
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CoCreateGuid",
+      "parameters":[
+         "pguid"
+      ],
+      "param_types":[
+         "GUID*"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"WriteConsoleA",
+      "parameters":[
+         "hConsoleOutput",
+         "lpBuffer",
+         "nNumberOfCharsToWrite",
+         "lpNumberOfCharsWritten",
+         "lpReserved"
+      ],
+      "param_types":[
+         "HANDLE",
+         "VOID*",
+         "DWORD",
+         "LPDWORD",
+         "LPVOID"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "out, optional",
+         "NULL"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DeleteFileA",
+      "parameters":[
+         "lpFileName"
+      ],
+      "param_types":[
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RemoveDirectoryA",
+      "parameters":[
+         "lpPathName"
+      ],
+      "param_types":[
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetVolumeInformationA",
+      "parameters":[
+         "lpRootPathName",
+         "lpVolumeNameBuffer",
+         "nVolumeNameSize",
+         "lpVolumeSerialNumber",
+         "lpMaximumComponentLength",
+         "lpFileSystemFlags",
+         "lpFileSystemNameBuffer",
+         "nFileSystemNameSize"
+      ],
+      "param_types":[
+         "LPCSTR",
+         "LPSTR",
+         "DWORD",
+         "LPDWORD",
+         "LPDWORD",
+         "LPDWORD",
+         "LPSTR",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in, optional",
+         "out, optional",
+         "in",
+         "out, optional",
+         "out, optional",
+         "out, optional",
+         "out, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DuplicateHandle",
+      "parameters":[
+         "hSourceProcessHandle",
+         "hSourceHandle",
+         "hTargetProcessHandle",
+         "lpTargetHandle",
+         "dwDesiredAccess",
+         "bInheritHandle",
+         "dwOptions"
+      ],
+      "param_types":[
+         "HANDLE",
+         "HANDLE",
+         "HANDLE",
+         "LPHANDLE",
+         "DWORD",
+         "BOOL",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "out",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CancelIo",
+      "parameters":[
+         "hFile"
+      ],
+      "param_types":[
+         "HANDLE"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetIfTable",
+      "parameters":[
+         "pIfTable",
+         "pdwSize",
+         "bOrder"
+      ],
+      "param_types":[
+         "PMIB_IFTABLE",
+         "PULONG",
+         "BOOL"
+      ],
+      "param_meta":[
+         "out, optional",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"FindResourceExW",
+      "parameters":[
+         "hModule",
+         "lpType",
+         "lpName",
+         "wLanguage"
+      ],
+      "param_types":[
+         "HMODULE",
+         "LPCWSTR",
+         "LPCWSTR",
+         "WORD"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"FreeLibraryAndExitThread",
+      "parameters":[
+         "hLibModule",
+         "dwExitCode"
+      ],
+      "param_types":[
+         "HMODULE",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"FreeResource",
+      "parameters":[
+         "hResData"
+      ],
+      "param_types":[
+         "HGLOBAL"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"LoadResource",
+      "parameters":[
+         "hModule",
+         "hResInfo"
+      ],
+      "param_types":[
+         "HMODULE",
+         "HRSRC"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"LockResource",
+      "parameters":[
+         "hResData"
+      ],
+      "param_types":[
+         "HGLOBAL"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ZwSetTimer",
+      "parameters":[
+         "TimerHandle",
+         "DueTime",
+         "TimerApcRoutine",
+         "TimerContext",
+         "ResumeTimer",
+         "Period",
+         "PreviousState"
+      ],
+      "param_types":[
+         "HANDLE",
+         "PLARGE_INTEGER",
+         "PTIMER_APC_ROUTINE",
+         "PVOID",
+         "BOOLEAN",
+         "LONG",
+         "PBOOLEAN"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in, optional",
+         "in, optional",
+         "in",
+         "in, optional",
+         "out, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ZwTerminateProcess",
+      "parameters":[
+         "ProcessHandle",
+         "ExitStatus"
+      ],
+      "param_types":[
+         "HANDLE",
+         "NTSTATUS"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ZwQueryObject",
+      "parameters":[
+         "Handle",
+         "ObjectInformationClass",
+         "ObjectInformation",
+         "ObjectInformationLength",
+         "ReturnLength"
+      ],
+      "param_types":[
+         "HANDLE",
+         "OBJECT_INFORMATION_CLASS",
+         "PVOID",
+         "ULONG",
+         "PULONG"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in",
+         "in, optional",
+         "in",
+         "out, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetEnvironmentVariableA",
+      "parameters":[
+         "lpName",
+         "lpBuffer",
+         "nSize"
+      ],
+      "param_types":[
+         "LPCSTR",
+         "LPSTR",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in, optional",
+         "out, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetCurrentThread",
+      "parameters":[
+         
+      ],
+      "param_types":[
+         
+      ],
+      "param_meta":[
+         
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"QueryPerformanceFrequency",
+      "parameters":[
+         "lpFrequency"
+      ],
+      "param_types":[
+         "LARGE_INTEGER*"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"IsNetworkAlive",
+      "parameters":[
+         "lpdwFlags"
+      ],
+      "param_types":[
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CompareStringW",
+      "parameters":[
+         "Locale",
+         "dwCmpFlags",
+         "lpString1",
+         "cchCount1",
+         "lpString2",
+         "cchCount2"
+      ],
+      "param_types":[
+         "LCID",
+         "DWORD",
+         "PCNZWCH",
+         "int",
+         "PCNZWCH",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetStringTypeW",
+      "parameters":[
+         "dwInfoType",
+         "lpSrcStr",
+         "cchSrc",
+         "lpCharType"
+      ],
+      "param_types":[
+         "DWORD",
+         "LPCWCH",
+         "int",
+         "LPWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"WaitForSingleObjectEx",
+      "parameters":[
+         "hHandle",
+         "dwMilliseconds",
+         "bAlertable"
+      ],
+      "param_types":[
+         "HANDLE",
+         "DWORD",
+         "BOOL"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetWaitableTimer",
+      "parameters":[
+         "hTimer",
+         "lpDueTime",
+         "lPeriod",
+         "pfnCompletionRoutine",
+         "lpArgToCompletionRoutine",
+         "fResume"
+      ],
+      "param_types":[
+         "HANDLE",
+         "LARGE_INTEGER*",
+         "LONG",
+         "PTIMERAPCROUTINE",
+         "LPVOID",
+         "BOOL"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in, optional",
+         "in, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetSystemInfo",
+      "parameters":[
+         "lpSystemInfo"
+      ],
+      "param_types":[
+         "LPSYSTEM_INFO"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetSystemTime",
+      "parameters":[
+         "lpSystemTime"
+      ],
+      "param_types":[
+         "LPSYSTEMTIME"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CreateThreadpoolIo",
+      "parameters":[
+         "fl",
+         "pfnio",
+         "pv",
+         "pcbe"
+      ],
+      "param_types":[
+         "HANDLE",
+         "PTP_WIN32_IO_CALLBACK",
+         "PVOID",
+         "PTP_CALLBACK_ENVIRON"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in, optional",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetTimeZoneInformation",
+      "parameters":[
+         "lpTimeZoneInformation"
+      ],
+      "param_types":[
+         "LPTIME_ZONE_INFORMATION"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CreateToolhelp32Snapshot",
+      "parameters":[
+         "dwFlags",
+         "th32ProcessID"
+      ],
+      "param_types":[
+         "DWORD",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RtlAppendUnicodeToString",
+      "parameters":[
+         "Destination",
+         "Source"
+      ],
+      "param_types":[
+         "PUNICODE_STRING",
+         "PCWSTR"
+      ],
+      "param_meta":[
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ZwSetInformationFile",
+      "parameters":[
+         "FileHandle",
+         "IoStatusBlock",
+         "FileInformation",
+         "Length",
+         "FileInformationClass"
+      ],
+      "param_types":[
+         "HANDLE",
+         "PIO_STATUS_BLOCK",
+         "PVOID",
+         "ULONG",
+         "FILE_INFORMATION_CLASS"
+      ],
+      "param_meta":[
+         "in",
+         "out",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"LocalSize",
+      "parameters":[
+         "hMem"
+      ],
+      "param_types":[
+         "HLOCAL"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetShortPathNameA",
+      "parameters":[
+         "lpszLongPath",
+         "lpszShortPath",
+         "cchBuffer"
+      ],
+      "param_types":[
+         "LPCSTR",
+         "LPSTR",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in",
+         "out, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CreateSemaphoreA",
+      "parameters":[
+         "lpSemaphoreAttributes",
+         "lInitialCount",
+         "lMaximumCount",
+         "lpName"
+      ],
+      "param_types":[
+         "LPSECURITY_ATTRIBUTES",
+         "LONG",
+         "LONG",
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in",
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CreateWaitableTimerA",
+      "parameters":[
+         "lpTimerAttributes",
+         "bManualReset",
+         "lpTimerName"
+      ],
+      "param_types":[
+         "LPSECURITY_ATTRIBUTES",
+         "BOOL",
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetFileSecurityA",
+      "parameters":[
+         "lpFileName",
+         "RequestedInformation",
+         "pSecurityDescriptor",
+         "nLength",
+         "lpnLengthNeeded"
+      ],
+      "param_types":[
+         "LPCSTR",
+         "SECURITY_INFORMATION",
+         "PSECURITY_DESCRIPTOR",
+         "DWORD",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "out, optional",
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CryptMemFree",
+      "parameters":[
+         "pv"
+      ],
+      "param_types":[
+         "LPVOID"
+      ],
+      "param_meta":[
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetBkMode",
+      "parameters":[
+         "hdc"
+      ],
+      "param_types":[
+         "HDC"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"WinHttpSetStatusCallback",
+      "parameters":[
+         "hInternet",
+         "lpfnInternetCallback",
+         "dwNotificationFlags",
+         "dwReserved"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "WINHTTP_STATUS_CALLBACK",
+         "DWORD",
+         "DWORD_PTR"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"WinHttpQueryOption",
+      "parameters":[
+         "hInternet",
+         "dwOption",
+         "lpBuffer",
+         "lpdwBufferLength"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "DWORD",
+         "LPVOID",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "out, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"WinHttpSetTimeouts",
+      "parameters":[
+         "hInternet",
+         "nResolveTimeout",
+         "nConnectTimeout",
+         "nSendTimeout",
+         "nReceiveTimeout"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "int",
+         "int",
+         "int",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"WinHttpGetProxyForUrl",
+      "parameters":[
+         "hSession",
+         "lpcwszUrl",
+         "pAutoProxyOptions",
+         "pProxyInfo"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "LPCWSTR",
+         "WINHTTP_AUTOPROXY_OPTIONS*",
+         "WINHTTP_PROXY_INFO*"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"WinHttpGetIEProxyConfigForCurrentUser",
+      "parameters":[
+         "pProxyConfig"
+      ],
+      "param_types":[
+         "WINHTTP_CURRENT_USER_IE_PROXY_CONFIG*"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetSetFilePointer",
+      "parameters":[
+         "hFile",
+         "lDistanceToMove",
+         "lpDistanceToMoveHigh",
+         "dwMoveMethod",
+         "dwContext"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "LONG",
+         "PLONG",
+         "DWORD",
+         "DWORD_PTR"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in, optional",
+         "in",
+         "NULL"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetQueryOptionA",
+      "parameters":[
+         "hInternet",
+         "dwOption",
+         "lpBuffer",
+         "lpdwBufferLength"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "DWORD",
+         "LPVOID",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in",
+         "out, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetQueryOptionW",
+      "parameters":[
+         "hInternet",
+         "dwOption",
+         "lpBuffer",
+         "lpdwBufferLength"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "DWORD",
+         "LPVOID",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in",
+         "out, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetSetStatusCallbackA",
+      "parameters":[
+         "hInternet",
+         "lpfnInternetCallback"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "INTERNET_STATUS_CALLBACK"
+      ],
+      "param_meta":[
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetSetStatusCallbackW",
+      "parameters":[
+         "hInternet",
+         "lpfnInternetCallback"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "INTERNET_STATUS_CALLBACK"
+      ],
+      "param_meta":[
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"FtpOpenFileW",
+      "parameters":[
+         "hConnect",
+         "lpszFileName",
+         "dwAccess",
+         "dwFlags",
+         "dwContext"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "LPCWSTR",
+         "DWORD",
+         "DWORD",
+         "DWORD_PTR"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"FtpGetFileSize",
+      "parameters":[
+         "hFile",
+         "lpdwFileSizeHigh"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in",
+         "out, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetCheckConnectionA",
+      "parameters":[
+         "lpszUrl",
+         "dwFlags",
+         "dwReserved"
+      ],
+      "param_types":[
+         "LPCSTR",
+         "DWORD",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DeleteUrlCacheEntryA",
+      "parameters":[
+         "lpszUrlName"
+      ],
+      "param_types":[
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetGetConnectedState",
+      "parameters":[
+         "lpdwFlags",
+         "dwReserved"
+      ],
+      "param_types":[
+         "LPDWORD",
+         "DWORD"
+      ],
+      "param_meta":[
+         "out",
+         "NULL"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetThreadDesktop",
+      "parameters":[
+         "hDesktop"
+      ],
+      "param_types":[
+         "HDESK"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"PeekMessageW",
+      "parameters":[
+         "lpMsg",
+         "hWnd",
+         "wMsgFilterMin",
+         "wMsgFilterMax",
+         "wRemoveMsg"
+      ],
+      "param_types":[
+         "LPMSG",
+         "HWND",
+         "UINT",
+         "UINT",
+         "UINT"
+      ],
+      "param_meta":[
+         "out",
+         "in, optional",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SendMessageA",
+      "parameters":[
+         "hWnd",
+         "Msg",
+         "wParam",
+         "lParam"
+      ],
+      "param_types":[
+         "HWND",
+         "UINT",
+         "WPARAM",
+         "LPARAM"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"PostThreadMessageA",
+      "parameters":[
+         "idThread",
+         "Msg",
+         "wParam",
+         "lParam"
+      ],
+      "param_types":[
+         "DWORD",
+         "UINT",
+         "WPARAM",
+         "LPARAM"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"PostQuitMessage",
+      "parameters":[
+         "nExitCode"
+      ],
+      "param_types":[
+         "int"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"IsWindowVisible",
+      "parameters":[
+         "hWnd"
+      ],
+      "param_types":[
+         "HWND"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SendDlgItemMessageA",
+      "parameters":[
+         "hDlg",
+         "nIDDlgItem",
+         "Msg",
+         "wParam",
+         "lParam"
+      ],
+      "param_types":[
+         "HWND",
+         "int",
+         "UINT",
+         "WPARAM",
+         "LPARAM"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CountClipboardFormats",
+      "parameters":[
+         
+      ],
+      "param_types":[
+         
+      ],
+      "param_meta":[
+         
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"IsClipboardFormatAvailable",
+      "parameters":[
+         "format"
+      ],
+      "param_types":[
+         "UINT"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetActiveWindow",
+      "parameters":[
+         
+      ],
+      "param_types":[
+         
+      ],
+      "param_meta":[
+         
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetFocus",
+      "parameters":[
+         
+      ],
+      "param_types":[
+         
+      ],
+      "param_meta":[
+         
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetTimer",
+      "parameters":[
+         "hWnd",
+         "nIDEvent",
+         "uElapse",
+         "lpTimerFunc"
+      ],
+      "param_types":[
+         "HWND",
+         "UINT_PTR",
+         "UINT",
+         "TIMERPROC"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in",
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetSystemMetrics",
+      "parameters":[
+         "nIndex"
+      ],
+      "param_types":[
+         "int"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RedrawWindow",
+      "parameters":[
+         "hWnd",
+         "lprcUpdate",
+         "hrgnUpdate",
+         "flags"
+      ],
+      "param_types":[
+         "HWND",
+         "RECT*",
+         "HRGN",
+         "UINT"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in, optional",
+         "in, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetWindowTextA",
+      "parameters":[
+         "hWnd",
+         "lpString"
+      ],
+      "param_types":[
+         "HWND",
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in",
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetWindowTextA",
+      "parameters":[
+         "hWnd",
+         "lpString",
+         "nMaxCount"
+      ],
+      "param_types":[
+         "HWND",
+         "LPSTR",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "out",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetWindowLongA",
+      "parameters":[
+         "hWnd",
+         "nIndex"
+      ],
+      "param_types":[
+         "HWND",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetWindowLongA",
+      "parameters":[
+         "hWnd",
+         "nIndex",
+         "dwNewLong"
+      ],
+      "param_types":[
+         "HWND",
+         "int",
+         "LONG"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetTopWindow",
+      "parameters":[
+         "hWnd"
+      ],
+      "param_types":[
+         "HWND"
+      ],
+      "param_meta":[
+         "in, optional"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetLastActivePopup",
+      "parameters":[
+         "hWnd"
+      ],
+      "param_types":[
+         "HWND"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetWindow",
+      "parameters":[
+         "hWnd",
+         "uCmd"
+      ],
+      "param_types":[
+         "HWND",
+         "UINT"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"UnhookWindowsHookEx",
+      "parameters":[
+         "hhk"
+      ],
+      "param_types":[
+         "HHOOK"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"LoadBitmapA",
+      "parameters":[
+         "hInstance",
+         "lpBitmapName"
+      ],
+      "param_types":[
+         "HINSTANCE",
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in, optional",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RaiseFailFastException",
+      "parameters":[
+         "pExceptionRecord",
+         "pContextRecord",
+         "dwFlags"
+      ],
+      "param_types":[
+         "PEXCEPTION_RECORD",
+         "PCONTEXT",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DeleteFileW",
+      "parameters":[
+         "lpFileName"
+      ],
+      "param_types":[
+         "LPCWSTR"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"midiStreamClose",
+      "parameters":[
+         "hms"
+      ],
+      "param_types":[
+         "HMIDISTRM"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DriverCallback",
+      "parameters":[
+         "dwCallback",
+         "dwFlags",
+         "hDevice",
+         "dwMsg",
+         "dwUser",
+         "dwParam1",
+         "dwParam2"
+      ],
+      "param_types":[
+         "DWORD_PTR",
+         "DWORD",
+         "HDRVR",
+         "DWORD",
+         "DWORD_PTR",
+         "DWORD_PTR",
+         "DWORD_PTR"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RtlFreeHeap",
+      "parameters":[
+         "HeapHandle",
+         "Flags",
+         "BaseAddress"
+      ],
+      "param_types":[
+         "PVOID",
+         "ULONG",
+         "PVOID"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RtlCaptureContext",
+      "parameters":[
+         "ContextRecord"
+      ],
+      "param_types":[
+         "PCONTEXT"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SwitchToThread",
+      "parameters":[
+         
+      ],
+      "param_types":[
+         
+      ],
+      "param_meta":[
+         
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetThreadPriority",
+      "parameters":[
+         "hThread",
+         "nPriority"
+      ],
+      "param_types":[
+         "HANDLE",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ResumeThread",
+      "parameters":[
+         "hThread"
+      ],
+      "param_types":[
+         "HANDLE"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SfcIsKeyProtected",
+      "parameters":[
+         "KeyHandle",
+         "OPTIONAL",
+         "KeySam"
+      ],
+      "param_types":[
+         "HKEY",
+         "SubKeyName",
+         "REGSAM"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetEvent",
+      "parameters":[
+         "hEvent"
+      ],
+      "param_types":[
+         "HANDLE"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ResetEvent",
+      "parameters":[
+         "hEvent"
+      ],
+      "param_types":[
+         "HANDLE"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SleepEx",
+      "parameters":[
+         "dwMilliseconds",
+         "bAlertable"
+      ],
+      "param_types":[
+         "DWORD",
+         "BOOL"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"timeEndPeriod",
+      "parameters":[
+         "uPeriod"
+      ],
+      "param_types":[
+         "UINT"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"LocalFlags",
+      "parameters":[
+         "hMem"
+      ],
+      "param_types":[
+         "HLOCAL"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"FormatMessageA",
+      "parameters":[
+         "dwFlags",
+         "lpSource",
+         "dwMessageId",
+         "dwLanguageId",
+         "nSize",
+         "Arguments"
+      ],
+      "param_types":[
+         "DWORD",
+         "LPCVOID",
+         "DWORD",
+         "DWORD",
+         "DWORD",
+         "va_list*"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"FormatMessageW",
+      "parameters":[
+         "dwFlags",
+         "lpSource",
+         "dwMessageId",
+         "dwLanguageId",
+         "nSize",
+         "Arguments"
+      ],
+      "param_types":[
+         "DWORD",
+         "LPCVOID",
+         "DWORD",
+         "DWORD",
+         "DWORD",
+         "va_list*"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"lstrcpynW",
+      "parameters":[
+         "lpString1",
+         "lpString2",
+         "iMaxLength"
+      ],
+      "param_types":[
+         "LPWSTR",
+         "LPCWSTR",
+         "int"
+      ],
+      "param_meta":[
+         "out",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"OpenFileMappingA",
+      "parameters":[
+         "dwDesiredAccess",
+         "bInheritHandle",
+         "lpName"
+      ],
+      "param_types":[
+         "DWORD",
+         "BOOL",
+         "LPCSTR"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CryptAcquireContextW",
+      "parameters":[
+         "phProv",
+         "szContainer",
+         "szProvider",
+         "dwProvType",
+         "dwFlags"
+      ],
+      "param_types":[
+         "HCRYPTPROV*",
+         "LPCWSTR",
+         "LPCWSTR",
+         "DWORD",
+         "DWORD"
+      ],
+      "param_meta":[
+         "out",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CryptFreeOIDFunctionAddress",
+      "parameters":[
+         "hFuncAddr",
+         "dwFlags"
+      ],
+      "param_types":[
+         "HCRYPTOIDFUNCADDR",
+         "DWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CryptBinaryToStringA",
+      "parameters":[
+         "pbBinary",
+         "cbBinary",
+         "dwFlags",
+         "pszString",
+         "pcchString"
+      ],
+      "param_types":[
+         "BYTE*",
+         "DWORD",
+         "DWORD",
+         "LPSTR",
+         "DWORD*"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"InternetGetLastResponseInfoW",
+      "parameters":[
+         "lpdwError",
+         "lpszBuffer",
+         "lpdwBufferLength"
+      ],
+      "param_types":[
+         "LPDWORD",
+         "LPWSTR",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "out",
+         "out",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"HttpQueryInfoA",
+      "parameters":[
+         "hRequest",
+         "dwInfoLevel",
+         "lpBuffer",
+         "lpdwBufferLength",
+         "lpdwIndex"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "DWORD",
+         "LPVOID",
+         "LPDWORD",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"HttpQueryInfoW",
+      "parameters":[
+         "hRequest",
+         "dwInfoLevel",
+         "lpBuffer",
+         "lpdwBufferLength",
+         "lpdwIndex"
+      ],
+      "param_types":[
+         "HINTERNET",
+         "DWORD",
+         "LPVOID",
+         "LPDWORD",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CompareStringA",
+      "parameters":[
+         "Locale",
+         "dwCmpFlags",
+         "lpString1",
+         "cchCount1",
+         "lpString2",
+         "cchCount2"
+      ],
+      "param_types":[
+         "LCID",
+         "DWORD",
+         "PCNZCH",
+         "int",
+         "PCNZCH",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RtlCaptureContext",
+      "parameters":[
+         "ContextRecord"
+      ],
+      "param_types":[
+         "PCONTEXT"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RegEnumKeyExA",
+      "parameters":[
+         "hKey",
+         "dwIndex",
+         "lpName",
+         "lpcchName",
+         "lpReserved",
+         "lpClass",
+         "lpcchClass",
+         "lpftLastWriteTime"
+      ],
+      "param_types":[
+         "HKEY",
+         "DWORD",
+         "LPSTR",
+         "LPDWORD",
+         "LPDWORD",
+         "LPSTR",
+         "LPDWORD",
+         "PFILETIME"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "out",
+         "in",
+         "in",
+         "out",
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"RegGetValueW",
+      "parameters":[
+         "hkey",
+         "lpSubKey",
+         "lpValue",
+         "dwFlags",
+         "pdwType",
+         "pvData",
+         "pcbData"
+      ],
+      "param_types":[
+         "HKEY",
+         "LPCWSTR",
+         "LPCWSTR",
+         "DWORD",
+         "LPDWORD",
+         "PVOID",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "out",
+         "out",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"TranslateMessage",
+      "parameters":[
+         "lpMsg"
+      ],
+      "param_types":[
+         "MSG*"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DispatchMessageA",
+      "parameters":[
+         "lpMsg"
+      ],
+      "param_types":[
+         "MSG*"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DispatchMessageW",
+      "parameters":[
+         "lpMsg"
+      ],
+      "param_types":[
+         "MSG*"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"PeekMessageA",
+      "parameters":[
+         "lpMsg",
+         "hWnd",
+         "wMsgFilterMin",
+         "wMsgFilterMax",
+         "wRemoveMsg"
+      ],
+      "param_types":[
+         "LPMSG",
+         "HWND",
+         "UINT",
+         "UINT",
+         "UINT"
+      ],
+      "param_meta":[
+         "out",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"IsWindow",
+      "parameters":[
+         "hWnd"
+      ],
+      "param_types":[
+         "HWND"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DestroyWindow",
+      "parameters":[
+         "hWnd"
+      ],
+      "param_types":[
+         "HWND"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ShowWindow",
+      "parameters":[
+         "hWnd",
+         "nCmdShow"
+      ],
+      "param_types":[
+         "HWND",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetDlgItem",
+      "parameters":[
+         "hDlg",
+         "nIDDlgItem"
+      ],
+      "param_types":[
+         "HWND",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SendDlgItemMessageW",
+      "parameters":[
+         "hDlg",
+         "nIDDlgItem",
+         "Msg",
+         "wParam",
+         "lParam"
+      ],
+      "param_types":[
+         "HWND",
+         "int",
+         "UINT",
+         "WPARAM",
+         "LPARAM"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetPriorityClipboardFormat",
+      "parameters":[
+         "paFormatPriorityList",
+         "cFormats"
+      ],
+      "param_types":[
+         "UINT*",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"CharLowerW",
+      "parameters":[
+         "lpsz"
+      ],
+      "param_types":[
+         "LPWSTR"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"KillTimer",
+      "parameters":[
+         "hWnd",
+         "uIDEvent"
+      ],
+      "param_types":[
+         "HWND",
+         "UINT_PTR"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"TranslateAcceleratorA",
+      "parameters":[
+         "hWnd",
+         "hAccTable",
+         "lpMsg"
+      ],
+      "param_types":[
+         "HWND",
+         "HACCEL",
+         "LPMSG"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetMenuDefaultItem",
+      "parameters":[
+         "hMenu",
+         "fByPos",
+         "gmdiFlags"
+      ],
+      "param_types":[
+         "HMENU",
+         "UINT",
+         "UINT"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetForegroundWindow",
+      "parameters":[
+         
+      ],
+      "param_types":[
+         
+      ],
+      "param_meta":[
+         
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetWindowTextW",
+      "parameters":[
+         "hWnd",
+         "lpString"
+      ],
+      "param_types":[
+         "HWND",
+         "LPCWSTR"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetCursorPos",
+      "parameters":[
+         "lpPoint"
+      ],
+      "param_types":[
+         "LPPOINT"
+      ],
+      "param_meta":[
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"DestroyCaret",
+      "parameters":[
+         
+      ],
+      "param_types":[
+         
+      ],
+      "param_meta":[
+         
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"ScreenToClient",
+      "parameters":[
+         "hWnd",
+         "lpPoint"
+      ],
+      "param_types":[
+         "HWND",
+         "LPPOINT"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetWindowLongW",
+      "parameters":[
+         "hWnd",
+         "nIndex"
+      ],
+      "param_types":[
+         "HWND",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"SetWindowLongW",
+      "parameters":[
+         "hWnd",
+         "nIndex",
+         "dwNewLong"
+      ],
+      "param_types":[
+         "HWND",
+         "int",
+         "LONG"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetParent",
+      "parameters":[
+         "hWnd"
+      ],
+      "param_types":[
+         "HWND"
+      ],
+      "param_meta":[
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetClassNameA",
+      "parameters":[
+         "hWnd",
+         "lpClassName",
+         "nMaxCount"
+      ],
+      "param_types":[
+         "HWND",
+         "LPSTR",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "out",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"GetWindowThreadProcessId",
+      "parameters":[
+         "hWnd",
+         "lpdwProcessId"
+      ],
+      "param_types":[
+         "HWND",
+         "LPDWORD"
+      ],
+      "param_meta":[
+         "in",
+         "out"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"LoadStringA",
+      "parameters":[
+         "hInstance",
+         "uID",
+         "lpBuffer",
+         "cchBufferMax"
+      ],
+      "param_types":[
+         "HINSTANCE",
+         "UINT",
+         "LPSTR",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "out",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+   {
+      "name":"LoadStringW",
+      "parameters":[
+         "hInstance",
+         "uID",
+         "lpBuffer",
+         "cchBufferMax"
+      ],
+      "param_types":[
+         "HINSTANCE",
+         "UINT",
+         "LPWSTR",
+         "int"
+      ],
+      "param_meta":[
+         "in",
+         "in",
+         "out",
+         "in"
+      ],
+      "calling_convention":"__stdcall"
+   },
+{
+	"name": "InterlockedCompareExchange",
+	"parameters": [
+	    "Destination",
+	    "ExChange",
+	    "Comperand"
+	],
+	"param_types": [
+	    "LONG *",
+	    "LONG",
+	    "LONG"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CreateMutexW",
+	"parameters": [
+	    "lpMutexAttributes",
+	    "bInitialOwner",
+	    "lpName"
+	],
+	"param_types": [
+	    "LPSECURITY_ATTRIBUTES",
+	    "BOOL",
+	    "LPCWSTR"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "AdjustTokenPrivileges",
+	"parameters": [
+	    "TokenHandle",
+	    "DisableAllPrivileges",
+	    "NewState",
+	    "BufferLength",
+	    "PreviousState",
+	    "ReturnLength"
+	],
+	"param_types": [
+	    "HANDLE",
+	    "BOOL",
+	    "PTOKEN_PRIVILEGES",
+	    "DWORD",
+	    "PTOKEN_PRIVILEGES",
+	    "PDWORD"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CloseHandle",
+	"parameters": [
+	    "hObject"
+	],
+	"param_types": [
+	    "HANDLE"
+	],
+	"param_meta":  [
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "LookupPrivilegeValueW",
+	"parameters": [
+	    "lpSystemName",
+	    "lpName",
+	    "lpLuid"
+	],
+	"param_types": [
+	    "LPCWSTR",
+	    "LPCWSTR",
+	    "PLUID"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "OpenProcessToken",
+	"parameters": [
+	    "ProcessHandle",
+	    "DesiredAccess",
+	    "TokenHandle"
+	],
+	"param_types": [
+	    "HANDLE",
+	    "DWORD",
+	    "PHANDLE"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "SetPriorityClass",
+	"parameters": [
+	    "hProcess",
+	    "dwPriorityClass"
+	],
+	"param_types": [
+	    "HANDLE",
+	    "DWORD"
+	],
+	"param_meta":  [
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CoInitializeSecurity",
+	"parameters": [
+	    "pSecDesc",
+	    "cAuthSvc",
+	    "asAuthSvc",
+	    "pReserved1",
+	    "dwAuthnLevel",
+	    "dwImpLevel",
+	    "pAuthList",
+	    "dwCapabilities",
+	    "pReserved3"
+	],
+	"param_types": [
+	    "PSECURITY_DESCRIPTOR",
+	    "LONG",
+	    "SOLE_AUTHENTICATION_SERVICE*",
+	    "void*",
+	    "DWORD",
+	    "DWORD",
+	    "void*",
+	    "DWORD",
+	    "void*"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "SetErrorMode",
+	"parameters": [
+	    "uMode"
+	],
+	"param_types": [
+	    "UINT"
+	],
+	"param_meta":  [
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "SetThreadExecutionState",
+	"parameters": [
+	    "esFlags"
+	],
+	"param_types": [
+	    "EXECUTION_STATE"
+	],
+	"param_meta":  [
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "GetTempPathW",
+	"parameters": [
+	    "nBufferLength",
+	    "lpBuffer"
+	],
+	"param_types": [
+	    "DWORD",
+	    "LPWSTR"
+	],
+	"param_meta":  [
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CoInitializeEx",
+	"parameters": [
+	    "pvReserved",
+	    "dwCoInit"
+	],
+	"param_types": [
+	    "LPVOID",
+	    "DWORD"
+	],
+	"param_meta":  [
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "__wgetmainargs",
+	"parameters": [
+	    "_Argc",
+	    "_Argv",
+            "_Env",
+            "_DoWildCard",
+	    "_StartInfo"
+	],
+	"param_types": [
+	    "int *",
+	    "wchar_t ***",
+            "wchar_t ***",
+            "int",
+	    "_startupinfo *"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "HeapSetInformation",
+	"parameters": [
+	    "HeapHandle",
+	    "HeapInformationClass",
+            "HeapInformation",
+            "HeapInformationLength"
+	],
+	"param_types": [
+	    "HANDLE",
+	    "HEAP_INFORMATION_CLASS",
+	    "PVOID",
+	    "SIZE_T"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "IsWow64Process",
+	"parameters": [
+	    "hProcess",
+            "Wow64Process",
+	    "ret"
+	],
+	"param_types": [
+	    "Wow64Process",
+	    "PBOOL",
+	    "BOOL"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "out"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "lstrcatW",
+	"parameters": [
+	    "lpString1",
+            "lpString2"
+	],
+	"param_types": [
+	    "LPWSTR",
+	    "LPCWSTR"
+	],
+	"param_meta":  [
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CreateEventA",
+	"parameters": [
+	    "lpEventAttributes",
+            "bManualReset",
+            "bInitialState",
+            "lpName"
+	],
+	"param_types": [
+	    "LPSECURITY_ATTRIBUTES",
+	    "BOOL",
+	    "BOOL",
+	    "LPCSTR"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CoUninitialize",
+	"parameters": [],
+	"param_types": [],
+	"param_meta":  [],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CoInitialize",
+	"parameters": [
+	    "pvReserved"
+	],
+	"param_types": [
+	    "LPVOID"
+	],
+	"param_meta":  [
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "CoCreateInstance",
+	"parameters": [
+	    "rclsid",
+  	    "pUnkOuter",
+  	    "dwClsContext",
+  	    "riid",
+  	    "ppv"
+	],
+	"param_types": [
+	    "REFCLSID",
+	    "LPUNKNOWN",
+  	    "DWORD",
+  	    "REFIID",
+  	    "LPVOID *"
+	],
+	"param_meta":  [
+	    "in",
+	    "in",
+	    "in",
+	    "in",
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+{
+	"name": "GetStartupInfoA",
+	"parameters": [
+	    "lpStartupInfo"
+	],
+	"param_types": [
+	    "LPSTARTUPINFOA"
+	],
+	"param_meta":  [
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+},
+    {
+	"name": "_CorExeMain",
+	"parameters": [],
+	"param_types": [],
+	"param_meta":  [],
+	"calling_convention": "__stdcall"
+},
+    {
+	"name": "__set_app_type",
+	"parameters": [
+	    "at"
+	],
+	"param_types": [
+	    "int"
+	],
+	"param_meta":  [
+	    "in"
+	],
+	"calling_convention": "__stdcall"
+    },
+    {
+        "name": "WinHttpSendRequest",
+        "parameters": [
+            "hRequest",
+            "lpszHeaders",
+            "dwHeadersLength",
+            "lpOptional",
+            "dwOptionalLength",
+            "dwTotalLength",
+            "dwContext"
+        ],
+        "param_types": [
+            "HINTERNET",
+            "LPCWSTR",
+            "DWORD",
+            "LPVOID",
+            "DWORD",
+            "DWORD",
+            "DWORD_PTR"
+        ],
+        "param_meta": [
+            "in",
+            "in, optional",
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WinHttpReadData",
+        "parameters": [
+            "hRequest",
+            "lpBuffer",
+            "dwNumberOfBytesToRead",
+            "lpdwNumberOfBytesRead"
+        ],
+        "param_types": [
+            "HINTERNET",
+            "LPVOID",
+            "DWORD",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WinHttpOpenRequest",
+        "parameters": [
+            "hConnect",
+            "pwszVerb",
+            "pwszObjectName",
+            "pwszVersion",
+            "pwszReferrer",
+            "ppwszAcceptTypes",
+            "dwFlags"
+        ],
+        "param_types": [
+            "HINTERNET",
+            "LPCWSTR",
+            "LPCWSTR",
+            "LPCWSTR",
+            "LPCWSTR",
+            "LPCWSTR*",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WinHttpConnect",
+        "parameters": [
+            "hSession",
+            "pswzServerName",
+            "nServerPort",
+            "dwReserved"
+        ],
+        "param_types": [
+            "HINTERNET",
+            "LPCWSTR",
+            "INTERNET_PORT",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+
+    {
+        "name": "InternetOpenA",
+        "parameters": [
+            "lpszAgent",
+            "dwAccessType",
+            "lpszProxy",
+            "lpszProxyBypass",
+            "dwFlags"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "DWORD",
+            "LPCSTR",
+            "LPCSTR",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateThread",
+        "parameters": [
+            "lpThreadAttributes",
+            "dwStackSize",
+            "lpStartAddress",
+            "lpParameter",
+            "dwCreationFlags",
+            "lpThreadId"
+        ],
+        "param_types": [
+            "LPSECURITY_ATTRIBUTES",
+            "SIZE_T",
+            "LPTHREAD_START_ROUTINE",
+            "LPVOID",
+            "DWORD",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "__wgetmainargs",
+        "parameters": [
+            "_Argc",
+            "_Argv",
+            "_Env",
+            "_DoWildCard",
+            "_StartInfo"
+        ],
+        "param_types": [
+            "int *",
+            "wchar_t ***",
+            "wchar_t ***",
+            "int",
+            "_startupinfo *"
+        ],
+        "param_meta":  [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "HeapSetInformation",
+        "parameters": [
+            "HeapHandle",
+            "HeapInformationClass",
+            "HeapInformation",
+            "HeapInformationLength"
+        ],
+        "param_types": [
+            "HANDLE",
+            "HEAP_INFORMATION_CLASS",
+            "PVOID",
+            "SIZE_T"
+        ],
+        "param_meta":  [
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "IsWow64Process",
+        "parameters": [
+            "hProcess",
+            "Wow64Process",
+            "ret"
+        ],
+        "param_types": [
+            "Wow64Process",
+            "PBOOL",
+            "BOOL"
+        ],
+        "param_meta":  [
+            "in",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "lstrcatW",
+        "parameters": [
+            "lpString1",
+            "lpString2"
+        ],
+        "param_types": [
+            "LPWSTR",
+            "LPCWSTR"
+        ],
+        "param_meta":  [
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateEventA",
+        "parameters": [
+            "lpEventAttributes",
+            "bManualReset",
+            "bInitialState",
+            "lpName"
+        ],
+        "param_types": [
+            "LPSECURITY_ATTRIBUTES",
+            "BOOL",
+            "BOOL",
+            "LPCSTR"
+        ],
+        "param_meta":  [
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CoUninitialize",
+        "parameters": [],
+        "param_types": [],
+        "param_meta":  [],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CoInitialize",
+        "parameters": [
+            "pvReserved"
+        ],
+        "param_types": [
+            "LPVOID"
+        ],
+        "param_meta":  [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CoCreateInstance",
+        "parameters": [
+            "rclsid",
+            "pUnkOuter",
+            "dwClsContext",
+            "riid",
+            "ppv"
+        ],
+        "param_types": [
+            "REFCLSID",
+            "LPUNKNOWN",
+            "DWORD",
+            "REFIID",
+            "LPVOID *"
+        ],
+        "param_meta":  [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetStartupInfoA",
+        "parameters": [
+            "lpStartupInfo"
+        ],
+        "param_types": [
+            "LPSTARTUPINFOA"
+        ],
+        "param_meta":  [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "_CorExeMain",
+        "parameters": [],
+        "param_types": [],
+        "param_meta":  [],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "__set_app_type",
+        "parameters": [
+            "at"
+        ],
+        "param_types": [
+            "int"
+        ],
+        "param_meta":  [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WaitForSingleObject",
+        "parameters": [
+            "hHandle",
+            "dwMilliseconds"
+        ],
+        "param_types": [
+            "HANDLE",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WideCharToMultiByte",
+        "parameters": [
+            "CodePage",
+            "dwFlags",
+            "lpWideCharStr",
+            "cchWideChar",
+            "lpMultiByteStr",
+            "cbMultiByte",
+            "lpDefaultChar",
+            "lpUsedDefaultChar"
+
+        ],
+        "param_types": [
+            "UINT",
+            "DWORD",
+            "LPCWCH",
+            "int",
+            "LPSTR",
+            "int",
+            "LPCCH",
+            "LPBOOL"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "out",
+            "out",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "lstrcpyW",
+        "parameters": [
+            "lpString1",
+            "lpString2"
+        ],
+        "param_types": [
+            "LPWSTR",
+            "LPCWSTR"
+        ],
+        "param_meta": [
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "lstrlenW",
+        "parameters": [
+            "lpString"
+        ],
+        "param_types": [
+            "LPCWSTR"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "ReleaseMutex",
+        "parameters": [
+            "hMutex"
+        ],
+        "param_types": [
+            "HANDLE"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "VirtualFree",
+        "parameters": [
+            "lpAddress",
+            "dwSize",
+            "dwFreeType"
+        ],
+        "param_types": [
+            "LPVOID",
+            "SIZE_T",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "Sleep",
+        "parameters": [
+            "dwMilliseconds"
+        ],
+        "param_types": [
+            "DWORD"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "InternetCheckConnectionW",
+        "parameters": [
+            "lpszUrl",
+            "dwFlags",
+            "dwReserved"
+        ],
+        "param_types": [
+            "LPCWSTR",
+            "DWORD",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RtlReAllocateHeap",
+        "parameters": [
+            "HeapHandle",
+            "Flags",
+            "MemoryPointer",
+            "Size"
+
+        ],
+        "param_types": [
+            "PVOID",
+            "ULONG",
+            "PVOID",
+            "ULONG"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "NtUnmapViewOfSection",
+        "parameters": [
+            "ProcessHandle",
+            "BaseAddress"
+        ],
+        "param_types": [
+            "HANDLE",
+            "PVOID"
+        ],
+        "param_meta": [
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "socket",
+        "parameters": [
+            "af",
+            "type",
+            "protocol"
+        ],
+        "param_types": [
+            "int",
+            "int",
+            "int"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "InternetOpenUrlA",
+        "parameters": [
+            "hInternet",
+            "lpszUrl",
+            "lpszHeaders",
+            "dwHeadersLength",
+            "dwFlags",
+            "dwContext"
+        ],
+        "param_types": [
+            "HINTERNET",
+            "LPCSTR",
+            "LPCSTR",
+            "DWORD",
+            "DWORD",
+            "DWORD_PTR"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "InternetOpenUrlW",
+        "parameters": [
+            "hInternet",
+            "lpszUrl",
+            "lpszHeaders",
+            "dwHeadersLength",
+            "dwFlags",
+            "dwContext"
+        ],
+        "param_types": [
+            "HINTERNET",
+            "LPCWSTR",
+            "LPCWSTR",
+            "DWORD",
+            "DWORD",
+            "DWORD_PTR"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "Open",
+        "parameters": [
+            "Method",
+            "Url",
+            "Async"
+        ],
+        "param_types": [
+            "BSTR",
+            "BSTR",
+            "VARIANT"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "OpenProcess",
+        "parameters": [
+            "dwDesiredAccess",
+            "bInheritHandle",
+            "dwProcessId"
+        ],
+        "param_types": [
+            "DWORD",
+            "BOOL",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateProcessA",
+        "parameters": [
+            "lpApplicationName",
+            "lpCommandLine",
+            "lpProcessAttributes",
+            "lpThreadAttributes",
+            "bInheritHandles",
+            "dwCreationFlags",
+            "lpEnvironment",
+            "lpCurrentDirectory",
+            "lpStartupInfo",
+            "lpProcessInformation"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "LPSTR",
+            "LPSECURITY_ATTRIBUTES",
+            "LPSECURITY_ATTRIBUTES",
+            "BOOL",
+            "DWORD",
+            "LPVOID",
+            "LPCSTR",
+            "LPSTARTUPINFOA",
+            "LPPROCESS_INFORMATION"
+        ],
+        "param_meta": [
+            "in, optional",
+            "in, out, optional",
+            "in, optional",
+            "in, optional",
+            "in",
+            "in",
+            "in, optional",
+            "in, optional",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateProcessW",
+        "parameters": [
+            "lpApplicationName",
+            "lpCommandLine",
+            "lpProcessAttributes",
+            "lpThreadAttributes",
+            "bInheritHandles",
+            "dwCreationFlags",
+            "lpEnvironment",
+            "lpCurrentDirectory",
+            "lpStartupInfo",
+            "lpProcessInformation"
+        ],
+        "param_types": [
+            "LPCWSTR",
+            "LPWSTR",
+            "LPSECURITY_ATTRIBUTES",
+            "LPSECURITY_ATTRIBUTES",
+            "BOOL",
+            "DWORD",
+            "LPVOID",
+            "LPCWSTR",
+            "LPSTARTUPINFOW",
+            "LPPROCESS_INFORMATION"
+        ],
+        "param_meta": [
+            "in, optional",
+            "in, out, optional",
+            "in, optional",
+            "in, optional",
+            "in",
+            "in",
+            "in, optional",
+            "in, optional",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateRemoteThread",
+        "parameters": [
+            "hProcess",
+            "lpThreadAttributes",
+            "dwStackSize",
+            "lpStartAddress",
+            "lpParameter",
+            "dwCreationFlags",
+            "lpThreadId"
+        ],
+        "param_types": [
+            "HANDLE",
+            "LPSECURITY_ATTRIBUTES",
+            "SIZE_T",
+            "LPTHREAD_START_ROUTINE",
+            "LPVOID",
+            "DWORD",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WriteProcessMemory",
+        "parameters": [
+            "hProcess",
+            "lpBaseAddress",
+            "lpBuffer",
+            "nSize",
+            "lpNumberOfBytesWritten"
+        ],
+        "param_types": [
+            "HANDLE",
+            "LPVOID",
+            "LPCVOID",
+            "SIZE_T",
+            "SIZE_T *"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateFileA",
+        "parameters": [
+            "lpFileName",
+            "dwDesiredAccess",
+            "dwShareMode",
+            "lpSecurityAttributes",
+            "dwCreationDisposition",
+            "dwFlagsAndAttributes",
+            "hTemplateFile"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "DWORD",
+            "DWORD",
+            "LPSECURITY_ATTRIBUTES",
+            "DWORD",
+            "DWORD",
+            "HANDLE"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateFileW",
+        "parameters": [
+            "lpFileName",
+            "dwDesiredAccess",
+            "dwShareMode",
+            "lpSecurityAttributes",
+            "dwCreationDisposition",
+            "dwFlagsAndAttributes",
+            "hTemplateFile"
+        ],
+        "param_types": [
+            "LPCWSTR",
+            "DWORD",
+            "DWORD",
+            "LPSECURITY_ATTRIBUTES",
+            "DWORD",
+            "DWORD",
+            "HANDLE"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WriteFile",
+        "parameters": [
+            "hFile",
+            "lpBuffer",
+            "nNumberOfBytesToWrite",
+            "lpNumberOfBytesWritten",
+            "lpOverlapped"
+        ],
+        "param_types": [
+            "HANDLE",
+            "LPCVOID",
+            "DWORD",
+            "LPDWORD",
+            "LPOVERLAPPED"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "out, optional",
+            "in, out, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SetFileAttributesA",
+        "parameters": [
+            "lpFileName",
+            "dwFileAttributes"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SetFileAttributesW",
+        "parameters": [
+            "lpFileName",
+            "dwFileAttributes"
+        ],
+        "param_types": [
+            "LPCWSTR",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "OpenFile",
+        "parameters": [
+            "lpFileName",
+            "lpReOpenBuff",
+            "uStyle"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "LPOFSTRUCT",
+            "UINT"
+        ],
+        "param_meta": [
+            "in",
+            "out",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "ReadFile",
+        "parameters": [
+            "hFile",
+            "lpBuffer",
+            "nNumberOfBytesToRead",
+            "lpNumberOfBytesRead",
+            "lpOverlapped"
+        ],
+        "param_types": [
+            "HANDLE",
+            "LPVOID",
+            "DWORD",
+            "LPDWORD",
+            "LPOVERLAPPED"
+        ],
+        "param_meta": [
+            "in",
+            "out",
+            "in",
+            "out, optional",
+            "in, out, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "send",
+        "parameters": [
+            "s",
+            "buf",
+            "len",
+            "flags"
+        ],
+        "param_types": [
+            "SOCKET",
+            "const char *",
+            "int",
+            "int"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegisterHotKey",
+        "parameters": [
+            "hWnd",
+            "id",
+            "fsModifiers",
+            "vk"
+        ],
+        "param_types": [
+            "HWND",
+            "int",
+            "UINT",
+            "UINT"
+        ],
+        "param_meta": [
+            "in, optional",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SetWindowsHookExA",
+        "parameters": [
+            "idHook",
+            "lpfn",
+            "hmod",
+            "dwThreadId"
+        ],
+        "param_types": [
+            "int",
+            "HOOKPROC",
+            "HINSTANCE",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SetWindowsHookExW",
+        "parameters": [
+            "idHook",
+            "lpfn",
+            "hmod",
+            "dwThreadId"
+        ],
+        "param_types": [
+            "int",
+            "HOOKPROC",
+            "HINSTANCE",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetMessageA",
+        "parameters": [
+            "lpMsg",
+            "hWnd",
+            "wMsgFilterMin",
+            "wMsgFilterMax"
+        ],
+        "param_types": [
+            "LPMSG",
+            "HWND",
+            "UINT",
+            "UINT"
+        ],
+        "param_meta": [
+            "out",
+            "in, optional",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetMessageW",
+        "parameters": [
+            "lpMsg",
+            "hWnd",
+            "wMsgFilterMin",
+            "wMsgFilterMax"
+        ],
+        "param_types": [
+            "LPMSG",
+            "HWND",
+            "UINT",
+            "UINT"
+        ],
+        "param_meta": [
+            "out",
+            "in, optional",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegCreateKeyExA",
+        "parameters": [
+            "hKey",
+            "lpSubKey",
+            "Reserved",
+            "lpClass",
+            "dwOptions",
+            "samDesired",
+            "lpSecurityAttributes",
+            "phkResult",
+            "lpdwDisposition"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCSTR",
+            "DWORD",
+            "LPSTR",
+            "DWORD",
+            "REGSAM",
+            "const LPSECURITY_ATTRIBUTES",
+            "PHKEY",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "in, optional",
+            "out",
+            "out, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegCreateKeyExW",
+        "parameters": [
+            "hKey",
+            "lpSubKey",
+            "Reserved",
+            "lpClass",
+            "dwOptions",
+            "samDesired",
+            "lpSecurityAttributes",
+            "phkResult",
+            "lpdwDisposition"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCWSTR",
+            "DWORD",
+            "LPWSTR",
+            "DWORD",
+            "REGSAM",
+            "const LPSECURITY_ATTRIBUTES",
+            "PHKEY",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "in, optional",
+            "out",
+            "out, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegOpenKeyExA",
+        "parameters": [
+            "hKey",
+            "lpSubKey",
+            "ulOptions",
+            "samDesired",
+            "phkResult"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCSTR",
+            "DWORD",
+            "REGSAM",
+            "PHKEY"
+        ],
+        "param_meta": [
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegOpenKeyExW",
+        "parameters": [
+            "hKey",
+            "lpSubKey",
+            "ulOptions",
+            "samDesired",
+            "phkResult"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCWSTR",
+            "DWORD",
+            "REGSAM",
+            "PHKEY"
+        ],
+        "param_meta": [
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegSetValueExA",
+        "parameters": [
+            "hKey",
+            "lpValueName",
+            "Reserved",
+            "dwType",
+            "lpData",
+            "cbData"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCSTR",
+            "DWORD",
+            "DWORD",
+            "const BYTE *",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegSetValueExW",
+        "parameters": [
+            "hKey",
+            "lpValueName",
+            "Reserved",
+            "dwType",
+            "lpData",
+            "cbData"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCWSTR",
+            "DWORD",
+            "DWORD",
+            "const BYTE *",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in, optional",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetDC",
+        "parameters": [
+            "hWnd"
+        ],
+        "param_types": [
+            "HWND"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetWindowDC",
+        "parameters": [
+            "hWnd"
+        ],
+        "param_types": [
+            "HWND"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "CreateCompatibleBitmap",
+        "parameters": [
+            "hdc",
+            "cx",
+            "cy"
+        ],
+        "param_types": [
+            "HDC",
+            "int",
+            "int"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetLastError",
+        "parameters": [
+
+        ],
+        "param_types": [
+
+        ],
+        "param_meta": [
+
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SetLastError",
+        "parameters": [
+            "dwErrCode"
+        ],
+        "param_types": [
+            "DWORD"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "IsProcessorFeaturePresent",
+        "parameters": [
+            "ProcessorFeature"
+        ],
+        "param_types": [
+            "DWORD"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "IsDebuggerPresent",
+        "parameters": [
+        ],
+        "param_types": [
+        ],
+        "param_meta": [
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SetUnhandledExceptionFilter",
+        "parameters": [
+            "lpTopLevelExceptionFilter"
+        ],
+        "param_types": [
+            "LPTOP_LEVEL_EXCEPTION_FILTER"
+        ],
+        "param_meta": [
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "UnhandledExceptionFilter",
+        "parameters": [
+            "ExceptionInfo"
+        ],
+        "param_types": [
+            "_EXCEPTION_POINTERS"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegQueryValueExA",
+        "parameters": [
+            "hKey",
+            "lpValueName",
+            "lpReserved",
+            "lpType",
+            "lpData",
+            "lpcbData"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCSTR",
+            "LPDWORD",
+            "LPDWORD",
+            "LPBYTE",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in, optional",
+            "in",
+            "out, optional",
+            "out",
+            "in, out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegQueryValueExW",
+        "parameters": [
+            "hKey",
+            "lpValueName",
+            "lpReserved",
+            "lpType",
+            "lpData",
+            "lpcbData"
+        ],
+        "param_types": [
+            "HKEY",
+            "LPCWSTR",
+            "LPDWORD",
+            "LPDWORD",
+            "LPBYTE",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "in, optional",
+            "in",
+            "out, optional",
+            "out",
+            "in, out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetModuleFileNameA",
+        "parameters": [
+            "hModule",
+            "lpFilename",
+            "nSize"
+        ],
+        "param_types": [
+            "HMODULE",
+            "LPSTR",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in, optional",
+            "out",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetModuleFileNameW",
+        "parameters": [
+            "hModule",
+            "lpFilename",
+            "nSize"
+        ],
+        "param_types": [
+            "HMODULE",
+            "LPWSTR",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in, optional",
+            "out",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "RegCloseKey",
+        "parameters": [
+            "hKey"
+        ],
+        "param_types": [
+            "HKEY"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "OutputDebugStringA",
+        "parameters": [
+            "lpOutputString"
+        ],
+        "param_types": [
+            "LPCSTR"
+        ],
+        "param_meta": [
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "OutputDebugStringW",
+        "parameters": [
+            "lpOutputString"
+        ],
+        "param_types": [
+            "LPCWSTR"
+        ],
+        "param_meta": [
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "ExpandEnvironmentStringsA",
+        "parameters": [
+            "lpSrc",
+            "lpDst",
+            "nSize"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "LPSTR",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "out",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "ExpandEnvironmentStringsW",
+        "parameters": [
+            "lpSrc",
+            "lpDst",
+            "nSize"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "LPWSTR",
+            "DWORD"
+        ],
+        "param_meta": [
+            "in",
+            "out",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetVersion",
+        "parameters": [
+
+        ],
+        "param_types": [
+
+        ],
+        "param_meta": [
+
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "VirtualQuery",
+        "parameters": [
+            "lpAddress",
+            "lpBuffer",
+            "dwLength"
+        ],
+        "param_types": [
+            "LPCVOID",
+            "PMEMORY_BASIC_INFORMATION",
+            "SIZE_T"
+        ],
+        "param_meta": [
+            "in, optional",
+            "out",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetCurrentProcess",
+        "parameters": [
+
+        ],
+        "param_types": [
+
+        ],
+        "param_meta": [
+
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetFullPathNameA",
+        "parameters": [
+            "lpFileName",
+            "nBufferLength",
+            "lpBuffer",
+            "lpFilePart"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "DWORD",
+            "LPSTR",
+            "LPSTR"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "out",
+            "out, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetFullPathNameW",
+        "parameters": [
+            "lpFileName",
+            "nBufferLength",
+            "lpBuffer",
+            "lpFilePart"
+        ],
+        "param_types": [
+            "LPCWSTR",
+            "DWORD",
+            "LPWSTR",
+            "LPWSTR"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "out",
+            "out, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetDriveTypeA",
+        "parameters": [
+            "lpRootPathName"
+        ],
+        "param_types": [
+            "LPCSTR"
+        ],
+        "param_meta": [
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetDriveTypeW",
+        "parameters": [
+            "lpRootPathName"
+        ],
+        "param_types": [
+            "LPCWSTR"
+        ],
+        "param_meta": [
+            "in, optional"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SearchPathA",
+        "parameters": [
+            "lpPath",
+            "lpFileName",
+            "lpExtension",
+            "nBufferLength",
+            "lpBuffer",
+            "lpFilePart"
+        ],
+        "param_types": [
+            "LPCSTR",
+            "LPCSTR",
+            "LPCSTR",
+            "DWORD",
+            "LPSTR",
+            "LPSTR *"
+        ],
+        "param_meta": [
+            "in, optional",
+            "in",
+            "in, optional",
+            "in",
+            "out",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "SearchPathW",
+        "parameters": [
+            "lpPath",
+            "lpFileName",
+            "lpExtension",
+            "nBufferLength",
+            "lpBuffer",
+            "lpFilePart"
+        ],
+        "param_types": [
+            "LPCWSTR",
+            "LPCWSTR",
+            "LPCWSTR",
+            "DWORD",
+            "LPWSTR",
+            "LPWSTR *"
+        ],
+        "param_meta": [
+            "in, optional",
+            "in",
+            "in, optional",
+            "in",
+            "out",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "_lock",
+        "parameters": [
+            "locknum"
+        ],
+        "param_types": [
+            "int"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__cdecl"
+    },
+    {
+        "name": "_unlock",
+        "parameters": [
+            "locknum"
+        ],
+        "param_types": [
+            "int"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__cdecl"
+    },
+    {
+        "name": "__dllonexit",
+        "parameters": [
+            "func",
+            "pbegin",
+            "pend"
+        ],
+        "param_types": [
+            "_onexit_t",
+            "_PVFV **",
+            "_PVFV **"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__cdecl"
+    },
+    {
+        "name": "DbgUiConvertStateChangeStructure",
+        "parameters": [
+            "StateChange",
+            "DebugEvent"
+        ],
+        "param_types": [
+            "PDBGUI_WAIT_STATE_CHANGE",
+            "LPDEBUG_EVENT"
+        ],
+        "param_meta": [
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "BaseSetLastNTError",
+        "parameters": [
+            "Status"
+        ],
+        "param_types": [
+            "NTSTATUS"
+        ],
+        "param_meta": [
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetExitCodeProcess",
+        "parameters": [
+            "hProcess",
+            "lpExitCode"
+        ],
+        "param_types": [
+            "HANDLE",
+            "LPDWORD"
+        ],
+        "param_meta": [
+            "in",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "WSHGetSocketInformation",
+        "parameters": [
+            "HelperDllSocketContext",
+            "SocketHandle",
+            "TdiAddressObjectHandle",
+            "TdiConnectionObjectHandle",
+            "Level",
+            "OptionName",
+            "OptionValue",
+            "OptionLength"
+        ],
+        "param_types": [
+            "PVOID",
+            "SOCKET",
+            "HANDLE",
+            "HANDLE",
+            "INT",
+            "INT",
+            "PCHAR",
+            "INT *"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "in",
+            "out",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "URLDownloadToFile",
+        "parameters": [
+            "pCaller",
+            "szURL",
+            "szFileName",
+            "dwReserved",
+            "lpfnCB"
+        ],
+        "param_types": [
+            "LPUNKNOWN",
+            "LPCTSTR",
+            "LPCTSTR",
+            "DWORD",
+            "LPBINDSTATUSCALLBACK"
+        ],
+        "param_meta": [
+            "in",
+            "in",
+            "in",
+            "in",
+            "in"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "GetFileTime",
+        "parameters": [
+            "hFile",
+            "lpCreationTime",
+            "lpLastAccessTime",
+            "lpLastWriteTime"
+        ],
+        "param_types": [
+            "HANDLE",
+            "LPFILETIME",
+            "LPFILETIME",
+            "LPFILETIME"
+        ],
+        "param_meta": [
+            "in",
+            "out",
+            "out",
+            "out"
+        ],
+        "calling_convention": "__stdcall"
+    },
+    {
+        "name": "_itoa",
+        "parameters": [
+            "value",
+            "buffer",
+            "radix"
+        ],
+        "param_types": [
+            "INT",
+            "CHAR*",
+            "INT"
+        ],
+        "param_meta": [
+            "in",
+            "out",
+            "in"
+        ],
+        "calling_convention": "__cdecl"
+    }
+
+]
