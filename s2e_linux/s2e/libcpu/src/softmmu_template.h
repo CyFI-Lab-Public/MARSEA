@@ -24,20 +24,20 @@
 #define DATA_SIZE (1 << SHIFT)
 
 #if DATA_SIZE == 8
-#define SUFFIX q
-#define USUFFIX q
+#define SUFFIX    q
+#define USUFFIX   q
 #define DATA_TYPE uint64_t
 #elif DATA_SIZE == 4
-#define SUFFIX l
-#define USUFFIX l
+#define SUFFIX    l
+#define USUFFIX   l
 #define DATA_TYPE uint32_t
 #elif DATA_SIZE == 2
-#define SUFFIX w
-#define USUFFIX uw
+#define SUFFIX    w
+#define USUFFIX   uw
 #define DATA_TYPE uint16_t
 #elif DATA_SIZE == 1
-#define SUFFIX b
-#define USUFFIX ub
+#define SUFFIX    b
+#define USUFFIX   ub
 #define DATA_TYPE uint8_t
 #else
 #error unsupported data size
@@ -45,13 +45,13 @@
 
 #ifdef SOFTMMU_CODE_ACCESS
 #define READ_ACCESS_TYPE 2
-#define ADDR_READ addr_code
+#define ADDR_READ        addr_code
 #else
 #define READ_ACCESS_TYPE 0
-#define ADDR_READ addr_read
+#define ADDR_READ        addr_read
 #endif
 
-#define CPU_PREFIX cpu_
+#define CPU_PREFIX    cpu_
 #define HELPER_PREFIX helper_
 
 #define ADDR_MAX ((target_ulong) -1)
@@ -61,10 +61,10 @@
 
 // clang-format off
 #if defined(SYMBEX_LLVM_LIB) && !defined(STATIC_TRANSLATOR)
-    #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, flags) \
-        if (*g_sqi.events.before_memory_access_signals_count) tcg_llvm_before_memory_access(vaddr, value, sizeof(value), flags);
-    #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, flags, retaddr) \
-        if (*g_sqi.events.after_memory_access_signals_count) tcg_llvm_after_memory_access(vaddr, value, sizeof(value), flags, 0);
+    #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, size, flags) \
+        if (*g_sqi.events.before_memory_access_signals_count) tcg_llvm_before_memory_access(vaddr, value, size, flags);
+    #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, size, flags, retaddr) \
+        if (*g_sqi.events.after_memory_access_signals_count) tcg_llvm_after_memory_access(vaddr, value, size, flags, 0);
     #define INSTR_FORK_AND_CONCRETIZE(val, max) \
         tcg_llvm_fork_and_concretize(val, 0, max, 0)
     #define SE_SET_MEM_IO_VADDR(env, addr, reset) \
@@ -72,16 +72,16 @@
 #else // SYMBEX_LLVM_LIB
     #if defined(SE_ENABLE_MEM_TRACING) && !defined(STATIC_TRANSLATOR)
         #ifdef SOFTMMU_CODE_ACCESS
-            #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, flags)
-            #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, flags, retaddr)
+            #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, size, flags)
+            #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, size, flags, retaddr)
         #else
-            #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, flags)
-            #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, flags, retaddr) \
-                if (unlikely(*g_sqi.events.after_memory_access_signals_count)) g_sqi.events.after_memory_access(vaddr, value, sizeof(value), flags, (uintptr_t) 0);
+            #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, size, flags)
+            #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, size, flags, retaddr) \
+                if (unlikely(*g_sqi.events.after_memory_access_signals_count)) g_sqi.events.after_memory_access(vaddr, value, size, flags, (uintptr_t) 0);
         #endif
     #else
-        #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, flags)
-        #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, flags, retaddr)
+        #define INSTR_BEFORE_MEMORY_ACCESS(vaddr, value, size, flags)
+        #define INSTR_AFTER_MEMORY_ACCESS(vaddr, value, size, flags, retaddr)
     #endif
 
     #define INSTR_FORK_AND_CONCRETIZE(val, max) (val)
@@ -100,7 +100,7 @@
 
 #define INSTR_BEFORE_MEMORY_ACCESS(...)
 #define INSTR_AFTER_MEMORY_ACCESS(...)
-#define INSTR_FORK_AND_CONCRETIZE(val, max) (val)
+#define INSTR_FORK_AND_CONCRETIZE(val, max)      (val)
 #define INSTR_FORK_AND_CONCRETIZE_ADDR(val, max) (val)
 
 #define SE_RAM_OBJECT_BITS TARGET_PAGE_BITS
@@ -205,26 +205,26 @@ DATA_TYPE glue(glue(io_read_chk, SUFFIX), MMUSUFFIX)(CPUArchState *env, target_p
 #if SHIFT <= 2
     if (se_ismemfunc(ops, 0)) {
         uintptr_t pa = se_notdirty_mem_read(naddr);
-        res.res = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t)(pa));
+        res.res = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t) (pa));
         goto end;
     }
 #else
 #ifdef TARGET_WORDS_BIGENDIAN
     if (se_ismemfunc(ops, 0)) {
         uintptr_t pa = se_notdirty_mem_read(naddr);
-        *(uint32_t *) &res.raw[sizeof(uint32_t)] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t)(pa));
+        *(uint32_t *) &res.raw[sizeof(uint32_t)] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t) (pa));
 
         pa = se_notdirty_mem_read(naddr + 4);
-        *(uint32_t *) &res.raw[0] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t)(pa));
+        *(uint32_t *) &res.raw[0] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t) (pa));
         goto end;
     }
 #else
     if (se_ismemfunc(ops, 0)) {
         uintptr_t pa = se_notdirty_mem_read(naddr);
-        *(uint32_t *) &res.raw[0] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t)(pa));
+        *(uint32_t *) &res.raw[0] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t) (pa));
 
         pa = se_notdirty_mem_read(naddr + 4);
-        *(uint32_t *) &res.raw[sizeof(uint32_t)] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t)(pa));
+        *(uint32_t *) &res.raw[sizeof(uint32_t)] = glue(glue(ld, USUFFIX), _raw)((uint8_t *) (intptr_t) (pa));
         goto end;
     }
 #endif
@@ -258,7 +258,7 @@ glue(glue(glue(HELPER_PREFIX, ld), SUFFIX), MMUSUFFIX)(CPUArchState *env, target
 /* test if there is match for unaligned or IO access */
 /* XXX: could done more in memory macro in a non portable way */
 #ifdef CONFIG_SYMBEX_MP
-    INSTR_BEFORE_MEMORY_ACCESS(addr, 0, 0);
+    INSTR_BEFORE_MEMORY_ACCESS(addr, 0, DATA_SIZE, 0);
     addr = INSTR_FORK_AND_CONCRETIZE_ADDR(addr, ADDR_MAX);
     object_index = INSTR_FORK_AND_CONCRETIZE(addr >> SE_RAM_OBJECT_BITS, ADDR_MAX >> SE_RAM_OBJECT_BITS);
     index = (object_index >> SE_RAM_OBJECT_DIFF) & (CPU_TLB_SIZE - 1);
@@ -281,7 +281,7 @@ redo:
 #endif
             res = glue(glue(io_read_chk, SUFFIX), MMUSUFFIX)(env, ioaddr, addr, retaddr);
 
-            INSTR_AFTER_MEMORY_ACCESS(addr, res, MEM_TRACE_FLAG_IO, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, res, DATA_SIZE, MEM_TRACE_FLAG_IO, retaddr);
 
         } else if (unlikely(((addr & ~SE_RAM_OBJECT_MASK) + DATA_SIZE - 1) >= SE_RAM_OBJECT_SIZE)) {
         /* slow unaligned access (it spans two pages or IO) */
@@ -299,11 +299,11 @@ redo:
 #endif
 
 #if defined(CONFIG_SYMBEX) && !defined(SYMBEX_LLVM_LIB) && defined(CONFIG_SYMBEX_MP)
-            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t)(addr + tlb_entry->se_addend));
+            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t) (addr + tlb_entry->se_addend));
 #else
-            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t)(addr + tlb_entry->addend));
+            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t) (addr + tlb_entry->addend));
 #endif
-            INSTR_AFTER_MEMORY_ACCESS(addr, res, 0, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, res, DATA_SIZE, 0, retaddr);
         }
     } else {
 /* the page is not in the TLB : fill it */
@@ -328,7 +328,7 @@ static DATA_TYPE glue(glue(slow_ld, SUFFIX), MMUSUFFIX)(CPUArchState *env, targe
     target_ulong tlb_addr, addr1, addr2;
     CPUTLBEntry *tlb_entry;
 
-    INSTR_BEFORE_MEMORY_ACCESS(addr, 0, 0);
+    INSTR_BEFORE_MEMORY_ACCESS(addr, 0, DATA_SIZE, 0);
     addr = INSTR_FORK_AND_CONCRETIZE_ADDR(addr, ADDR_MAX);
     object_index = INSTR_FORK_AND_CONCRETIZE(addr >> SE_RAM_OBJECT_BITS, ADDR_MAX >> SE_RAM_OBJECT_BITS);
     index = (object_index >> SE_RAM_OBJECT_DIFF) & (CPU_TLB_SIZE - 1);
@@ -348,7 +348,7 @@ redo:
 #endif
             res = glue(glue(io_read_chk, SUFFIX), MMUSUFFIX)(env, ioaddr, addr, retaddr);
 
-            INSTR_AFTER_MEMORY_ACCESS(addr, res, MEM_TRACE_FLAG_IO, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, res, DATA_SIZE, MEM_TRACE_FLAG_IO, retaddr);
         } else if (((addr & ~SE_RAM_OBJECT_MASK) + DATA_SIZE - 1) >= SE_RAM_OBJECT_SIZE) {
 
         do_unaligned_access:
@@ -367,11 +367,11 @@ redo:
         } else {
 /* unaligned/aligned access in the same page */
 #if defined(CONFIG_SYMBEX) && !defined(SYMBEX_LLVM_LIB) && defined(CONFIG_SYMBEX_MP)
-            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t)(addr + tlb_entry->se_addend));
+            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t) (addr + tlb_entry->se_addend));
 #else
-            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t)(addr + tlb_entry->addend));
+            res = glue(glue(ld, USUFFIX), _p)((uint8_t *) (intptr_t) (addr + tlb_entry->addend));
 #endif
-            INSTR_AFTER_MEMORY_ACCESS(addr, res, 0, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, res, DATA_SIZE, 0, retaddr);
         }
     } else {
         /* the page is not in the TLB : fill it */
@@ -465,7 +465,7 @@ void glue(glue(io_write_chk, SUFFIX), MMUSUFFIX)(CPUArchState *env, target_phys_
 #if SHIFT <= 2
     if (se_ismemfunc(ops, 1)) {
         uintptr_t pa = se_notdirty_mem_write(physaddr, 1 << SHIFT);
-        glue(glue(st, SUFFIX), _raw)((uint8_t *) (intptr_t)(pa), val);
+        glue(glue(st, SUFFIX), _raw)((uint8_t *) (intptr_t) (pa), val);
         goto end;
     }
 #else
@@ -474,9 +474,9 @@ void glue(glue(io_write_chk, SUFFIX), MMUSUFFIX)(CPUArchState *env, target_phys_
 #else
     if (se_ismemfunc(ops, 1)) {
         uintptr_t pa = se_notdirty_mem_write(physaddr, 1 << SHIFT);
-        stl_raw((uint8_t *) (intptr_t)(pa), val);
+        stl_raw((uint8_t *) (intptr_t) (pa), val);
         pa = se_notdirty_mem_write(physaddr + 4, 1 << SHIFT);
-        stl_raw((uint8_t *) (intptr_t)(pa), val >> 32);
+        stl_raw((uint8_t *) (intptr_t) (pa), val >> 32);
         goto end;
     }
 #endif
@@ -503,7 +503,7 @@ void glue(glue(glue(HELPER_PREFIX, st), SUFFIX), MMUSUFFIX)(CPUArchState *env, t
     mmu_idx = mmu_idx & 0xf;
 
 #ifdef CONFIG_SYMBEX_MP
-    INSTR_BEFORE_MEMORY_ACCESS(addr, val, 1);
+    INSTR_BEFORE_MEMORY_ACCESS(addr, val, DATA_SIZE, 1);
     addr = INSTR_FORK_AND_CONCRETIZE_ADDR(addr, ADDR_MAX);
     object_index = INSTR_FORK_AND_CONCRETIZE(addr >> SE_RAM_OBJECT_BITS, ADDR_MAX >> SE_RAM_OBJECT_BITS);
     index = (object_index >> SE_RAM_OBJECT_DIFF) & (CPU_TLB_SIZE - 1);
@@ -530,7 +530,7 @@ redo:
 
             glue(glue(io_write_chk, SUFFIX), MMUSUFFIX)(env, ioaddr, val, addr, retaddr);
 
-            INSTR_AFTER_MEMORY_ACCESS(addr, val, MEM_TRACE_FLAG_IO | MEM_TRACE_FLAG_WRITE, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, val, DATA_SIZE, MEM_TRACE_FLAG_IO | MEM_TRACE_FLAG_WRITE, retaddr);
         } else if (unlikely(((addr & ~SE_RAM_OBJECT_MASK) + DATA_SIZE - 1) >= SE_RAM_OBJECT_SIZE)) {
 
         do_unaligned_access:
@@ -552,7 +552,7 @@ redo:
 #else
             glue(glue(st, SUFFIX), _p)((uint8_t *) (addr + tlb_entry->addend), val);
 #endif
-            INSTR_AFTER_MEMORY_ACCESS(addr, val, MEM_TRACE_FLAG_WRITE, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, val, DATA_SIZE, MEM_TRACE_FLAG_WRITE, retaddr);
         }
     } else {
 /* the page is not in the TLB : fill it */
@@ -575,7 +575,7 @@ static void glue(glue(slow_st, SUFFIX), MMUSUFFIX)(CPUArchState *env, target_ulo
     int i;
     CPUTLBEntry *tlb_entry;
 
-    INSTR_BEFORE_MEMORY_ACCESS(addr, val, 1);
+    INSTR_BEFORE_MEMORY_ACCESS(addr, val, DATA_SIZE, 1);
     addr = INSTR_FORK_AND_CONCRETIZE_ADDR(addr, ADDR_MAX);
     object_index = INSTR_FORK_AND_CONCRETIZE(addr >> SE_RAM_OBJECT_BITS, ADDR_MAX >> SE_RAM_OBJECT_BITS);
     index = (object_index >> SE_RAM_OBJECT_DIFF) & (CPU_TLB_SIZE - 1);
@@ -594,7 +594,7 @@ redo:
 #endif
             glue(glue(io_write_chk, SUFFIX), MMUSUFFIX)(env, ioaddr, val, addr, retaddr);
 
-            INSTR_AFTER_MEMORY_ACCESS(addr, val, MEM_TRACE_FLAG_IO | MEM_TRACE_FLAG_WRITE, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, val, DATA_SIZE, MEM_TRACE_FLAG_IO | MEM_TRACE_FLAG_WRITE, retaddr);
         } else if (((addr & ~SE_RAM_OBJECT_MASK) + DATA_SIZE - 1) >= SE_RAM_OBJECT_SIZE) {
 
         do_unaligned_access:
@@ -616,7 +616,7 @@ redo:
 #else
             glue(glue(st, SUFFIX), _p)((uint8_t *) (addr + tlb_entry->addend), val);
 #endif
-            INSTR_AFTER_MEMORY_ACCESS(addr, val, MEM_TRACE_FLAG_WRITE, retaddr);
+            INSTR_AFTER_MEMORY_ACCESS(addr, val, DATA_SIZE, MEM_TRACE_FLAG_WRITE, retaddr);
         }
     } else {
         /* the page is not in the TLB : fill it */

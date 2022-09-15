@@ -240,7 +240,7 @@ void BaseInstructions::isSymbolic(S2EExecutionState *state) {
     result = 0;
     for (unsigned i = 0; i < size; ++i) {
         klee::ref<klee::Expr> ret = state->mem()->read(address + i);
-        if (ret.isNull()) {
+        if (!ret) {
             getWarningsStream() << "Could not read address " << hexval(address + i) << "\n";
             continue;
         }
@@ -343,7 +343,7 @@ void BaseInstructions::printMemory(S2EExecutionState *state) {
     for (uint32_t i = 0; i < size; ++i) {
         getInfoStream() << hexval(address + i) << ": ";
         klee::ref<Expr> res = state->mem()->read(address + i);
-        if (res.isNull()) {
+        if (!res) {
             getInfoStream() << "Invalid pointer\n";
         } else {
             getInfoStream() << res << '\n';
@@ -464,7 +464,6 @@ void BaseInstructions::sleep(S2EExecutionState *state) {
 }
 
 void BaseInstructions::printMessage(S2EExecutionState *state, int outType) {
-    //getDebugStream(state) << "outype is "<< hexval(outType)<<'\n';
     target_ulong address = 0;
     bool ok = state->regs()->read(CPU_OFFSET(regs[R_EAX]), &address, sizeof address, false);
     if (!ok) {
@@ -598,7 +597,7 @@ void BaseInstructions::assumeDisjunction(S2EExecutionState *state) {
     target_ulong currentParam = sp + STACK_ELEMENT_SIZE * 2;
 
     klee::ref<klee::Expr> variable = state->mem()->read(currentParam, STACK_ELEMENT_SIZE * 8);
-    if (variable.isNull()) {
+    if (!variable) {
         getWarningsStream(state) << "BaseInstructions: assumeDisjunction could not read the variable\n";
         return;
     }
@@ -658,20 +657,25 @@ void BaseInstructions::writeBuffer(S2EExecutionState *state) {
     ok &= state->regs()->read(CPU_OFFSET(regs[R_EDI]), &destination, sizeof(destination), false);
     ok &= state->regs()->read(CPU_OFFSET(regs[R_ECX]), &size, sizeof(size), false);
 
-    getDebugStream(state) << "BaseInstructions: copying " << size << " bytes from " << hexval(source) << " to "
-                          << hexval(destination) << "\n";
+    if (!ok) {
+        getWarningsStream(state) << "writeBuffer: could not read registers\n";
+        return;
+    }
+
+    getDebugStream(state) << "copying " << size << " bytes from " << hexval(source) << " to " << hexval(destination)
+                          << "\n";
 
     uint32_t remaining = (uint32_t) size;
 
     while (remaining > 0) {
         uint8_t byte;
         if (!state->mem()->read(source, &byte, sizeof(byte))) {
-            getDebugStream(state) << "BaseInstructions: could not read byte at " << hexval(source) << "\n";
+            getDebugStream(state) << "could not read byte at " << hexval(source) << "\n";
             break;
         }
 
         if (!state->mem()->write(destination, &byte, sizeof(byte))) {
-            getDebugStream(state) << "BaseInstructions: could not write byte to " << hexval(destination) << "\n";
+            getDebugStream(state) << "could not write byte to " << hexval(destination) << "\n";
             break;
         }
 
@@ -729,41 +733,18 @@ void BaseInstructions::getConstraintsCountForExpression(S2EExecutionState *state
  */
 void BaseInstructions::forkCount(S2EExecutionState *state) {
     target_ulong count;
-    target_ulong nameptr;
 
     state->jumpToSymbolicCpp();
 
     state->regs()->read(CPU_OFFSET(regs[R_EAX]), &count, sizeof count);
-    state->regs()->read(CPU_OFFSET(regs[R_ECX]), &nameptr, sizeof nameptr);
-
-    std::string name;
-
-    if (!state->mem()->readString(nameptr, name)) {
-        getWarningsStream(state) << "Could not read string at address " << hexval(nameptr) << "\n";
-
-        state->regs()->write<target_ulong>(CPU_OFFSET(regs[R_EAX]), -1);
-        return;
-    }
-
-    klee::ref<klee::Expr> var = state->createSymbolicValue<uint32_t>(name, 0);
-
-    state->regs()->write(CPU_OFFSET(regs[R_EAX]), var);
     state->regs()->write<target_ulong>(CPU_OFFSET(eip), state->regs()->getPc() + 10);
 
-    getDebugStream(state) << "s2e_fork: will fork " << count << " times with variable " << var << "\n";
+    getDebugStream(state) << "s2e_fork: will fork " << count << " time(s)\n";
 
-    for (unsigned i = 1; i < count; ++i) {
-        klee::ref<klee::Expr> val = klee::ConstantExpr::create(i, var->getWidth());
-        klee::ref<klee::Expr> cond = klee::NeExpr::create(var, val);
-
-        klee::Executor::StatePair sp = s2e()->getExecutor()->forkCondition(state, cond, true);
+    for (unsigned i = 0; i < count; ++i) {
+        S2EExecutor::StatePair sp = s2e()->getExecutor()->fork(*state);
         assert(sp.first == state);
         assert(sp.second && sp.second != sp.first);
-    }
-
-    klee::ref<klee::Expr> cond = klee::EqExpr::create(var, klee::ConstantExpr::create(0, var->getWidth()));
-    if (!state->addConstraint(cond)) {
-        s2e()->getExecutor()->terminateState(*state, "Could not add condition");
     }
 }
 

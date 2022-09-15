@@ -99,7 +99,7 @@ add_library(
     s2e/Plugins/Models/CRC.cpp
     s2e/Plugins/Models/StaticFunctionModels.cpp
     s2e/Plugins/Models/CyFiFunctionModels.cpp
-    
+
     # Static analysis
     s2e/Plugins/StaticAnalysis/ControlFlowGraph.cpp
     s2e/Plugins/StaticAnalysis/LoopDetector.cpp

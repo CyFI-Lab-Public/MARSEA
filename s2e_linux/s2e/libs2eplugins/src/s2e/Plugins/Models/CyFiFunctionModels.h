@@ -12,6 +12,10 @@
 
 #include "BaseFunctionModels.h"
 #include <string>
+#include <unordered_map>
+#include <map>
+#include <vector>
+#include <utility>
 
 struct CYFI_WINWRAPPER_COMMAND;
 
@@ -55,6 +59,36 @@ private:
 };
 
 
+class Decoders {
+    public:
+        static std::string indexedVal_UC(unsigned char ** data);
+        static std::string indexedVal_C(char * data);
+        static std::string indexedVal_S(std::string data);
+        static std::string indexedVal_V(std::vector<uint8_t> data);
+
+        static std::string base64(const char* in, size_t source_len);
+        static std::string xor_23(std::string x);
+        static size_t table_lookup(const char* source, size_t source_len, char* dest, size_t dest_capacity, const char* table, size_t table_size);
+        static size_t decode_str_to_le_int32(const char* source, size_t source_len, char* dest, size_t dest_capacity);
+        static size_t decode_le_int32_to_str(const char* source, size_t source_len, char* dest, size_t dest_capacity);
+        static size_t rot_13(const char* source, size_t source_len, char* dest, size_t dest_capacity);
+        static int hexchr2bin(const char hex, char* out);
+        static size_t base16(const char* hex, unsigned char** out);
+
+        static const void* cyoBase85NextByte(const void* input, unsigned char* byte, int* padding);
+        static  unsigned int cyoBase85Power(unsigned int mult, int count);
+        static unsigned char* cyoBase85OutputX4(unsigned char* output, char value);    
+        static size_t base85(const char* source, size_t source_len, char* dest, size_t dest_capacity);
+            
+        static std::pair<std::string, std::string> extractBufferComparators(std::string decoder_type, std::vector<uint8_t> all_contants);
+
+    private:
+        Decoders() {}
+
+    
+};
+
+
 class CyFiFunctionModels : public BaseFunctionModels, public IPluginInvoker {
     S2E_PLUGIN
 
@@ -73,18 +107,17 @@ public:
                                 uint64_t pc);
     void onInstructionExecution(S2EExecutionState *state, uint64_t pc);
     std::string getTag(const std::string &sym);
-    void onCall(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
-                        const ModuleDescriptorConstPtr &dest, uint64_t callerPc, uint64_t calleePc,
-                        const FunctionMonitor::ReturnSignalPtr &returnSignal);
-    void onRet(S2EExecutionState *state, const ModuleDescriptorConstPtr &source,
-                        const ModuleDescriptorConstPtr &dest, uint64_t returnSite,
-                        uint64_t functionPc);
     void cyfiDump(S2EExecutionState *state, std::string reg);
     void onProcessLoad(S2EExecutionState *state, uint64_t pageDir, uint64_t pid, const std::string &ImageFileName);
 
 private:
+
+    std::string trackedTag;
+    uint64_t trackedPc;
+
     bool instructionMonitor; 
     int func_to_monitor = 0;
+    int arg_dump = 0;
     ModuleMap *m_map;
     LibraryCallMonitor *m_libCallMonitor;
     ProcessExecutionDetector *m_procDetector;
@@ -98,43 +131,20 @@ private:
     std::string recent_callee = "";
     int counter = 0;
 
+    bool decoderSearch;
+    std::map< ref<Expr> , std::map< uint64_t, std::vector<std::pair< std::string, std::string> > > > constantMapping;
+    typedef std::map<std::string, std::pair<std::string, std::string> > decoderMap;
+    typedef std::vector< std::pair< uint64_t,  decoderMap >> memDataVec;
+    std::map<int,  memDataVec> instructionMemData;
+
     Vmi *m_vmi;
     OSMonitor *m_monitor;
+    MemUtils *m_memutils;
 
-    void handleStrlen(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
-    void handleStrcmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
-    void handleStrncmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
-    void handleStrcpy(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleStrncpy(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleMemcpy(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleMemcmp(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &expr);
-    void handleStrcat(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleStrncat(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-
-    void handleMemset(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void cyfi_equivalence(S2EExecutionState *state, ref<Expr> a, ref<Expr> b, llvm::raw_ostream &os);
+    void copy_expression(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
     void handleStrStrA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleStrStrW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleStrStr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleStrtok(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);  
-    void handleWcsstr(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-
-    void handleWinHttpReadData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
-    void handleWinHttpWriteData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, klee::ref<klee::Expr> &retExpr);
-    void handleWinHttpCrackUrl(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd,  klee::ref<klee::Expr> &expr);
-    void handleWinHttpConnect(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-
-    void handleInternetCrackUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleInternetConnectA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleInternetCrackUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleInternetConnectW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void handleInternetOpenUrlA(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);    
-    void handleInternetOpenUrlW(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);    
-    void handleInternetReadFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
-    
-    void handleWriteFile(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-
-    void handleCrc(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd, ref<Expr> &ret);
     void handleOpcodeInvocation(S2EExecutionState *state, uint64_t guestDataPtr, uint64_t guestDataSize);
 
     void checkCaller(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
@@ -144,7 +154,18 @@ private:
     void killAnalysis(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
 
     void dumpExpression(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
-    void concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void tagTracker(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void expressionData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);
+    void onConcreteDataMemoryAccess(S2EExecutionState *state, uint64_t address, uint64_t value, uint8_t size,unsigned flags);
+
+    void onAfterSymbolicDataMemoryAccess(S2EExecutionState *state, klee::ref<klee::Expr> address,
+                                                   klee::ref<klee::Expr> hostAddress, klee::ref<klee::Expr> value,
+                                                   unsigned flags);
+    void findBufferByte(ref<Expr> expr, ref<Expr> &index);
+    void evalForDecoders(S2EExecutionState *state, klee::ref<klee::Expr> address);    
+    void concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
+    void cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
+    void cyfiPrintMemory(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);                                                
 };
 
 } // namespace models

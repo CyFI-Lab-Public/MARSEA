@@ -291,6 +291,9 @@ S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHan
     __DEFINE_EXT_FUNCTION(sprintf)
     __DEFINE_EXT_FUNCTION(fputc)
     __DEFINE_EXT_FUNCTION(fwrite)
+    __DEFINE_EXT_FUNCTION(memset)
+    __DEFINE_EXT_FUNCTION(memcpy)
+    __DEFINE_EXT_FUNCTION(memmove)
 
     __DEFINE_EXT_FUNCTION(floatx80_to_float64)
     __DEFINE_EXT_FUNCTION(float64_to_floatx80)
@@ -370,11 +373,6 @@ S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHan
     __DEFINE_EXT_FUNCTION(ldq_phys)
     __DEFINE_EXT_FUNCTION(stq_phys)
 
-    ModuleOptions MOpts = ModuleOptions(vector<string>(),
-                                        /* Optimize= */ false,
-                                        /* CheckDivZero= */ false, m_llvmTranslator->getFunctionPassManager());
-    MOpts.Snapshot = false;
-
     /* This catches obvious LLVM misconfigurations */
     Module *M = m_llvmTranslator->getModule();
     s2e->getDebugStream() << "Current data layout: " << M->getDataLayoutStr() << '\n';
@@ -387,7 +385,7 @@ S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHan
         exit(-1);
     }
 
-    setModule(m_llvmTranslator->getModule(), MOpts, false);
+    setModule(m_llvmTranslator->getModule(), false);
 
     if (UseFastHelpers) {
         disableConcreteLLVMHelpers();
@@ -758,7 +756,7 @@ void S2EExecutor::stateSwitchTimerCallback(void *opaque) {
 
     assert(env->current_tb == nullptr);
 
-    if (g_s2e_state && c->states.size()>=2) {
+    if (g_s2e_state) {
         c->doLoadBalancing();
         S2EExecutionState *nextState = c->selectNextState(g_s2e_state);
         if (nextState) {
@@ -950,10 +948,14 @@ S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
         doStateSwitch(state, newState);
         if (newState->inTargetModule && klee::tbTrace.find(newState->startPC) == klee::tbTrace.end()) {
             m_s2e->getDebugStream(state) << "[PLOT] Choose Valid State\n";
+            m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
         } else {
             m_s2e->getDebugStream(state) << "[PLOT] Choose Invalid State\n";
+            m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
         }
         g_s2e->getCorePlugin()->onStateSwitch.emit(state, newState);
+    } else {
+        m_s2e->getDebugStream(state) << "New State == State\n";
     }
 
     // We can't free the state immediately if it is the current state.
@@ -1079,6 +1081,7 @@ void S2EExecutor::updateClockScaling() {
     } else {
         // Symbolic execution
         scaling = UseFastHelpers ? ClockSlowDownFastHelpers : ClockSlowDown;
+        //scaling = 1;
     }
 
     if (g_sqi.exec.clock_scaling_factor) {
@@ -1375,20 +1378,33 @@ Executor::StatePair S2EExecutor::forkAndConcretize(S2EExecutionState *state, kle
 
 S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::ref<Expr> &condition,
                                          bool keepConditionTrueInCurrentState) {
+    return doFork(current, condition, keepConditionTrueInCurrentState);
+}
+
+S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current) {
+    return doFork(current, nullptr, false);
+}
+
+S2EExecutor::StatePair S2EExecutor::doFork(ExecutionState &current, const klee::ref<Expr> &condition,
+                                           bool keepConditionTrueInCurrentState) {
     S2EExecutionState *currentState = dynamic_cast<S2EExecutionState *>(&current);
     assert(currentState);
     assert(!currentState->isRunningConcrete());
 
     StatePair res;
 
-    // If the condition is constant, there is no need to do anything as the fork will not branch
+    // Check if we should fork the current state.
+    // 1. If no conditions are passed to us, then the user wants to explicitly
+    //    fork the current state, and thus we should perform the check.
+    // 2. If the condition is constant, there is no need to do anything
+    //    as the fork will not branch.
     bool forkOk = true;
-    if (!dyn_cast<klee::ConstantExpr>(condition)) {
+    if (!condition || !dyn_cast<klee::ConstantExpr>(condition)) {
         if (currentState->forkDisabled) {
             g_s2e->getDebugStream(currentState) << "fork disabled at " << hexval(currentState->regs()->getPc()) << "\n";
         }
 
-        g_s2e->getCorePlugin()->onStateForkDecide.emit(currentState, &forkOk);
+        g_s2e->getCorePlugin()->onStateForkDecide.emit(currentState, condition, forkOk);
         if (!forkOk) {
             g_s2e->getDebugStream(currentState) << "fork prevented by request from plugin\n";
         }
@@ -1399,11 +1415,11 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
         currentState->forkDisabled = true;
     }
 
-    res = Executor::fork(current, condition, keepConditionTrueInCurrentState);
-
-    klee::ref<Expr> evalResult = current.concolics->evaluate(condition);
-    klee::ConstantExpr *ce = dyn_cast<klee::ConstantExpr>(evalResult);
-    bool conditionIsTrue = ce->isTrue();
+    if (condition) {
+        res = Executor::fork(current, condition, keepConditionTrueInCurrentState);
+    } else {
+        res = Executor::fork(current);
+    }
 
     currentState->forkDisabled = oldForkStatus;
 
@@ -1411,9 +1427,21 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
         return res;
     }
 
-    S2EExecutionState *newStates[2];
+    llvm::SmallVector<S2EExecutionState *, 2> newStates(2);
+    llvm::SmallVector<klee::ref<Expr>, 2> newConditions(2);
+
     newStates[0] = static_cast<S2EExecutionState *>(res.first);
     newStates[1] = static_cast<S2EExecutionState *>(res.second);
+
+    if (condition) {
+        newConditions[0] = condition;
+        newConditions[1] = klee::NotExpr::create(condition);
+    }
+
+    klee::ref<Expr> evalResult = current.concolics->evaluate(condition);
+    klee::ConstantExpr *ce = dyn_cast<klee::ConstantExpr>(evalResult);
+    bool conditionIsTrue = ce->isTrue();
+
 
     // Calcuate next PC
     uint64_t staticTargets[2] = {0};
@@ -1423,20 +1451,23 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
         m_s2e->getDebugStream(currentState) << "False PC: " << hexval(staticTargets[1]) << "\n";
     }
 
-    klee::ref<Expr> newConditions[2];
-    newConditions[0] = condition;
-    newConditions[1] = klee::NotExpr::create(condition);
-
     llvm::raw_ostream &out = m_s2e->getInfoStream(currentState);
+    llvm::raw_ostream &cyfiout = m_s2e->getCyfiStream(currentState);
     out << "Forking state " << currentState->getID() << " at pc = " << hexval(currentState->regs()->getPc())
         << " at pagedir = " << hexval(currentState->regs()->getPageDir()) << '\n';
+
+    cyfiout << "Forking state " << currentState->getID() << '\n';
 
     for (unsigned i = 0; i < 2; ++i) {
         if (VerboseFork) {
             out << "    state " << newStates[i]->getID();
             out << " with condition " << newConditions[i] << '\n';
+
+            cyfiout << "    state " << newStates[i]->getID();
+            cyfiout << " with condition " << '\n';
         } else {
             out << "    state " << newStates[i]->getID() << "\n";
+            cyfiout << "    state " << newStates[i]->getID() << "\n";
         }
 
         // Handled in ::branch
@@ -1459,7 +1490,7 @@ S2EExecutor::StatePair S2EExecutor::fork(ExecutionState &current, const klee::re
 
     if (VerboseFork) {
         std::stringstream ss;
-        currentState->printStack(nullptr, ss);
+        currentState->printStack(ss);
         m_s2e->getDebugStream() << "Stack frame at fork:" << '\n' << ss.str() << "\n";
     }
 
@@ -1534,7 +1565,9 @@ std::vector<ExecutionState *> S2EExecutor::forkValues(S2EExecutionState *state, 
 
         if (!sp.first) {
             // expr always equals value, no point in trying other values
-            foreach2 (it2, it + 1, values.end()) { ret.push_back(nullptr); }
+            foreach2 (it2, it + 1, values.end()) {
+                ret.push_back(nullptr);
+            }
             return ret;
         }
 

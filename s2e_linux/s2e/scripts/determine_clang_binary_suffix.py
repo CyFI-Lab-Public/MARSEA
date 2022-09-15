@@ -51,7 +51,7 @@ def _get_debian_version(version_string):
     version = int(version_string)
 
     if version >= 8:
-        return 'x86_64-linux-gnu-debian8'
+        return 'x86_64-linux-gnu-ubuntu-18.04'
     else:
         return None
 
@@ -63,8 +63,6 @@ def _get_ubuntu_version(version_string):
     """
     major_version, minor_version = list(map(int, version_string.split('.')))
 
-    # Currently S2E only supports LLVM 3.9.1, and the only Clang binary
-    # packages that exist for this version are for Ubuntu 14.04 and 16.04
     if major_version == 14 and minor_version >= 4:
         return 'x86_64-linux-gnu-ubuntu-14.04',
     elif major_version == 15:
@@ -75,13 +73,15 @@ def _get_ubuntu_version(version_string):
         return 'x86_64-linux-gnu-ubuntu-18.04',
     elif major_version == 20:
         return 'x86_64-linux-gnu-ubuntu-18.04',
+    elif major_version == 22:
+        return 'x86_64-linux-gnu-ubuntu-18.04',
     else:
         return None
 
 
 def main():
     """The main function."""
-    name = distro.name()
+    name = distro.id()
     version = distro.version()
 
     clang_ver_to_download = None
