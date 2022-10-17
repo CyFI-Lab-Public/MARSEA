@@ -16,6 +16,9 @@ HINTERNET WINAPI InternetOpenAHook(
     LPCSTR lpszProxyBypass,
     DWORD  dwFlags
 ) {
+    if (!checkCaller("InternetOpenA")) {
+        return InternetOpenA(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
+    }
     HINTERNET sessionHandle = InternetOpenA(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
     if (sessionHandle == NULL) {
         sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
@@ -33,6 +36,10 @@ HINTERNET WINAPI InternetOpenWHook(
     LPCWSTR lpszProxyBypass,
     DWORD   dwFlags
 ) {
+
+    if (!checkCaller("InternetOpenW")) {
+        return InternetOpenW(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
+    }
     HINTERNET sessionHandle = InternetOpenW(lpszAgent, dwAccessType, lpszProxy, lpszProxyBypass, dwFlags);
     if (sessionHandle == 0) {
         sessionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
@@ -53,58 +60,62 @@ HINTERNET WINAPI InternetConnectAHook(
     DWORD         dwFlags,
     DWORD_PTR     dwContext
 ) {
-    // Read tag first in case that InternetConnect silently concretize the server name?
-    std::string tag = ReadTag((PVOID)lpszServerName);
-    bool isTaint = IsTainted((PVOID)lpszServerName);
+    if (checkCaller("InternetConnectA")) {
+        // Read tag first in case that InternetConnect silently concretize the server name?
+        std::string tag = ReadTag((PVOID)lpszServerName);
+        bool isTaint = IsTainted((PVOID)lpszServerName);
 
-    HINTERNET connectionHandle = NULL;
-            
-    if (tag != "") {
+        HINTERNET connectionHandle = NULL;
 
-        S2EDisableForking();
+        if (tag != "") {
 
-        connectionHandle = InternetConnectA(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
+            S2EDisableForking();
 
-        if (connectionHandle == NULL) {
-            Message("InternetConnectA 0\n");
-            connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(connectionHandle);
+            connectionHandle = InternetConnectA(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
+
+            if (connectionHandle == NULL) {
+                Message("InternetConnectA 0\n");
+                connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+                dummyHandles.insert(connectionHandle);
+            }
+            else {
+                Message("InternetConnectA 1\n");
+            }
+
+            Message("[W] InternetConnectA (%p [|] %s [|] %i [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
+                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
+
+            Message("ServerName Memory: ");
+            cyfiPrintMemory((PVOID)lpszServerName, strlen(lpszServerName));
+
+            S2EEnableForking();
+
+            return connectionHandle;
         }
         else {
-            Message("InternetConnectA 1\n");
+
+            S2EDisableForking();
+
+            connectionHandle = InternetConnectA(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
+
+            if (connectionHandle == NULL) {
+                Message("InternetConnectA 0\n");
+                connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
+                dummyHandles.insert(connectionHandle);
+            }
+            else {
+                Message("InternetConnectA 1\n");
+            }
+            Message("[W] InternetConnectA (%p [|] %s [|] %i [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p\n",
+                hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
+
+            S2EEnableForking();
+
+            return connectionHandle;
         }
-
-        Message("[W] InternetConnectA (%p [|] %s [|] %i [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s\n",
-            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle, tag.c_str());
-
-        Message("ServerName Memory: ");
-        cyfiPrintMemory((PVOID)lpszServerName, strlen(lpszServerName));
-
-        S2EEnableForking();
-
-        return connectionHandle;
     }
-    else {
-       
-        S2EDisableForking();
 
-        connectionHandle = InternetConnectA(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
-
-        if (connectionHandle == NULL) {
-            Message("InternetConnectA 0\n");
-            connectionHandle = (HINTERNET)malloc(sizeof(HINTERNET));
-            dummyHandles.insert(connectionHandle);
-        }
-        else {
-            Message("InternetConnectA 1\n");
-        }
-        Message("[W] InternetConnectA (%p [|] %s [|] %i [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p\n",
-            hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext, connectionHandle);
-
-        S2EEnableForking();
-
-        return connectionHandle;
-    }
+    return InternetConnectA(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
  }
 
 HINTERNET WINAPI InternetConnectWHook(
@@ -117,6 +128,11 @@ HINTERNET WINAPI InternetConnectWHook(
     DWORD         dwFlags,
     DWORD_PTR     dwContext
 ) {
+
+    if (!checkCaller("InternetConnectW")) {
+        return InternetConnectW(hInternet, lpszServerName, nServerPort, lpszUserName, lpszPassword, dwService, dwFlags, dwContext);
+    }
+
     std::string tag = ReadTag((PVOID)lpszServerName);
 
     bool isTaint = IsTainted((PVOID)lpszServerName);
@@ -238,7 +254,9 @@ HINTERNET WINAPI HttpOpenRequestAHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
-
+    if (!checkCaller("HttpOpenRequestA")) {
+        return HttpOpenRequestA(hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext);
+    }
     std::string verbTag = ReadTag((PVOID)lpszVerb);
     std::string objectNameTag = ReadTag((PVOID)lpszObjectName);
     std::string versionTag = ReadTag((PVOID)lpszVersion);
@@ -295,7 +313,9 @@ HINTERNET WINAPI HttpOpenRequestWHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
-
+    if (!checkCaller("HttpOpenRequestW")) {
+        return HttpOpenRequestW(hConnect, lpszVerb, lpszObjectName, lpszVersion, lpszReferrer, lplpszAcceptTypes, dwFlags, dwContext);
+    }
     std::string verbTag = ReadTag((PVOID)lpszVerb);
     std::string objectNameTag = ReadTag((PVOID)lpszObjectName);
     std::string versionTag = ReadTag((PVOID)lpszVersion);
@@ -349,6 +369,9 @@ BOOL WINAPI HttpSendRequestAHook(
     LPVOID    lpOptional,
     DWORD     dwOptionalLength
 ) {
+    if (!checkCaller("HttpSendRequestA")) {
+        return HttpSendRequestA(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+    }
     std::string read_header_tag = ReadTag((PVOID)lpszHeaders);
     std::string read_option_tag = "";
     if (lpOptional != NULL) {
@@ -399,6 +422,10 @@ BOOL WINAPI HttpSendRequestWHook(
     LPVOID    lpOptional,
     DWORD     dwOptionalLength
 ) {
+
+    if (!checkCaller("HttpSendRequestW")) {
+        return HttpSendRequestW(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength);
+    }
     std::string read_header_tag = ReadTag((PVOID)lpszHeaders);
     std::string read_option_tag = "";
     if (lpOptional != NULL) {
@@ -448,7 +475,9 @@ BOOL WINAPI InternetReadFileHook(
     DWORD     dwNumberOfBytesToRead,
     LPDWORD   lpdwNumberOfBytesRead
 ) {
-
+    if (!checkCaller("InternetReadFile")) {
+        return InternetReadFile(hFile, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead);
+    }
     S2EDisableForking();
 
     BOOL fake = TRUE;
@@ -542,6 +571,10 @@ HINTERNET WINAPI InternetOpenUrlAHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
+
+    if (!checkCaller("InternetOpenUrlA")) {
+        return InternetOpenUrlA(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
+    }
     S2EDisableForking();
 
     std::string url_tag = ReadTag((PVOID)lpszUrl);
@@ -586,6 +619,10 @@ HINTERNET WINAPI InternetOpenUrlWHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
+
+    if (checkCaller("InternetOpenUrlW")) {
+        return InternetOpenUrlW(hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext);
+    }
     S2EDisableForking();
 
     std::string url_tag = ReadTag((PVOID)lpszUrl);
@@ -626,7 +663,9 @@ BOOL WINAPI HttpAddRequestHeadersAHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {
-
+    if (!checkCaller("HttpAddRequestHeadersA")) {
+        return HttpAddRequestHeadersA(hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    }
     S2EDisableForking();
 
     std::string header_tag = ReadTag((PVOID)lpszHeaders);
@@ -653,6 +692,11 @@ BOOL WINAPI HttpAddRequestHeadersWHook(
     DWORD     dwModifiers
 ) {
 
+    if (!checkCaller("HttpAddRequestHeadersW"))
+    {
+        return  HttpAddRequestHeadersW(hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+    }
+    
     S2EDisableForking();
 
     std::string header_tag = ReadTag((PVOID)lpszHeaders);
@@ -678,7 +722,9 @@ BOOL WINAPI HttpEndRequestAHook(
     DWORD               dwFlags,
     DWORD_PTR           dwContext
 ) {
+    S2EDisableForking();
     HttpEndRequestA(hRequest, lpBuffersOut, dwFlags, dwContext);
+    S2EEnableForking();
     return TRUE;
 }
 
@@ -704,6 +750,11 @@ BOOL WINAPI HttpQueryInfoAHook(
     LPDWORD   lpdwBufferLength,
     LPDWORD   lpdwIndex
 ) {
+
+    if (!checkCaller("HttpQueryInfoA")) {
+        return HttpQueryInfoA(hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex);
+    }
+
     BOOL query_res = FALSE;
 
         S2EDisableForking();
@@ -724,9 +775,15 @@ BOOL WINAPI HttpQueryInfoAHook(
         else {
             Message("HttpQueryInfoA 0\n");
             // If the info level is 19 - Status Code
-            if (dwInfoLevel == 19) {
+            if (dwInfoLevel & 19) {
                 // Patch the lpBuffer as HTTP_STATUS_OK then mark it as symbolic
-                *(DWORD*)lpBuffer = HTTP_STATUS_OK;
+                if (dwInfoLevel & HTTP_QUERY_FLAG_NUMBER) {
+                    *(DWORD*)lpBuffer = HTTP_STATUS_OK;
+                }
+                else {
+                    _i64toa_s(HTTP_STATUS_OK, (char*)lpBuffer, *lpdwBufferLength, 10);
+                }
+                
                 //S2EMakeSymbolic(lpBuffer, 4, tag.c_str());
             }
             else {
@@ -763,6 +820,10 @@ BOOL WINAPI HttpQueryInfoWHook(
     LPDWORD   lpdwBufferLength,
     LPDWORD   lpdwIndex
 ) {
+    if (!checkCaller("HttpQueryInfoW")) {
+        return HttpQueryInfoW(hRequest, dwInfoLevel, lpBuffer, lpdwBufferLength, lpdwIndex);
+    }
+
     S2EDisableForking();
 
     BOOL query_res = FALSE;
@@ -825,6 +886,10 @@ BOOL WINAPI InternetQueryDataAvailableHook(
     DWORD     dwFlags,
     DWORD_PTR dwContext
 ) {
+
+    if (!checkCaller("InternetQueryDataAvailable")) {
+        return InternetQueryDataAvailable(hFile, lpdwNumberOfBytesAvailable, dwFlags, dwContext);
+    }
     std::set<HINTERNET>::iterator it = dummyHandles.find(hFile);
 
     bool con_res = FALSE;
@@ -881,6 +946,11 @@ BOOL WINAPI InternetQueryOptionAHook(
     LPVOID    lpBuffer,
     LPDWORD   lpdwBufferLength
 ) {
+
+    if (!checkCaller("InternetQueryOptionA")) {
+        return InternetQueryOptionA(hInternet, dwOption, lpBuffer, lpdwBufferLength);
+    }
+
     S2EDisableForking();
 
     std::string tag = GetTag("InternetQueryOptionA");
@@ -933,6 +1003,10 @@ BOOL WINAPI InternetQueryOptionWHook(
     LPVOID    lpBuffer,
     LPDWORD   lpdwBufferLength
 ) {
+
+    if (!checkCaller("InternetQueryOptionW")) {
+        return InternetQueryOptionW(hInternet, dwOption, lpBuffer, lpdwBufferLength);
+    }
     S2EDisableForking();
 
     std::string tag = GetTag("InternetQueryOptionW");
@@ -981,6 +1055,10 @@ BOOL WINAPI InternetSetOptionAHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
+    if (checkCaller("InternetSetOptionA")) {
+        return InternetSetOptionA(hInternet, dwOption, lpBuffer, dwBufferLength);
+    }
+
     // lpBuffer can point to a DWROD, it can also point to a char array
 
     std::string tag_in = ReadTag(lpBuffer);
@@ -1007,22 +1085,28 @@ BOOL WINAPI InternetSetOptionWHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
+    if (checkCaller("InternetSetOptionW")) {
+        return InternetSetOptionW(hInternet, dwOption, lpBuffer, dwBufferLength);
+    }
     // lpBuffer can point to a DWROD, it can also point to a char array
 
-    std::string tag_in = ReadTag(lpBuffer);
+    if (checkCaller("InternetSetOptionW")) {
 
-    S2EDisableForking();
+        std::string tag_in = ReadTag(lpBuffer);
 
-    if (dwBufferLength == 4) {
-        Message("[W] InternetSetOptionW (%p [|] %ld [|] %ld [|] %ld) tag_in: %s\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength, tag_in.c_str());
+        S2EDisableForking();
+
+        if (dwBufferLength == 4) {
+            Message("[W] InternetSetOptionW (%p [|] %ld [|] %ld [|] %ld) tag_in: %s\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength, tag_in.c_str());
+        }
+        else {
+            Message("[W] InternetSetOptionW (%p [|] %ld [|] %ls [|] %ld) tag_in: %s\n", hInternet, dwOption, lpBuffer, dwBufferLength, tag_in.c_str());
+        }
+
+        bool con_res = InternetSetOptionW(hInternet, dwOption, lpBuffer, dwBufferLength);
+
+        S2EEnableForking();
     }
-    else {
-        Message("[W] InternetSetOptionW (%p [|] %ld [|] %ls [|] %ld) tag_in: %s\n", hInternet, dwOption, lpBuffer, dwBufferLength, tag_in.c_str());
-    }
-
-    bool con_res = InternetSetOptionW(hInternet, dwOption, lpBuffer, dwBufferLength);
-
-    S2EEnableForking();
 
     return TRUE;
 }
@@ -1033,6 +1117,10 @@ BOOL WINAPI InternetWriteFileHook(
     DWORD     dwNumberOfBytesToWrite,
     LPDWORD   lpdwNumberOfBytesWritten
 ) {
+
+    if (!checkCaller("InternetWriteFile")) {
+        return TRUE;
+    }
     Message("WriteData Memory: ");
     cyfiPrintMemory((PVOID)lpBuffer, dwNumberOfBytesToWrite);
 
@@ -1064,7 +1152,7 @@ BOOL WINAPI InternetGetConnectedStateHook(
         Message("[W] InternetGetConnectedState (%ld [|] %ld) ret:%i\n", *lpdwFlags, dwReserved, res);
         return TRUE;
     }
-    return InternetGetConnectedState(lpdwFlags, dwReserved);
+    return TRUE;
 }
 
 BOOL WINAPI InternetCheckConnectionAHook(
@@ -1101,24 +1189,30 @@ DWORD WINAPI InternetAttemptConnectHook(
 BOOL WINAPI InternetCloseHandleHook(
     HINTERNET hInternet
 ) {
-    perHandleBytesToRead.erase(hInternet);
-    perHandleBytesRead.erase(hInternet);
 
-    Message("[W] InternetCloseHandle (%p)\n", hInternet);
+    if (checkCaller("InternetCloseHandle")) {
+        
+        perHandleBytesToRead.erase(hInternet);
+        perHandleBytesRead.erase(hInternet);
 
-    std::set<HINTERNET>::iterator it = dummyHandles.find(hInternet);
+        Message("[W] InternetCloseHandle (%p)\n", hInternet);
 
-    if (it == dummyHandles.end()) {
-        // The handle is not one of our dummy handles, so call the original
-        // InternetCloseHandle function
-        return InternetCloseHandle(hInternet);
+        std::set<HINTERNET>::iterator it = dummyHandles.find(hInternet);
+
+        if (it == dummyHandles.end()) {
+            // The handle is not one of our dummy handles, so call the original
+            // InternetCloseHandle function
+            return InternetCloseHandle(hInternet);
+        }
+        else {
+            // The handle is a dummy handle. Free it
+            free(*it);
+            dummyHandles.erase(it);
+
+            return TRUE;
+        }
     }
-    else {
-        // The handle is a dummy handle. Free it
-        free(*it);
-        dummyHandles.erase(it);
 
-        return TRUE;
-    }
+    return InternetCloseHandle(hInternet);
 }
 

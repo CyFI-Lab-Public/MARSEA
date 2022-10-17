@@ -341,19 +341,39 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("kernel32", "ExitProcess", ExitProcessHook, {NULL}),
 
-    CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
-    CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
-    CyFIFuncType("Ws2_32", "closesocket", closesockethook, {NULL}),
-    CyFIFuncType("Ws2_32", "getaddrinfo", getaddrinfohook, {NULL}),
-    CyFIFuncType("Ws2_32", "getsockname", getsocknamehook, {NULL}),   
-    CyFIFuncType("Ws2_32", "getpeername", getpeernamehook, {NULL}),
-    CyFIFuncType("Ws2_32", "ntohs", ntohshook, {NULL}),
-    CyFIFuncType("Ws2_32", "recv", recvhook, {NULL}),
-    CyFIFuncType("Ws2_32", "accept", accepthook, {NULL}),
-    CyFIFuncType("Ws2_32", "select", selecthook, {NULL}),
-    CyFIFuncType("Ws2_32", "send", sendhook, {NULL}),
-    CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
-    CyFIFuncType("Ws2_32", "bind", bindhook, {NULL}),
+    //CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
+    //CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
+    //CyFIFuncType("Ws2_32", "closesocket", closesockethook, {NULL}),
+    //CyFIFuncType("Ws2_32", "getaddrinfo", getaddrinfohook, {NULL}),
+    //CyFIFuncType("Ws2_32", "getsockname", getsocknamehook, {NULL}),   
+    //CyFIFuncType("Ws2_32", "getpeername", getpeernamehook, {NULL}),
+    //CyFIFuncType("Ws2_32", "ntohs", ntohshook, {NULL}),
+    //CyFIFuncType("Ws2_32", "recv", recvhook, {NULL}),
+    //CyFIFuncType("Ws2_32", "accept", accepthook, {NULL}),
+    //CyFIFuncType("Ws2_32", "select", selecthook, {NULL}),
+    //CyFIFuncType("Ws2_32", "send", sendhook, {NULL}),
+    //CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
+    //CyFIFuncType("Ws2_32", "bind", bindhook, {NULL}),
+    //CyFIFuncType("Ws2_32", "gethostbyname", gethostbynamehook, {NULL}),
+    //CyFIFuncType("Ws2_32", "inet_ntoa", inet_ntoahook, {NULL}),
+    //CyFIFuncType("Ws2_32", "inet_ntop", inet_ntophook, {NULL}),
+
+    CyFIFuncType("wsock32", "socket", sockethook, {NULL}),
+    CyFIFuncType("wsock32", "connect", connecthook, {NULL}),
+    CyFIFuncType("wsock32", "closesocket", closesockethook, {NULL}),
+    CyFIFuncType("wsock32", "getaddrinfo", getaddrinfohook, {NULL}),
+    CyFIFuncType("wsock32", "getsockname", getsocknamehook, {NULL}),
+    CyFIFuncType("wsock32", "getpeername", getpeernamehook, {NULL}),
+    CyFIFuncType("wsock32", "ntohs", ntohshook, {NULL}),
+    CyFIFuncType("wsock32", "recv", recvhook, {NULL}),
+    CyFIFuncType("wsock32", "accept", accepthook, {NULL}),
+    CyFIFuncType("wsock32", "select", selecthook, {NULL}),
+    CyFIFuncType("wsock32", "send", sendhook, {NULL}),
+    CyFIFuncType("wsock32", "sendto", sendtohook, {NULL}),
+    CyFIFuncType("wsock32", "bind", bindhook, {NULL}),
+    CyFIFuncType("wsock32", "gethostbyname", gethostbynamehook, {NULL}),
+    CyFIFuncType("wsock32", "inet_ntoa", inet_ntoahook, {NULL}),
+    CyFIFuncType("wsock32", "inet_ntop", inet_ntophook, {NULL}),
 
 
     CyFIFuncType("msvcrt", "fopen", fopenhook, {NULL}),
@@ -367,7 +387,7 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("msvcrt", "strrchr", strrchrhook, {NULL}),
 
-    CyFIFuncType("msvcrt", "rand", randhook, {NULL}),
+    //CyFIFuncType("msvcrt", "rand", randhook, {NULL}),
 
     CyFIFuncType("kernel32", "Sleep", SleepHook, {NULL}),
 
@@ -438,8 +458,8 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ntdll", "wcschr", wcschrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcsrchr", wcsrchrHook, {NULL}),
     //CyFIFuncType("ntdll", "wcscmp", wcscmpHook, {NULL}),
-    //CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
-    //CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
+    CyFIFuncType("shell32", "ShellExecuteW", ShellExecuteWHook, {NULL}),
+    CyFIFuncType("shell32", "ShellExecuteA", ShellExecuteAHook, {NULL}),
     //CyFIFuncType("shell32", "SHFileOperationA", SHFileOperationAHook, { NULL }),
     //CyFIFuncType("User32", "PeekMessageA", PeekMessageAHook, { NULL }),
     //CyFIFuncType("kernel32", "WaitForSingleObject", WaitForSingleObjectHook, { NULL }),
@@ -472,13 +492,14 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("ntdll", "_wtoi", _wtoiHook, { NULL }),
 
-    CyFIFuncType("kernel32", "GetTickCount", GetTickCountHook, { NULL }),
+    //CyFIFuncType("kernel32", "GetTickCount", GetTickCountHook, { NULL }),
 
     CyFIFuncType("kernel32", "GetSystemDefaultLangID", GetSystemDefaultLangIDHook, { NULL }),
 
     CyFIFuncType("user32", "GetAsyncKeyState", GetAsyncKeyStateHook, { NULL }),
     /* Evasion Techniques*/
     //CyFIFuncType("kernel32", "GetModuleFileNameA", GetModuleFileNameAHook, {NULL}),
+    //CyFIFuncType("kernel32", "TlsGetValue", TlsGetValueHook, { NULL }),
     //CyFIFuncType("kernel32", "GetModuleFileNameW", GetModuleFileNameWHook, {NULL}),
 
     //CyFIFuncType("user32", "GetAsyncKeyState", GetAsyncKeyStateHook, { NULL }),

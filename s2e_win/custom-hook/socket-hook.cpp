@@ -54,56 +54,83 @@ INT WSAAPI connecthook(
     if (checkCaller("connect")) {
         char ip[INET6_ADDRSTRLEN] = { 0 };
         sockaddr* sa = new sockaddr();
-        switch (name->sa_family) {
-            case AF_INET: {
-                sockaddr_in* sin = (sockaddr_in*)name;
-                inet_ntop(AF_INET, &sin->sin_addr, ip, INET6_ADDRSTRLEN);
-                std::string tag_in = ReadTag((PVOID)ip);
-                if (tag_in.length() > 0) {
-                    Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
-                }
-                else {
-                    tag_in = ReadTag((PVOID) & (((struct sockaddr_in*)name)->sin_addr));
-                    if (tag_in.length() > 0) {
-                        Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
-                    }
-                    else {
-                        Message("[W] connect (%p [|] %s)\n", s, ip);
-                    }
-                }
-                break;
-            }
-            case AF_INET6: {
-                sockaddr_in6* sin = (sockaddr_in6*)name;
-                inet_ntop(AF_INET6, &sin->sin6_addr, ip, INET6_ADDRSTRLEN);
-                std::string tag_in = ReadTag((PVOID)ip);
-                if (tag_in.length() > 0) {
-                    Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
-                }
-                else {
-                    tag_in = ReadTag((PVOID) & (((struct sockaddr_in6*)name)->sin6_addr));
-                    if (tag_in.length() > 0) {
-                        Message("[W] connect (%p [|] %s) tag_in:%s\n", s, ip, tag_in.c_str());
-                    }
-                    else {
-                        Message("[W] connect (%p [|] %s)\n", s, ip);
-                    }
-                }
-                break;
-            }
-            default: {
-                Message("connect - Family=%i\n", name->sa_family);
-            }
-        }
+
+        std::string tagin = ReadTag((PVOID)name->sa_data);
+
+        S2EDisableForking();
+
+        Message("[W] connect(%p [|] %p [|] %d) tag_in:%s", s, name, namelen, tagin.c_str());
 
         std::set<SOCKET>::iterator it = dummySockets.find(s);
 
         if (it == dummySockets.end()) {
             connect(s, name, namelen);
         }
+
+        S2EEnableForking();
         return 0;
     }
     return connect(s, name, namelen);
+}
+
+hostent* WSAAPI gethostbynamehook(
+    const char* name
+) {
+    if (checkCaller("gethostbyname")) {
+
+        int ret = FALSE;
+
+        std::string tagin = ReadTag((PVOID)name);
+        bool isTaint = IsTainted((PVOID)name);
+
+        if (tagin != "") {
+
+            std::string tagout = GetTag("gethostbyname");
+
+            S2EDisableForking();
+
+            Message("[W] gethostbyname (%s) tag_in:%s tag_out:%s", name, tagin.c_str(), tagout.c_str());
+
+            struct hostent* remoteHost;
+
+            remoteHost = gethostbyname(name);
+
+            if (remoteHost == NULL) {
+                remoteHost = gethostbyname("www.google.com");
+            }
+            else {
+                ret = TRUE;
+            }
+
+            if (remoteHost) {
+                int i = 0;
+                while (remoteHost->h_addr_list[i] != 0) {
+                    cyfiTaint(remoteHost->h_addr_list[i], strlen(remoteHost->h_addr_list[i]), tagout.c_str());
+                    i++;
+                }
+            }
+
+            S2EEnableForking();
+
+            return remoteHost;
+        }
+
+        else {
+            Message("[W] gethostbyname (%s)", name);
+
+            struct hostent* remoteHost;
+
+            remoteHost = gethostbyname(name);
+
+            if (remoteHost == NULL) {
+                remoteHost = gethostbyname("www.google.com");
+            }
+            return remoteHost;
+        }
+    }
+    else {
+        return gethostbyname(name);
+    }
 }
 
 INT WSAAPI bindhook(
@@ -154,25 +181,57 @@ INT WSAAPI recvhook(
 
         std::string tag = GetTag("recv");
 
-        UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
-        Message("[W] recv (%p, %p, %i [|] %i), ret:%i [|] -> tag_out:%s\n", s, buf, len, flags, bytesToRead, tag.c_str());
-        S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
-        // Symbolic return
-        //INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
-        return bytesToRead;//bytesRead;
+        std::set<SOCKET>::iterator it = dummySockets.find(s);
+
+        int success = 0;
+
+        if (it == dummySockets.end()) {
+            success = recv(s, buf, len, flags);
+        }
+
+        if (success != SOCKET_ERROR) {
+            cyfiTaint(buf, success, tag.c_str());
+            Message("[W] recv (%p [|] %p [|] %i [|] %i) ret:%i tag_out:%s\n", s, buf, len, flags, success, tag.c_str());
+            return success;
+        }
+        else {
+            UINT32 bytesToRead = min(len, DEFAULT_MEM_LEN);
+            Message("[W] recv (%p [|] %p [|] %i [|] %i) ret:%i tag_out:%s\n", s, buf, len, flags, bytesToRead, tag.c_str());
+            S2EMakeSymbolic(buf, bytesToRead, tag.c_str());
+            // Symbolic return
+            //INT bytesRead = S2ESymbolicInt(tag.c_str(), bytesToRead);
+            return bytesToRead;//bytesRead;
+        }
+        
     }
 
     return recv(s, buf, len, flags);
 }
 
-INT WSAAPI accepthook(
+SOCKET WSAAPI accepthook(
     SOCKET   s,
     sockaddr* addr,
     int* addrlen
 ) {
     if (checkCaller("accept")) {
-        SOCKET acceptSocket = (SOCKET)malloc(sizeof(SOCKET));
-        dummySockets.insert(acceptSocket);
+
+        std::set<SOCKET>::iterator it = dummySockets.find(s);
+
+        SOCKET acceptSocket;
+
+        if (it == dummySockets.end()) {
+            acceptSocket = accept(s, addr, addrlen);
+
+            if (acceptSocket == INVALID_SOCKET) {
+                acceptSocket = (SOCKET)malloc(sizeof(SOCKET));
+                dummySockets.insert(acceptSocket);
+            }
+        }
+        else {
+
+            SOCKET acceptSocket = (SOCKET)malloc(sizeof(SOCKET));
+            dummySockets.insert(acceptSocket);
+        }
 
         return acceptSocket;
     }
@@ -228,9 +287,9 @@ INT WSAAPI sendhook(
     int        flags
 ) {
     if (checkCaller("send")) {
-        std::string tag = GetTag("send");
-        Message("[W] send (%p [|] %s [|] %i [|] %i)\n",
-                s, buf, len, flags);
+        std::string tagin = ReadTag((PVOID)buf);
+        Message("[W] send (%p [|] %s [|] %i [|] %i) tag_in:%s\n",
+                s, buf, len, flags, tagin.c_str());
         return len;
     }
 
@@ -249,9 +308,10 @@ INT WSAAPI sendtohook(
     if (checkCaller("sendto")) {
 
         std::string tag = GetTag("sendto");
+        std::string tag_in = ReadTag((PVOID)to->sa_data);
         INT ret = S2ESymbolicInt(tag.c_str(), len);
-        Message("[W] sendto(%p [|] %s [|] %i [|] %i [|] %p [|] %i) tag_out:%s\n",
-            s, buf, len, flags, to, tolen, tag.c_str());
+        Message("[W] sendto(%p [|] %s [|] %i [|] %i [|] %p [|] %i) tag_in:%s tag_out:%s\n",
+            s, buf, len, flags, to, tolen, tag_in.c_str(), tag.c_str());
         return ret;
     }
 
@@ -293,10 +353,14 @@ int WSAAPI getpeernamehook(
 )
 {
     if (checkCaller("getpeername")) {
+
+        S2EDisableForking();
+
         int concrete_res = getpeername(s, name, namelen);
 
         if (concrete_res == 0) {
             Message("[W] getpeername (%p [|] %p [|] %p)\n", s, name, namelen);
+            S2EEnableForking();
             return 0;
         }
         else {
@@ -309,6 +373,7 @@ int WSAAPI getpeernamehook(
             *namelen = sizeof(name);
 
             Message("[W] getpeername (%p [|] %p [|] %p [|] %s [|] %d)\n", s, name, namelen, inet_ntoa(fake->sin_addr), (int)ntohs(fake->sin_port));
+            S2EEnableForking();
             return 0;
         }
     }
@@ -336,13 +401,9 @@ INT WSAAPI getaddrinfohook(
         
         std::string tag = GetTag("getaddrinfo");
 
+        S2EDisableForking();
+
         if (nodetag != "" || servicetag != "") {
-            if (nodetag != "") {
-                concretizeAll((PVOID)pNodeName);
-            }
-            if (servicetag != "") {
-                concretizeAll((PVOID)pServiceName);
-            }
 
             if (pNodeName != NULL && pServiceName != NULL) {
                 Message("[W] getaddrinfo (%s [|] %s [|] %p [|] %p) tag_in: %s %s tag_out: %s", pNodeName, pServiceName, pHints, ppResult, nodetag.c_str(), servicetag.c_str(), tag.c_str());
@@ -364,10 +425,7 @@ INT WSAAPI getaddrinfohook(
 
         int conres = getaddrinfo(pNodeName, pServiceName, pHints, ppResult);
 
-        if (conres == 0) {
-            return conres;
-        }
-        else {
+        if (conres != 0) {
             char addr[11] = "8.8.8.8";
             char addr6[21] = "2001:4860:4860::8888";
             addrinfo* res = new addrinfo();
@@ -396,12 +454,91 @@ INT WSAAPI getaddrinfohook(
             }
             }
             *ppResult = res;
-            return 0;
         }
+
+        if (ppResult && (*ppResult)->ai_addr) {
+            cyfiTaint((*ppResult)->ai_addr->sa_data, strlen((*ppResult)->ai_addr->sa_data), tag.c_str());
+
+        }
+
+        S2EEnableForking();
         
+        return 0;
         
     }
 
     return getaddrinfo(pNodeName, pServiceName, pHints, ppResult);
+}
+
+char* WSAAPI inet_ntoahook(
+    in_addr in
+) {
+    if (checkCaller("inet_ntoa")) {
+        std::string tagin = ReadTag((PVOID)&in);
+        std::string tagout = "";
+        if (tagin != "") {
+            tagout = GetTag("inet_ntoa");
+        }
+        S2EDisableForking();
+
+        char* res = inet_ntoa(in);
+
+        if (res == NULL) {
+            res = "8.8.8.8";
+        }
+
+        if (tagin != "") {
+            cyfiTaint(res, strlen(res), tagout.c_str());
+        }
+
+        Message("[M] inot_ntoa tag_in:%s tag_out:%s", tagin.c_str(), tagout.c_str());
+
+        S2EEnableForking();
+
+        return res;
+
+    }
+    else {
+        return inet_ntoa(in);
+    }
+}
+
+PCSTR WSAAPI inet_ntophook(
+    INT        Family,
+    const VOID* pAddr,
+    PSTR       pStringBuf,
+    size_t     StringBufSize
+) {
+    if (checkCaller("inet_ntop")) {
+
+        S2EDisableForking();
+
+        std::string tagin = "";
+        std::string tagout = "";
+        if (pAddr) {
+            std::string tagin = ReadTag((PVOID)pAddr);
+            if (tagin != "") {
+                std::string tagout = GetTag("inet_ntop");
+            }
+        }
+        PCSTR res = inet_ntop(Family, (PVOID)pAddr, pStringBuf, StringBufSize);
+
+        if (res == NULL) {
+            res = "8.8.8.8";
+            strcpy(pStringBuf, res);
+        }
+
+        if (tagout != "") {
+            cyfiTaint(pStringBuf, strlen(pStringBuf), tagout.c_str());
+        }
+
+        Message("[W] inet_ntop () tag_in:%s, tag_out:%s", tagin.c_str(), tagout.c_str());
+
+        S2EEnableForking();
+
+        return res;
+    }
+
+    return inet_ntop(Family, (PVOID)pAddr, pStringBuf, StringBufSize);
 }
 

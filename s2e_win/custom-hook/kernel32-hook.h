@@ -27,3 +27,7 @@ void WINAPI GetSystemTimeAsFileTimeHook(LPFILETIME lpSystemTimeAsFileTime);
 DWORD WINAPI GetTickCountHook();
 
 LANGID WINAPI GetSystemDefaultLangIDHook();
+
+LPVOID WINAPI TlsGetValueHook(
+	DWORD dwTlsIndex
+);

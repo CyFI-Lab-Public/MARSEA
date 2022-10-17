@@ -54,6 +54,18 @@ BOOL QueryPerformanceCounterHook(
 	
 }
 
+LPVOID WINAPI TlsGetValueHook(
+	DWORD dwTlsIndex
+) {
+	if (checkCaller("TlsGetValue")) {
+		LPVOID lpvData = TlsGetValue(dwTlsIndex);
+		if (lpvData == 0) {
+			Message("[W] TlsGetValue failed %d\n", GetLastError());
+		}
+		return lpvData;
+	}
+}
+
 DWORD WINAPI GetModuleFileNameAHook(
 	HMODULE hModule,
 	LPSTR   lpFilename,

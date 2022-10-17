@@ -24,15 +24,21 @@ winhttp::HINTERNET WINAPI WinHttpOpenHook(
     /*std::string agent = CW2A(pszAgentW);
     std::string proxy = CW2A(pszProxyW);
     std::string proxybypass = CW2A(pszProxyBypassW);*/
-    
-    winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
-    if (sessionHandle == 0) {
-        sessionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
-        dummyHandles.insert(sessionHandle);
+
+    if (checkCaller("WinHttpOpen")) {
+        winhttp::HINTERNET sessionHandle = winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
+        if (sessionHandle == 0) {
+            sessionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+            dummyHandles.insert(sessionHandle);
+        }
+        Message("[W] WinHttpOpen (%ls [|] %ld [|] %ls [|] %ls [|] %ld) ret:%p\n",
+            pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
+
+        return sessionHandle;
     }
-    Message("[W] WinHttpOpen (%ls [|] %ld [|] %ls [|] %ls [|] %ld) ret:%p\n",
-        pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags, sessionHandle);
-    return sessionHandle;
+
+    return winhttp::WinHttpOpen(pszAgentW, dwAccessType, pszProxyW, pszProxyBypassW, dwFlags);
+    
 }
 
 BOOL WINAPI WinHttpCrackUrlHook(
@@ -41,39 +47,39 @@ BOOL WINAPI WinHttpCrackUrlHook(
 	DWORD            dwFlags,
 	winhttp::LPURL_COMPONENTS lpUrlComponents
 ) {
-    bool isTaint = IsTainted((PVOID)pwszUrl);
-    std::string tagin = ReadTag((PVOID)pwszUrl);
-    if (tagin != "") {
+    if (checkCaller("WinHttpCrackUrl")) {
+        bool isTaint = IsTainted((PVOID)pwszUrl);
+        std::string tagin = ReadTag((PVOID)pwszUrl);
+        if (tagin != "") {
 
-        bool hack = FALSE;
+            bool hack = FALSE;
 
-        if (isTaint) {
-            S2EDisableForking();
-            hack = !winhttp::WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
-            S2EEnableForking();
+            if (isTaint) {
+                S2EDisableForking();
+                hack = !winhttp::WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
+                S2EEnableForking();
 
-            if (!hack) {
+                if (!hack) {
+                    std::string tag = GetTag("WinHttpCrackUrl");
+                    Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n",
+                        pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tagin.c_str(), tag.c_str());
+                    cyfiTaint((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
+                }
+            }
+
+            if ((!isTaint) || hack) {
+                pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
+                winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
                 std::string tag = GetTag("WinHttpCrackUrl");
                 Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n",
                     pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tagin.c_str(), tag.c_str());
-                cyfiTaint((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
+                S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
             }
-        }
 
-        if ((!isTaint) || hack) {
-            pwszUrl = L"http://cyfi.ece.gatech.edu/assests/img/cyfi_bee.png";
-            winhttp::WinHttpCrackUrl(pwszUrl, 52, dwFlags, lpUrlComponents);
-            std::string tag = GetTag("WinHttpCrackUrl");
-            Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p) tag_in:%s tag_out:%s\n",
-                pwszUrl, dwUrlLength, dwFlags, lpUrlComponents, tagin.c_str(), tag.c_str());
-            S2EMakeSymbolic((PVOID)lpUrlComponents->lpszHostName, lpUrlComponents->dwHostNameLength, tag.c_str());
+            return TRUE;
         }
-        
-        return TRUE;
     }
 
-    Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p)\n",
-                pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
     return WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
 }
 
@@ -83,60 +89,65 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
     winhttp::INTERNET_PORT nServerPort,
     DWORD dwReserved
 ) {
-    winhttp::HINTERNET connectionHandle;
 
-    std::string tagin = ReadTag((PVOID)pswzServerName);
-    bool isTaint = IsTainted((PVOID)pswzServerName);
+    if (checkCaller("WinHttpConnect")) {
+        winhttp::HINTERNET connectionHandle;
 
-    if (tagin != "") {
+        std::string tagin = ReadTag((PVOID)pswzServerName);
+        bool isTaint = IsTainted((PVOID)pswzServerName);
 
-        S2EDisableForking();
+        if (tagin != "") {
 
-        cyfiPrintMemory((PVOID)pswzServerName, wcslen(pswzServerName) * 2);
+            S2EDisableForking();
 
-        winhttp::HINTERNET handle = winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
+            cyfiPrintMemory((PVOID)pswzServerName, wcslen(pswzServerName) * 2);
 
-        if (handle == NULL) {
-            Message("WinHttpConnect 0\n");
-            connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
-            dummyHandles.insert(connectionHandle);
+            winhttp::HINTERNET handle = winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
+
+            if (handle == NULL) {
+                Message("WinHttpConnect 0\n");
+                connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+                dummyHandles.insert(connectionHandle);
+            }
+            else {
+                Message("WinHttpConnect 1\n");
+                connectionHandle = handle;
+            }
+
+            Message("[W] WinHttpConnect (%p [|] %ls [|] %i [|] %ld) ret:%p tag_in:%s\n",
+                hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, tagin.c_str());
+
+            S2EEnableForking();
+
+            // killAnalysis("WinHttpConnect");
+            return connectionHandle;
         }
         else {
-            Message("WinHttpConnect 1\n");
-            connectionHandle = handle;
+
+            S2EDisableForking();
+
+            winhttp::HINTERNET handle = winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
+
+            if (handle == NULL) {
+                Message("WinHttpConnect 0\n");
+                connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+                dummyHandles.insert(connectionHandle);
+            }
+            else {
+                Message("WinHttpConnect 1\n");
+                connectionHandle = handle;
+            }
+
+            Message("[W] WinHttpConnect (%p [|] %ls [|] %i [|] %ld) ret:%p\n",
+                hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
+
+            S2EEnableForking();
+
+            return connectionHandle;
         }
-
-        Message("[W] WinHttpConnect (%p [|] %ls [|] %i [|] %ld) ret:%p tag_in:%s\n",
-            hSession, pswzServerName, nServerPort, dwReserved, connectionHandle, tagin.c_str());
-
-        S2EEnableForking();
-
-        // killAnalysis("WinHttpConnect");
-        return connectionHandle;
     }
-    else {
 
-        S2EDisableForking();
-
-        winhttp::HINTERNET handle = winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
-
-        if (handle == NULL) {
-            Message("WinHttpConnect 0\n");
-            connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
-            dummyHandles.insert(connectionHandle);
-        }
-        else {
-            Message("WinHttpConnect 1\n");
-            connectionHandle = handle;
-        }
-
-        Message("[W] WinHttpConnect (%p [|] %ls [|] %i [|] %ld) ret:%p\n",
-            hSession, pswzServerName, nServerPort, dwReserved, connectionHandle);
-
-        S2EEnableForking();
-
-        return connectionHandle;
-    }
+    return winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
 }
 
 
@@ -149,80 +160,89 @@ BOOL WINAPI WinHttpSendRequestHook(
     DWORD     dwTotalLength,
     DWORD_PTR dwContext
 ) {
-    std::string read_header_tag = ReadTag((PVOID)lpszHeaders);
-    std::string read_option_tag = "";
-    if (lpOptional != WINHTTP_NO_REQUEST_DATA) {
-        read_option_tag = ReadTag((PVOID)lpOptional);
+
+    if (checkCaller("WinHttpSendRequest")) {
+        std::string read_header_tag = ReadTag((PVOID)lpszHeaders);
+        std::string read_option_tag = "";
+        if (lpOptional != WINHTTP_NO_REQUEST_DATA) {
+            read_option_tag = ReadTag((PVOID)lpOptional);
+        }
+
+        S2EDisableForking();
+
+        if (lpOptional) {
+            Message("[W] WinHttpSendRequest (%p [|] %ls [|] 0x%x [|] %s [|] 0x%x [|] 0x%x [|] %p) tag_in:%s %s\n",
+                hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_header_tag.c_str(), read_option_tag.c_str());
+        }
+        else {
+            Message("[W] WinHttpSendRequest (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x [|] 0x%x [|] %p) tag_in:%s %s\n",
+                hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_header_tag.c_str(), read_option_tag.c_str());
+        }
+
+        if (lpszHeaders && read_header_tag != "") {
+            Message("Headers Memory: ");
+            cyfiPrintMemory((PVOID)lpszHeaders, dwHeadersLength * 2);
+        }
+
+        if (lpOptional && read_option_tag != "") {
+            Message("Optional Memory: ");
+            cyfiPrintMemory((PVOID)lpOptional, dwOptionalLength * 2);
+        }
+
+        S2EBeginAtomic();
+        bool res = winhttp::WinHttpSendRequest(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
+        S2EEndAtomic();
+
+        S2EEnableForking();
+
+        if (res) {
+            Message("WinHttpSendRequest 1\n");
+        }
+        else {
+            Message("WinHttpSendRequest 0\n");
+        }
+        return TRUE; //Only consider successful winhttp send requests for now
     }
 
-    S2EDisableForking();
-
-    if (lpOptional) {
-        Message("[W] WinHttpSendRequest (%p [|] %ls [|] 0x%x [|] %s [|] 0x%x [|] 0x%x [|] %p) tag_in:%s %s\n",
-            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_header_tag.c_str(), read_option_tag.c_str());
-    }
-    else {
-        Message("[W] WinHttpSendRequest (%p [|] %ls [|] 0x%x [|] %p [|] 0x%x [|] 0x%x [|] %p) tag_in:%s %s\n",
-            hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext, read_header_tag.c_str(), read_option_tag.c_str());
-    }
-
-    if (lpszHeaders && read_header_tag != "") {
-        Message("Headers Memory: ");
-        cyfiPrintMemory((PVOID)lpszHeaders, dwHeadersLength * 2);
-    }
-
-    if (lpOptional && read_option_tag != "") {
-        Message("Optional Memory: ");
-        cyfiPrintMemory((PVOID)lpOptional, dwOptionalLength * 2);
-    }
-
-    S2EBeginAtomic();
-    bool res = winhttp::WinHttpSendRequest(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
-    S2EEndAtomic();
-
-    S2EEnableForking();
-
-    if (res) {
-        Message("WinHttpSendRequest 1\n");
-    }
-    else {
-        Message("WinHttpSendRequest 0\n");
-    }
-    return TRUE; //Only consider successful winhttp send requests for now
+    return winhttp::WinHttpSendRequest(hRequest, lpszHeaders, dwHeadersLength, lpOptional, dwOptionalLength, dwTotalLength, dwContext);
 }
 
 BOOL WINAPI WinHttpQueryDataAvailableHook(
     winhttp::HINTERNET hRequest,
     LPDWORD   lpdwNumberOfBytesAvailable
 ) {
-    std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
+    if (checkCaller("WinHttpQueryDataAvailable")) {
+        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
 
-    bool concrete_res = FALSE;
+        bool concrete_res = FALSE;
 
-    if (it == dummyHandles.end()) {
-        concrete_res = winhttp::WinHttpQueryDataAvailable(hRequest, lpdwNumberOfBytesAvailable);
-    }
-
-    if (concrete_res) {
-        Message("WinHttpQueryDataAvailable 1\n");
-    }
-    else {
-        auto it = perHandleBytesToRead.find(hRequest);
-        if (it == perHandleBytesToRead.end() && lpdwNumberOfBytesAvailable) {
-            *lpdwNumberOfBytesAvailable = DEFAULT_MEM_LEN;
+        if (it == dummyHandles.end()) {
+            concrete_res = winhttp::WinHttpQueryDataAvailable(hRequest, lpdwNumberOfBytesAvailable);
         }
 
-        if (it != perHandleBytesToRead.end() && lpdwNumberOfBytesAvailable) {
-            *lpdwNumberOfBytesAvailable = 0;
+        if (concrete_res) {
+            Message("WinHttpQueryDataAvailable 1\n");
         }
-        Message("WinHttpQueryDataAvailable 0\n");
+        else {
+            auto it = perHandleBytesToRead.find(hRequest);
+            if (it == perHandleBytesToRead.end() && lpdwNumberOfBytesAvailable) {
+                *lpdwNumberOfBytesAvailable = DEFAULT_MEM_LEN;
+            }
+
+            if (it != perHandleBytesToRead.end() && lpdwNumberOfBytesAvailable) {
+                *lpdwNumberOfBytesAvailable = 0;
+            }
+            Message("WinHttpQueryDataAvailable 0\n");
+        }
+
+        //if (lpdwNumberOfBytesAvailable) {
+        //    S2EMakeSymbolic(lpdwNumberOfBytesAvailable, sizeof(*lpdwNumberOfBytesAvailable), GetTag("WinHttpQueryDataAvailable").c_str());
+        //}
+
+        return TRUE;
     }
 
-    //if (lpdwNumberOfBytesAvailable) {
-    //    S2EMakeSymbolic(lpdwNumberOfBytesAvailable, sizeof(*lpdwNumberOfBytesAvailable), GetTag("WinHttpQueryDataAvailable").c_str());
-    //}
-
-    return TRUE;
+    return winhttp::WinHttpQueryDataAvailable(hRequest, lpdwNumberOfBytesAvailable);
 }
 
 BOOL WINAPI WinHttpReadDataHook(
@@ -232,92 +252,98 @@ BOOL WINAPI WinHttpReadDataHook(
     LPDWORD   lpdwNumberOfBytesRead
 ) {
 
-    S2EDisableForking();
+    if (checkCaller("WinHttpReadData")) {
 
-    BOOL read_res = winhttp::WinHttpReadData(hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead);
+        S2EDisableForking();
 
-    BOOL fake = TRUE;
+        BOOL read_res = winhttp::WinHttpReadData(hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead);
 
-    if (read_res) {
-        // If it reads more than 0 bytes
-        if (*lpdwNumberOfBytesRead > 0) {
+        BOOL fake = TRUE;
 
-            auto it = perHandleBytesRead.find(hRequest);
+        if (read_res) {
+            // If it reads more than 0 bytes
+            if (*lpdwNumberOfBytesRead > 0) {
 
-            if (it == perHandleBytesRead.end()) {
-                perHandleBytesRead[hRequest] = 1;
+                auto it = perHandleBytesRead.find(hRequest);
+
+                if (it == perHandleBytesRead.end()) {
+                    perHandleBytesRead[hRequest] = 1;
+                }
+
+                fake = FALSE;
+
             }
+            else {
+                // If it reads 0 bytes, check if this handle reads anything before
+                auto it = perHandleBytesRead.find(hRequest);
 
-            fake = FALSE;
+                if (it != perHandleBytesRead.end()) {
+                    fake = FALSE;
+                }
+            }
+        }
+
+        DWORD bytes_read = 0;
+
+        std::string tag = GetTag("WinHttpReadData");
+
+        Message("[W] WinHttpReadData (%p [|] %s [|] %ld [|] %ld) tag_out:%s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, *lpdwNumberOfBytesRead, tag.c_str());
+
+        S2EEnableForking();
+
+        if (fake) {
+            Message("WinHttpReadData 0\n");
+            auto it = perHandleBytesToRead.find(hRequest);
+            if (it == perHandleBytesToRead.end()) {
+                perHandleBytesToRead[hRequest] = DEFAULT_MEM_LEN;
+                it = perHandleBytesToRead.find(hRequest);
+            }
+            DWORD bytes_left = it->second;
+            bytes_read = bytes_left < dwNumberOfBytesToRead ? bytes_left : dwNumberOfBytesToRead;
+            it->second -= bytes_read;
+            it->second = it->second < 0 ? 0 : it->second;
+            *lpdwNumberOfBytesRead = bytes_read;
+            S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
+            if (bytes_read != 0) {
+                S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
+            }
 
         }
         else {
-            // If it reads 0 bytes, check if this handle reads anything before
-            auto it = perHandleBytesRead.find(hRequest);
-
-            if (it != perHandleBytesRead.end()) {
-                fake = FALSE;
+            Message("WinHttpReadData 1\n");
+            auto it = perHandleBytesToRead.find(hRequest);
+            if (it == perHandleBytesToRead.end()) {
+                perHandleBytesToRead[hRequest] = DEFAULT_MEM_LEN;
+                it = perHandleBytesToRead.find(hRequest);
             }
+            DWORD bytes_left = it->second;
+            bytes_read = bytes_left < *lpdwNumberOfBytesRead ? bytes_left : *lpdwNumberOfBytesRead;
+            it->second -= bytes_read;
+            it->second = it->second < 0 ? 0 : it->second;
+            cyfiTaint(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
+            cyfiTaint(lpdwNumberOfBytesRead, 4, tag.c_str());
         }
+
+        /*
+        //std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
+        std::string data_read = "DG8FV-B9TKY-FRT9J-6CRCC-XPQ4G-104A149B245C120D";   //spyanker
+        if (bytes_read < data_read.size()) {
+            data_read = data_read.substr(0, bytes_read);
+        }
+        if (bytes_read > 0) {
+            memcpy(lpBuffer, data_read.c_str(), bytes_read);
+        }*/
+
+        CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
+        Command.Command = TAG_TRACKER;
+        Command.tagTracker.tag = (uint64_t)tag.c_str();
+        S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
+
+        return TRUE;
+
     }
 
-    DWORD bytes_read = 0;
-
-    std::string tag = GetTag("WinHttpReadData");
-
-    Message("[W] WinHttpReadData (%p [|] %s [|] %ld [|] %ld) tag_out:%s\n", hRequest, lpBuffer, dwNumberOfBytesToRead, *lpdwNumberOfBytesRead, tag.c_str());
-
-    S2EEnableForking();
-
-    if (fake) {
-        Message("WinHttpReadData 0\n");
-        auto it = perHandleBytesToRead.find(hRequest);
-        if (it == perHandleBytesToRead.end()) {
-            perHandleBytesToRead[hRequest] = DEFAULT_MEM_LEN;
-            it = perHandleBytesToRead.find(hRequest);
-        }
-        DWORD bytes_left = it->second;
-        bytes_read = bytes_left < dwNumberOfBytesToRead ? bytes_left : dwNumberOfBytesToRead;
-        it->second -= bytes_read;
-        it->second = it->second < 0 ? 0 : it->second;
-        *lpdwNumberOfBytesRead = bytes_read;
-        S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
-        if (bytes_read != 0) {
-            S2EMakeSymbolic(lpdwNumberOfBytesRead, 4, tag.c_str());
-        }
-        
-    }
-    else {
-        Message("WinHttpReadData 1\n");
-        auto it = perHandleBytesToRead.find(hRequest);
-        if (it == perHandleBytesToRead.end()) {
-            perHandleBytesToRead[hRequest] = DEFAULT_MEM_LEN;
-            it = perHandleBytesToRead.find(hRequest);
-        }
-        DWORD bytes_left = it->second;
-        bytes_read = bytes_left < *lpdwNumberOfBytesRead ? bytes_left : *lpdwNumberOfBytesRead;
-        it->second -= bytes_read;
-        it->second = it->second < 0 ? 0 : it->second;
-        cyfiTaint(lpBuffer, *lpdwNumberOfBytesRead, tag.c_str());
-        cyfiTaint(lpdwNumberOfBytesRead, 4, tag.c_str());
-    }
-
-    /*
-    //std::string data_read = "1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 11223344 1BkeGqpo8M5KNVYXW3obmQt1R58zXAqLBQ 55667788"; //redaman
-    std::string data_read = "DG8FV-B9TKY-FRT9J-6CRCC-XPQ4G-104A149B245C120D";   //spyanker
-    if (bytes_read < data_read.size()) {
-        data_read = data_read.substr(0, bytes_read);
-    }
-    if (bytes_read > 0) {
-        memcpy(lpBuffer, data_read.c_str(), bytes_read);
-    }*/
-
-    CYFI_WINWRAPPER_COMMAND Command = CYFI_WINWRAPPER_COMMAND();
-    Command.Command = TAG_TRACKER;
-    Command.tagTracker.tag = (uint64_t)tag.c_str();
-    S2EInvokePlugin("CyFiFunctionModels", &Command, sizeof(Command));
-    
-    return TRUE;
+    return winhttp::WinHttpReadData(hRequest, lpBuffer, dwNumberOfBytesToRead, lpdwNumberOfBytesRead);
 
 }
 
@@ -327,24 +353,28 @@ BOOL WINAPI WinHttpWriteDataHook(
     DWORD     dwNumberOfBytesToWrite,
     LPDWORD   lpdwNumberOfBytesWritten
 ) {
-    Message("WriteData Memory: ");
-    cyfiPrintMemory((PVOID)lpBuffer, dwNumberOfBytesToWrite);
+    if (checkCaller("WinHttpWriteData")) {
+        Message("WriteData Memory: ");
+        cyfiPrintMemory((PVOID)lpBuffer, dwNumberOfBytesToWrite);
 
-    *lpdwNumberOfBytesWritten = dwNumberOfBytesToWrite;
+        *lpdwNumberOfBytesWritten = dwNumberOfBytesToWrite;
 
-    std::string tag = GetTag("WinHttpWriteData");
-    S2EMakeSymbolic(lpdwNumberOfBytesWritten, sizeof(DWORD), tag.c_str());
+        std::string tag = GetTag("WinHttpWriteData");
+        S2EMakeSymbolic(lpdwNumberOfBytesWritten, sizeof(DWORD), tag.c_str());
 
-    std::string read_tag = ReadTag((PVOID)lpBuffer);
+        std::string read_tag = ReadTag((PVOID)lpBuffer);
 
-    if (read_tag.length() > 0) {
-        Message("[W] WinHttpWriteData (%p [|] %ls [|] 0x%x [|] %p) tag_in:%s tag_out:%s\n",
-            hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, read_tag.c_str(), tag.c_str());
+        if (read_tag.length() > 0) {
+            Message("[W] WinHttpWriteData (%p [|] %ls [|] 0x%x [|] %p) tag_in:%s tag_out:%s\n",
+                hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, read_tag.c_str(), tag.c_str());
+        }
+        else {
+            Message("[W] WinHttpWriteData (%p [|] %ls [|] 0x%x [|] %p) tag_out:%s\n",
+                hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
+        }
+        return TRUE;
     }
-    else {
-        Message("[W] WinHttpWriteData (%p [|] %ls [|] 0x%x [|] %p) tag_out:%s\n",
-            hRequest, lpBuffer, dwNumberOfBytesToWrite, lpdwNumberOfBytesWritten, tag.c_str());
-    }
+
     return TRUE;
 }
 
@@ -354,48 +384,56 @@ BOOL WINAPI WinHttpAddRequestHeadersHook(
     DWORD     dwHeadersLength,
     DWORD     dwModifiers
 ) {
+    if (checkCaller("WinHttpAddRequestHeaders")) {
+        S2EDisableForking();
 
-    S2EDisableForking();
+        std::string header_tag = ReadTag((PVOID)lpszHeaders);
 
-    std::string header_tag = ReadTag((PVOID)lpszHeaders);
+        if (header_tag.length() > 0) {
+            Message("[W] WinHttpAddRequestHeaders (%p [|] %ls [|] 0x%x [|] 0x%x) tag_in:%s\n",
+                hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
+            Message("Header Memory: ");
+            cyfiPrintMemory((PVOID)lpszHeaders, dwHeadersLength * 2);
+        }
+        else {
+            Message("[W] WinHttpAddRequestHeaders (%p [|] %ls [|] 0x%x [|] 0x%x)\n",
+                hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+        }
 
-    if (header_tag.length() > 0) {
-        Message("[W] WinHttpAddRequestHeaders (%p [|] %ls [|] 0x%x [|] 0x%x) tag_in:%s\n",
-            hRequest, lpszHeaders, dwHeadersLength, dwModifiers, header_tag.c_str());
-        Message("Header Memory: ");
-        cyfiPrintMemory((PVOID)lpszHeaders, dwHeadersLength * 2);
+        bool con_res = winhttp::WinHttpAddRequestHeaders(hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
+
+        S2EEnableForking();
+
+        return TRUE;
     }
-    else {
-        Message("[W] WinHttpAddRequestHeaders (%p [|] %ls [|] 0x%x [|] 0x%x)\n",
-            hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
-    }
 
-    bool con_res = winhttp::WinHttpAddRequestHeaders(hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
-
-    S2EEnableForking();
-
-    return TRUE;
+    return winhttp::WinHttpAddRequestHeaders(hRequest, lpszHeaders, dwHeadersLength, dwModifiers);
 }
 
 BOOL WINAPI WinHttpCloseHandleHook(
     winhttp::HINTERNET hInternet
 ) {
-    perHandleBytesToRead.erase(hInternet);
-    perHandleBytesRead.erase(hInternet);
 
-    Message("[W] WinHttpCloseHandle (%p)\n", hInternet);
+    if (checkCaller("WinHttpCloseHandle")) {
+        perHandleBytesToRead.erase(hInternet);
+        perHandleBytesRead.erase(hInternet);
 
-    std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
+        Message("[W] WinHttpCloseHandle (%p)\n", hInternet);
 
-    if (it == dummyHandles.end()) {
-        return winhttp::WinHttpCloseHandle(hInternet);
+        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
+
+        if (it == dummyHandles.end()) {
+            return winhttp::WinHttpCloseHandle(hInternet);
+        }
+        else {
+            // The handle is a dummy handle. Free it
+            free(*it);
+            dummyHandles.erase(it);
+            return TRUE;
+        }
     }
-    else {
-        // The handle is a dummy handle. Free it
-        free(*it);
-        dummyHandles.erase(it);
-        return TRUE;
-    }
+
+    return winhttp::WinHttpCloseHandle(hInternet);
 }
 
 BOOL WINAPI WinHttpGetProxyForUrlHook(
@@ -404,9 +442,10 @@ BOOL WINAPI WinHttpGetProxyForUrlHook(
     winhttp::WINHTTP_AUTOPROXY_OPTIONS* pAutoProxyOptions,
     winhttp::WINHTTP_PROXY_INFO* pProxyInfo
 ) {
-    Message("[W] WinHttpGetProxyForUrl (%p [|] %ls [|] %p [|] %p)\n", hSession, lpcwszUrl, pAutoProxyOptions, pProxyInfo);
-    bool con_res = winhttp::WinHttpGetProxyForUrl(hSession, lpcwszUrl, pAutoProxyOptions, pProxyInfo);
-
+    if (checkCaller("WinHttpGetProxyForUrl")) {
+      Message("[W] WinHttpGetProxyForUrl (%p [|] %ls [|] %p [|] %p)\n", hSession, lpcwszUrl, pAutoProxyOptions, pProxyInfo);
+      bool con_res = winhttp::WinHttpGetProxyForUrl(hSession, lpcwszUrl, pAutoProxyOptions, pProxyInfo);
+    }
     return TRUE;
 }
 
@@ -419,47 +458,51 @@ winhttp::HINTERNET WINAPI WinHttpOpenRequestHook(
     LPCWSTR* ppwszAcceptTypes,
     DWORD     dwFlags
 ) {
-    std::string verbTag = ReadTag((PVOID)pwszVerb);
-    std::string objectNameTag = ReadTag((PVOID)pwszObjectName);
-    std::string versionTag = ReadTag((PVOID)pwszVersion);
-    std::string referrerTag = ReadTag((PVOID)pwszReferrer);
+    if (checkCaller("WinHttpOpenRequest")) {
+      std::string verbTag = ReadTag((PVOID)pwszVerb);
+      std::string objectNameTag = ReadTag((PVOID)pwszObjectName);
+      std::string versionTag = ReadTag((PVOID)pwszVersion);
+      std::string referrerTag = ReadTag((PVOID)pwszReferrer);
 
-    S2EDisableForking();
-    winhttp::HINTERNET requestHandle = winhttp::WinHttpOpenRequest(hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags);
+      S2EDisableForking();
+      winhttp::HINTERNET requestHandle = winhttp::WinHttpOpenRequest(hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags);
 
-    if (requestHandle == NULL) {
+      if (requestHandle == NULL) {
 
-        requestHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
-        dummyHandles.insert(requestHandle);
-    }
+          requestHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
+          dummyHandles.insert(requestHandle);
+      }
 
-    if (pwszVerb && verbTag != "") {
-        Message("Verb Memory: ");
-        cyfiPrintMemory((PVOID)pwszVerb, wcslen(pwszVerb)*2);
-    }
+      if (pwszVerb && verbTag != "") {
+          Message("Verb Memory: ");
+          cyfiPrintMemory((PVOID)pwszVerb, wcslen(pwszVerb)*2);
+      }
 
-    if (pwszObjectName && objectNameTag != "") {
-        Message("Object Memory: ");
-        cyfiPrintMemory((PVOID)pwszObjectName, wcslen(pwszObjectName) * 2);
-    }
+      if (pwszObjectName && objectNameTag != "") {
+          Message("Object Memory: ");
+          cyfiPrintMemory((PVOID)pwszObjectName, wcslen(pwszObjectName) * 2);
+      }
 
-    if (pwszVersion && versionTag != "") {
-        Message("Version Memory: ");
-        cyfiPrintMemory((PVOID)pwszVersion, wcslen(pwszVersion) * 2);
-    }
+      if (pwszVersion && versionTag != "") {
+          Message("Version Memory: ");
+          cyfiPrintMemory((PVOID)pwszVersion, wcslen(pwszVersion) * 2);
+      }
 
-    if (pwszReferrer && referrerTag != "") {
-        Message("Referrer Memory: ");
-        cyfiPrintMemory((PVOID)pwszReferrer, wcslen(pwszReferrer) * 2);
-    }
+      if (pwszReferrer && referrerTag != "") {
+          Message("Referrer Memory: ");
+          cyfiPrintMemory((PVOID)pwszReferrer, wcslen(pwszReferrer) * 2);
+      }
 
 
-    Message("[W] WinHttpOpenRequest (%p [|] %ls [|] %ls [|] %ls [|] %ls [|] %p [|] %ld) ret:%p tag_in: %s %s %s %s\n",
-        hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags, requestHandle, verbTag.c_str(), objectNameTag.c_str(), versionTag.c_str(), referrerTag.c_str());
+      Message("[W] WinHttpOpenRequest (%p [|] %ls [|] %ls [|] %ls [|] %ls [|] %p [|] %ld) ret:%p tag_in: %s %s %s %s\n",
+          hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags, requestHandle, verbTag.c_str(), objectNameTag.c_str(), versionTag.c_str(), referrerTag.c_str());
 
-    S2EEnableForking();
+      S2EEnableForking();
 
-    return requestHandle;
+      return requestHandle;
+  }
+  
+  return winhttp::WinHttpOpenRequest(hConnect, pwszVerb, pwszObjectName, pwszVersion, pwszReferrer, ppwszAcceptTypes, dwFlags);
 
 }
 
@@ -471,57 +514,60 @@ BOOL WINAPI WinHttpQueryHeadersHook(
     LPDWORD   lpdwBufferLength,
     LPDWORD   lpdwIndex
 ) {
+    if (checkCaller("WinHttpQueryHeaders")) {
+        // If the buffer exists, symbolize
+        if (lpBuffer) {
 
-    // If the buffer exists, symbolize
-    if (lpBuffer) {
+            S2EDisableForking();
 
-        S2EDisableForking();
+            std::string tag = GetTag("WinHttpQueryHeaders");
 
-        std::string tag = GetTag("WinHttpQueryHeaders");
+            Message("[W] WinHttpQueryHeaders (%p [|] %ld [|] %ls [|] %p [|] %p [|] %p) tag_out:%s\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex, tag.c_str());
 
-        Message("[W] WinHttpQueryHeaders (%p [|] %ld [|] %ls [|] %p [|] %p [|] %p) tag_out:%s\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex, tag.c_str());
+            std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
 
-        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
+            BOOL query_res = FALSE;
 
-        BOOL query_res = FALSE;
+            if (it == dummyHandles.end()) {
+                query_res = winhttp::WinHttpQueryHeaders(hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
+            }
 
-        if (it == dummyHandles.end()) {
-            query_res = winhttp::WinHttpQueryHeaders(hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
-        }
+            S2EEnableForking();
 
-        S2EEnableForking();
+            if (query_res) {
+                Message("WinHttpQueryHeaders 1\n");
+                cyfiTaint(lpBuffer, *lpdwBufferLength, tag.c_str());
+            }
+            else {
+                Message("WinHttpQueryHeaders 0\n");
+                S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
+                S2EMakeSymbolic(lpdwBufferLength, sizeof(DWORD), tag.c_str());
+            }
 
-        if (query_res) {
-            Message("WinHttpQueryHeaders 1\n");
-            cyfiTaint(lpBuffer, *lpdwBufferLength, tag.c_str());
-        }
-        else {
-            Message("WinHttpQueryHeaders 0\n");
-            S2EMakeSymbolic(lpBuffer, min(*lpdwBufferLength, DEFAULT_MEM_LEN), tag.c_str());
-            S2EMakeSymbolic(lpdwBufferLength, sizeof(DWORD), tag.c_str());
-        }
-        
-    }
-    else {
-        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
-
-        BOOL query_res = FALSE;
-
-        if (it == dummyHandles.end()) {
-            query_res = winhttp::WinHttpQueryHeaders(hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
-        }
-
-        if (query_res) {
-            Message("WinHttpQueryHeaders 1\n");
         }
         else {
-            Message("WinHttpQueryHeaders 0\n");
+            std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
+
+            BOOL query_res = FALSE;
+
+            if (it == dummyHandles.end()) {
+                query_res = winhttp::WinHttpQueryHeaders(hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
+            }
+
+            if (query_res) {
+                Message("WinHttpQueryHeaders 1\n");
+            }
+            else {
+                Message("WinHttpQueryHeaders 0\n");
+            }
+
+            Message("[W] WinHttpQueryHeaders (%p [|] %ld [|] %ls [|] %p [|] %p [|] %p)\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
         }
 
-        Message("[W] WinHttpQueryHeaders (%p [|] %ld [|] %ls [|] %p [|] %p [|] %p)\n", hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
+        return TRUE;
     }
 
-    return TRUE;
+    return winhttp::WinHttpQueryHeaders(hRequest, dwInfoLevel, pwszName, lpBuffer, lpdwBufferLength, lpdwIndex);
 }
 
 
@@ -532,58 +578,64 @@ BOOL WINAPI WinHttpQueryOptionHook(
     LPDWORD   lpdwBufferLength
 ) {
 
-    if (lpBuffer) {
-        std::string tag = GetTag("WinHttpQueryOption");
+    if (checkCaller("WinHttpQueryOption")) {
 
-        S2EDisableForking();
+        if (lpBuffer) {
+            std::string tag = GetTag("WinHttpQueryOption");
 
-        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
+            S2EDisableForking();
 
-        BOOL query_res = FALSE;
+            std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
 
-        if (it == dummyHandles.end()) {
-            query_res = winhttp::WinHttpQueryOption(hInternet, dwOption, lpBuffer, lpdwBufferLength);
-        }
+            BOOL query_res = FALSE;
 
-        Message("[W] WinHttpQueryOption (%p [|] %ld [|] %s [|] %p) tag out:\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
+            if (it == dummyHandles.end()) {
+                query_res = winhttp::WinHttpQueryOption(hInternet, dwOption, lpBuffer, lpdwBufferLength);
+            }
 
-        if (query_res) {
-            cyfiTaint(lpBuffer, *lpdwBufferLength, tag.c_str());
+            Message("[W] WinHttpQueryOption (%p [|] %ld [|] %s [|] %p) tag out:%s\n", hInternet, dwOption, lpBuffer, lpdwBufferLength, tag.c_str());
+
+            if (query_res) {
+                cyfiTaint(lpBuffer, *lpdwBufferLength, tag.c_str());
+            }
+            else {
+
+                auto it = perHandleBytesToQuery.find(hInternet);
+                if (it == perHandleBytesToQuery.end()) {
+                    perHandleBytesToQuery[hInternet] = DEFAULT_MEM_LEN;
+                    it = perHandleBytesToQuery.find(hInternet);
+                }
+
+                DWORD bytes_left = it->second;
+
+                DWORD bytes_read = bytes_left < *lpdwBufferLength ? bytes_left : *lpdwBufferLength;
+
+                S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
+                S2EMakeSymbolic(lpdwBufferLength, sizeof(DWORD), tag.c_str());
+            }
+
+            S2EEnableForking();
+
         }
         else {
 
-            auto it = perHandleBytesToQuery.find(hInternet);
-            if (it == perHandleBytesToQuery.end()) {
-                perHandleBytesToQuery[hInternet] = DEFAULT_MEM_LEN;
-                it = perHandleBytesToQuery.find(hInternet);
+            std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
+
+            BOOL query_res = FALSE;
+
+            if (it == dummyHandles.end()) {
+                query_res = winhttp::WinHttpQueryOption(hInternet, dwOption, lpBuffer, lpdwBufferLength);
             }
 
-            DWORD bytes_left = it->second;
 
-            DWORD bytes_read = bytes_left < *lpdwBufferLength ? bytes_left : *lpdwBufferLength;
-
-            S2EMakeSymbolic(lpBuffer, bytes_read, tag.c_str());
-            S2EMakeSymbolic(lpdwBufferLength, sizeof(DWORD), tag.c_str());
+            Message("[W] WinHttpQueryOption (%p [|] %ld [|] %p [|] %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
         }
 
-        S2EEnableForking();
-        
-    }
-    else {
+        return TRUE;
 
-        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
-
-        BOOL query_res = FALSE;
-
-        if (it == dummyHandles.end()) {
-            query_res = winhttp::WinHttpQueryOption(hInternet, dwOption, lpBuffer, lpdwBufferLength);
-        }
-
-
-        Message("[W] WinHttpQueryOption (%p [|] %ld [|] %p [|] %p)\n", hInternet, dwOption, lpBuffer, lpdwBufferLength);
     }
 
-    return TRUE;
+    return winhttp::WinHttpQueryOption(hInternet, dwOption, lpBuffer, lpdwBufferLength);
 }
 
 DWORD WINAPI WinHttpResetAutoProxyHook(
@@ -603,30 +655,34 @@ BOOL WINAPI WinHttpSetCredentialsHook(
     LPVOID    pAuthParams
 ) {
 
-    std::string userNameTag = ReadTag((PVOID)pwszUserName);
-    std::string passwordTag = ReadTag((PVOID)pwszPassword);
+    if (checkCaller("WinHttpSetCredentials")) {
 
-    S2EDisableForking();
+        std::string userNameTag = ReadTag((PVOID)pwszUserName);
+        std::string passwordTag = ReadTag((PVOID)pwszPassword);
 
-    if (pwszUserName && userNameTag != "") {
-        Message("UserName Memory: ");
-        cyfiPrintMemory((PVOID)pwszUserName, wcslen(pwszUserName) * 2);
+        S2EDisableForking();
+
+        if (pwszUserName && userNameTag != "") {
+            Message("UserName Memory: ");
+            cyfiPrintMemory((PVOID)pwszUserName, wcslen(pwszUserName) * 2);
+        }
+
+        if (pwszPassword && passwordTag != "") {
+            Message("Password Memory: ");
+            cyfiPrintMemory((PVOID)pwszPassword, wcslen(pwszPassword) * 2);
+        }
+
+        Message("[W] WinHttpSetCredentials(%p [|] %ld [|] %ld [|] %ls [|] %ls [|] %p) tag_in: %s %s\n", hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, userNameTag.c_str(), passwordTag.c_str());
+
+        winhttp::WinHttpSetCredentials(hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, pAuthParams);
+
+        S2EEnableForking();
+
+        return TRUE;
+
     }
 
-    if (pwszPassword && passwordTag != "") {
-        Message("Password Memory: ");
-        cyfiPrintMemory((PVOID)pwszPassword, wcslen(pwszPassword) * 2);
-    }
-
-    Message("[W] WinHttpSetCredentials(%p [|] %ld [|] %ld [|] %ls [|] %ls [|] %p) tag_in: %s %s\n", hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, userNameTag.c_str(), passwordTag.c_str());
-
-    winhttp::WinHttpSetCredentials(hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, pAuthParams);
-
-    S2EEnableForking();
-
-    winhttp::WinHttpSetCredentials(hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, pAuthParams);
-
-    return TRUE;
+    return winhttp::WinHttpSetCredentials(hRequest, AuthTargets, AuthScheme, pwszUserName, pwszPassword, pAuthParams);
 }
 
 BOOL WINAPI WinHttpSetOptionHook(
@@ -635,21 +691,24 @@ BOOL WINAPI WinHttpSetOptionHook(
     LPVOID    lpBuffer,
     DWORD     dwBufferLength
 ) {
+    if (checkCaller("WinHttpSetOption")) {
+        S2EDisableForking();
+        // lpBuffer can point to a DWROD, it can also point to a char array
+        if (dwBufferLength == 4) {
+            Message("[W] WinHttpSetOption(%p [|] %ld [|] %ld [|] %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
+        }
+        else {
+            Message("[W] WinHttpSetOption(%p [|] %ld [|] %s [|] %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
+        }
 
-    S2EDisableForking();
-    // lpBuffer can point to a DWROD, it can also point to a char array
-    if (dwBufferLength == 4) {
-        Message("[W] WinHttpSetOption(%p [|] %ld [|] %ld [|] %ld)\n", hInternet, dwOption, *(LPDWORD)lpBuffer, dwBufferLength);
+        bool con_res = winhttp::WinHttpSetOption(hInternet, dwOption, lpBuffer, dwBufferLength);
+
+        S2EEnableForking();
+
+        return TRUE;
     }
-    else {
-        Message("[W] WinHttpSetOption(%p [|] %ld [|] %s [|] %ld)\n", hInternet, dwOption, (LPCTSTR)lpBuffer, dwBufferLength);
-    }
 
-    bool con_res = winhttp::WinHttpSetOption(hInternet, dwOption, lpBuffer, dwBufferLength);
-
-    S2EEnableForking();
-    
-    return TRUE;
+    return winhttp::WinHttpSetOption(hInternet, dwOption, lpBuffer, dwBufferLength);
 }
 
 BOOL WINAPI WinHttpSetTimeoutsHook(
@@ -659,17 +718,22 @@ BOOL WINAPI WinHttpSetTimeoutsHook(
     int       nSendTimeout,
     int       nReceiveTimeout
 ) {
-    Message("[W] WinHttpSetTimeouts (%p [|] %i [|] %i [|] %i [|] %i)\n", hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
 
-    //Call the original function just in case that we will run some functions in the future
-    //If it is a valid handle
-    std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
+    if (checkCaller("WinHttpSetTimeouts")) {
+        Message("[W] WinHttpSetTimeouts (%p [|] %i [|] %i [|] %i [|] %i)\n", hInternet, nResolveTimeout, nConnectTimeout, nSendTimeout, nReceiveTimeout);
 
-    if (it == dummyHandles.end()) {
-        winhttp::WinHttpSetTimeouts(hInternet, 0, 0, 0, 0);
+        //Call the original function just in case that we will run some functions in the future
+        //If it is a valid handle
+        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hInternet);
+
+        if (it == dummyHandles.end()) {
+            winhttp::WinHttpSetTimeouts(hInternet, 0, 0, 0, 0);
+        }
+
+        return TRUE;
     }
 
-    return TRUE;
+    return winhttp::WinHttpSetTimeouts(hInternet, 5, 5, 5, 5);
 }
 
 BOOL WINAPI WinHttpReceiveResponseHook(
@@ -677,24 +741,29 @@ BOOL WINAPI WinHttpReceiveResponseHook(
     LPVOID    lpReserved
 ) {
 
-    // Not sure if this function will block or not. So if it is using dummy handle, dont trigger the real function
+    if (checkCaller("WinHttpReceiveResponse")) {
 
-    S2EDisableForking();
+        // Not sure if this function will block or not. So if it is using dummy handle, dont trigger the real function
 
-    std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
+        S2EDisableForking();
 
-    bool concrete_res = FALSE;
+        std::set<winhttp::HINTERNET>::iterator it = dummyHandles.find(hRequest);
 
-    if (it == dummyHandles.end()) {
-        concrete_res = winhttp::WinHttpReceiveResponse(hRequest, lpReserved);
+        bool concrete_res = FALSE;
+
+        if (it == dummyHandles.end()) {
+            concrete_res = winhttp::WinHttpReceiveResponse(hRequest, lpReserved);
+        }
+
+        Message("[W] WinHttpReceiveResponse (%p [|] %p)\n",
+            hRequest, lpReserved);
+
+        S2EEnableForking();
+
+        return TRUE; //Only consider successful winhttp responses for now
     }
 
-    Message("[W] WinHttpReceiveResponse (%p [|] %p)\n",
-        hRequest, lpReserved);
-
-    S2EEnableForking();
-
-    return TRUE; //Only consider successful winhttp responses for now
+    return winhttp::WinHttpReceiveResponse(hRequest, lpReserved);
 }
 
 

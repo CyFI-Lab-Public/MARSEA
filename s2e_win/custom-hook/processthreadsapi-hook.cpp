@@ -59,6 +59,8 @@ BOOL WINAPI CreateProcessAHook(
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
     }
 
+    goto default_create_process;
+
     // Get this DLL's path
     HMODULE hDll = NULL;
     DWORD hModFlags = GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
@@ -161,6 +163,8 @@ BOOL WINAPI CreateProcessWHook(
             lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment,
             lpCurrentDirectory, lpStartupInfo, lpProcessInformation);
     }
+
+    goto default_create_process;
 
     // Get this DLL's path
     HMODULE hDll = NULL;

@@ -53,7 +53,7 @@ bool Vmi::parseDirectories(ConfigFile *cfg, const std::string &baseDirsKey) {
     // executable files.
     ConfigFile::string_list dirs = cfg->getStringList(baseDirsKey);
     foreach2 (it, dirs.begin(), dirs.end()) {
-        getDebugStream() << "adding path " << *it << "\n";
+        //getDebugStream() << "adding path " << *it << "\n";
         if (!llvm::sys::fs::exists((*it))) {
             getWarningsStream() << "Path " << (*it) << " does not exist\n";
             return false;
@@ -173,7 +173,7 @@ bool Vmi::getHostPathForModule(const std::string &modulePath, const std::string 
 
 std::shared_ptr<vmi::ExecutableFile> Vmi::getFromDisk(const std::string &modulePath, const std::string &moduleName,
                                                       bool caseInsensitive) {
-    getDebugStream() << "Loading module from disk " << modulePath << " (" << moduleName << ")\n";
+    //getDebugStream() << "Loading module from disk " << modulePath << " (" << moduleName << ")\n";
 
     std::string hostPath;
     if (!getHostPathForModule(modulePath, moduleName, caseInsensitive, hostPath)) {
@@ -183,11 +183,11 @@ std::shared_ptr<vmi::ExecutableFile> Vmi::getFromDisk(const std::string &moduleP
 
     auto it = m_cache.find(hostPath);
     if (it != m_cache.end()) {
-        getDebugStream() << "Found cached entry for " << hostPath << "\n";
+        //getDebugStream() << "Found cached entry for " << hostPath << "\n";
         return (*it).second;
     }
 
-    getDebugStream() << "Attempting to load binary file: " << hostPath << "\n";
+    //getDebugStream() << "Attempting to load binary file: " << hostPath << "\n";
     auto fp = vmi::FileSystemFileProvider::get(hostPath, false);
 
     if (!fp) {
@@ -382,7 +382,7 @@ bool Vmi::writeX86Register(void *opaque, unsigned reg, const void *buffer, unsig
 bool Vmi::readModuleData(const ModuleDescriptor &module, uint64_t addr, uint8_t &val) {
     auto file = getFromDisk(module.Path, module.Name, false);
     if (!file) {
-        getDebugStream() << "No executable file for " << module.Name << "\n";
+        //getDebugStream() << "No executable file for " << module.Name << "\n";
         return false;
     }
 
@@ -395,14 +395,14 @@ bool Vmi::readModuleData(const ModuleDescriptor &module, uint64_t addr, uint8_t 
         }
     }
     if (!addrInSection) {
-        getDebugStream() << "Address " << hexval(addr) << " is not in any section of " << module.Name << "\n";
+        //getDebugStream() << "Address " << hexval(addr) << " is not in any section of " << module.Name << "\n";
         return false;
     }
 
     uint8_t byte;
     ssize_t size = file->read(&byte, sizeof(byte), addr);
     if (size != sizeof(byte)) {
-        getDebugStream() << "Failed to read byte at " << hexval(addr) << " in " << module.Name << "\n";
+        //getDebugStream() << "Failed to read byte at " << hexval(addr) << " in " << module.Name << "\n";
         return false;
     }
 
@@ -438,7 +438,7 @@ bool Vmi::getResolvedImports(S2EExecutionState *state, const ModuleDescriptor &m
 
     auto exe = getFromDisk(module.Path, module.Name, true);
     if (!exe) {
-        getDebugStream(state) << "could not find on-disk image\n";
+        //getDebugStream(state) << "could not find on-disk image\n";
         return false;
     }
 

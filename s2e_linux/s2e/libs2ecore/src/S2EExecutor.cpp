@@ -954,8 +954,6 @@ S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
             m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
         }
         g_s2e->getCorePlugin()->onStateSwitch.emit(state, newState);
-    } else {
-        m_s2e->getDebugStream(state) << "New State == State\n";
     }
 
     // We can't free the state immediately if it is the current state.

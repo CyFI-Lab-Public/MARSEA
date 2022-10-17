@@ -458,6 +458,11 @@ void CyFiFunctionModels::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecuti
 
 void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t pc, unsigned sourceType) {
 
+    // Only interested in the processes specified in the ProcessExecutionDetector config
+    if (!m_procDetector->isTracked(state)) {
+        return;
+    }
+
     auto current_mod = m_map->getModule(state, pc);
     auto mod = m_map->getModule(state);
 
@@ -517,8 +522,8 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
     if (arg_dump > 0) {
 
         uint64_t stackAddr = state->regs()->getSp() + 4;
-        getDebugStream(state) << "PC Address: " << hexval(targetAddr) << "\n";
-        getDebugStream(state) << "Stack Address: " << hexval(stackAddr) << "\n";
+        // getDebugStream(state) << "PC Address: " << hexval(targetAddr) << "\n";
+        // getDebugStream(state) << "Stack Address: " << hexval(stackAddr) << "\n";
 
         uint64_t arguments[8];
 
@@ -531,7 +536,7 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
                 if (isa<ConstantExpr>(result)) {
                     ConstantExpr *CE = dyn_cast<ConstantExpr>(result);
                     arguments[i] = CE->getZExtValue();
-                    getDebugStream(state) << "Get " << i << " argument at " << hexval(stackAddr+i*4) << " " <<  hexval(arguments[i]) << "\n";
+                    // getDebugStream(state) << "Get " << i << " argument at " << hexval(stackAddr+i*4) << " " <<  hexval(arguments[i]) << "\n";
                     
                     // Check if buffer is symbolic
                     ref<Expr> data = state->mem()->read(arguments[i], state->getPointerWidth());
@@ -547,7 +552,7 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
                         }
                     }
                 } else {
-                    getDebugStream(state) <<  i << " argument at " << hexval(stackAddr+i*4) << " is symbolic \n";
+                    //getDebugStream(state) <<  i << " argument at " << hexval(stackAddr+i*4) << " is symbolic \n";
                     // The stack space is symbolic, can be a symbolic int on stack?
                     std::ostringstream ss;
                     ss << result;
@@ -734,6 +739,7 @@ void CyFiFunctionModels::cyfiPrintMemory(S2EExecutionState *state, CYFI_WINWRAPP
         klee::ref<Expr> res = state->mem()->read(address + i);
         if (!res) {
             getCyfiStream() << "Invalid pointer\n";
+            break;
         } else {
             getCyfiStream(state) << hexval(address + i) << ": " << res << ", " << state->toConstantSilent(res)->getZExtValue() << "\n";
         }
