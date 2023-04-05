@@ -58,11 +58,6 @@ protected:
 
     klee::KFunction *m_dummyMain;
 
-    /* Unused memory regions that should be unmapped.
-       Copy-then-unmap is used in order to catch possible
-       direct memory accesses from libcpu code. */
-    std::vector<std::pair<uint64_t, uint64_t>> m_unusedMemoryDescs;
-
     std::vector<klee::ObjectKey> m_saveOnContextSwitch;
 
     std::vector<S2EExecutionState *> m_deletedStates;
@@ -79,7 +74,7 @@ protected:
     std::unordered_set<S2ETranslationBlockPtr, S2ETranslationBlockHash, S2ETranslationBlockEqual> m_s2eTbs;
 
 public:
-    S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, klee::InterpreterHandler *ie);
+    S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator);
     virtual ~S2EExecutor();
 
     /** Called on fork, used to trace forks */
@@ -175,10 +170,6 @@ public:
     S2ETranslationBlock *allocateS2ETb();
     void flushS2ETBs();
 
-    void initializeStatistics();
-
-    void updateStats(S2EExecutionState *state);
-
     bool isLoadBalancing() const {
         return m_inLoadBalancing;
     }
@@ -198,8 +189,6 @@ public:
      * To be called by plugin code
      */
     klee::Executor::StatePair forkAndConcretize(S2EExecutionState *state, klee::ref<klee::Expr> &value_);
-
-    static bool findFile(const std::string &dataDir, const std::string &name, std::string &ret);
 
 protected:
     void updateClockScaling();
@@ -225,7 +214,6 @@ protected:
 
     void notifyBranch(klee::ExecutionState &state);
 
-    void setupTimersHandler();
     void initializeStateSwitchTimer();
     static void stateSwitchTimerCallback(void *opaque);
 

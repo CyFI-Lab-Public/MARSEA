@@ -27,7 +27,7 @@
 #include <klee/Expr.h>
 #include <s2e/Plugin.h>
 #include <s2e/Plugins/OSMonitors/Support/MemUtils.h>
-#include <string>
+
 using namespace klee;
 
 namespace s2e {
@@ -56,7 +56,6 @@ private:
 
 protected:
     MemUtils *m_memutils;
-    BaseInstructions *m_base;
 
     klee::UpdateListPtr m_crc16_ul;
     klee::UpdateListPtr m_crc32_ul;
@@ -75,16 +74,6 @@ protected:
     bool strncpyHelper(S2EExecutionState *state, const uint64_t strAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcmpHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
     bool memcpyHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
-
-    bool memsetHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes, ref<Expr> &retExpr);
-
-    bool StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[2], ref<Expr> &retExpr);
-    bool WinHttpWriteDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr);
-    bool WinHttpReadDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr);
-
-    bool MultiByteToWideCharHelper(S2EExecutionState *state, const uint64_t args[6]);
-
-
     bool strcatHelper(S2EExecutionState *state, const uint64_t strAddrs[2], ref<Expr> &retExpr, uint64_t numBytes = 0,
                       bool isNcat = false);
 };

@@ -78,6 +78,12 @@ BOOL WINAPI WinHttpCrackUrlHook(
 
             return TRUE;
         }
+        else {
+            // Still print out what URL the malware tries to decode
+            Message("[W] WinHttpCrackUrl (%ls [|] %ld [|] %ld [|] %p)\n",
+                pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
+            return WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
+        }
     }
 
     return WinHttpCrackUrl(pwszUrl, dwUrlLength, dwFlags, lpUrlComponents);
@@ -105,12 +111,10 @@ winhttp::HINTERNET WINAPI WinHttpConnectHook(
             winhttp::HINTERNET handle = winhttp::WinHttpConnect(hSession, pswzServerName, nServerPort, dwReserved);
 
             if (handle == NULL) {
-                Message("WinHttpConnect 0\n");
                 connectionHandle = (winhttp::HINTERNET)malloc(sizeof(winhttp::HINTERNET));
                 dummyHandles.insert(connectionHandle);
             }
             else {
-                Message("WinHttpConnect 1\n");
                 connectionHandle = handle;
             }
 
@@ -234,10 +238,6 @@ BOOL WINAPI WinHttpQueryDataAvailableHook(
             }
             Message("WinHttpQueryDataAvailable 0\n");
         }
-
-        //if (lpdwNumberOfBytesAvailable) {
-        //    S2EMakeSymbolic(lpdwNumberOfBytesAvailable, sizeof(*lpdwNumberOfBytesAvailable), GetTag("WinHttpQueryDataAvailable").c_str());
-        //}
 
         return TRUE;
     }

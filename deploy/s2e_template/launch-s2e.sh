@@ -6,8 +6,7 @@
 # arguments can be passed to this script at run time.
 #
 
-# ENV_DIR="/home/{cyfiuser}/s2e"
-ENV_DIR="{s2eenv}"
+ENV_DIR="{S2EDIR}"
 INSTALL_DIR="$ENV_DIR/install"
 BUILD_DIR="$ENV_DIR/build"
 BUILD=debug

@@ -26,7 +26,6 @@
 #include "klee/Internal/Module/Cell.h"
 #include "klee/Internal/Module/KInstruction.h"
 #include "klee/Internal/Module/KModule.h"
-#include "klee/Interpreter.h"
 
 namespace llvm {
 class BasicBlock;
@@ -40,6 +39,7 @@ class Instruction;
 class TargetData;
 class Twine;
 class Value;
+class LLVMContext;
 } // namespace llvm
 
 namespace klee {
@@ -55,44 +55,22 @@ class ObjectState;
 class Searcher;
 class SpecialFunctionHandler;
 struct StackFrame;
-class StatsTracker;
 class TimingSolver;
 class BitfieldSimplifier;
 class SolverFactory;
 template <class T> class ref;
 
-/// \todo Add a context object to keep track of data only live
-/// during an instruction step. Should contain addedStates,
-/// removedStates, and haltExecution, among others.
-
-class Executor : public Interpreter {
-    friend class SpecialFunctionHandler;
-    friend class StatsTracker;
-
+class Executor {
 public:
-    class Timer {
-    public:
-        Timer();
-        virtual ~Timer();
-
-        /// The event callback.
-        virtual void run() = 0;
-    };
-
     typedef std::pair<ExecutionState *, ExecutionState *> StatePair;
 
 protected:
-    class TimerInfo;
-
     KModulePtr kmodule;
-    InterpreterHandler *interpreterHandler;
     Searcher *searcher;
 
     ExternalDispatcher *externalDispatcher;
     StateSet states;
-    StatsTracker *statsTracker;
     SpecialFunctionHandler *specialFunctionHandler;
-    std::vector<TimerInfo *> timers;
 
     /// Used to track states that have been added during the current
     /// instructions step.
@@ -119,7 +97,7 @@ protected:
     /// instead of being called directly.
     std::set<llvm::Function *> overridenInternalFunctions;
 
-    llvm::Function *getTargetFunction(llvm::Value *calledVal, ExecutionState &state);
+    llvm::Function *getTargetFunction(llvm::Value *calledVal);
 
     void executeInstruction(ExecutionState &state, KInstruction *ki);
 
@@ -128,44 +106,14 @@ protected:
     void initializeGlobals(ExecutionState &state);
 
     virtual void updateStates(ExecutionState *current);
-    void transferToBasicBlock(llvm::BasicBlock *dst, llvm::BasicBlock *src, ExecutionState &state);
 
     void callExternalFunction(ExecutionState &state, KInstruction *target, llvm::Function *function,
                               std::vector<ref<Expr>> &arguments);
 
-    /// Allocate and bind a new object in a particular state. NOTE: This
-    /// function may fork.
-    ///
-    /// \param isLocal Flag to indicate if the object should be
-    /// automatically deallocated on function return (this also makes it
-    /// illegal to free directly).
-    ///
-    /// \param target Value at which to bind the base address of the new
-    /// object.
-    ///
-    /// \param reallocFrom If non-zero and the allocation succeeds,
-    /// initialize the new object from the given one and unbind it when
-    /// done (realloc semantics). The initialized bytes will be the
-    /// minimum of the size of the old and new objects, with remaining
-    /// bytes initialized as specified by zeroMemory.
-    void executeAlloc(ExecutionState &state, ref<Expr> size, bool isLocal, KInstruction *target,
-                      bool zeroMemory = false, const ObjectStatePtr &reallocFrom = nullptr);
-
     void executeCall(ExecutionState &state, KInstruction *ki, llvm::Function *f, std::vector<ref<Expr>> &arguments);
 
-    template <typename T>
-    void writeAndNotify(ExecutionState &state, const ObjectStatePtr &wos, T address, ref<Expr> &value);
-
-    ref<Expr> executeMemoryOperationOverlapped(ExecutionState &state, bool isWrite, uint64_t concreteAddress,
-                                               ref<Expr> value /* undef if read */, unsigned bytes);
-
-    // This is the actual read/write function, called after the target
-    // object was determined.
-    ref<Expr> executeMemoryOperation(ExecutionState &state, const ObjectStateConstPtr &os, bool isWrite,
-                                     uint64_t offset, ref<Expr> value /* undef if read */, Expr::Width type);
-
-    ref<Expr> executeMemoryOperation(ExecutionState &state, const ObjectStateConstPtr &os, bool isWrite,
-                                     ref<Expr> offset, ref<Expr> value /* undef if read */, Expr::Width type);
+    ref<Expr> executeMemoryOperation(ExecutionState &state, bool isWrite, uint64_t concreteAddress,
+                                     ref<Expr> value /* undef if read */, unsigned bytes);
 
     // do address resolution / object binding / out of bounds checking
     // and perform the operation
@@ -190,17 +138,6 @@ protected:
 
     void handlePointsToObj(ExecutionState &state, KInstruction *target, const std::vector<ref<Expr>> &arguments);
 
-    /// Add a timer to be executed periodically.
-    ///
-    /// \param timer The timer object to run on firings.
-    /// \param rate The approximate delay (in seconds) between firings.
-    void addTimer(Timer *timer, double rate);
-
-    static void onAlarm(int);
-    virtual void setupTimersHandler();
-    void initTimers();
-    void processTimers(ExecutionState *current);
-
     typedef void (*FunctionHandler)(Executor *executor, ExecutionState *state, KInstruction *target,
                                     std::vector<ref<Expr>> &arguments);
 
@@ -208,7 +145,7 @@ protected:
     void addSpecialFunctionHandler(llvm::Function *function, FunctionHandler handler);
 
 public:
-    Executor(InterpreterHandler *ie, llvm::LLVMContext &context);
+    Executor(llvm::LLVMContext &context);
     virtual ~Executor();
 
     // Fork current and return states in which condition holds / does
@@ -229,12 +166,7 @@ public:
 
     virtual void terminateState(ExecutionState &state, const std::string &reason);
 
-    virtual const llvm::Module *setModule(llvm::Module *module, bool createStatsTracker = true);
-
-    // Given a concrete object in our [klee's] address space, add it to
-    // objects checked code can reference.
-    ObjectStatePtr addExternalObject(ExecutionState &state, void *addr, unsigned size, bool isReadOnly,
-                                     bool isSharedConcrete = false);
+    virtual const llvm::Module *setModule(llvm::Module *module);
 
     /*** State accessor methods ***/
     size_t getStatesCount() const {

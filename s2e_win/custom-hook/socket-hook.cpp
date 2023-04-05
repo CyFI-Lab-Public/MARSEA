@@ -78,8 +78,6 @@ hostent* WSAAPI gethostbynamehook(
 ) {
     if (checkCaller("gethostbyname")) {
 
-        int ret = FALSE;
-
         std::string tagin = ReadTag((PVOID)name);
         bool isTaint = IsTainted((PVOID)name);
 
@@ -97,9 +95,6 @@ hostent* WSAAPI gethostbynamehook(
 
             if (remoteHost == NULL) {
                 remoteHost = gethostbyname("www.google.com");
-            }
-            else {
-                ret = TRUE;
             }
 
             if (remoteHost) {
@@ -139,7 +134,16 @@ INT WSAAPI bindhook(
     int namelen
 ) {
     if (checkCaller("bind")) {
-        Message("bind \n");
+        S2EDisableForking();
+        Message("[W] bind (%p, %p, %d)", s, addr, namelen);
+
+        std::set<SOCKET>::iterator it = dummySockets.find(s);
+
+        if (it == dummySockets.end()) {
+            INT ret = bind(s, addr, namelen);
+        }
+        
+        S2EEnableForking();
         return 0;
     }
 
@@ -262,17 +266,10 @@ INT WSAAPI selecthook(
                     socketCount--;
                 }
             }
-            Message("[W] select(%i [|] %i [|] %i [|] %p [|] %p) ret:%i\n", nfds, readfds->fd_count, writefds->fd_count, exceptfds, timeout, socketCount);
+            Message("[W] select (%i [|] %i [|] %i [|] %p [|] %p) ret:%i\n", nfds, readfds->fd_count, writefds->fd_count, exceptfds, timeout, socketCount);
             return socketCount;
         }
         return 0;
-
-        /*std::string tag = GetTag("select");
-        INT ret = S2ESymbolicInt(tag.c_str(), 1);
-        Message("[W] count: %i \n", readfds->fd_count);
-
-        Message("[W] select(%i, %p, %p, %p, %i)\n", nfds, readfds, writefds, exceptfds, timeout);
-        return 0;*/
     }
 
     return select(nfds, readfds, writefds, exceptfds, timeout);
@@ -287,10 +284,26 @@ INT WSAAPI sendhook(
     int        flags
 ) {
     if (checkCaller("send")) {
+
+        INT ret = len;
         std::string tagin = ReadTag((PVOID)buf);
+
+        S2EDisableForking();
+
         Message("[W] send (%p [|] %s [|] %i [|] %i) tag_in:%s\n",
                 s, buf, len, flags, tagin.c_str());
-        return len;
+
+        std::set<SOCKET>::iterator it = dummySockets.find(s);
+
+        if (it == dummySockets.end()) {
+            ret = send(s, buf, len, flags);
+            if (ret == SOCKET_ERROR) {
+                ret = len;
+            }
+        }
+
+        S2EEnableForking();
+        return ret;
     }
 
     return send(s, buf, len, flags);
@@ -308,10 +321,24 @@ INT WSAAPI sendtohook(
     if (checkCaller("sendto")) {
 
         std::string tag = GetTag("sendto");
-        std::string tag_in = ReadTag((PVOID)to->sa_data);
-        INT ret = S2ESymbolicInt(tag.c_str(), len);
-        Message("[W] sendto(%p [|] %s [|] %i [|] %i [|] %p [|] %i) tag_in:%s tag_out:%s\n",
-            s, buf, len, flags, to, tolen, tag_in.c_str(), tag.c_str());
+        std::string target_tag_in = ReadTag((PVOID)to->sa_data);
+        std::string content_tag_in = ReadTag((PVOID)buf);
+        
+        S2EDisableForking();
+        INT ret = len;
+        Message("[W] sendto(%p [|] %s [|] %i [|] %i [|] %p [|] %i) tag_in:%s %s tag_out:%s\n",
+            s, buf, len, flags, to, tolen, target_tag_in.c_str(), content_tag_in.c_str(), tag.c_str());
+
+        std::set<SOCKET>::iterator it = dummySockets.find(s);
+
+        if (it == dummySockets.end()) {
+            ret = sendto(s, buf, len, flags, to, tolen);
+            if (ret == SOCKET_ERROR) {
+                ret = len;
+            }
+        }
+
+        S2EEnableForking();
         return ret;
     }
 

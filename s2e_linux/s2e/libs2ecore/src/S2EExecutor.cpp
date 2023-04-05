@@ -53,13 +53,13 @@
 
 #include <llvm/ADT/IntervalMap.h>
 
-#include <klee/CoreStats.h>
 #include <klee/ExternalDispatcher.h>
 #include <klee/Memory.h>
 #include <klee/Searcher.h>
 #include <klee/Solver.h>
 #include <klee/SolverFactory.h>
-#include <klee/TimerStatIncrementer.h>
+#include <klee/Stats/CoreStats.h>
+#include <klee/Stats/TimerStatIncrementer.h>
 #include <klee/util/ExprTemplates.h>
 
 #include <tcg/tcg-llvm.h>
@@ -169,14 +169,19 @@ namespace {
             cl::init(11));
 
     cl::opt<bool>
-    EnableTimingLog("enable-executor-timing",
-            cl::desc("Measures execution times of various parts of S2E"),
-            cl::init(false));
-
-    cl::opt<bool>
     SinglePathMode("single-path-mode",
             cl::desc("Faster TLB, but forces single path execution"),
             cl::init(false));
+
+    cl::opt<bool> NoTruncateSourceLines("no-truncate-source-lines",
+                                    cl::desc("Don't truncate long lines in the output source"));
+
+    cl::opt<bool> OutputSource("output-source", cl::desc("Write the assembly for the final transformed source"),
+                            cl::init(true));
+
+    cl::opt<bool> OutputModule("output-module", cl::desc("Write the bitcode for the final transformed module"),
+                            cl::init(false));
+
 }
 
 //The logs may be flooded with messages when switching execution mode.
@@ -243,8 +248,8 @@ namespace s2e {
 /* Global array to hold tb function arguments */
 volatile void *tb_function_args[3];
 
-S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHandler *ie)
-    : Executor(ie, translator->getContext()), m_s2e(s2e), m_llvmTranslator(translator), m_executeAlwaysKlee(false),
+S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator)
+    : Executor(translator->getContext()), m_s2e(s2e), m_llvmTranslator(translator), m_executeAlwaysKlee(false),
       m_forkProcTerminateCurrentState(false), m_inLoadBalancing(false) {
     delete externalDispatcher;
     externalDispatcher = new S2EExternalDispatcher();
@@ -287,6 +292,7 @@ S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHan
 
     __DEFINE_EXT_FUNCTION(cpu_interrupt_handler)
 
+    __DEFINE_EXT_FUNCTION(exit)
     __DEFINE_EXT_FUNCTION(fprintf)
     __DEFINE_EXT_FUNCTION(sprintf)
     __DEFINE_EXT_FUNCTION(fputc)
@@ -385,7 +391,7 @@ S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHan
         exit(-1);
     }
 
-    setModule(m_llvmTranslator->getModule(), false);
+    setModule(m_llvmTranslator->getModule());
 
     if (UseFastHelpers) {
         disableConcreteLLVMHelpers();
@@ -422,8 +428,6 @@ S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHan
     }
 #endif
 
-    initializeStatistics();
-
     searcher = constructUserSearcher();
 
     g_s2e_fork_on_symbolic_address = ForkOnSymbolicAddress;
@@ -442,15 +446,17 @@ S2EExecutor::S2EExecutor(S2E *s2e, TCGLLVMTranslator *translator, InterpreterHan
         g_s2e_single_path_mode = 1;
         s2e->getWarningsStream() << "S2E will run in single path mode. Forking and symbolic execution not allowed.\n";
     }
-}
 
-void S2EExecutor::initializeStatistics() {
-    if (StatsTracker::useStatistics()) {
-        if (!statsTracker) {
-            statsTracker = new S2EStatsTracker(*this, interpreterHandler->getOutputFilename("assembly.ll"));
+    if (OutputModule) {
+        if (auto os = s2e->openOutputFile("module.bc")) {
+            kmodule->outputModule(*os);
         }
+    }
 
-        statsTracker->writeHeaders();
+    if (OutputSource) {
+        if (auto os = s2e->openOutputFile("assembly.ll")) {
+            kmodule->outputSource(*os, NoTruncateSourceLines);
+        }
     }
 }
 
@@ -459,8 +465,6 @@ void S2EExecutor::flushTb() {
 }
 
 S2EExecutor::~S2EExecutor() {
-    if (statsTracker)
-        statsTracker->done();
 }
 
 S2EExecutionState *S2EExecutor::createInitialState() {
@@ -480,18 +484,18 @@ S2EExecutionState *S2EExecutor::createInitialState() {
     addedStates.insert(state);
     updateStates(state);
 
-#define __DEFINE_EXT_OBJECT_RO(name)                                                   \
-    {                                                                                  \
-        predefinedSymbols.insert(std::make_pair(#name, (void *) &name));               \
-        auto op = addExternalObject(*state, (void *) &name, sizeof(name), true, true); \
-        op->setName(#name);                                                            \
+#define __DEFINE_EXT_OBJECT_RO(name)                                                  \
+    {                                                                                 \
+        predefinedSymbols.insert(std::make_pair(#name, (void *) &name));              \
+        auto op = state->addExternalObject((void *) &name, sizeof(name), true, true); \
+        op->setName(#name);                                                           \
     }
 
-#define __DEFINE_EXT_OBJECT_RO_SYMB(name)                                               \
-    {                                                                                   \
-        predefinedSymbols.insert(std::make_pair(#name, (void *) &name));                \
-        auto op = addExternalObject(*state, (void *) &name, sizeof(name), true, false); \
-        op->setName(#name);                                                             \
+#define __DEFINE_EXT_OBJECT_RO_SYMB(name)                                              \
+    {                                                                                  \
+        predefinedSymbols.insert(std::make_pair(#name, (void *) &name));               \
+        auto op = state->addExternalObject((void *) &name, sizeof(name), true, false); \
+        op->setName(#name);                                                            \
     }
 
     if (g_sqi.size != sizeof(g_sqi)) {
@@ -523,7 +527,6 @@ void S2EExecutor::initializeExecution(S2EExecutionState *state, bool executeAlwa
     initializeGlobals(*state);
     kmodule->bindModuleConstants(globalAddresses);
 
-    initTimers();
     initializeStateSwitchTimer();
 }
 
@@ -537,22 +540,22 @@ void S2EExecutor::registerCpu(S2EExecutionState *initialState, CPUX86State *cpuE
     }
 
     /* Add registers and eflags area as a true symbolic area */
-    auto symbolicRegs = addExternalObject(*initialState, cpuEnv, offsetof(CPUX86State, eip),
-                                          /* isReadOnly = */ false,
-                                          /* isSharedConcrete = */ false);
+    auto symbolicRegs = initialState->addExternalObject(cpuEnv, offsetof(CPUX86State, eip),
+                                                        /* isReadOnly = */ false,
+                                                        /* isSharedConcrete = */ false);
 
     /* Add the rest of the structure as concrete-only area */
-    auto concreteRegs = addExternalObject(*initialState, ((uint8_t *) cpuEnv) + offsetof(CPUX86State, eip),
-                                          sizeof(CPUX86State) - offsetof(CPUX86State, eip),
-                                          /* isReadOnly = */ false,
-                                          /* isSharedConcrete = */ true);
+    auto concreteRegs = initialState->addExternalObject(((uint8_t *) cpuEnv) + offsetof(CPUX86State, eip),
+                                                        sizeof(CPUX86State) - offsetof(CPUX86State, eip),
+                                                        /* isReadOnly = */ false,
+                                                        /* isSharedConcrete = */ true);
 
     initialState->m_registers.initialize(initialState->addressSpace, symbolicRegs, concreteRegs);
     klee::ExecutionState::s_ignoredMergeObjects.insert(initialState->m_registers.getConcreteRegs());
 }
 
 void S2EExecutor::registerSharedExternalObject(S2EExecutionState *state, void *address, unsigned size) {
-    addExternalObject(*state, address, size, false, true);
+    state->addExternalObject(address, size, false, true);
 }
 
 void S2EExecutor::registerRam(S2EExecutionState *initialState, MemoryDesc *region, uint64_t startAddress, uint64_t size,
@@ -570,7 +573,7 @@ void S2EExecutor::registerRam(S2EExecutionState *initialState, MemoryDesc *regio
 
     for (uint64_t addr = hostAddress; addr < hostAddress + size; addr += SE_RAM_OBJECT_SIZE) {
 
-        auto os = addExternalObject(*initialState, (void *) addr, SE_RAM_OBJECT_SIZE, false, isSharedConcrete);
+        auto os = initialState->addExternalObject((void *) addr, SE_RAM_OBJECT_SIZE, false, isSharedConcrete);
 
         os->setMemoryPage(true);
 
@@ -606,8 +609,6 @@ void S2EExecutor::registerRam(S2EExecutionState *initialState, MemoryDesc *regio
             m_s2e->getWarningsStream(nullptr) << "Could not map host RAM\n";
             exit(-1);
         }
-
-        m_unusedMemoryDescs.push_back(make_pair(hostAddress, size));
     }
 
     initialState->m_asCache.registerPool(hostAddress, size);
@@ -616,7 +617,7 @@ void S2EExecutor::registerRam(S2EExecutionState *initialState, MemoryDesc *regio
 
 void S2EExecutor::registerDirtyMask(S2EExecutionState *state, uint64_t hostAddress, uint64_t size) {
     // Assume that dirty mask is small enough, so no need to split it in small pages
-    auto dirtyMask = g_s2e->getExecutor()->addExternalObject(*state, (void *) hostAddress, size, false, true);
+    auto dirtyMask = state->addExternalObject((void *) hostAddress, size, false, true);
 
     state->m_memory.initialize(&state->addressSpace, &state->m_asCache, &state->m_active, state, state, dirtyMask);
 
@@ -946,13 +947,6 @@ S2EExecutionState *S2EExecutor::selectNextState(S2EExecutionState *state) {
 
     if (newState != state) {
         doStateSwitch(state, newState);
-        if (newState->inTargetModule && klee::tbTrace.find(newState->startPC) == klee::tbTrace.end()) {
-            m_s2e->getDebugStream(state) << "[PLOT] Choose Valid State\n";
-            m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
-        } else {
-            m_s2e->getDebugStream(state) << "[PLOT] Choose Invalid State\n";
-            m_s2e->getDebugStream(state) << hexval(newState->startPC) << "\n";
-        }
         g_s2e->getCorePlugin()->onStateSwitch.emit(state, newState);
     }
 
@@ -991,8 +985,6 @@ inline bool S2EExecutor::executeInstructions(S2EExecutionState *state, unsigned 
     try {
         while (state->stack.size() != callerStackSize) {
             assert(!g_s2e_fast_concrete_invocation);
-
-            ++state->m_stats.m_statInstructionCountSymbolic;
 
             KInstruction *ki = state->pc;
 
@@ -1079,7 +1071,6 @@ void S2EExecutor::updateClockScaling() {
     } else {
         // Symbolic execution
         scaling = UseFastHelpers ? ClockSlowDownFastHelpers : ClockSlowDown;
-        //scaling = 1;
     }
 
     if (g_sqi.exec.clock_scaling_factor) {
@@ -1114,8 +1105,6 @@ uintptr_t S2EExecutor::executeTranslationBlockKlee(S2EExecutionState *state, Tra
     assert(state->stack.size() == 1);
     assert(state->pc == m_dummyMain->getInstructions());
 
-    ++state->m_stats.m_statTranslationBlockSymbolic;
-
     if (!tb->llvm_function) {
         abort();
     }
@@ -1142,7 +1131,6 @@ uintptr_t S2EExecutor::executeTranslationBlockKlee(S2EExecutionState *state, Tra
 
 uintptr_t S2EExecutor::executeTranslationBlockConcrete(S2EExecutionState *state, TranslationBlock *tb) {
     assert(state->isActive() && state->isRunningConcrete());
-    ++state->m_stats.m_statTranslationBlockConcrete;
 
     uintptr_t ret = 0;
     S2EExternalDispatcher::saveJmpBuf();
@@ -1186,8 +1174,6 @@ uintptr_t S2EExecutor::executeTranslationBlockFast(struct CPUX86State *env1, str
 }
 
 uintptr_t S2EExecutor::executeTranslationBlock(S2EExecutionState *state, TranslationBlock *tb) {
-    // Avoid incrementing stats every time, very expensive.
-    static unsigned doStatsIncrementCount = 0;
     assert(state->isActive());
 
     updateConcreteFastPath(state);
@@ -1235,28 +1221,15 @@ uintptr_t S2EExecutor::executeTranslationBlock(S2EExecutionState *state, Transla
 
     if (executeKlee) {
         if (state->isRunningConcrete()) {
-            if (EnableTimingLog) {
-                TimerStatIncrementer t(stats::concreteModeTime);
-            }
-
             state->switchToSymbolic();
-        }
-
-        if (EnableTimingLog) {
-            TimerStatIncrementer t(stats::symbolicModeTime);
         }
 
         return executeTranslationBlockKlee(state, tb);
     } else {
         env->generate_llvm = 0;
 
-        if (!state->isRunningConcrete())
+        if (!state->isRunningConcrete()) {
             state->switchToConcrete();
-
-        if (EnableTimingLog) {
-            if (!((++doStatsIncrementCount) & 0xFFF)) {
-                TimerStatIncrementer t(stats::concreteModeTime);
-            }
         }
 
         return executeTranslationBlockConcrete(state, tb);
@@ -1436,53 +1409,23 @@ S2EExecutor::StatePair S2EExecutor::doFork(ExecutionState &current, const klee::
         newConditions[1] = klee::NotExpr::create(condition);
     }
 
-    klee::ref<Expr> evalResult = current.concolics->evaluate(condition);
-    klee::ConstantExpr *ce = dyn_cast<klee::ConstantExpr>(evalResult);
-    bool conditionIsTrue = ce->isTrue();
-
-
-    // Calcuate next PC
-    uint64_t staticTargets[2] = {0};
-    if (currentState->getStaticBranchTargets(&staticTargets[0], &staticTargets[1])) {
-        m_s2e->getDebugStream(currentState) << "is True: " << conditionIsTrue << "\n";
-        m_s2e->getDebugStream(currentState) << "True PC: " << hexval(staticTargets[0]) << "\n";
-        m_s2e->getDebugStream(currentState) << "False PC: " << hexval(staticTargets[1]) << "\n";
-    }
-
     llvm::raw_ostream &out = m_s2e->getInfoStream(currentState);
-    llvm::raw_ostream &cyfiout = m_s2e->getCyfiStream(currentState);
     out << "Forking state " << currentState->getID() << " at pc = " << hexval(currentState->regs()->getPc())
         << " at pagedir = " << hexval(currentState->regs()->getPageDir()) << '\n';
 
-    cyfiout << "Forking state " << currentState->getID() << '\n';
-
     for (unsigned i = 0; i < 2; ++i) {
-        if (VerboseFork) {
+        if (newStates[i]) {
             out << "    state " << newStates[i]->getID();
-            out << " with condition " << newConditions[i] << '\n';
-
-            cyfiout << "    state " << newStates[i]->getID();
-            cyfiout << " with condition " << '\n';
-        } else {
-            out << "    state " << newStates[i]->getID() << "\n";
-            cyfiout << "    state " << newStates[i]->getID() << "\n";
+            if (VerboseFork && condition) {
+                out << " with condition " << newConditions[i];
+            }
+            out << '\n';
         }
 
         // Handled in ::branch
         if (newStates[i] != currentState) {
             newStates[i]->m_needFinalizeTBExec = true;
             newStates[i]->m_active = false;
-            if (conditionIsTrue) {
-                newStates[i]->startPC = staticTargets[1];
-            } else {
-                newStates[i]->startPC = staticTargets[0];
-            }
-        } else {
-            if (conditionIsTrue) {
-                newStates[i]->startPC = staticTargets[0];
-            } else {
-                newStates[i]->startPC = staticTargets[1];
-            }
         }
     }
 
@@ -1672,8 +1615,6 @@ void S2EExecutor::terminateState(klee::ExecutionState &state, const std::string 
 void S2EExecutor::terminateState(ExecutionState &s) {
     S2EExecutionState &state = static_cast<S2EExecutionState &>(s);
 
-    klee::stats::completedPaths += 1;
-
     m_s2e->getCorePlugin()->onStateKill.emit(&state);
 
     Executor::terminateState(state);
@@ -1701,9 +1642,6 @@ inline void S2EExecutor::setCCOpEflags(S2EExecutionState *state) {
                 if (state->isRunningConcrete()) {
                     state->switchToSymbolic();
                 }
-                if (EnableTimingLog) {
-                    TimerStatIncrementer t(stats::symbolicModeTime);
-                }
 
                 executeFunction(state, "helper_set_cc_op_eflags");
             } catch (s2e::CpuExitException &) {
@@ -1715,9 +1653,9 @@ inline void S2EExecutor::setCCOpEflags(S2EExecutionState *state) {
         bool ok = state->regs()->read(CPU_OFFSET(cc_op), &cc_op, sizeof(cc_op), false);
         assert(ok);
         if (cc_op != CC_OP_EFLAGS) {
-            if (!state->isRunningConcrete())
+            if (!state->isRunningConcrete()) {
                 state->switchToConcrete();
-            // TimerStatIncrementer t(stats::concreteModeTime);
+            }
             helper_set_cc_op_eflags();
         }
     }
@@ -1729,7 +1667,6 @@ inline void S2EExecutor::doInterrupt(S2EExecutionState *state, int intno, int is
         if (!state->isRunningConcrete()) {
             state->switchToConcrete();
         }
-        // TimerStatIncrementer t(stats::concreteModeTime);
         se_do_interrupt_all(intno, is_int, error_code, next_eip, is_hw);
     } else {
         if (state->isRunningConcrete()) {
@@ -1742,9 +1679,6 @@ inline void S2EExecutor::doInterrupt(S2EExecutionState *state, int intno, int is
         args[3] = klee::ConstantExpr::create(next_eip, sizeof(target_ulong) * 8);
         args[4] = klee::ConstantExpr::create(is_hw, sizeof(int) * 8);
         try {
-            if (EnableTimingLog) {
-                TimerStatIncrementer t(stats::symbolicModeTime);
-            }
             executeFunction(state, "se_do_interrupt_all", args);
         } catch (s2e::CpuExitException &) {
             updateStates(state);
@@ -1781,10 +1715,6 @@ void S2EExecutor::doInterruptAll(int intno, int is_int, int error_code, uintptr_
     g_s2e_state->setRunningExceptionEmulationCode(false);
 }
 
-void S2EExecutor::setupTimersHandler() {
-    m_s2e->getCorePlugin()->onTimer.connect(sigc::bind(sigc::ptr_fun(&onAlarm), 0));
-}
-
 /** Suspend the given state (does not kill it) */
 bool S2EExecutor::suspendState(S2EExecutionState *state) {
     if (searcher) {
@@ -1811,16 +1741,12 @@ bool S2EExecutor::resumeState(S2EExecutionState *state) {
 S2ETranslationBlock *S2EExecutor::allocateS2ETb() {
     S2ETranslationBlockPtr se_tb(new S2ETranslationBlock);
     m_s2eTbs.insert(se_tb);
+    *klee::stats::translatedBlocksCount += 1;
     return se_tb.get();
 }
 
 void S2EExecutor::flushS2ETBs() {
     m_s2eTbs.clear();
-}
-
-void S2EExecutor::updateStats(S2EExecutionState *state) {
-    state->m_stats.updateStats(state);
-    processTimers(state);
 }
 
 void S2EExecutor::updateStates(klee::ExecutionState *current) {
@@ -1905,12 +1831,10 @@ int s2e_is_tb_instrumented(void *se_tb) {
 void s2e_set_tb_function(void *se_tb, void *llvmFunction) {
     auto tb = static_cast<S2ETranslationBlock *>(se_tb);
     tb->translationBlock = static_cast<llvm::Function *>(llvmFunction);
+    *klee::stats::translatedBlocksLLVMCount += 1;
 }
 
 void s2e_flush_tb_cache() {
-    klee::stats::availableTranslationBlocks += -klee::stats::availableTranslationBlocks;
-    klee::stats::availableTranslationBlocksInstrumented += -klee::stats::availableTranslationBlocksInstrumented;
-
     if (g_s2e && g_s2e->getExecutor()->getStatesCount() > 1) {
         if (!FlushTBsOnStateSwitch) {
             g_s2e->getWarningsStream() << "Flushing TB cache with more than 1 state. Dangerous. Expect crashes.\n";
@@ -1918,13 +1842,6 @@ void s2e_flush_tb_cache() {
     }
 
     g_s2e->getExecutor()->flushS2ETBs();
-}
-
-void s2e_increment_tb_stats(void *se_tb) {
-    ++klee::stats::availableTranslationBlocks;
-    if (s2e_is_tb_instrumented(se_tb)) {
-        ++klee::stats::availableTranslationBlocksInstrumented;
-    }
 }
 
 void s2e_flush_tlb_cache() {

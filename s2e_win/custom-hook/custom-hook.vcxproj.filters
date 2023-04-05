@@ -96,6 +96,9 @@
     <ClCompile Include="stdlib-hook.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="esent-hook.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -180,6 +183,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="stdlib-hook.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="esent-hook.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

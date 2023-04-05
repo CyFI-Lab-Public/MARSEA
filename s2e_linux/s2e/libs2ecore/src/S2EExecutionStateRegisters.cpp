@@ -223,8 +223,9 @@ void S2EExecutionStateRegisters::writeSymbolicRegion(unsigned offset, const void
         auto wos = m_symbolicRegs;
         bool oldAllConcrete = wos->isAllConcrete();
 
-        for (unsigned i = 0; i < size; ++i)
-            wos->write8(offset + i, buf[i]);
+        for (unsigned i = 0; i < size; ++i) {
+            wos->write(offset + i, buf[i]);
+        }
 
         bool newAllConcrete = wos->isAllConcrete();
         if ((oldAllConcrete != newAllConcrete) && (wos->notifyOnConcretenessChange())) {
@@ -451,10 +452,6 @@ uint64_t S2EExecutionStateRegisters::getPc() const {
 void S2EExecutionStateRegisters::setPc(uint64_t pc) {
     bool ret = write<target_ulong>(CPU_OFFSET(eip), pc);
     assert(ret);
-}
-
-uint64_t S2EExecutionStateRegisters::getEax() const {
-    return read<target_ulong>(CPU_OFFSET(regs[R_EAX]));
 }
 
 uint64_t S2EExecutionStateRegisters::getSp() const {

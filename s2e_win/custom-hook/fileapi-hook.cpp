@@ -485,3 +485,55 @@ DWORD WINAPI SetFilePointerHook(
 	return -1;
 
 }
+
+BOOL WINAPI CopyFileAHook(
+	LPCSTR lpExistingFileName,
+	LPCSTR lpNewFileName,
+	BOOL    bFailIfExists
+) {
+	if (checkCaller("CopyFileA")) {
+		S2EDisableForking();
+		Message("[W] CopyFileA (%s [|] %s [|] %i)", lpExistingFileName, lpNewFileName, bFailIfExists);
+		CopyFileA(lpExistingFileName, lpNewFileName, bFailIfExists);
+		S2EEnableForking();
+		return TRUE;
+	}
+	return CopyFileA(lpExistingFileName, lpNewFileName, bFailIfExists);
+}
+
+BOOL WINAPI CopyFileWHook(
+	LPCWSTR lpExistingFileName,
+	LPCWSTR lpNewFileName,
+	BOOL    bFailIfExists
+) {
+	if (checkCaller("CopyFileW")) {
+		S2EDisableForking();
+		Message("[W] CopyFileW (%s [|] %s [|] %i)", lpExistingFileName, lpNewFileName, bFailIfExists);
+		CopyFileW(lpExistingFileName, lpNewFileName, bFailIfExists);
+		S2EEnableForking();
+		return TRUE;
+	}
+	return CopyFileW(lpExistingFileName, lpNewFileName, bFailIfExists);
+}
+
+BOOL PathFileExistsAHook(
+	LPCSTR pszPath
+) {
+	if (checkCaller("PathFileExistA")) {
+		Message("[W] PathFileExistsA (%s)\n", pszPath);
+		return TRUE;
+	}
+
+	return PathFileExistsA(pszPath);
+}
+
+BOOL PathFileExistsWHook(
+	LPCWSTR pszPath
+) {
+	if (checkCaller("PathFileExistW")) {
+		Message("[W] PathFileExistsW (%s)\n", pszPath);
+		return TRUE;
+	}
+
+	return PathFileExistsW(pszPath);
+}

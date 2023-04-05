@@ -22,8 +22,11 @@ s2e = {
     -- Most of the options can be found in S2EExecutor.cpp and Executor.cpp.
     kleeArgs = {
     	"--fork-on-symbolic-address=false",
+      -- "--use-fast-helpers=true",
+      "--clock-slow-down=10",
     	"--verbose-fork-info",
-    	-- "--use-query-log=all:kquery",
+    	-- "--use-query-log=solver:kquery",
+      "--print-concretized-expression"
     },
 }
 
@@ -71,7 +74,7 @@ pluginsConfig.Vmi = {
         "cyfipath",
 
 
-            "s2eenv/images/windows-7sp1pro-i386/guestfs",
+        "{S2EDIR}/images/windows-7sp1pro-i386/guestfs",
 
 
     },
@@ -537,7 +540,5 @@ pluginsConfig.MemoryTracer = {
 add_plugin("LibraryCallMonitor")
 pluginsConfig.LibraryCallMonitor = {
 	monitorIndirectJumps = true,
-	moduleNames = {
-		"cyfitarget"
-	}
+	logLevel = "none"
 }

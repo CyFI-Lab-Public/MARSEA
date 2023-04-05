@@ -1,0 +1,20 @@
+diff --git a/home/cyfi/lab/guest-images/Makefile.common b/home/cyfi/s2e/source/guest-images/Makefile.common
+index ed4951b3..6c852a30 100644
+--- a/home/cyfi/lab/guest-images/Makefile.common
++++ b/home/cyfi/s2e/source/guest-images/Makefile.common
+@@ -92,7 +92,7 @@ GETLIBS2E = $(S2E_INSTALL_ROOT)/share/libs2e/libs2e-$(call OS_ARCH,$(1)).so
+ QEMU_HD = -drive if=ide,index=$(1),file=$(2),format=raw,cache=writeback
+ QEMU_HD_S2E = -drive if=ide,index=$(1),file=$(2),format=s2e,cache=writeback
+ QEMU_CD = -drive if=ide,index=$(1),file=$(2),media=cdrom
+-QEMU_NIC = -net none -net nic,model=$(1)
++QEMU_NIC = -net user -net nic,model=$(1)
+ QEMU_CPU = $(if $(1),-cpu $(1))
+ 
+ # This is used to create a variable name out of an image name and a suffix
+@@ -139,4 +139,4 @@ $(WINDOWS_APPS_DIR) $(OUTDIR) $(TMPDIR):
+ 	mkdir -p $@
+ 
+ WGET = wget --no-use-server-timestamps -O
+-GET_ISO = $(SRC)/scripts/get_iso.sh
+\ No newline at end of file
++GET_ISO = $(SRC)/scripts/get_iso.sh

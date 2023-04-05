@@ -2,3 +2,5 @@ C:\Users\cyfi\Desktop\projects\s2e\s2e_win\Debug\libcommon.lib.lastcodeanalysiss
 C:\Users\cyfi\Desktop\projects\s2e\s2e_win\libcommon\Debug\NativeCodeAnalysis.read.1.tlog
 C:\Users\cyfi\Desktop\s2e\s2e_win\Debug\libcommon.lib.lastcodeanalysissucceeded
 C:\Users\cyfi\Desktop\s2e\s2e_win\libcommon\Debug\NativeCodeAnalysis.read.1.tlog
+C:\Users\s2e\Documents\GitHub\s2e\s2e_win\Debug\libcommon.lib.lastcodeanalysissucceeded
+C:\Users\s2e\Documents\GitHub\s2e\s2e_win\libcommon\Debug\NativeCodeAnalysis.read.1.tlog

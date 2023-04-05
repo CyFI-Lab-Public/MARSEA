@@ -100,7 +100,7 @@ static inline void __s2e_touch_string(volatile const char *string) {
 /// \param[in] buffer Buffer to page into memory
 /// \param[in] size Number of bytes in the buffer
 ///
-static inline void __s2e_touch_buffer(volatile void *buffer, unsigned size) {
+static inline void __s2e_touch_buffer(volatile const void *buffer, unsigned size) {
     unsigned i;
     unsigned t __attribute__((unused));
     volatile char *b = (volatile char *) buffer;
@@ -108,6 +108,15 @@ static inline void __s2e_touch_buffer(volatile void *buffer, unsigned size) {
 	t = *b;
 	++b;
     }
+}
+
+///
+/// \brief Forces the OS to map the page at the given address by issuing a read.
+///
+/// \param[in] address Address of the page to read
+///
+static inline void __s2e_touch_page(volatile const void *address) {
+    __s2e_touch_buffer(address, 1);
 }
 
 ///
@@ -330,6 +339,18 @@ static inline void s2e_disable_forking(void)
     __asm__ __volatile__(
         S2E_INSTRUCTION_SIMPLE(BASE_S2E_DISABLE_FORK)
     );
+}
+
+///
+/// \brief Check if forking is enabled on symbolic conditions
+///
+static inline int s2e_is_forking_enabled(void) {
+    int result;
+    __asm__ __volatile__(
+        S2E_INSTRUCTION_SIMPLE(BASE_S2E_IS_FORKING_ENABLED)
+        : "=a" (result)
+    );
+    return result;
 }
 
 ///
@@ -840,6 +861,68 @@ static inline void s2e_flush_tbs(void) {
 
 #ifdef __cplusplus
 }
+#endif
+
+#ifdef __cplusplus
+#include <memory>
+#include <string>
+#include <vector>
+
+namespace s2e {
+
+// C++ version of s2e_open
+class host_fd_t;
+using host_fd_ptr_t = std::shared_ptr<host_fd_t>;
+
+class host_fd_t {
+private:
+    int m_fd = -1;
+    bool m_write = false;
+
+    host_fd_t(int fd, bool write) : m_fd(fd), m_write(write) {
+    }
+
+public:
+    ~host_fd_t() {
+        if (m_fd >= 0) {
+            s2e_close(m_fd);
+        }
+    }
+
+    static host_fd_ptr_t open(const std::string &host_file, bool write = false) {
+        int fd;
+
+        if (write) {
+            fd = s2e_create(host_file.c_str());
+        } else {
+            fd = s2e_open(host_file.c_str());
+        }
+
+        if (fd >= 0) {
+            return host_fd_ptr_t(new host_fd_t(fd, write));
+        }
+        return nullptr;
+    }
+
+    int read(std::vector<uint8_t> &out) const {
+        if (m_write) {
+            return -1;
+        }
+
+        return s2e_read(m_fd, (char *) &out[0], out.size());
+    }
+
+    int write(const uint8_t *data, size_t size) const {
+        if (!m_write) {
+            return -1;
+        }
+
+        return s2e_write(m_fd, (char *) data, size);
+    }
+};
+
+} // namespace s2e
+
 #endif
 
 #endif

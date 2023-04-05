@@ -11,16 +11,13 @@
 
 #include "klee/Searcher.h"
 
-#include "klee/CoreStats.h"
 #include "klee/Executor.h"
-#include "klee/StatsTracker.h"
 
 #include "klee/ExecutionState.h"
 #include "klee/Internal/Module/KInstruction.h"
 #include "klee/Internal/Module/KModule.h"
 #include "klee/Internal/Support/ModuleUtil.h"
 #include "klee/Internal/System/Time.h"
-#include "klee/Statistics.h"
 
 #include "llvm/IR/CFG.h"
 #include "llvm/IR/Constants.h"
@@ -38,7 +35,6 @@ using namespace llvm;
 namespace {
 cl::opt<bool> UseDfsSearch("use-dfs-search");
 cl::opt<bool> UseRandomSearch("use-random-search");
-cl::opt<bool> UseCyfiSearch("use-cyfi-search");
 
 std::random_device rd;
 std::mt19937 rng(rd());
@@ -47,8 +43,6 @@ std::uniform_int_distribution<uint32_t> uni(0, UINT32_MAX);
 } // namespace
 
 namespace klee {
-
-std::unordered_map<uint64_t, bool> tbTrace;
 
 Searcher::~Searcher() {
 }

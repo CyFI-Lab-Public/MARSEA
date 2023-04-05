@@ -11,7 +11,7 @@
 #include <klee/Common.h>
 #include "klee/SolverImpl.h"
 
-#include "klee/SolverStats.h"
+#include "klee/Stats/SolverStats.h"
 
 #include "klee/Constraints.h"
 #include "klee/Expr.h"
@@ -480,24 +480,24 @@ private:
 
 public:
     bool computeValidity(const Query &, Validity &result) {
-        ++stats::queries;
+        ++*stats::queries;
         // FIXME: We should have stats::queriesFail;
         return false;
     }
     bool computeTruth(const Query &, bool &isValid) {
-        ++stats::queries;
+        ++*stats::queries;
         // FIXME: We should have stats::queriesFail;
         return false;
     }
     bool computeValue(const Query &, ref<Expr> &result) {
-        ++stats::queries;
-        ++stats::queryCounterexamples;
+        ++*stats::queries;
+        ++*stats::queryCounterexamples;
         return false;
     }
     bool computeInitialValues(const Query &, const ArrayVec &objects, std::vector<std::vector<unsigned char>> &values,
                               bool &hasSolution) {
-        ++stats::queries;
-        ++stats::queryCounterexamples;
+        ++*stats::queries;
+        ++*stats::queryCounterexamples;
         return false;
     }
 

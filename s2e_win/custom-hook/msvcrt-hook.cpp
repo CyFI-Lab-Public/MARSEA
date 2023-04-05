@@ -64,8 +64,6 @@ size_t __cdecl freadhook(
 ) {
 	if (checkCaller("fread")) {
 
-
-
 		auto iit = perHandleCounter.find(stream);
 		if (iit == perHandleCounter.end()) {
 			perHandleCounter[stream] = 0;
@@ -79,7 +77,7 @@ size_t __cdecl freadhook(
 			std::string tagIn = taintFile[fileMap[stream]];
 		}
 		std::string tag = GetTag("fread");
-		taintFile[fileMap[stream]] = tag;
+		//taintFile[fileMap[stream]] = tag;
 
 		if (tagIn.length() > 0) {
 			Message("[W] fread (%p [|] %i [|] %i [|] %p) tag_in:%s tag_out:%s\n", ptr, size, count, stream, tagIn.c_str(), tag.c_str());

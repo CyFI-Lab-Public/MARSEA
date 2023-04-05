@@ -1,0 +1,13 @@
+diff --git a/home/cyfi/lab/guest-images/Makefile.windows b/home/cyfi/s2e/source/guest-images/Makefile.windows
+index 4daea3f2..ff1a0883 100644
+--- a/home/cyfi/lab/guest-images/Makefile.windows
++++ b/home/cyfi/s2e/source/guest-images/Makefile.windows
+@@ -91,7 +91,7 @@ endef
+ # $1: image name
+ # $2: disk image name
+ RUN_INITIAL_SETUP = $(QEMU64) \
+-    -no-reboot $(GRAPHICS) $(QEMU_KVM) -m 2G -net none\
++    -no-reboot $(GRAPHICS) $(QEMU_KVM) -m 2G -net user\
+     $(if $(findstring xp,$1),,-net nic,model=$(call NIC,$(1))) \
+     $(call TO_VAR_CPU,$(1)) \
+     $(call QEMU_HD,0,$(2)) \

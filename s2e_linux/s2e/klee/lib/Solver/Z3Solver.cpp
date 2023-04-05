@@ -31,7 +31,7 @@
 #include "klee/Constraints.h"
 #include "klee/Solver.h"
 #include "klee/SolverImpl.h"
-#include "klee/SolverStats.h"
+#include "klee/Stats/SolverStats.h"
 #include "klee/util/Assignment.h"
 #include "klee/util/ExprHashMap.h"
 #include "klee/util/ExprUtil.h"
@@ -276,8 +276,8 @@ bool Z3BaseSolverImpl::computeValue(const Query &query, ref<Expr> &result) {
 
 bool Z3BaseSolverImpl::computeInitialValues(const Query &query, const ArrayVec &objects,
                                             std::vector<std::vector<unsigned char>> &values, bool &hasSolution) {
-    ++stats::queries;
-    ++stats::queryCounterexamples;
+    ++*stats::queries;
+    ++*stats::queryCounterexamples;
 
     z3::check_result result = check(query);
 
@@ -288,13 +288,13 @@ bool Z3BaseSolverImpl::computeInitialValues(const Query &query, const ArrayVec &
         case z3::unsat:
             postCheck(query);
             hasSolution = false;
-            ++stats::queriesValid;
+            ++*stats::queriesValid;
             return true;
         case z3::sat:
             extractModel(objects, values);
             postCheck(query);
             hasSolution = true;
-            ++stats::queriesInvalid;
+            ++*stats::queriesInvalid;
             return true;
     }
 }

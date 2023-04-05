@@ -27,7 +27,6 @@
 #include <s2e/CorePlugin.h>
 #include <s2e/Plugin.h>
 #include <s2e/Plugins/OSMonitors/ModuleDescriptor.h>
-#include <string>
 
 namespace s2e {
 
@@ -75,12 +74,12 @@ public:
 
     void initialize();
 
-    std::string get_export_name(S2EExecutionState *state, uint64_t pid, uint64_t targetAddr);
-
     /// Emitted on an external library function call.
     sigc::signal<void, S2EExecutionState *, /* The current execution state */
+                 const ModuleDescriptor &,  /* The module that calls */
                  const ModuleDescriptor &,  /* The module that is being called */
-                 uint64_t>                  /* The called function's address */
+                 uint64_t,                  /* The called function's address */
+                 const std::string &>       /* The called function's name */
         onLibraryCall;
 
 private:
@@ -89,11 +88,8 @@ private:
     ProcessExecutionDetector *m_procDetector;
     Vmi *m_vmi;
 
-    typedef std::unordered_set<std::string> StringSet;
-    StringSet m_trackedModules;
     bool m_monitorAllModules;
     bool m_monitorIndirectJumps;
-    bool m_aggressiveOff;
 
     void onModuleUnload(S2EExecutionState *state, const ModuleDescriptor &module);
     void onProcessUnload(S2EExecutionState *state, uint64_t addressSpace, uint64_t pid, uint64_t returnCode);

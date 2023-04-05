@@ -29,18 +29,11 @@ TARGET_TOOLS_ROOT=${TARGET_TOOLS32_ROOT}
 # To save the hassle of rebuilding guest images every time you update S2E's guest tools,
 # the first thing that we do is get the latest versions of the guest tools.
 function update_common_tools {
-    local OUR_S2EGET
-
-    OUR_S2EGET=${S2EGET}
     OUR_S2ECMD=${S2ECMD}
 
     # First, download the common tools
 
     # Windows does not allow s2eget.exe to overwrite itself, so we need a workaround.
-    if echo ${COMMON_TOOLS} | grep -q s2eget; then
-      OUR_S2EGET=${S2EGET}_old.exe
-      mv ${S2EGET} ${OUR_S2EGET}
-    fi
     if echo ${COMMON_TOOLS} | grep -q s2ecmd; then
       OUR_S2ECMD=${S2ECMD}_old.exe
       mv ${S2ECMD} ${OUR_S2ECMD}
@@ -48,7 +41,7 @@ function update_common_tools {
 
 
     for TOOL in ${COMMON_TOOLS}; do
-        ${OUR_S2EGET} ${TARGET_TOOLS_ROOT}/${TOOL}
+        ${OUR_S2ECMD} get ${TARGET_TOOLS_ROOT}/${TOOL}
         if [ ! -f ${TOOL} ]; then
           ${OUR_S2ECMD} kill 0 "Could not get ${TOOL} from the host. Make sure that guest tools are installed properly."
           exit 1
@@ -59,7 +52,7 @@ function update_common_tools {
 
 function update_target_tools {
     for TOOL in $(target_tools); do
-        ${S2EGET} ${TOOL} ${TOOL}
+        ${S2ECMD} get ${TOOL} ${TOOL}
         chmod +x ${TOOL}
     done
 }
@@ -93,7 +86,7 @@ function download_symbolic_file {
   SYMBOLIC_FILE="$1"
   RAMDISK_ROOT="$(get_ramdisk_root)"
 
-  ${S2EGET} "${SYMBOLIC_FILE}"
+  ${S2ECMD} get "${SYMBOLIC_FILE}"
   if [ ! -f "${SYMBOLIC_FILE}" ]; then
     ${S2ECMD} kill 1 "Could not fetch symbolic file ${SYMBOLIC_FILE} from host"
   fi
@@ -102,7 +95,7 @@ function download_symbolic_file {
 
   SYMRANGES_FILE="${SYMBOLIC_FILE}.symranges"
 
-  ${S2EGET} "${SYMRANGES_FILE}" > /dev/null
+  ${S2ECMD} get "${SYMRANGES_FILE}" > /dev/null
 
   # Make the file symbolic
   if [ -f "${SYMRANGES_FILE}" ]; then
@@ -206,9 +199,7 @@ function win_path {
 }
 
 S2ECMD=./s2ecmd.exe
-S2EGET=./s2eget.exe
-S2EPUT=./s2eput.exe
-COMMON_TOOLS="s2ecmd.exe s2eget.exe s2eput.exe s2e.sys s2e.inf drvctl.exe tickler.exe"
+COMMON_TOOLS="s2ecmd.exe s2e.sys s2e.inf drvctl.exe tickler.exe"
 
 COMMON_TOOLS="${COMMON_TOOLS} libs2e32.dll"
 
@@ -224,10 +215,10 @@ update_target_tools
 target_init
 
 # Download the target file to analyze
-${S2EGET} "{replace}"
-${S2EGET} "EasyHook32.dll"
-${S2EGET} "custom-hook.dll"
-${S2EGET} "malware-inject.exe"
+${S2ECMD} get "{replace}"
+${S2ECMD} get "EasyHook32.dll"
+${S2ECMD} get "custom-hook.dll"
+${S2ECMD} get "malware-inject.exe"
 
 
 download_symbolic_files

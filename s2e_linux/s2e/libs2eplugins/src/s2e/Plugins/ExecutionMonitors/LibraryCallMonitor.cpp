@@ -114,16 +114,9 @@ void LibraryCallMonitor::initialize() {
     m_vmi = s2e()->getPlugin<Vmi>();
 
     ConfigFile *cfg = s2e()->getConfig();
-    m_aggressiveOff = cfg->getBool(getConfigKey() + ".aggressiveOff");
-
     m_monitorAllModules = cfg->getBool(getConfigKey() + ".monitorAllModules");
     m_monitorIndirectJumps = cfg->getBool(getConfigKey() + ".monitorIndirectJumps");
 
-    bool ok;
-    ConfigFile::string_list moduleList = cfg->getStringList(getConfigKey() + ".moduleNames", ConfigFile::string_list(), &ok);
-    foreach2 (it, moduleList.begin(), moduleList.end()) { m_trackedModules.insert(*it); }
-
-    
     s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onTranslateBlockEnd));
 
     m_monitor->onProcessUnload.connect(sigc::mem_fun(*this, &LibraryCallMonitor::onProcessUnload));
@@ -160,18 +153,10 @@ void LibraryCallMonitor::logLibraryCall(S2EExecutionState *state, const ModuleDe
         return;
     }
 
-    if(!m_trackedModules.empty() && m_trackedModules.find(sourceMod.Name) != m_trackedModules.end()) {
-        getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
-                            << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
-                            << hexval(destPcAbsolute) << ")"
-                            << " (pid=" << hexval(sourceMod.Pid) << ")\n";
-    } 
-    else if (m_trackedModules.empty()) { 
-        getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
-                    << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
-                    << hexval(destPcAbsolute) << ")"
-                    << " (pid=" << hexval(sourceMod.Pid) << ")\n";
-    }
+    getInfoStream(state) << sourceMod.Name << ":" << hexval(relSourcePc) << " (" << hexval(sourcePcAbsolute) << ") "
+                         << sourceTypeDesc << destMod.Name << "!" << function << ":" << hexval(relDestPc) << " ("
+                         << hexval(destPcAbsolute) << ")"
+                         << " (pid=" << hexval(sourceMod.Pid) << ")\n";
 }
 
 void LibraryCallMonitor::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb,
@@ -184,10 +169,6 @@ void LibraryCallMonitor::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecuti
 }
 
 void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t pc, unsigned sourceType) {
-
-    // override any flags and do not monitor anything
-    // this is needed b/c librarycallmonitor is enabled for the cyfifunctionmodels
-
     // Only interested in the processes specified in the ProcessExecutionDetector config
     if (!m_procDetector->isTracked(state)) {
         return;
@@ -236,9 +217,7 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
             exportName = (*it).second;
         } else {
             // Did not find any export
-            if(!m_aggressiveOff) {
-                getWarningsStream(state) << currentMod.get()->Name << " Could not get export name for address " << hexval(targetAddr) << "\n";
-            }
+            getWarningsStream(state) << "Could not get export name for address " << hexval(targetAddr) << "\n";
             // Entry with an empty name is a blacklist, so we don't incur lookup costs all the time
             plgState->add(mod->Pid, targetAddr, "");
             return;
@@ -249,18 +228,8 @@ void LibraryCallMonitor::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
         return;
     }
 
-    if(!m_aggressiveOff) {
-        logLibraryCall(state, *currentMod.get(), *mod.get(), pc, targetAddr, sourceType, exportName);
-    }
-    onLibraryCall.emit(state, *mod, targetAddr);
-}
-
-std::string LibraryCallMonitor::get_export_name(S2EExecutionState *state, uint64_t pid, uint64_t targetAddr) {
-    DECLARE_PLUGINSTATE(LibraryCallMonitorState, state);
-    std::string exportName = "";
-    plgState->get(pid, targetAddr, exportName);
-
-    return exportName;
+    logLibraryCall(state, *currentMod.get(), *mod.get(), pc, targetAddr, sourceType, exportName);
+    onLibraryCall.emit(state, *currentMod, *mod, targetAddr, exportName);
 }
 
 } // namespace plugins

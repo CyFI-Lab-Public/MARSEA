@@ -473,7 +473,7 @@ void BaseInstructions::printMessage(S2EExecutionState *state, int outType) {
     }
 
     std::string str = "";
-    if (!address || !state->mem()->readString(address, str, 1024)) {
+    if (!address || !state->mem()->readString(address, str)) {
         getWarningsStream(state) << "Error reading string message from the guest at address " << hexval(address)
                                  << '\n';
     } else {
@@ -799,6 +799,12 @@ void BaseInstructions::handleBuiltInOps(S2EExecutionState *state, uint64_t opcod
 
         case BASE_S2E_DISABLE_FORK: { /* s2e_disable_forking */
             state->disableForking();
+            break;
+        }
+
+        case BASE_S2E_IS_FORKING_ENABLED: { /* s2e_is_forking_enabled */
+            bool res = state->isForkingEnabled();
+            state->regs()->write(CPU_OFFSET(regs[R_EAX]), &res, sizeof(res));
             break;
         }
 

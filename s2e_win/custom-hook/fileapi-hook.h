@@ -101,3 +101,23 @@ DWORD WINAPI SetFilePointerHook(
 	PLONG  lpDistanceToMoveHigh,
 	DWORD  dwMoveMethod
 );
+
+BOOL WINAPI CopyFileAHook(
+	LPCSTR lpExistingFileName,
+	LPCSTR lpNewFileName,
+	BOOL    bFailIfExists
+);
+
+BOOL WINAPI CopyFileWHook(
+	LPCWSTR lpExistingFileName,
+	LPCWSTR lpNewFileName,
+	BOOL    bFailIfExists
+);
+
+BOOL PathFileExistsAHook(
+	LPCSTR pszPath
+);
+
+BOOL PathFileExistsWHook(
+	LPCWSTR pszPath
+);

@@ -253,7 +253,8 @@ bool cyFiDumpFile(char* lpStrFilePath, std::string tag) {
     else {
         Message("Copy File Succeed!\n");
 
-        HINSTANCE run_res = ShellExecuteA(NULL, "open", "C:\\s2e\\s2eput.exe", random_string.c_str(), NULL, NULL);
+        HINSTANCE run_res = ShellExecuteA(NULL, "open", "cmd.exe", ("/k C:\\s2e\\s2ecmd.exe put " + std::string(dest_path_res)).c_str(), NULL, 0);
+
         if (int(run_res) <= 32) {
             Message("Failed run s2eput with code 0x%x", int(run_res));
             return FALSE;
@@ -262,6 +263,8 @@ bool cyFiDumpFile(char* lpStrFilePath, std::string tag) {
             Message("Write file %s to the host side\n", random_string.c_str());
             return TRUE;
         }
+
+        S2EKillState(0, "kill");
     }
 }
 
@@ -273,12 +276,6 @@ bool cyFiCopyFile(HANDLE hFile) {
     DWORD dwRet;
     dwRet = GetFinalPathNameByHandleA(hFile, lpStrFilePath, MAX_PATH, VOLUME_NAME_DOS);
 
-    std::string tag = getFileTag(PathFindFileNameA(lpStrFilePath));
-
-    if (dwRet <= MAX_PATH && dwRet != 0) {
-        cyFiDumpFile(lpStrFilePath, tag);
-    }
-    
     if (dwRet == 0) {
         Message("GetFinalPathNameByHandle failed: 0x%x", GetLastError());
         return FALSE;
@@ -288,6 +285,14 @@ bool cyFiCopyFile(HANDLE hFile) {
         Message("GetFinalPathNameByHandle failed becaue of small buffer\n");
         return FALSE;
     }
+
+    std::string tag = getFileTag(PathFindFileNameA(lpStrFilePath));
+
+    if (dwRet <= MAX_PATH && dwRet != 0) {
+        cyFiDumpFile(lpStrFilePath, tag);
+    }
+
+
 
     return FALSE;
 }

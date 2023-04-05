@@ -105,6 +105,9 @@ public:
     void onFork(S2EExecutionState *state, const std::vector<S2EExecutionState *> &newStates,
                          const std::vector<klee::ref<klee::Expr>> &newConditions);
 
+    bool isStateTbExplored(S2EExecutionState *state);
+    bool isStateInModule(S2EExecutionState *state);                    
+
 private:
     enum Classes { SEED, BATCH, PC, PAGEDIR, FORKCOUNT, PRIORITY, READCOUNT, RANDOM, GROUP, CYFI };
 
@@ -117,6 +120,11 @@ private:
     uint64_t m_batchTime;
 
     std::string m_moduleName = "";
+
+    std::unordered_map<const S2EExecutionState*, uint64_t> statePCMap;
+    
+    std::unordered_map<uint64_t, bool> tbTrace;
+
 };
 
 class NewCodeSearcherClass : public klee::Searcher {
@@ -338,7 +346,7 @@ public:
     NewCodeSearcherCyFiClass (NewCodeSearcher *plugin, unsigned level) :  NewCodeSearcherClass(plugin, level) {};
 
 private:
-    std::vector<klee::ExecutionState *> stateOrd;
+    std::vector<S2EExecutionState *> stateOrd;
 
 protected:
     virtual std::string getName() {
@@ -357,10 +365,20 @@ protected:
     virtual uint64_t getClass(S2EExecutionState *state);
 
     virtual klee::ExecutionState &selectState() {
-        klee::ExecutionState *m_state = nullptr;
+        S2EExecutionState *m_state = nullptr;
 
-        for (std::vector<klee::ExecutionState *>::reverse_iterator it = stateOrd.rbegin(), ie = stateOrd.rend(); it != ie; ++it) {
-            if ((*it)->inTargetModule && klee::tbTrace.find((*it)->startPC) == klee::tbTrace.end()) {
+        for (std::vector<S2EExecutionState *>::reverse_iterator it = stateOrd.rbegin(), ie = stateOrd.rend(); it != ie; ++it) {
+            if (m_plg->isStateInModule(*it) && !m_plg->isStateTbExplored(*it)) {
+                m_state = *it;
+            }
+        }
+
+        if (m_state != nullptr) {
+            return *m_state;
+        }
+
+        for (std::vector<S2EExecutionState *>::reverse_iterator it = stateOrd.rbegin(), ie = stateOrd.rend(); it != ie; ++it) {
+            if (m_plg->isStateInModule(*it)) {
                 m_state = *it;
             }
         }
@@ -416,26 +434,6 @@ protected:
             }
         }
 
-        // uint64_t allStates = 0;
-        // uint64_t validStates = 0;
-        // uint64_t inTargetModuleStates = 0;
-
-        // for (auto i: m_stateClasses) {
-        //     allStates++;
-
-        //     if (i.first->inTargetModule && klee::tbTrace.find((i.first)->startPC) == klee::tbTrace.end()) {
-        //         validStates++;
-        //     }
-
-        //     if ((i.first)->inTargetModule) {
-        //         inTargetModuleStates++;
-        //     }
-        // }
-
-        // auto elapsed = steady_clock::now() - g_s2e->getRealStartTime();
-        // auto elapsedSeconds = duration_cast<seconds>(elapsed.time_since_epoch()).count();
-
-        // g_s2e->getDebugStream() << "[PLOT] \%ValidState: (" << elapsedSeconds << ", " << getName() << ", " << int(((float)validStates/allStates)*100) << ", " << int(((float)inTargetModuleStates/allStates)*100) << " , " << g_s2e->getExecutor()->getStatesCount() << ")\n";
         unsigned size = m_searchers.size();
         assert(size > 0);
         (void) size;

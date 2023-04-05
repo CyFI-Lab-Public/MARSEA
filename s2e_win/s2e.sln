@@ -27,6 +27,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "wannacry-hook", "wannacry-h
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "custom-hook", "custom-hook\custom-hook.vcxproj", "{E7828D34-02EB-4EE1-BA34-30553D7C6BDB}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "myrundll32", "myrundll32\myrundll32.vcxproj", "{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -131,6 +133,14 @@ Global
 		{E7828D34-02EB-4EE1-BA34-30553D7C6BDB}.Release|Win32.Build.0 = Release|Win32
 		{E7828D34-02EB-4EE1-BA34-30553D7C6BDB}.Release|x64.ActiveCfg = Release|x64
 		{E7828D34-02EB-4EE1-BA34-30553D7C6BDB}.Release|x64.Build.0 = Release|x64
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Debug|Win32.ActiveCfg = Debug|Win32
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Debug|Win32.Build.0 = Debug|Win32
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Debug|x64.ActiveCfg = Debug|x64
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Debug|x64.Build.0 = Debug|x64
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Release|Win32.ActiveCfg = Release|Win32
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Release|Win32.Build.0 = Release|Win32
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Release|x64.ActiveCfg = Release|x64
+		{25FACC72-A3A6-40AF-9B3F-0F2EBFA18C60}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

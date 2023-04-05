@@ -36,202 +36,15 @@ namespace s2e {
 namespace plugins {
 namespace models {
 
-#define PRINT_DOT_GRAPH 1
-
-static constexpr size_t countExprNumBytes = 1;
-static bool export_to_s_expr = false;
-static std::string dot_graph_name;
-static std::string dot_graph_path;
-static std::string s_expr_path;
-
-static std::unordered_map<Expr::Kind, double> countExprKinds(const ref<Expr>& data, size_t num_bytes) {
-    std::unordered_map<Expr::Kind, double> expr_kind_counts;
-    std::function<void(ref<Expr>)> recur = nullptr;
-    recur = [&recur, &expr_kind_counts](ref<Expr> node) {
-        if (node) {
-            expr_kind_counts[node->getKind()] += 1.0;
-            for (int i = 0; i < node->getNumKids(); ++i) {
-                recur(node->getKid(i));
-            }
-        }
-    };
-    recur(data);
-    // Divide by num_bytes to get an average
-    for (auto it : expr_kind_counts) {
-        it.second /= num_bytes;
-    }
-    return expr_kind_counts;
-}
-
-static llvm::raw_ostream& operator<<(llvm::raw_ostream& os, const std::unordered_map<Expr::Kind, double>& data) {
-    os << "expr_kind_counts: {\n";
-    for (const auto& it : data) {
-        os << "  ";
-        Expr::printKind(os, it.first);
-        os << ": " << it.second << '\n';
-    }
-    return os << '}';
-}
-
-// Write out the expression to a path as an s-expression
-static void exprToSexpr(const ref<Expr>& expr) {
-    static std::set<std::string> already_written;
-    if (!export_to_s_expr || s_expr_path.empty()) {
-        std::cerr << "WARNING: S-expr not generated: add exportToSExpr=true and sExprPath in s2e-config.lua\n";
-        return;
-    }
-
-    std::ostringstream ss;
-    ss << expr;
-    if (already_written.find(ss.str()) != already_written.end()) {
-        return;
-    }
-
-    std::string updated_s_expr_path = s_expr_path + "." + std::to_string(already_written.size());
-    already_written.insert(ss.str());
-
-    std::function<void(const ref<Expr>, std::optional<size_t>)> recur = nullptr;
-    // Open file for writing
-    std::error_code ec;
-    llvm::raw_fd_ostream os(updated_s_expr_path, ec);
-    if (ec) {
-        std::cerr << "ERROR: Could not open file for S-expression: " << updated_s_expr_path;
-        return;
-    }
-    // Recurse into expression tree
-    recur = [&recur, &os](const ref<Expr> node, std::optional<size_t> indent) {
-        if (!node) {
-            return;
-        }
-        if (indent.has_value()) {
-            for (size_t i = 0; i < indent.value(); ++i) {
-                os << ' ';
-            }
-        }
-        if (node->getNumKids() == 0) {
-            if (node->getKind() == Expr::Constant) {
-                node->print(os);
-            } else {
-                Expr::printKind(os, node->getKind());
-            }
-            return;
-        }
-        os << '(';
-        Expr::printKind(os, node->getKind());
-        for (unsigned i = 0; i < node->getNumKids(); ++i) {
-            auto child = node->getKid(i);
-            if (indent.has_value()) {
-                os << '\n';
-                recur(child, indent.value() + 2);
-            } else {
-                os << ' ';
-                recur(child, {});
-            }
-        }
-        os << ')';
-    };
-    recur(expr, {});
-    os << '\n'; 
-}
-
-struct depth_nodes {
-    int depth, nodes;
-};
-typedef struct depth_nodes Struct;
-static Struct exprData(const ref<Expr>& expr) {
-    
-    Struct data;
-    data.depth = 0;
-    data.nodes = 0;
-    if (!expr) {
-        return data;
-    }
-    
-    std::queue<ref<Expr>> q;
-     
-    q.push(expr);
-    q.push(NULL);
-    while (!q.empty())
-    {
-        ref<Expr> temp = q.front();
-        q.pop();
- 
-        if (temp == NULL)
-            data.depth++;
-
-        if (temp != NULL) {
-            data.nodes++;
-            for (unsigned i = 0; i < temp->getNumKids(); ++i) {
-                auto child = temp->getKid(i);
-                q.push(child);
-            } 
-        }
-        else if(!q.empty())
-        {
-            q.push(NULL);
-        }
-    }
-    return data;
-}
-       
-// Extract a dot graph with the given name for the expression and write out to a path
-static void exprToDotGraph(const ref<Expr>& expr) {
-    if (dot_graph_name.empty() || dot_graph_path.empty()) {
-        std::cerr << "WARNING: Dot graph not generated: add dotGraphName and dotGraphPath in s2e-config.lua\n";
-        return;
-    }
-
-    std::unordered_map<Expr::Kind, size_t> kind_counts;
-    std::function<void(ref<Expr>, std::optional<std::pair<Expr::Kind, size_t>>)> recur = nullptr;
-    // Open file for writing
-    std::error_code ec;
-    llvm::raw_fd_ostream os(dot_graph_path, ec);
-    if (ec) {
-        std::cerr << "ERROR: Could not open file for dot graph: " << dot_graph_path;
-        return;
-    }
-    // Write beginning of file
-    os << "digraph " << dot_graph_name << " {\n";
-    // Recurse into expression tree.
-    recur = [&recur, &kind_counts, &os](ref<Expr> node, const std::optional<std::pair<Expr::Kind, size_t>>& parent) {
-        if (!node) {
-            return;
-        }
-        auto node_kind = node->getKind();
-        size_t index = kind_counts[node_kind]++;
-        if (parent.has_value()) {
-            const auto& tmp = parent.value();
-            os << "  ";
-            Expr::printKind(os, tmp.first);
-            os << tmp.second << " -> ";
-            Expr::printKind(os, node_kind);
-            os << index << ";\n";
-        }
-        for (int i = 0; i < node->getNumKids(); ++i) {
-            recur(node->getKid(i), {{ node_kind, index }});
-        }
-    };
-    recur(expr, {});
-    os << "}\n";
-}
-
-static void dumpExpresisonToFile(const ref<Expr>& expr) {
-    if (export_to_s_expr) {
-        exprToSexpr(expr);
-    } else {
-        exprToDotGraph(expr);
-    }
-}
-
-S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "", "MemUtils", "ModuleMap", "Vmi", "LibraryCallMonitor", "OSMonitor", "WindowsMonitor", "ProcessExecutionDetector");
+S2E_DEFINE_PLUGIN(CyFiFunctionModels, "Plugin that implements CYFI models for libraries", "CyFiFunctionModels", "ModuleMap", "LibraryCallMonitor");
 
 void CyFiFunctionModels::initialize() {
     m_map = s2e()->getPlugin<ModuleMap>();
-    m_memutils = s2e()->getPlugin<MemUtils>();
     m_base = s2e()->getPlugin<BaseInstructions>();
 
     instructionMonitor = s2e()->getConfig()->getBool(getConfigKey() + ".instructionMonitor");
     func_to_monitor = s2e()->getConfig()->getInt(getConfigKey() + ".functionToMonitor");
+    printMemory = s2e()->getConfig()->getBool(getConfigKey() + ".printMemory", false);
 
     arg_dump = s2e()->getConfig()->getInt(getConfigKey()+".dumpArgs", 0);
     
@@ -252,62 +65,17 @@ void CyFiFunctionModels::initialize() {
         }
     }
 
-    dot_graph_name = s2e()->getConfig()->getString(getConfigKey() + ".dotGraphName");
-    dot_graph_path = s2e()->getConfig()->getString(getConfigKey() + ".dotGraphPath");
-    export_to_s_expr = s2e()->getConfig()->getBool(getConfigKey() + ".exportToSExpr", false);
-    s_expr_path = s2e()->getConfig()->getString(getConfigKey() + ".sExprPath");
-    std::cerr << "DEBUG: dotGraphName: " << dot_graph_name <<
-        "\n       dotGraphPath: " << dot_graph_path <<
-        "\n       exportToSExpr: " << (export_to_s_expr ? "true" : "false") <<
-        "\n       sExprPath: " << s_expr_path << '\n';
-
-    decoderSearch = s2e()->getConfig()->getBool(getConfigKey() + ".decoderSearch");
-    if(decoderSearch)
-        getDebugStream() << "Decoding algorithm search is enabled.\n";
-
     m_libCallMonitor = s2e()->getPlugin<LibraryCallMonitor>();
-    m_vmi = s2e()->getPlugin<Vmi>();
-    m_monitor = static_cast<OSMonitor *>(s2e()->getPlugin("OSMonitor"));
-    m_procDetector = s2e()->getPlugin<ProcessExecutionDetector>();
-
-    m_monitor->onProcessLoad.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onProcessLoad));
+    // Connect to the onLibraryCall signal
+    m_libCallMonitor->onLibraryCall.connect(sigc::mem_fun(*this, &CyFiFunctionModels::handleLibCall));
     
     s2e()->getCorePlugin()->onTranslateInstructionEnd.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateInstruction));
 
-    s2e()->getCorePlugin()->onTranslateBlockEnd.connect(sigc::mem_fun(*this, &CyFiFunctionModels::onTranslateBlockEnd));
-
     s2e()->getCorePlugin()->onConcreteDataMemoryAccess.connect(
         sigc::mem_fun(*this, &CyFiFunctionModels::onConcreteDataMemoryAccess));
-    
-    s2e()->getCorePlugin()->onAfterSymbolicDataMemoryAccess.connect(
-        sigc::mem_fun(*this, &CyFiFunctionModels::onAfterSymbolicDataMemoryAccess));
 
 
-}
-
-
-void CyFiFunctionModels::findBufferByte(ref<Expr> expr, ref<Expr> &index) {
-
-    std::function<void(const ref<Expr>)> recur = nullptr;
-    recur = [&recur, &index](const ref<Expr> expr) {
-        if (!expr) 
-            return;
-
-        if (expr->getKind() == Expr::Read)
-        {
-            const ReadExpr *re = cast<ReadExpr>(expr);
-            index = re->getIndex();
-            return;
-        }
-
-        for (unsigned i = 0; i < expr->getNumKids(); ++i) {
-            auto child = expr->getKid(i);
-            recur(child);
-        } 
-
-    };
-    recur(expr);
 }
 
 void CyFiFunctionModels::onConcreteDataMemoryAccess(S2EExecutionState *state, uint64_t address, uint64_t value, uint8_t size,
@@ -316,209 +84,20 @@ void CyFiFunctionModels::onConcreteDataMemoryAccess(S2EExecutionState *state, ui
         getDebugStream(state) << "Concrete Data Mem Access: " << hexval(address) << " - " << value << "\n";
 }
 
-void CyFiFunctionModels::onAfterSymbolicDataMemoryAccess(S2EExecutionState *state, klee::ref<klee::Expr> address,
-                                                   klee::ref<klee::Expr> hostAddress, klee::ref<klee::Expr> value,
-                                                   unsigned flags) 
-{
-    if(trackedTag.empty())
-        return;
 
+void CyFiFunctionModels::handleLibCall(S2EExecutionState *state, const ModuleDescriptor &srcModule, const ModuleDescriptor &module, uint64_t targetAddr, const std::string &exportName) {
 
-    std::stringstream os;
-    os << value;
-    if (os.str().find(trackedTag[state->getID()]) == std::string::npos)
-        return;
+    std::string modName = srcModule.Name;
 
-    if(address->getKind() != Expr::Constant)
-        return;
-    
-    // Although /p value represents the symbolic expression contained in /p address,
-    // we use the /p address becuase we do not only want the symbolic expression for the 
-    // first byte of this memory region, but symbolic expressions from all symbolc bytes
-    if(!decoderSearch)
-        return;
-        
-    evalForDecoders(state, address);
-}
-
-void CyFiFunctionModels::evalForDecoders(S2EExecutionState *state, klee::ref<klee::Expr> address) {
-
-    //getDebugStream(state) << "DUMP: " << address  << "\n";
-
-    std::vector<uint8_t> all_constants;
-    uint64_t addr = dyn_cast<ConstantExpr>(address)->getZExtValue();
-    int i = 0;
-    while (1){
-        TranslationBlock *tb = state->getTb(); 
-        if(tb == 0x0)    
-            break;
-        ref<Expr> e = state->mem()->read(addr + i);
-        if(!e || isa<ConstantExpr>(e))
-            break;
-        ref<Expr> constant =  state->concolics->evaluate(e);   
-        uint8_t val = dyn_cast<ConstantExpr>(constant)->getZExtValue();
-        all_constants.push_back(val);
-        i++;            
-    }
-
-    std::string encoded_indiv = Decoders::indexedVal_V(all_constants);
-
-    // HACK:   buffer must be >= 4 ???
-    if(all_constants.size() < 4)
-        return;
-
-    /* --------------------- DECODING --------------------- */
-    decoderMap DM;
-    DM["base16"] = Decoders::extractBufferComparators("base16", all_constants);
-    DM["base32"] = Decoders::extractBufferComparators("base32", all_constants);
-    DM["base64"] = Decoders::extractBufferComparators("base64", all_constants);  
-    DM["base85"] = Decoders::extractBufferComparators("base85", all_constants);
-    DM["xor_23"] = Decoders::extractBufferComparators("xor_23", all_constants);
-    DM["rot_13"] = Decoders::extractBufferComparators("rot_13", all_constants);
-    DM["table_lookup"] = Decoders::extractBufferComparators("table_lookup", all_constants);
-    DM["decode_str_to_le_int32"] = Decoders::extractBufferComparators("decode_str_to_le_int32", all_constants);
-    DM["decode_le_int32_to_str"] = Decoders::extractBufferComparators("decode_le_int32_to_str", all_constants);
-
-    if(instructionMemData.find(state->getID()) == instructionMemData.end())
-    {
-        memDataVec input;
-        input.push_back(std::make_pair(trackedPc, DM));
-        instructionMemData[state->getID()] = input;
-    }
-    else        
-    {
-        memDataVec input;
-        input = instructionMemData[state->getID()];
-        input.push_back(std::make_pair(trackedPc, DM));
-        instructionMemData[state->getID()] = input;
-    }        
-
-    // try to match current encoded to previous decoded
-    if (instructionMemData.size() > 0)
-    {
-        const bool id_found = instructionMemData.find(state->getID()) != instructionMemData.end();
-        if(!id_found)
-            return;
-
-        memDataVec srchVec;
-        srchVec = instructionMemData[state->getID()];
-
-        int i = 0;
-        for (auto it: srchVec){
-            uint64_t prev_addr = it.first;
-            for (auto item: it.second) {
-                std::string decoder_name = item.first;   
-                std::string prev_encoded = item.second.first;
-                std::string prev_decoded = item.second.second;
-
-                if(encoded_indiv.compare(prev_decoded) == 0) {  
-
-                    // Compute distance...using a set b/c we want to account for loops
-                    std::set<uint64_t> unqInst;
-                    for(int x = i; x < srchVec.size(); ++ x)
-                        unqInst.insert(srchVec[x].first);
-
-                    if ((prev_addr != trackedPc) && prev_decoded.length() > 0)
-                    {
-                        getDebugStream(state) << "Match: " << decoder_name << ", Distance: " << unqInst.size() << ", Start: " << hexval(prev_addr) << ", End: " << hexval(trackedPc) << "\n"
-                                        << "Decoded Results: " << prev_decoded << " == " << encoded_indiv << "\n\n";
-                    }
-                }
-            }
-            i++;
-        }
-    }
-
-}  
-
-
-void CyFiFunctionModels::onProcessLoad(S2EExecutionState *state, uint64_t pageDir, uint64_t pid, const std::string &ImageFileName) {
-    
-    if (moduleId > 0 && (recent_callee.find("CreateProcess") == 0 || recent_callee.find("ShellExecute") == 0)) {
-        getDebugStream(state) << "Tracking " << ImageFileName << " pid: " << hexval(pid) << " from ppid: " << hexval(moduleId) <<  "\n";
-	m_moduleNames.insert(ImageFileName);
-        m_procDetector->trackModule(state, pid, ImageFileName);
-        moduleId = pid;
-    }
-
-    if(!m_moduleNames.empty() && m_moduleNames.find(ImageFileName) != m_moduleNames.end()){
-	    moduleId = pid;
-    }
-
-}
-
-void CyFiFunctionModels::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionState *state, TranslationBlock *tb,
-                                             uint64_t pc, bool isStatic, uint64_t staticTarget) {
-    // Library calls/jumps are always indirect
-    if (tb->se_tb_type == TB_CALL_IND || (tb->se_tb_type == TB_JMP_IND)) {
-        signal->connect(
-            sigc::bind(sigc::mem_fun(*this, &CyFiFunctionModels::onIndirectCallOrJump), (unsigned) tb->se_tb_type));
-    }
-}
-
-void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t pc, unsigned sourceType) {
-
-    // Only interested in the processes specified in the ProcessExecutionDetector config
-    if (!m_procDetector->isTracked(state)) {
+    if (modName != m_moduleName) {
         return;
     }
 
-    auto current_mod = m_map->getModule(state, pc);
-    auto mod = m_map->getModule(state);
+    getCyfiStream(state) << modName << " called " << exportName << "\n";
 
-    if (!mod) {
-        return;
-    }
+    recent_callee = exportName;
 
-    if (!current_mod) {
-        return;
-    }
-
-    if (mod == current_mod) {
-        return;
-    }
-
-    //We only care about the target as the caller module
-    std::string callerModule = (*current_mod.get()).Name;
-
-    if(m_moduleNames.find(callerModule) == m_moduleNames.end()) {
-	    return;
-    }
-
-    std::string exportName;
-
-    uint64_t targetAddr = state->regs()->getPc();
-
-    exportName = m_libCallMonitor->get_export_name(state, mod->Pid, targetAddr);
-
-    if (exportName.size() == 0) {
-        vmi::Exports exps;
-        auto exe = m_vmi->getFromDisk(mod->Path, mod->Name, true);
-
-        if (!exe) {
-            return;
-        }
-
-        auto pe = std::dynamic_pointer_cast<vmi::PEFile>(exe);
-
-        if (!pe) {
-            return;
-        }
-
-        auto exports = pe->getExports();
-        auto it = exports.find(targetAddr-mod->LoadBase);
-        if (it != exports.end()) {
-            exportName = (*it).second;
-        } else {
-            // Did not find any export
-            return;
-        }
-    }
-
-    if (exportName.size() == 0) {
-        return;
-    }
-
+    // Dump the arguments
     if (arg_dump > 0) {
 
         uint64_t stackAddr = state->regs()->getSp() + 4;
@@ -563,9 +142,6 @@ void CyFiFunctionModels::onIndirectCallOrJump(S2EExecutionState *state, uint64_t
             }
         }
     }
-
-    recent_callee = exportName;
-
 }
 
 void CyFiFunctionModels::cyfiDump(S2EExecutionState *state, std::string reg) {
@@ -678,20 +254,6 @@ void CyFiFunctionModels::onInstructionExecution(S2EExecutionState *state, uint64
     }   
 }
 
-void CyFiFunctionModels::expressionData(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
-
-    uint64_t exprAddr = (uint64_t) cmd.expressionData.expr;
-    ref<Expr> expr = state->mem()->read(exprAddr, state->getPointerWidth());
-
-    auto expr_kind_counts = countExprKinds(expr, 4);
-    int count = expr_kind_counts.size();
-    cmd.expressionData.kinds =  count;
-
-    Struct data = exprData(expr);
-    cmd.expressionData.depth = data.depth;
-    cmd.expressionData.nodes = data.nodes;
-}
-
 void CyFiFunctionModels::cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
     // Read function arguments
     uint64_t address = (uint64_t) cmd.cyfiTaint.buffer;
@@ -729,6 +291,12 @@ void CyFiFunctionModels::cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COM
 }
 
 void CyFiFunctionModels::cyfiPrintMemory(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd) {
+
+    // If print memory is not enabled, return directly
+    if (!printMemory) {
+        return;
+    }
+    
     // Read function arguments
     uint64_t address = (uint64_t) cmd.cyfiPrintMem.buffer;
     uint64_t size = (uint64_t) cmd.cyfiPrintMem.size;
@@ -1019,13 +587,6 @@ void CyFiFunctionModels::handleOpcodeInvocation(S2EExecutionState *state, uint64
             if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
                 getWarningsStream(state) << "Could not write to guest memory\n";
             }
-        } break;
-
-        case EXPRESSION_DATA: {
-            expressionData(state, command);
-            if (!state->mem()->write(guestDataPtr, &command, sizeof(command))) {
-                getWarningsStream(state) << "Could not write to guest memory\n";
-            }        
         } break;
 
         case TAINT: {

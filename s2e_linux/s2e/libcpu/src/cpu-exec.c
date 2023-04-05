@@ -473,8 +473,6 @@ static bool execution_loop(CPUArchState *env) {
             env->eip = ltb->pc - ltb->cs_base;
             ltb = NULL;
         }
-        
-        //env->kvm_request_interrupt_window = 1;
 
         if (env->kvm_request_interrupt_window && (env->mflags & IF_MASK)) {
             env->kvm_request_interrupt_window = 0;

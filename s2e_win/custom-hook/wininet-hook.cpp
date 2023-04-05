@@ -591,7 +591,7 @@ HINTERNET WINAPI InternetOpenUrlAHook(
         Message("InternetOpenUrlA 1\n");
     }
 
-    Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%s tag_in:%s %s\n",
+    Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s %s\n",
         hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, url_tag.c_str(), header_tag.c_str());
 
     if (url_tag != "") {
@@ -639,7 +639,7 @@ HINTERNET WINAPI InternetOpenUrlWHook(
         Message("InternetOpenUrlW 1\n");
     }
 
-    Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%s tag_in:%s %s\n",
+    Message("[W] InternetOpenUrlA (%p [|] %s [|] %s [|] 0x%x [|] 0x%x [|] %p) ret:%p tag_in:%s %s\n",
         hInternet, lpszUrl, lpszHeaders, dwHeadersLength, dwFlags, dwContext, resourceHandle, url_tag.c_str(), header_tag.c_str());
 
     if (url_tag != "") {

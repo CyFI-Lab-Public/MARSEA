@@ -32,10 +32,6 @@
 
 #include "BaseFunctionModels.h"
 
-#include <string.h>
-#include <algorithm>
-#include <string>
-
 namespace s2e {
 namespace plugins {
 namespace models {
@@ -220,7 +216,8 @@ bool BaseFunctionModels::strcmpHelperCommon(S2EExecutionState *state, const uint
     // Assemble expression
     //
 
-    const Expr::Width width = state->getPointerSize() * CHAR_BIT;
+    // Return value of the C library functions is a 32-bit int.
+    const Expr::Width width = Expr::Int32;
     const ref<Expr> nullByteExpr = E_CONST('\0', Expr::Int8);
 
     assert(width == Expr::Int32 && "-1 representation becomes wrong");
@@ -592,76 +589,6 @@ bool BaseFunctionModels::strcatHelper(S2EExecutionState *state, const uint64_t s
         getDebugStream(state) << "Failed to write to terminate byte.\n";
         return false;
     }
-
-    return true;
-}
-
-bool BaseFunctionModels::StrStrAHelper(S2EExecutionState *state, const uint64_t memAddrs[2], ref<Expr> &retExpr) {
-    getDebugStream(state) << "Handling StrStrA(" << hexval(memAddrs[0]) << ", " << hexval(memAddrs[1]) << ")\n";
-
-    uint64_t addr = memAddrs[0];
-    retExpr = state->mem()->read(addr, state->getPointerWidth());
-    if (!isa<ConstantExpr>(retExpr)) {
-        /*getDebugStream(state) << "Argument " << retExpr << " at " << hexval(addr) << " is symbolic\n";
-        std::ostringstream ss;
-        ss << retExpr;
-        std::string sym = ss.str();
-        symb_tag = std::string(&sym[sym.find("CyFi")], &sym[sym.rfind("_")]);
-        getDebugStream(state) << "Symbolic tag " << symb_tag << " extracted.\n";*/
-        return true;
-    }
-    return false;
-}
-
-bool BaseFunctionModels::memsetHelper(S2EExecutionState *state, const uint64_t memAddrs[2], uint64_t numBytes,
-                                      ref<Expr> &retExpr) {
-    getDebugStream(state) << "Handling memset(" << hexval(memAddrs[0]) << ", " << hexval(memAddrs[1]) << ", "
-                          << numBytes << ")\n";
-    return true;
-}
-
-
-bool BaseFunctionModels::WinHttpReadDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr) {
-    getDebugStream(state) << "Handling WinHttpReadData(" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) 
-                          << ", " << hexval(args[3]) << ")\n";
-
-    uint64_t dwNumberOfBytesToRead = args[2];
-    uint64_t lpdwNumberOfBytesRead = args[3];
-
-    if (dwNumberOfBytesToRead) {
-      const Expr::Width width = state->getPointerSize() * 4;
-      uint64_t numberOfBytesToRead = std::min(dwNumberOfBytesToRead, (uint64_t)512);
-      ref<Expr> readBytes = E_CONST(numberOfBytesToRead, width);
-      if (!state->mem()->write(lpdwNumberOfBytesRead, readBytes)) {
-	getDebugStream(state) << "WinHttpReadData: Failed to write to NumberOfBytesRead.\n";
-      }
-    }
-
-    return true;
-}
-
-bool BaseFunctionModels::WinHttpWriteDataHelper(S2EExecutionState *state, const uint64_t args[4], ref<Expr> &retExpr) {
-    getDebugStream(state) << "Handling WinHttpWriteData(" << hexval(args[0]) << ", " << hexval(args[1]) << ", " << hexval(args[2]) 
-                          << ", " << hexval(args[3]) << ")\n";
-
-    uint64_t dwNumberOfBytesToWrite = args[2];
-    uint64_t lpdwNumberOfBytesWritten = args[3];
-
-    // ref<Expr> symb = state->createSymbolicValue("winhttp_number_of_bytes_read", Expr::Int32);
-    if (dwNumberOfBytesToWrite) {
-      const Expr::Width width = state->getPointerSize() * 4;
-      uint64_t numberOfBytesToWrite = std::min(dwNumberOfBytesToWrite, (uint64_t)512);
-      ref<Expr> writtenBytes = E_CONST(numberOfBytesToWrite, width);
-      if (!state->mem()->write(lpdwNumberOfBytesWritten, writtenBytes)) {
-	getDebugStream(state) << "WinHttpWriteData: Failed to write to NumberOfBytesWritten.\n";
-      }
-    }
-
-    return true;
-}
-
-bool BaseFunctionModels::MultiByteToWideCharHelper(S2EExecutionState *state, const uint64_t args[6]) {
-    getDebugStream(state) << "Handling MultiByteToWideChar(" << hexval(args[2]) << ")\n";
 
     return true;
 }

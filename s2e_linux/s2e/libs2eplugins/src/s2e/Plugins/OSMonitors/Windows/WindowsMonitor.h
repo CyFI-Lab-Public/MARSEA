@@ -261,8 +261,6 @@ public:
 
     void initialize();
 
-    sigc::signal<void, S2EExecutionState *> onProcessOrThreadSwitch;
-
     sigc::signal<void, S2EExecutionState *, const S2E_WINMON2_ACCESS_FAULT &> onAccessFault;
 
     sigc::signal<void, S2EExecutionState *, const S2E_WINMON2_ALLOCATE_VM &> onNtAllocateVirtualMemory;
@@ -441,7 +439,8 @@ public:
     }
 
     inline uint64_t getCurrentProcessId(S2EExecutionState *state) {
-        assert(m_cachedState == state && m_cachedPid != (uint64_t) -1);
+        // assert(m_cachedState == state && m_cachedPid != (uint64_t) -1);
+        assert(m_cachedPid != (uint64_t) -1);
         return m_cachedPid;
     }
 

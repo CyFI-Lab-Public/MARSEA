@@ -121,37 +121,11 @@ void NewCodeSearcher::initialize() {
         s2e()->getCorePlugin()->onTranslateBlockStart.connect(
         sigc::mem_fun(*this, &NewCodeSearcher::onTranslateBlockStart)
         );
-        s2e()->getCorePlugin()->onStateFork.connect(sigc::mem_fun(*this, &NewCodeSearcher::onFork));
+        // s2e()->getCorePlugin()->onStateFork.connect(sigc::mem_fun(*this, &NewCodeSearcher::onFork));
         s2e()->getCorePlugin()->onTranslateBlockEnd.connect(
             sigc::mem_fun(*this, &NewCodeSearcher::onTranslateBlockEnd)
         );
         enable(true);
-    }
-}
-
-void NewCodeSearcher::onFork(S2EExecutionState *state, const std::vector<S2EExecutionState *> &newStates,
-                         const std::vector<klee::ref<klee::Expr>> &newConditions) {
-    for(auto i: newStates) {
-
-        // if (i->inTargetModule) {
-        //     continue;
-        // }
-
-        auto currentMod = m_map->getModule(state, i->startPC);
-
-        if (!currentMod) {
-            i->inTargetModule = false;
-            continue;
-        }
-
-        if (!m_moduleName.empty()) {
-            if (currentMod->Name == m_moduleName) {
-                // g_s2e->getDebugStream() << "state pc: " << hexval(state->startPC) << " new state pc: " << hexval(i->startPC) << "\n";
-                i->inTargetModule = true;
-            } else {
-                i->inTargetModule = false;
-            }
-        }
     }
 }
 
@@ -192,15 +166,48 @@ void NewCodeSearcher::onTranslateBlockEnd(ExecutionSignal *signal, S2EExecutionS
 }
 
 void NewCodeSearcher::onBlockStart(S2EExecutionState *state, uint64_t pc) {
-    state->startPC = pc;
-    state->inTargetModule = true;
-    return;
+    statePCMap[state] = pc;
+
 }
 
 void NewCodeSearcher::onBlockEnd(S2EExecutionState *state, uint64_t pc, TranslationBlock *tb) {
     //getInfoStream() << "Add block " << tb->pc << "\n";
-    klee::tbTrace[tb->pc] = True;
+    tbTrace[tb->pc] = True;
     return;
+}
+
+bool NewCodeSearcher::isStateTbExplored(S2EExecutionState *state) {
+
+    if (statePCMap.find(state) != statePCMap.end()) {
+        uint64_t startPC = statePCMap[state];
+        if (tbTrace.find(startPC) == tbTrace.end()) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool NewCodeSearcher::isStateInModule(S2EExecutionState *state) {
+
+    auto currentMod = m_map->getModule(state, state->regs()->getPc());
+
+    if (!currentMod) {
+        return false;
+    }
+
+    if (!m_moduleName.empty()) {
+        if (currentMod->Name == m_moduleName) {
+            return true;
+        }
+    }
+
+    return false;
+
+    // if (stateInTarget.find(state) != stateInTarget.end() && stateInTarget[state]) {
+    //     return true;
+    // }
+
+    // return false;
 }
 
 void NewCodeSearcher::enable(bool e) {
@@ -321,15 +328,8 @@ void NewCodeSearcherClass::doRemoveState(klee::ExecutionState *state) {
 void NewCodeSearcherClass::update(klee::ExecutionState *current, const klee::StateSet &addedStates,
                                const klee::StateSet &removedStates) {
     
-    // using namespace std::chrono;
-    // auto elapsed = steady_clock::now() - g_s2e->getRealStartTime();
-    // auto elapsedSeconds = duration_cast<seconds>(elapsed.time_since_epoch()).count();
-
-    // if (addedStates.size()) {
-    //     g_s2e->getDebugStream() << "[PLOT] #Searchers: (" << elapsedSeconds << ", " << getName() << ", " << m_searchers.size() << "," << g_s2e->getExecutor()->getStatesCount() <<")\n";
-    // }
-
     for (auto addedState : addedStates) {
+        doRemoveState(addedState);
         if (m_stateClasses.count(addedState) == 0) {
             S2EExecutionState *s = static_cast<S2EExecutionState *>(addedState);
             // XXX: removing state here first before re-adding
@@ -347,27 +347,6 @@ void NewCodeSearcherClass::update(klee::ExecutionState *current, const klee::Sta
 klee::ExecutionState &NewCodeSearcherClass::selectState() {
     assert(!m_searchers.empty());
 
-    // uint64_t allStates = 0;
-    // uint64_t validStates = 0;
-    // uint64_t inTargetModuleStates = 0;
-
-    // for (auto i: m_stateClasses) {
-    //     allStates++;
-
-    //     if (i.first->inTargetModule && klee::tbTrace.find((i.first)->startPC) == klee::tbTrace.end()) {
-    //         validStates++;
-    //     }
-
-    //     if ((i.first)->inTargetModule) {
-    //         inTargetModuleStates++;
-    //     }
-    // }
-
-    // using namespace std::chrono;
-    // auto elapsed = steady_clock::now() - g_s2e->getRealStartTime();
-    // auto elapsedSeconds = duration_cast<seconds>(elapsed.time_since_epoch()).count();
-
-    // g_s2e->getDebugStream() << "[PLOT] \%ValidState: (" << elapsedSeconds << ", " << getName() << ", " << int(((float)validStates/allStates)*100) << ", " << int(((float)inTargetModuleStates/allStates)*100) << ", " << g_s2e->getExecutor()->getStatesCount() << ")\n";
     int idx = std::uniform_int_distribution<>(0, m_searchers.size() - 1)(m_rnd);
     getDebugStream(nullptr) << "selectState class " << idx << "\n";
     return std::next(std::begin(m_searchers), idx)->second->selectState();
@@ -547,24 +526,10 @@ uint64_t NewCodeSearcherCyFiClass::getClass(S2EExecutionState *state) {
     if (!g_s2e_state)
         return 0;
 
-    if (state->inTargetModule) {
+    if (m_plg->isStateInModule(state)) {
         stateOrd.erase(std::remove(stateOrd.begin(), stateOrd.end(), state), stateOrd.end());
         stateOrd.push_back(state);
-
-        // g_s2e->getDebugStream() << "Add " << hexval(state->startPC) << "\n";
-
-        // if (startPcOrdMap.find(state->startPC) != startPcOrdMap.end()) {
-        //     startPcOrd.erase(startPcOrd.begin()+startPcOrdMap[state->startPC]);
-        // }
-
-        // g_s2e->getDebugStream() << "Add " << hexval(state->startPC) << "\n";
-
-        // startPcOrd.push_back(state->startPC);
-        // startPcOrdMap[state->startPC] = startPcOrd.size() - 1;
-    }
-
-    if (!state->inTargetModule) {
-        // g_s2e->getDebugStream() << "Erase " << hexval(state->startPC) << "\n";
+    } else {
         stateOrd.erase(std::remove(stateOrd.begin(), stateOrd.end(), state), stateOrd.end());
     }
 

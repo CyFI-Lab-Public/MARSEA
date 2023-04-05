@@ -65,6 +65,7 @@ namespace winhttp {
 #include "winbase-hook.h"
 #include "stringapiset-hook.h"
 #include "stdlib-hook.h"
+#include "esent-hook.h"
 #include <synchapi.h>
 
 INT s2eVersion = 0;
@@ -160,6 +161,8 @@ static BOOL WINAPI VirtualFreeHook(
 ) {
     bool ignore_vf = false;
 
+    Message("[W] VirtualFree (%p [|] %i [|] %ld)\n", lpAddress, dwSize, dwFreeType);
+
     if (S2EIsSymbolic(&lpAddress, 4)) {
         ignore_vf = true;
         Message("VirtualFree symbolic pointer\n");
@@ -169,7 +172,7 @@ static BOOL WINAPI VirtualFreeHook(
         }
     }
 
-    if (S2EIsSymbolic(lpAddress, dwSize)) {
+    if (S2EIsSymbolic(lpAddress, 4)) {
         Message("VirtualFree symbolic buffer\n");
     }
 
@@ -181,8 +184,6 @@ static BOOL WINAPI VirtualFreeHook(
             Message("VF dwSize constraints %s\n", tag.c_str());
         }
     }
-
-    Message("[W] VirtualFree (%p [|] %i [|] %ld)\n", lpAddress, dwSize, dwFreeType);
 
     if (ignore_vf) {
         return true;
@@ -286,9 +287,13 @@ static FARPROC WINAPI GetProcAddressHook(
     HMODULE hModule,
     LPCSTR  lpProcName
 ) {
-    FARPROC ret = GetProcAddress(hModule, lpProcName);
-    Message("[W] GetProcAddress (%p [|] %s) ret:%d\n", hModule, lpProcName, ret);
-    return ret;
+    if (checkCaller("GetProcAddress")) {
+        FARPROC ret = GetProcAddress(hModule, lpProcName);
+        Message("[W] GetProcAddress (%p [|] %s) ret:%d\n", hModule, lpProcName, ret);
+        return ret;
+    }
+
+    return GetProcAddress(hModule, lpProcName);
 }
 
 static HWND WINAPI GetCaptureHook() {
@@ -341,22 +346,22 @@ CyFIFuncType functionToHook[] = {
     //CyFIFuncType("ole32", "CreateStreamOnHGlobal", CreateStreamOnHGlobalHook, {NULL}),
     //CyFIFuncType("kernel32", "ExitProcess", ExitProcessHook, {NULL}),
 
-    //CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
-    //CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
-    //CyFIFuncType("Ws2_32", "closesocket", closesockethook, {NULL}),
-    //CyFIFuncType("Ws2_32", "getaddrinfo", getaddrinfohook, {NULL}),
-    //CyFIFuncType("Ws2_32", "getsockname", getsocknamehook, {NULL}),   
-    //CyFIFuncType("Ws2_32", "getpeername", getpeernamehook, {NULL}),
-    //CyFIFuncType("Ws2_32", "ntohs", ntohshook, {NULL}),
-    //CyFIFuncType("Ws2_32", "recv", recvhook, {NULL}),
-    //CyFIFuncType("Ws2_32", "accept", accepthook, {NULL}),
-    //CyFIFuncType("Ws2_32", "select", selecthook, {NULL}),
-    //CyFIFuncType("Ws2_32", "send", sendhook, {NULL}),
-    //CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
-    //CyFIFuncType("Ws2_32", "bind", bindhook, {NULL}),
-    //CyFIFuncType("Ws2_32", "gethostbyname", gethostbynamehook, {NULL}),
-    //CyFIFuncType("Ws2_32", "inet_ntoa", inet_ntoahook, {NULL}),
-    //CyFIFuncType("Ws2_32", "inet_ntop", inet_ntophook, {NULL}),
+    CyFIFuncType("Ws2_32", "socket", sockethook, {NULL}),
+    CyFIFuncType("Ws2_32", "connect", connecthook, {NULL}),
+    CyFIFuncType("Ws2_32", "closesocket", closesockethook, {NULL}),
+    CyFIFuncType("Ws2_32", "getaddrinfo", getaddrinfohook, {NULL}),
+    CyFIFuncType("Ws2_32", "getsockname", getsocknamehook, {NULL}),   
+    CyFIFuncType("Ws2_32", "getpeername", getpeernamehook, {NULL}),
+    CyFIFuncType("Ws2_32", "ntohs", ntohshook, {NULL}),
+    CyFIFuncType("Ws2_32", "recv", recvhook, {NULL}),
+    CyFIFuncType("Ws2_32", "accept", accepthook, {NULL}),
+    CyFIFuncType("Ws2_32", "select", selecthook, {NULL}),
+    CyFIFuncType("Ws2_32", "send", sendhook, {NULL}),
+    CyFIFuncType("Ws2_32", "sendto", sendtohook, {NULL}),
+    CyFIFuncType("Ws2_32", "bind", bindhook, {NULL}),
+    CyFIFuncType("Ws2_32", "gethostbyname", gethostbynamehook, {NULL}),
+    CyFIFuncType("Ws2_32", "inet_ntoa", inet_ntoahook, {NULL}),
+    CyFIFuncType("Ws2_32", "inet_ntop", inet_ntophook, {NULL}),
 
     CyFIFuncType("wsock32", "socket", sockethook, {NULL}),
     CyFIFuncType("wsock32", "connect", connecthook, {NULL}),
@@ -453,6 +458,8 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("urlmon.dll", "URLDownloadToCacheFileA", URLDownloadToCacheFileAHook, {NULL}),
     CyFIFuncType("urlmon.dll", "URLDownloadToCacheFileW", URLDownloadToCacheFileWHook, { NULL }),
 
+    CyFIFuncType("esent.dll", "JetSetSystemParameter", JetSetSystemParameterHook, {NULL}),
+
     //CyFIFuncType("kernel32", "SetFilePointer", SetFilePointerHook, {NULL}),
 
     //CyFIFuncType("ntdll", "wcschr", wcschrHook, {NULL}),
@@ -484,6 +491,10 @@ CyFIFuncType functionToHook[] = {
     CyFIFuncType("kernel32", "ReadFile", ReadFileHook, {NULL}),
     CyFIFuncType("kernel32", "WriteFile", WriteFileHook, {NULL}),
     CyFIFuncType("kernel32", "CloseHandle", CloseHandleHook, {NULL}),
+    CyFIFuncType("kernel32", "CopyFileA", CopyFileAHook, { NULL }),
+    CyFIFuncType("kernel32", "CopyFileW", CopyFileWHook, { NULL }),
+    CyFIFuncType("kernel32", "PathFileExistsA", PathFileExistsAHook, { NULL }),
+    CyFIFuncType("kernel32", "PathFileExistsW", PathFileExistsWHook, { NULL }),
 
     CyFIFuncType("kernel32", "CreateProcessA", CreateProcessAHook, {NULL}),
     CyFIFuncType("kernel32", "CreateProcessW", CreateProcessWHook, {NULL}),

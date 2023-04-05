@@ -115,10 +115,12 @@ private:
     std::string trackedTag;
     uint64_t trackedPc;
 
-    bool instructionMonitor; 
+    bool instructionMonitor;
+    bool printMemory; 
     int func_to_monitor = 0;
     int arg_dump = 0;
     ModuleMap *m_map;
+    BaseInstructions* m_base;
     LibraryCallMonitor *m_libCallMonitor;
     ProcessExecutionDetector *m_procDetector;
     uint64_t moduleId = 0;
@@ -166,6 +168,7 @@ private:
     void concretizeAll(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
     void cyfiTaint(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd); 
     void cyfiPrintMemory(S2EExecutionState *state, CYFI_WINWRAPPER_COMMAND &cmd);                                                
+    void handleLibCall(S2EExecutionState *state, const ModuleDescriptor &srcModule, const ModuleDescriptor &module, uint64_t targetAddr, const std::string &exportName);
 };
 
 } // namespace models

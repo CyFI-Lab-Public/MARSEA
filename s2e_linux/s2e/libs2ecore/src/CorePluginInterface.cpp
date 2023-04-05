@@ -28,7 +28,7 @@
 #include <cpu/exec.h>
 
 #include <timer.h>
-#include <qdict.h>
+#include <qapi/qmp/qdict.h>
 
 #define s2e_gen_pc_update instr_gen_pc_update
 #define s2e_gen_flags_update instr_gen_flags_update
@@ -344,7 +344,6 @@ static CPUTimer *s_timer = nullptr;
 
 static void s2e_timer_cb(void *opaque) {
     CorePlugin *c = (CorePlugin *) opaque;
-    g_s2e->getExecutor()->updateStats(g_s2e_state);
     c->onTimer.emit();
     libcpu_mod_timer(s_timer, libcpu_get_clock_ms(rt_clock) + 1000);
 }
