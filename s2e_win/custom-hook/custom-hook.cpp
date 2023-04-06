@@ -501,7 +501,7 @@ CyFIFuncType functionToHook[] = {
 
     CyFIFuncType("kernel32", "WideCharToMultiByte", WideCharToMultiByteHook, { NULL }),
 
-    CyFIFuncType("ntdll", "_wtoi", _wtoiHook, { NULL }),
+    // CyFIFuncType("ntdll", "_wtoi", _wtoiHook, { NULL }),
 
     //CyFIFuncType("kernel32", "GetTickCount", GetTickCountHook, { NULL }),
 
