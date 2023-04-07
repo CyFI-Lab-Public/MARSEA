@@ -31,7 +31,7 @@ MARSEA currently supports Windows 7 i386. More recent Windows versions may work 
 Follow these steps to build a Windows 7 i386 guest:
 
 1. For remote access users using the command-line interface, create a [tmux](https://github.com/tmux/tmux) session first, as each step may take some time.
-2. Download the official Windows 7 i386 guest ISO [here](https://gtvault-my.sharepoint.com/:u:/g/personal/myao42_gatech_edu/EY0XbpzpNKJPh1G4ZJj6acIBUGlvloZmr-kYvw8EL3NU0A?e=TeNfp9).
+2. Download the official Windows 7 i386 guest ISO [here](https://archive.org/details/en_windows_7_professional_with_sp1_x86_dvd_u_677056_201708).
 3. Verify the integrity of the downloaded ISO (md5:`0bff99c8310ba12a9136e3d23606f3d4`) and ensure the ISO's name is `en_windows_7_professional_with_sp1_x86_dvd_u_677056.iso`.
 4. Activate the S2E environment and run `s2e image_build --iso-dir [/path/to/isos] windows-7sp1pro-i386`
 The video of the these steps can be found [here](https://youtu.be/5tljqtK4ZTo)
