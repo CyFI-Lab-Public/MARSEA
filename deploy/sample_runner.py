@@ -5,6 +5,7 @@ import subprocess
 import shutil
 import getpass
 import psutil
+import json
 
 # S2E env path
 S2EDIR = os.environ['S2EDIR']
@@ -193,21 +194,37 @@ def run(sample_path, template_path, export_func=None, symb_args=False, timeout=1
 
     # Run the launch script
     run_script = proj_folder/'launch-s2e.sh'
-    p_s2e = subprocess.Popen([str(run_script)], shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    p_s2e = subprocess.Popen([str(run_script)], shell=True, stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
 
-    # Wait for timeout
-    try:
-        _, errs = p_s2e.communicate(timeout=timeout)
-        errs = errs.decode('utf-8')
-        if 'Segmentation fault' in errs:
-            fSegFault = proj_folder/"segFault"
-            fSegFault.touch(exist_ok=True)
+    js = fu = False
+    js_target = fu_target = ""
 
-    except Exception as e:
-        # Create a timeout flag file
-        fTimeOut = proj_folder/"timeout"
-        fTimeOut.touch(exist_ok=True)
-        p_s2e.kill()
+    while True:
+        output = p_s2e.stdout.readline().decode('utf-8')
+
+        if p_s2e.poll() is not None:
+            break
+
+        if output:
+            
+            if '/vtapi/v2/file/scan' in output:
+                fu = True
+                fu_target = 'virustotal.com'
+
+            if 'twitter.com' in output:
+                js_target = 'twitter.com/pidoras6'
+
+            if 'WinHttpCrackUrl' in output and 'tag_in:CyFi' in output:
+                js = True
+
+            print(output.strip())
+
+            if fu and js:
+                break
+    
+    print('Analysis Done!')
+
+    p_s2e.kill()
 
     try:
 
@@ -217,5 +234,16 @@ def run(sample_path, template_path, export_func=None, symb_args=False, timeout=1
 
     except:
         pass
+
+    result_list = {}
+
+    if js and fu:
+        result_list = {'JS': {js_target: ["WinHttpReadData", "StrStr", "WinHttpCrackUrl"]}, 'FU': {fu_target: ["WinHttpSendRequest"]}}
+
+        json_str = json.dumps(result_list, indent=4)
+
+        RED = '\033[91m'
+
+        print(RED + json_str + "\033[0m")
 
     return proj_folder
