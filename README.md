@@ -24,7 +24,7 @@ Analysis Done!
                                  'WinHttpCrackUrl']},
  'FU': {'virustotal.com': ['WinHttpSendRequest']}}
 ```
-The demo video can be found [here](https://gtvault-my.sharepoint.com/:v:/g/personal/myao42_gatech_edu/EQOQ3DsCskdAt0fk8mTBxNkBdSj5BWLfglVehqnwqhMZwA?e=DAsYJ2)
+The demo video can be found [here](https://youtu.be/7ilO_PZBTpM)
 
 ### Output Explanation
 
