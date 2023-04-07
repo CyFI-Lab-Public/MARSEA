@@ -110,7 +110,7 @@ def prepare_launch(proj_folder, target, cyfitime):
     os.system(cmd)
     cmd = "sed -i 's!{cyfiuser}!"+getpass.getuser()+"!g' "+str(launch_path)
     os.system(cmd)
-    cmd = "sed -i 's!{cyfimp}!"+str(os.cpu_count())+"!g' "+str(launch_path)
+    cmd = "sed -i 's!{cyfimp}!"+str(1)+"!g' "+str(launch_path)
     os.system(cmd)
     # Replace the {S2EDIR} with the set system variable
     s2e_dir = os.environ.get('S2EDIR')
