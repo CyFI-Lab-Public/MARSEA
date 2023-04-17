@@ -123,7 +123,7 @@ def prepare_launch(proj_folder, target, cyfitime):
     
 
 # Run the sample
-def run(sample_path, template_path, export_func=None, symb_args=False, timeout=1500, execute=True):
+def run(sample_path, template_path, export_func=None, symb_args=False, timeout=1500, execute=True, overwrite=False):
 
     sample_path = Path(sample_path)
 
@@ -141,9 +141,10 @@ def run(sample_path, template_path, export_func=None, symb_args=False, timeout=1
         # Predict the project folder path
         proj_folder = Path(S2EDIR)/'projects'/(Path(sample_path).stem+'_'+export_func)
 
-        # Create the project using S2E with the arbirtary name
-        p = subprocess.Popen(['s2e', 'new_project', '-i', 'windows-7sp1pro-i386', str(my_rundll), '-n', str(Path(sample_path).stem)+'_'+export_func], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.wait()
+        if not proj_folder.exists() or overwrite:
+            # Create the project using S2E with the arbirtary name
+            p = subprocess.Popen(['s2e', 'new_project', '-i', 'windows-7sp1pro-i386', str(my_rundll), '-n', str(Path(sample_path).stem)+'_'+export_func], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p.wait()
 
         if not proj_folder.exists():
             return None
@@ -163,8 +164,10 @@ def run(sample_path, template_path, export_func=None, symb_args=False, timeout=1
     else:
         proj_folder = Path(S2EDIR)/'projects'/(Path(sample_path).stem)
 
-        p = subprocess.Popen(['s2e', 'new_project', '-i', 'windows-7sp1pro-i386', str(sample_path), '-n', str(Path(sample_path).stem)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        p.wait()
+        if not proj_folder.exists() or overwrite:
+
+            p = subprocess.Popen(['s2e', 'new_project', '-i', 'windows-7sp1pro-i386', str(sample_path), '-n', str(Path(sample_path).stem)], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            p.wait()
 
         if not proj_folder.exists():
             return None
